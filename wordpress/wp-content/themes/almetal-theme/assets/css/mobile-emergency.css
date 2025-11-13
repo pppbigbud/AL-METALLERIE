@@ -1,0 +1,207 @@
+/**
+ * CSS MOBILE D'URGENCE
+ * S'applique sur TOUS les écrans < 768px
+ * SANS dépendre de body.is-mobile
+ */
+
+@media (max-width: 768px) {
+
+/* Padding pour le contenu */
+body {
+    padding-top: 70px !important;
+}
+
+/* HEADER MOBILE */
+.mobile-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 70px !important;
+    background: rgba(34, 34, 34, 0.98) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid rgba(240, 139, 24, 0.2) !important;
+    z-index: 999999999 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mobile-header-inner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    padding: 0 1rem !important;
+    position: relative !important;
+}
+
+/* Logo centré */
+.mobile-logo {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 2 !important;
+}
+
+.mobile-logo img,
+.mobile-logo-img {
+    height: 45px !important;
+    width: auto !important;
+    display: block !important;
+}
+
+/* Bouton burger À DROITE */
+.burger,
+.mobile-burger-btn {
+    width: 40px !important;
+    height: 40px !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    z-index: 999999999 !important;
+    margin-left: auto !important;
+    position: relative !important;
+    pointer-events: auto !important;
+}
+
+/* DÉSACTIVER les clics sur le header et header-inner pour qu'ils passent aux enfants */
+.mobile-header,
+.mobile-header-inner {
+    pointer-events: none !important;
+}
+
+/* Permettre les clics sur le logo */
+.mobile-logo,
+.mobile-logo a,
+.mobile-logo img {
+    pointer-events: auto !important;
+}
+
+/* Permettre les clics sur le burger */
+.mobile-burger-btn {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.mobile-burger-btn * {
+    pointer-events: none !important;
+}
+
+.mobile-burger-line,
+.burger-line {
+    width: 28px !important;
+    height: 3px !important;
+    background: #F08B18 !important;
+    border-radius: 2px !important;
+    transition: all 0.3s ease !important;
+    pointer-events: none !important;
+}
+
+/* Animation burger → X */
+.burger.active .burger-line:nth-child(1),
+.mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg) !important;
+}
+
+.burger.active .burger-line:nth-child(2),
+.mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
+    opacity: 0 !important;
+}
+
+.burger.active .burger-line:nth-child(3),
+.mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg) !important;
+}
+
+/* Menu mobile depuis la DROITE */
+.mobile-menu {
+    position: fixed !important;
+    top: 70px !important;
+    right: -100% !important;
+    width: 80% !important;
+    max-width: 350px !important;
+    height: calc(100vh - 70px) !important;
+    background: #1a1a1a !important;
+    backdrop-filter: blur(10px) !important;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 999999 !important;
+    overflow-y: auto !important;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.8) !important;
+    border-left: 3px solid #F08B18 !important;
+    display: block !important;
+}
+
+.mobile-menu.active {
+    right: 0 !important;
+    display: block !important;
+}
+
+/* Overlay */
+.mobile-menu-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: all 0.3s ease !important;
+    z-index: 998 !important;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.mobile-menu-content {
+    padding: 1rem 0 !important;
+}
+
+.mobile-menu-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.mobile-menu-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.mobile-menu-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    padding: 1.25rem 1.5rem !important;
+    color: white !important;
+    text-decoration: none !important;
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+.mobile-menu-link:active,
+.mobile-menu-link:hover {
+    background: rgba(240, 139, 24, 0.1) !important;
+    color: #F08B18 !important;
+}
+
+.mobile-menu-link svg {
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+
+/* Masquer header desktop sur mobile */
+.site-header:not(.mobile-header) {
+    display: none !important;
+}
+
+} /* Fin @media */

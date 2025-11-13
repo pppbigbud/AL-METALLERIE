@@ -1,0 +1,62 @@
+-- Script SQL pour corriger l'auto-incrémentation des tables WordPress
+-- À exécuter dans phpMyAdmin sur InfinityFree
+
+-- 1. Réparer wp_posts (le plus important)
+SET @max_id = (SELECT IFNULL(MAX(ID), 0) FROM wp_posts);
+SET @sql = CONCAT('ALTER TABLE wp_posts AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 2. Réparer wp_postmeta
+SET @max_id = (SELECT IFNULL(MAX(meta_id), 0) FROM wp_postmeta);
+SET @sql = CONCAT('ALTER TABLE wp_postmeta AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 3. Réparer wp_terms
+SET @max_id = (SELECT IFNULL(MAX(term_id), 0) FROM wp_terms);
+SET @sql = CONCAT('ALTER TABLE wp_terms AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 4. Réparer wp_term_taxonomy
+SET @max_id = (SELECT IFNULL(MAX(term_taxonomy_id), 0) FROM wp_term_taxonomy);
+SET @sql = CONCAT('ALTER TABLE wp_term_taxonomy AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 5. Réparer wp_comments
+SET @max_id = (SELECT IFNULL(MAX(comment_ID), 0) FROM wp_comments);
+SET @sql = CONCAT('ALTER TABLE wp_comments AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 6. Réparer wp_users
+SET @max_id = (SELECT IFNULL(MAX(ID), 0) FROM wp_users);
+SET @sql = CONCAT('ALTER TABLE wp_users AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- 7. Réparer wp_usermeta
+SET @max_id = (SELECT IFNULL(MAX(umeta_id), 0) FROM wp_usermeta);
+SET @sql = CONCAT('ALTER TABLE wp_usermeta AUTO_INCREMENT = ', @max_id + 1);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- Vérification
+SELECT 'wp_posts' as table_name, AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'wp_posts'
+UNION ALL
+SELECT 'wp_postmeta', AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'wp_postmeta'
+UNION ALL
+SELECT 'wp_terms', AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'wp_terms'
+UNION ALL
+SELECT 'wp_term_taxonomy', AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'wp_term_taxonomy'
+UNION ALL
+SELECT 'wp_comments', AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'wp_comments';

@@ -1,0 +1,43 @@
+services:
+  # Service Web WordPress
+  - type: web
+    name: almetal-wordpress
+    env: docker
+    dockerfilePath: ./Dockerfile.render
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: WORDPRESS_DB_HOST
+        fromDatabase:
+          name: almetal-db
+          property: host
+      - key: WORDPRESS_DB_NAME
+        fromDatabase:
+          name: almetal-db
+          property: database
+      - key: WORDPRESS_DB_USER
+        fromDatabase:
+          name: almetal-db
+          property: user
+      - key: WORDPRESS_DB_PASSWORD
+        fromDatabase:
+          name: almetal-db
+          property: password
+      - key: WORDPRESS_DEBUG
+        value: false
+      - key: WORDPRESS_CONFIG_EXTRA
+        value: |
+          define('WP_HOME', 'https://' . $_SERVER['HTTP_HOST']);
+          define('WP_SITEURL', 'https://' . $_SERVER['HTTP_HOST']);
+          define('FORCE_SSL_ADMIN', true);
+          if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') !== false) {
+            $_SERVER['HTTPS'] = 'on';
+          }
+
+  # Base de données PostgreSQL (Render ne supporte pas MySQL en gratuit)
+  # Alternative: utiliser une base MySQL externe ou passer à PostgreSQL
+databases:
+  - name: almetal-db
+    databaseName: almetal_db
+    user: almetal_user
+    plan: free

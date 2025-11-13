@@ -1,0 +1,142 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║         🚀 AL MÉTALLERIE V1 - DÉPLOIEMENT POUR DÉMO CLIENT         ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+📦 ÉTAPE 1 : POUSSER SUR GITHUB (5 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  Créer un compte GitHub (si pas déjà fait)
+    → https://github.com/signup
+
+2️⃣  Créer un nouveau dépôt
+    → Cliquez sur "+" → "New repository"
+    → Nom: almetal-v1
+    → Visibilité: Private (recommandé)
+    → NE PAS cocher "Initialize with README"
+    → Cliquez "Create repository"
+
+3️⃣  Pousser le code
+    
+    Option A - Script automatique (FACILE) :
+    ────────────────────────────────────────
+    Double-cliquez sur: push-to-github.ps1
+    Suivez les instructions à l'écran
+    
+    Option B - Commandes manuelles :
+    ────────────────────────────────────────
+    Ouvrez PowerShell dans ce dossier et tapez:
+    
+    git remote add origin https://github.com/VOTRE_USERNAME/almetal-v1.git
+    git branch -M main
+    git push -u origin main
+
+📖 Guide détaillé : GUIDE_GITHUB_RAPIDE.md
+
+
+🌐 ÉTAPE 2 : DÉPLOYER EN LIGNE (30 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 OPTION RECOMMANDÉE : InfinityFree (Gratuit, Facile)
+
+1️⃣  Créer un compte
+    → https://infinityfree.net
+    → Cliquez "Sign Up"
+
+2️⃣  Créer un site
+    → "Create Account"
+    → Sous-domaine: almetal-demo.epizy.com
+
+3️⃣  Uploader les fichiers
+    → File Manager → dossier htdocs
+    → Uploadez tout le contenu du dossier "wordpress/"
+
+4️⃣  Créer la base de données
+    → MySQL Databases → Create Database
+    → Notez les identifiants
+
+5️⃣  Importer la base
+    → phpMyAdmin → Importer
+    → Fichier: Exportez depuis http://localhost:8080
+
+6️⃣  Configurer wp-config.php
+    → Éditez avec les nouveaux identifiants de base
+
+7️⃣  Mettre à jour les URLs
+    → Requêtes SQL dans phpMyAdmin (voir guide)
+
+📖 Guide détaillé : DEPLOIEMENT_RENDER.md (Section InfinityFree)
+
+
+📱 ÉTAPE 3 : TESTER AVANT PRÉSENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Checklist de test :
+
+□ Site accessible via l'URL publique
+□ Version mobile fonctionne (testez sur smartphone)
+□ Menu burger s'ouvre/ferme correctement
+□ Slideshow des réalisations fonctionne
+□ Filtres des réalisations fonctionnent
+□ Formulaire de contact s'affiche
+□ Toutes les images sont chargées
+□ Pages légales sont accessibles
+□ Pas d'erreurs dans la console (F12)
+
+
+🎨 CE QUI A ÉTÉ FAIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ 6 pages mobiles harmonisées
+✅ Design moderne avec glassmorphism
+✅ Slideshow Swiper pour les réalisations
+✅ Formulaire de contact stylisé
+✅ Pages légales conformes RGPD
+✅ Animations et transitions fluides
+✅ Responsive mobile/desktop
+✅ SEO optimisé
+
+
+📚 DOCUMENTATION DISPONIBLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 README.md                    → Documentation générale
+📄 GUIDE_GITHUB_RAPIDE.md       → Instructions GitHub
+📄 DEPLOIEMENT_RENDER.md        → Guide de déploiement complet
+📄 V1_RECAP_DEMO_CLIENT.md      → Récapitulatif de la V1
+📄 INSTRUCTIONS_RAPIDES.txt     → Ce fichier
+🔧 push-to-github.ps1           → Script automatique GitHub
+
+
+💡 CONSEILS POUR LA PRÉSENTATION CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 Points forts à montrer :
+
+1. Design moderne et épuré
+2. Version mobile optimisée (one-page)
+3. Slideshow interactif des réalisations
+4. Filtres par catégorie
+5. Formulaire de contact
+6. Pages légales professionnelles
+7. Animations fluides
+
+📱 Testez sur smartphone pour l'effet "WOW" !
+
+
+🆘 BESOIN D'AIDE ?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 Consultez les guides détaillés dans les fichiers .md
+🌐 Documentation WordPress : https://wordpress.org/support/
+💬 Forum InfinityFree : https://forum.infinityfree.net/
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║                    🎉 BONNE PRÉSENTATION ! 🎉                       ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+Version 1.0 - Novembre 2025

@@ -1,0 +1,248 @@
+/**
+ * Page Contact Mobile - AL Metallerie
+ * 
+ * Styles pour la page de contact version mobile
+ * Design cohérent avec le reste du thème
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* ============================================
+   CONTAINER PRINCIPAL
+   ============================================ */
+
+.mobile-page-contact {
+    background: #1a1a1a;
+    min-height: 100vh;
+    padding-bottom: 2rem;
+}
+
+.mobile-page-container {
+    max-width: 100%;
+    padding: 0 1.5rem;
+}
+
+/* ============================================
+   TAG
+   ============================================ */
+
+.mobile-contact-page-tag {
+    display: inline-block;
+    background: rgba(240, 139, 24, 0.1);
+    border: 1px solid #F08B18;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: #F08B18;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   TITRE ET SOUS-TITRE
+   ============================================ */
+
+.mobile-page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: 1px;
+}
+
+.mobile-page-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* ============================================
+   GRILLE D'INFORMATIONS
+   ============================================ */
+
+.mobile-contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+/* Cards d'information */
+.mobile-contact-page-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.mobile-contact-page-card:active {
+    transform: translateY(-5px);
+    border-color: #F08B18;
+    box-shadow: 0 8px 20px rgba(240, 139, 24, 0.2);
+}
+
+/* Icône */
+.mobile-contact-page-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.2) 0%, rgba(230, 126, 15, 0.2) 100%);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.mobile-contact-page-card:active .mobile-contact-page-icon {
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    transform: scale(1.1);
+}
+
+.mobile-contact-page-icon svg {
+    width: 24px;
+    height: 24px;
+    color: #F08B18;
+    transition: all 0.3s ease;
+}
+
+.mobile-contact-page-card:active .mobile-contact-page-icon svg {
+    color: white;
+}
+
+/* Contenu */
+.mobile-contact-page-content {
+    flex: 1;
+}
+
+.mobile-contact-page-content h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.mobile-contact-page-content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+/* ============================================
+   SECTION FORMULAIRE
+   ============================================ */
+
+.mobile-contact-form-section {
+    margin-top: 3rem;
+}
+
+.mobile-contact-form-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.mobile-contact-form-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Formulaire */
+.mobile-contact-form {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+}
+
+.mobile-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.mobile-form-group label {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mobile-form-group input,
+.mobile-form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.mobile-form-group input:focus,
+.mobile-form-group textarea:focus {
+    outline: none;
+    border-color: #F08B18;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(240, 139, 24, 0.1);
+}
+
+.mobile-form-group input::placeholder,
+.mobile-form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.mobile-form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Bouton submit */
+.mobile-btn-cta--large {
+    width: 100%;
+    justify-content: center;
+    padding: 1.25rem 2rem;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+.mobile-btn-cta--large svg {
+    margin-left: 0.5rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (min-width: 480px) {
+    .mobile-contact-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

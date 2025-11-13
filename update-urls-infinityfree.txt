@@ -1,0 +1,36 @@
+-- Script SQL pour mettre à jour les URLs dans la base de données WordPress
+-- À exécuter dans phpMyAdmin après l'import de la base de données
+
+-- 1. Mettre à jour les URLs principales dans wp_options
+UPDATE wp_options 
+SET option_value = 'https://al-metallerie.great-site.net' 
+WHERE option_name = 'siteurl';
+
+UPDATE wp_options 
+SET option_value = 'https://al-metallerie.great-site.net' 
+WHERE option_name = 'home';
+
+-- 2. Mettre à jour les URLs dans les posts (GUID)
+UPDATE wp_posts 
+SET guid = REPLACE(guid, 'http://localhost:8000', 'https://al-metallerie.great-site.net');
+
+-- 3. Mettre à jour les URLs dans le contenu des posts
+UPDATE wp_posts 
+SET post_content = REPLACE(post_content, 'http://localhost:8000', 'https://al-metallerie.great-site.net');
+
+-- 4. Mettre à jour les URLs dans les meta des posts
+UPDATE wp_postmeta 
+SET meta_value = REPLACE(meta_value, 'http://localhost:8000', 'https://al-metallerie.great-site.net');
+
+-- 5. Mettre à jour les URLs dans les meta des utilisateurs
+UPDATE wp_usermeta 
+SET meta_value = REPLACE(meta_value, 'http://localhost:8000', 'https://al-metallerie.great-site.net');
+
+-- 6. Mettre à jour les URLs dans les commentaires
+UPDATE wp_comments 
+SET comment_content = REPLACE(comment_content, 'http://localhost:8000', 'https://al-metallerie.great-site.net');
+
+-- 7. Vérifier les résultats
+SELECT option_name, option_value 
+FROM wp_options 
+WHERE option_name IN ('siteurl', 'home');

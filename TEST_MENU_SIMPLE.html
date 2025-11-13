@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Menu Mobile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #333;
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            border-bottom: 2px solid #F08B18;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .burger {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .burger-line {
+            width: 28px;
+            height: 3px;
+            background: #F08B18;
+            transition: all 0.3s;
+        }
+        
+        .burger.active .burger-line:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        
+        .burger.active .burger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .burger.active .burger-line:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+        
+        .menu {
+            position: fixed;
+            top: 70px;
+            right: 0;
+            width: 80%;
+            max-width: 350px;
+            height: calc(100vh - 70px);
+            background: #1a1a1a;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+            border-left: 3px solid #F08B18;
+        }
+        
+        .menu.active {
+            transform: translateX(0);
+        }
+        
+        .menu-list {
+            list-style: none;
+            padding: 20px 0;
+        }
+        
+        .menu-list li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .menu-list a {
+            display: block;
+            padding: 20px 30px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .menu-list a:hover {
+            background: rgba(240, 139, 24, 0.1);
+            color: #F08B18;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 998;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .content {
+            padding: 100px 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">AL Metallerie</div>
+        <button class="burger" id="burger">
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+            <span class="burger-line"></span>
+        </button>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <nav class="menu" id="menu">
+        <ul class="menu-list">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#presentation">Présentation</a></li>
+            <li><a href="#formations">Formations</a></li>
+            <li><a href="#realisations">Réalisations</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <h1>Test Menu Mobile</h1>
+        <p>Clique sur le burger en haut à droite pour ouvrir le menu.</p>
+    </div>
+    
+    <script>
+        const burger = document.getElementById('burger');
+        const menu = document.getElementById('menu');
+        const overlay = document.getElementById('overlay');
+        
+        burger.addEventListener('click', function() {
+            console.log('Clic burger !');
+            burger.classList.toggle('active');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+        
+        overlay.addEventListener('click', function() {
+            burger.classList.remove('active');
+            menu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+        
+        console.log('Menu test chargé !');
+    </script>
+</body>
+</html>

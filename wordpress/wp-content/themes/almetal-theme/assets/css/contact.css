@@ -1,0 +1,553 @@
+/**
+ * Styles pour la page Contact
+ * Design inspiré de 34burger avec carte plein écran
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* Header spécifique pour la page contact */
+.page-template-page-contact .site-header {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* Header au scroll reste transparent */
+.page-template-page-contact .site-header.scrolled {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* Container principal */
+.contact-page {
+    position: relative;
+    min-height: 100vh;
+    margin-top: 0;
+}
+
+/* Carte Google Maps PLEINE PAGE */
+.contact-map-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;  /* Pleine page complète */
+    z-index: 1;
+    margin-top: 0;
+}
+
+/* Footer light avec fond #222222 - Fixed en bas */
+.page-template-page-contact .footer-bottom.footer-light {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999999 !important;  /* Z-index extrêmement élevé */
+    background: #222222 !important;  /* Couleur exacte demandée */
+    backdrop-filter: none !important;
+    margin: 0 !important;
+    padding: 1.5rem 0 !important;
+    border-top: 1px solid rgba(240, 139, 24, 0.2) !important;
+    width: 100% !important;
+    display: block !important;
+    transform: translateZ(0) !important;  /* Force un nouveau contexte d'empilement */
+    will-change: transform !important;  /* Optimisation GPU */
+}
+
+.page-template-page-contact .footer-bottom.footer-light .container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem !important;
+}
+
+.page-template-page-contact .footer-bottom.footer-light .footer-bottom-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.page-template-page-contact .footer-bottom.footer-light .footer-copyright,
+.page-template-page-contact .footer-bottom.footer-light .footer-bottom-links a {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.page-template-page-contact .footer-bottom.footer-light .footer-bottom-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+}
+
+.contact-map {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;  /* Réactive les interactions sur la carte elle-même */
+}
+
+/* Overlay avec 2 blocs côte à côte */
+.contact-overlay {
+    position: relative;
+    z-index: 2;
+    min-height: calc(100vh - 80px);  /* Moins la hauteur du footer */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15rem;  /* Gap entre les 2 blocs pour laisser place au logo */
+    padding-bottom: 12rem;  /* Espace pour le footer */
+    padding-top: 12rem;  /* Espace pour le footer */
+}
+
+/* Cartes d'informations - 50/50 */
+.contact-info-card {
+    background: rgba(34, 34, 34, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    flex: 1;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(240, 139, 24, 0.2);
+    position: relative;
+}
+
+/* Bloc gauche : Informations */
+.contact-info-left {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bloc droit : Formulaire */
+.contact-form-right {
+    display: flex;
+    flex-direction: column;
+}
+
+/* En-tête */
+.contact-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.contact-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.contact-icon-main {
+    color: var(--color-primary);
+}
+
+.contact-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    opacity: 0.8;
+}
+
+/* Liste d'informations */
+.contact-info-list {
+    margin-bottom: 1.5rem;
+}
+
+.contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.contact-info-item:hover {
+    background: rgba(240, 139, 24, 0.1);
+    border-color: var(--color-primary);
+    transform: translateX(5px);
+}
+
+.contact-info-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.contact-info-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.contact-info-label {
+    font-size: 0.85rem;
+    color: var(--color-text);
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.contact-info-value {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* Animations spécifiques par type */
+.contact-phone:hover .contact-info-icon {
+    animation: shake 0.5s ease;
+}
+
+.contact-address:hover .contact-info-icon {
+    animation: bounce 0.5s ease;
+}
+
+.contact-email:hover .contact-info-icon {
+    animation: pulse 0.5s ease;
+}
+
+.contact-hours:hover .contact-info-icon {
+    animation: rotate 0.6s ease;
+}
+
+/* Animations shake, bounce, pulse, rotate déplacées vers components.css */
+
+/* Logo centré sur la carte (entre les 2 blocs) */
+.contact-map-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.map-logo-img {
+    width: 50px;
+    height: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+/* Formulaire de contact */
+.contact-form-container {
+    margin-top: 0;
+}
+
+.contact-form-title {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.contact-form-icon {
+    color: var(--color-primary);
+    animation: rotate 3s linear infinite;
+}
+
+/* Animation rotate pour loader déplacée vers components.css */
+
+.contact-form-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--color-text-light);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group select {
+    cursor: pointer;
+}
+
+/* Correction couleur des options du select */
+.form-group select option {
+    background: #222222;
+    color: white;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-checkbox {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+}
+
+.contact-submit-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.contact-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(240, 139, 24, 0.4);
+}
+
+.contact-submit-btn:active {
+    transform: translateY(0);
+}
+
+.form-message {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.form-message.success {
+    background: rgba(76, 175, 80, 0.2);
+    border: 2px solid #4caf50;
+    color: #4caf50;
+}
+
+.form-message.error {
+    background: rgba(244, 67, 54, 0.2);
+    border: 2px solid #f44336;
+    color: #f44336;
+}
+
+/* Boutons d'action rapide dans le formulaire */
+.contact-quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.quick-action-btn {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.quick-action-call:hover {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
+.quick-action-directions:hover {
+    background: rgba(33, 150, 243, 0.2);
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .contact-overlay {
+        flex-direction: column;
+        padding: 1rem;
+        padding-top: 120px;
+        padding-bottom: 180px;
+        gap: 1.5rem;
+    }
+    
+    .contact-info-card {
+        max-width: 100%;
+        max-height: none;
+    }
+    
+    .contact-map-logo {
+        top: auto;
+        bottom: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .contact-quick-actions-wrapper {
+        bottom: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-overlay {
+        padding-top: 100px;
+    }
+
+    .contact-info-card {
+        padding: 2rem 1.5rem;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+    }
+
+    .contact-title {
+        font-size: 1.75rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .contact-subtitle {
+        font-size: 1rem;
+    }
+
+    .contact-info-item {
+        padding: 1rem;
+    }
+
+    .contact-info-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .contact-info-value {
+        font-size: 1rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-info-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .contact-title {
+        font-size: 1.5rem;
+    }
+
+    .contact-info-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contact-info-icon {
+        margin: 0 auto;
+    }
+}
+
+/* Animation d'entrée */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contact-info-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.contact-info-item {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.contact-info-item:nth-child(1) { animation-delay: 0.1s; }
+.contact-info-item:nth-child(2) { animation-delay: 0.2s; }
+.contact-info-item:nth-child(3) { animation-delay: 0.3s; }
+.contact-info-item:nth-child(4) { animation-delay: 0.4s; }

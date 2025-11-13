@@ -1,0 +1,50 @@
+# Fichiers d'environnement
+.env
+.env.local
+.env.production
+
+# WordPress
+wordpress/wp-config.php
+wordpress/wp-content/uploads/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/cache/
+wordpress/.htaccess
+
+# Base de données
+*.sql
+*.sql.gz
+db_data/
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (si vous utilisez npm/yarn pour le thème)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Fichiers de build
+dist/
+build/

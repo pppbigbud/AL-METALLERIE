@@ -1,0 +1,184 @@
+/**
+ * Styles spécifiques aux pages Formations
+ * Réutilise au maximum les styles existants du thème (style.css, components.css)
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* ============================================
+   GRILLE DES FORMATIONS (Page parente)
+   ============================================ */
+
+/**
+ * Grille responsive pour les cartes de formations
+ * Utilise les classes .card et .card-primary existantes
+ */
+.formations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/**
+ * Carte de formation avec lien
+ * Hérite de .card et .card-primary du thème
+ */
+.formation-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.formation-card-icon {
+    text-align: center;
+}
+
+.formation-card-title {
+    text-align: center;
+}
+
+.formation-card-description {
+    flex: 1;
+}
+
+.formation-card-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* ============================================
+   GRILLE DES AVANTAGES
+   ============================================ */
+
+/**
+ * Grille pour les avantages et informations pratiques
+ * Utilise les classes .card et .card--light existantes
+ */
+.formations-advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+/* ============================================
+   DÉTAILS DES FORMATIONS (Sous-pages)
+   ============================================ */
+
+/**
+ * Carte de détail de formation
+ * Hérite de .card et .card-primary
+ */
+.formation-detail-card {
+    margin-bottom: 2rem;
+}
+
+.formation-detail-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.formation-detail-icon {
+    flex-shrink: 0;
+}
+
+.formation-detail-title-wrapper {
+    flex: 1;
+}
+
+.formation-detail-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* .formation-detail-section utilise les styles du thème par défaut */
+
+/**
+ * Liste à puces pour les programmes
+ * Style minimaliste cohérent avec le thème
+ */
+.formation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.formation-list li {
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+.formation-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+/* ============================================
+   TITRES SPÉCIFIQUES
+   ============================================ */
+
+/**
+ * Titre principal des pages formations
+ * Utilise les variables CSS du thème
+ */
+.formations-main-title {
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .formations-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .formations-advantages-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .formation-detail-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .formation-detail-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .formations-main-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .formations-main-title {
+        font-size: 1.75rem;
+    }
+    
+    .formation-card-title {
+        font-size: 1.5rem !important;
+    }
+}
