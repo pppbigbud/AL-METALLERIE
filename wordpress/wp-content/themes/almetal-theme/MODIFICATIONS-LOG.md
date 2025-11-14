@@ -2,6 +2,42 @@
 
 ## 14 novembre 2024
 
+### ✅ Favicon et couleur du navigateur
+
+**Fichiers créés** :
+- `site.webmanifest` : Configuration PWA (Android)
+- `browserconfig.xml` : Configuration Windows
+- `assets/images/favicons/` : Dossier pour les favicons
+- `FAVICON-GUIDE.md` : Guide complet de génération
+
+**Fichier modifié** :
+- `header.php` (lignes 16-29) : Balises meta + liens favicon
+
+**Configuration** :
+- ✅ Couleur du navigateur : Orange `#F08B18`
+- ✅ Android Chrome : Barre d'adresse orange
+- ✅ iOS Safari : Barre de statut adaptée
+- ✅ Windows : Tuile orange
+- ✅ PWA ready (Progressive Web App)
+
+**Balises ajoutées** :
+```html
+<meta name="theme-color" content="#F08B18">
+<meta name="msapplication-TileColor" content="#F08B18">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+```
+
+**Favicons à générer** :
+- favicon.ico (16x16, 32x32, 48x48)
+- favicon-16x16.png, favicon-32x32.png
+- apple-touch-icon.png (180x180)
+- android-chrome-192x192.png, android-chrome-512x512.png
+- mstile-150x150.png
+
+**Guide** : Voir `FAVICON-GUIDE.md` pour générer les favicons depuis le logo
+
+---
+
 ### ✅ Template "Page En Construction"
 
 **Fichiers créés** :
