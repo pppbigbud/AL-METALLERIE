@@ -37,7 +37,7 @@ if (function_exists('wp_body_open')) {
                     </svg>
                     <?php _e('Contactez-nous', 'almetal'); ?>
                 </h1>
-                <p class="contact-subtitle"><?php _e('Expert en métallerie à Clermont-Ferrand', 'almetal'); ?></p>
+                <p class="contact-subtitle"><?php _e('Expert en Métallerie, Ferronerie, Serrurie à Thiers dans le Puy-de-Dôme, Auvergne', 'almetal'); ?></p>
             </div>
 
             <!-- Informations de contact -->

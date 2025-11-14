@@ -49,7 +49,7 @@
         // Options de la carte
         const mapOptions = {
             center: location,
-            zoom: 15,
+            zoom: 10,
             mapTypeControl: false,
             streetViewControl: false,
             fullscreenControl: true,
