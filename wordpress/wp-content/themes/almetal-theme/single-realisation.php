@@ -294,35 +294,35 @@ if (almetal_is_mobile()) {
                 </div>
 
                 <?php
-                // Navigation entre réalisations
+                // Navigation entre réalisations (style cards discret)
                 $prev_post = get_previous_post();
                 $next_post = get_next_post();
 
                 if ($prev_post || $next_post) :
                     ?>
-                    <nav class="realisation-navigation">
+                    <nav class="realisation-navigation-cards">
                         <?php if ($prev_post) : ?>
-                            <div class="nav-previous">
-                                <a href="<?php echo get_permalink($prev_post); ?>">
+                            <a href="<?php echo get_permalink($prev_post); ?>" class="nav-card nav-card-prev">
+                                <span class="nav-arrow">←</span>
+                                <div class="nav-content">
                                     <span class="nav-label"><?php _e('Projet précédent', 'almetal'); ?></span>
                                     <span class="nav-title"><?php echo get_the_title($prev_post); ?></span>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
+                        <?php else : ?>
+                            <div class="nav-card-placeholder"></div>
                         <?php endif; ?>
 
-                        <div class="nav-back">
-                            <a href="<?php echo get_post_type_archive_link('realisation'); ?>">
-                                <?php _e('Toutes les réalisations', 'almetal'); ?>
-                            </a>
-                        </div>
-
                         <?php if ($next_post) : ?>
-                            <div class="nav-next">
-                                <a href="<?php echo get_permalink($next_post); ?>">
+                            <a href="<?php echo get_permalink($next_post); ?>" class="nav-card nav-card-next">
+                                <div class="nav-content">
                                     <span class="nav-label"><?php _e('Projet suivant', 'almetal'); ?></span>
                                     <span class="nav-title"><?php echo get_the_title($next_post); ?></span>
-                                </a>
-                            </div>
+                                </div>
+                                <span class="nav-arrow">→</span>
+                            </a>
+                        <?php else : ?>
+                            <div class="nav-card-placeholder"></div>
                         <?php endif; ?>
                     </nav>
                     <?php
