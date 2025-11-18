@@ -292,9 +292,9 @@ if (almetal_is_mobile()) {
                         </div>
                     </aside>
                 </div>
-
+                
                 <?php
-                // Navigation entre réalisations (style cards discret)
+                // Navigation entre réalisations
                 $prev_post = get_previous_post();
                 $next_post = get_next_post();
 
@@ -304,25 +304,15 @@ if (almetal_is_mobile()) {
                         <?php if ($prev_post) : ?>
                             <a href="<?php echo get_permalink($prev_post); ?>" class="nav-card nav-card-prev">
                                 <span class="nav-arrow">←</span>
-                                <div class="nav-content">
-                                    <span class="nav-label"><?php _e('Projet précédent', 'almetal'); ?></span>
-                                    <span class="nav-title"><?php echo get_the_title($prev_post); ?></span>
-                                </div>
+                                <span class="nav-title"><?php echo get_the_title($prev_post); ?></span>
                             </a>
-                        <?php else : ?>
-                            <div class="nav-card-placeholder"></div>
                         <?php endif; ?>
 
                         <?php if ($next_post) : ?>
                             <a href="<?php echo get_permalink($next_post); ?>" class="nav-card nav-card-next">
-                                <div class="nav-content">
-                                    <span class="nav-label"><?php _e('Projet suivant', 'almetal'); ?></span>
-                                    <span class="nav-title"><?php echo get_the_title($next_post); ?></span>
-                                </div>
+                                <span class="nav-title"><?php echo get_the_title($next_post); ?></span>
                                 <span class="nav-arrow">→</span>
                             </a>
-                        <?php else : ?>
-                            <div class="nav-card-placeholder"></div>
                         <?php endif; ?>
                     </nav>
                     <?php
