@@ -199,6 +199,27 @@
 }
 
 /* ============================================
+   BADGES DE CATÉGORIES CLIQUABLES
+   ============================================ */
+.type-badge-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.type-badge-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(240, 139, 24, 0.2);
+}
+
+.type-badge-link .type-icon {
+    font-size: 1.1em;
+    line-height: 1;
+}
+
+/* ============================================
    SECTION "POURQUOI CHOISIR" DANS LA SIDEBAR
    ============================================ */
 .realisation-why-choose {

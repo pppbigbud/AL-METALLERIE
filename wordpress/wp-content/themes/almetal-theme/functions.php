@@ -1341,72 +1341,14 @@ function almetal_seo_breadcrumb() {
 }
 
 /**
- * 7. INSERTION AUTOMATIQUE DE LIENS INTERNES CONTEXTUELS
- * Ajoute des liens vers d'autres réalisations similaires
+ * 7. LIENS INTERNES CONTEXTUELS
+ * DÉSACTIVÉ - Bloc "Découvrez nos autres réalisations" supprimé
  */
-function almetal_seo_add_internal_links($content) {
-    // Uniquement sur les pages single realisation
-    if (!is_singular('realisation')) {
-        return $content;
-    }
-    
-    global $post;
-    
-    // Récupérer les termes de la réalisation actuelle
-    $terms = get_the_terms($post->ID, 'type_realisation');
-    
-    if (empty($terms) || is_wp_error($terms)) {
-        return $content;
-    }
-    
-    // Récupérer 3 réalisations similaires (même type)
-    $related_args = [
-        'post_type' => 'realisation',
-        'posts_per_page' => 3,
-        'post__not_in' => [$post->ID],
-        'tax_query' => [
-            [
-                'taxonomy' => 'type_realisation',
-                'field' => 'term_id',
-                'terms' => $terms[0]->term_id
-            ]
-        ],
-        'orderby' => 'rand'
-    ];
-    
-    $related_query = new WP_Query($related_args);
-    
-    if (!$related_query->have_posts()) {
-        return $content;
-    }
-    
-    // Construction du bloc de liens internes
-    $internal_links = '<div class="internal-links-seo">';
-    $internal_links .= '<h3>Découvrez nos autres réalisations de ' . esc_html($terms[0]->name) . '</h3>';
-    $internal_links .= '<ul>';
-    
-    while ($related_query->have_posts()) {
-        $related_query->the_post();
-        $related_lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
-        $internal_links .= '<li>';
-        $internal_links .= '<a href="' . esc_url(get_permalink()) . '">';
-        $internal_links .= esc_html(get_the_title());
-        if ($related_lieu) {
-            $internal_links .= ' - ' . esc_html($related_lieu);
-        }
-        $internal_links .= '</a>';
-        $internal_links .= '</li>';
-    }
-    
-    $internal_links .= '</ul>';
-    $internal_links .= '<p><a href="' . esc_url(get_term_link($terms[0])) . '" class="btn-see-more">Voir toutes nos réalisations de ' . esc_html($terms[0]->name) . '</a></p>';
-    $internal_links .= '</div>';
-    
-    wp_reset_postdata();
-    
-    return $content . $internal_links;
-}
-add_filter('the_content', 'almetal_seo_add_internal_links', 30);
+// function almetal_seo_add_internal_links($content) {
+//     // Fonction désactivée
+//     return $content;
+// }
+// add_filter('the_content', 'almetal_seo_add_internal_links', 30);
 
 /**
  * 8. SECTION "POURQUOI CHOISIR AL MÉTALLERIE"

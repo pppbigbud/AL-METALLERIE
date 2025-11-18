@@ -55,10 +55,28 @@ if (almetal_is_mobile()) {
                     <?php
                     $types = get_the_terms(get_the_ID(), 'type_realisation');
                     if ($types && !is_wp_error($types)) :
+                        // Icônes par type de réalisation
+                        $icons = array(
+                            'portail' => '🚪',
+                            'garde-corps' => '🚧',
+                            'escalier' => '🪧',
+                            'pergola' => '☂️',
+                            'veranda' => '🏠',
+                            'cloture' => '🚧',
+                            'mobilier' => '🪑',
+                            'verriere' => '🧊',
+                        );
                         ?>
                         <div class="realisation-types">
-                            <?php foreach ($types as $type) : ?>
-                                <span class="type-badge"><?php echo esc_html($type->name); ?></span>
+                            <?php foreach ($types as $type) : 
+                                $icon = isset($icons[$type->slug]) ? $icons[$type->slug] : '';
+                            ?>
+                                <a href="<?php echo esc_url(get_term_link($type)); ?>" class="type-badge type-badge-link">
+                                    <?php if ($icon) : ?>
+                                        <span class="type-icon"><?php echo $icon; ?></span>
+                                    <?php endif; ?>
+                                    <?php echo esc_html($type->name); ?>
+                                </a>
                             <?php endforeach; ?>
                         </div>
                         <?php
