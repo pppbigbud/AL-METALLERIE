@@ -7,12 +7,9 @@
    FIL D'ARIANE (BREADCRUMB)
    ============================================ */
 .breadcrumb {
-    padding: 0.5rem 0;
-    margin: 1rem 0 2rem 0;
     font-size: 0.85rem;
-    color: #888;
+    color: #F08B18;
     background: transparent;
-    border-bottom: 1px solid #e0e0e0;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -35,21 +32,24 @@
 }
 
 /* ============================================
-   ENRICHISSEMENT DE CONTENU SEO
+   ENRICHISSEMENT DE CONTENU
+   Style intégré, discret, sans bloc distinct
    ============================================ */
 .seo-enrichment {
-    margin-top: 3rem;
-    padding: 2rem;
-    background: #f8f9fa;
-    border-left: 4px solid #F08B18;
-    border-radius: 4px;
+    margin-top: 2.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
 }
 
 .seo-enrichment h3 {
-    color: #333;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.5rem;
 }
 
 .seo-enrichment p {
@@ -66,7 +66,6 @@
 
 .seo-enrichment ul li {
     padding: 0.75rem 0;
-    border-bottom: 1px solid #e0e0e0;
     color: #555;
     line-height: 1.6;
 }
@@ -90,6 +89,30 @@
 .seo-enrichment a:hover {
     color: #d67610;
     text-decoration: underline;
+}
+
+/* ============================================
+   TITRES H2/H3 DANS LE CONTENU (SEO)
+   Style discret et intégré
+   ============================================ */
+.realisation-content h2 {
+    color: #666;
+    font-size: 1.3rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+.realisation-content h3 {
+    color: #666;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.5rem;
 }
 
 /* ============================================
@@ -194,7 +217,6 @@
 
 .realisation-why-choose .why-choose-list li {
     padding: 1rem 0;
-    border-bottom: 1px solid #e0e0e0;
 }
 
 .realisation-why-choose .why-choose-list li:last-child {
