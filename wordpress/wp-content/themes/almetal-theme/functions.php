@@ -1270,7 +1270,7 @@ function almetal_seo_enrich_short_content($content) {
     $terms = get_the_terms($post->ID, 'type_realisation');
     $type_realisation = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Métallerie';
     
-    // Contenu d'enrichissement SEO
+    // Contenu d'enrichissement SEO (seulement "À propos")
     $enrichment = '<div class="seo-enrichment">';
     $enrichment .= '<h3>À propos de ce projet</h3>';
     $enrichment .= '<p>Ce projet de ' . strtolower(esc_html($type_realisation)) . ' a été réalisé à ' . esc_html($lieu) . ' par AL Métallerie, spécialiste de la métallerie dans le Puy-de-Dôme.</p>';
@@ -1283,15 +1283,6 @@ function almetal_seo_enrich_short_content($content) {
         $enrichment .= '<p>La durée de réalisation de ce projet a été de ' . esc_html($duree) . ', témoignant de notre efficacité et de notre professionnalisme.</p>';
     }
     
-    $enrichment .= '<h3>Pourquoi choisir AL Métallerie ?</h3>';
-    $enrichment .= '<ul>';
-    $enrichment .= '<li><strong>Expertise locale</strong> : Basés à Peschadoires, nous intervenons dans tout le Puy-de-Dôme</li>';
-    $enrichment .= '<li><strong>Savoir-faire artisanal</strong> : Plus de 20 ans d\'expérience en métallerie</li>';
-    $enrichment .= '<li><strong>Qualité garantie</strong> : Matériaux premium et finitions soignées</li>';
-    $enrichment .= '<li><strong>Sur-mesure</strong> : Chaque projet est unique et adapté à vos besoins</li>';
-    $enrichment .= '</ul>';
-    
-    $enrichment .= '<p>Vous avez un projet de ' . strtolower(esc_html($type_realisation)) . ' à ' . esc_html($lieu) . ' ou dans les environs ? <a href="' . esc_url(home_url('/contact')) . '">Contactez-nous</a> pour un devis gratuit.</p>';
     $enrichment .= '</div>';
     
     return $content . $enrichment;
@@ -1418,7 +1409,41 @@ function almetal_seo_add_internal_links($content) {
 add_filter('the_content', 'almetal_seo_add_internal_links', 30);
 
 /**
- * 8. ENREGISTREMENT DU CSS POUR LES OPTIMISATIONS SEO
+ * 8. SECTION "POURQUOI CHOISIR AL MÉTALLERIE"
+ * Affichée APRÈS les liens internes avec un séparateur
+ */
+function almetal_seo_why_choose_us($content) {
+    // Uniquement sur les pages single realisation
+    if (!is_singular('realisation')) {
+        return $content;
+    }
+    
+    global $post;
+    
+    // Récupération des données
+    $lieu = get_post_meta($post->ID, '_almetal_lieu', true) ?: 'Puy-de-Dôme';
+    $terms = get_the_terms($post->ID, 'type_realisation');
+    $type_realisation = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Métallerie';
+    
+    // Section "Pourquoi choisir AL Métallerie"
+    $why_choose = '<hr class="seo-separator">';
+    $why_choose .= '<div class="seo-why-choose">';
+    $why_choose .= '<h3>Pourquoi choisir AL Métallerie ?</h3>';
+    $why_choose .= '<ul>';
+    $why_choose .= '<li><strong>Expertise locale</strong> : Basés à Peschadoires, nous intervenons dans tout le Puy-de-Dôme</li>';
+    $why_choose .= '<li><strong>Savoir-faire artisanal</strong> : Plus de 20 ans d\'expérience en métallerie</li>';
+    $why_choose .= '<li><strong>Qualité garantie</strong> : Matériaux premium et finitions soignées</li>';
+    $why_choose .= '<li><strong>Sur-mesure</strong> : Chaque projet est unique et adapté à vos besoins</li>';
+    $why_choose .= '</ul>';
+    $why_choose .= '<p class="cta-contact">Vous avez un projet de ' . strtolower(esc_html($type_realisation)) . ' à ' . esc_html($lieu) . ' ou dans les environs ? <a href="' . esc_url(home_url('/contact')) . '" class="btn-contact">Contactez-nous pour un devis gratuit</a></p>';
+    $why_choose .= '</div>';
+    
+    return $content . $why_choose;
+}
+add_filter('the_content', 'almetal_seo_why_choose_us', 40);
+
+/**
+ * 9. ENREGISTREMENT DU CSS POUR LES OPTIMISATIONS SEO
  * Charge les styles pour le breadcrumb, enrichissement et liens internes
  */
 function almetal_seo_enqueue_styles() {

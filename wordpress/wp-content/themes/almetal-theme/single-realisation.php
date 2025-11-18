@@ -32,10 +32,6 @@ if (almetal_is_mobile()) {
 
 <div class="single-realisation">
     <?php
-    // Afficher le fil d'Ariane SEO
-    almetal_seo_breadcrumb();
-    ?>
-    <?php
     while (have_posts()) :
         the_post();
         ?>
@@ -46,6 +42,11 @@ if (almetal_is_mobile()) {
                     <?php the_post_thumbnail('full'); ?>
                 </div>
             <?php endif; ?>
+            
+            <?php
+            // Afficher le fil d'Ariane SEO (sous la photo)
+            almetal_seo_breadcrumb();
+            ?>
 
             <div class="container">
                 <div class="realisation-header">
