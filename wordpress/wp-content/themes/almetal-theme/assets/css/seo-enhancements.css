@@ -91,27 +91,57 @@
 }
 
 /* ============================================
-   TITRES H2/H3 DANS LE CONTENU (SEO)
-   Style discret et intégré
+   CONTENU PRINCIPAL (STYLE CARD SIDEBAR)
    ============================================ */
-.realisation-content h2 {
-    color: #666;
-    font-size: 1.3rem;
-    margin-top: 2.5rem;
+.realisation-content {
+    background: rgba(34, 34, 34, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(240, 139, 24, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+}
+
+.realisation-content p {
+    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 1rem;
-    font-weight: 500;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 0.5rem;
+}
+
+.realisation-content h2 {
+    color: #F08B18;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.realisation-content h2:first-child {
+    margin-top: 0;
 }
 
 .realisation-content h3 {
-    color: #666;
-    font-size: 1.2rem;
-    margin-top: 2rem;
+    color: #F08B18;
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
     margin-bottom: 0.75rem;
-    font-weight: 500;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 0.5rem;
+    font-weight: 600;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.realisation-content a {
+    color: #F08B18;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.realisation-content a:hover {
+    color: #d67610;
+    text-decoration: underline;
 }
 
 /* ============================================
