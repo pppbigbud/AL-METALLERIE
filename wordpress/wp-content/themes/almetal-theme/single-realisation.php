@@ -246,6 +246,23 @@ if (almetal_is_mobile()) {
                                 <?php if ($lieu) : ?>
                                     <dt><?php _e('Lieu', 'almetal'); ?></dt>
                                     <dd><?php echo esc_html($lieu); ?></dd>
+                                    
+                                    <?php
+                                    // Récupérer les coordonnées GPS de la ville
+                                    $ville_coords = almetal_get_ville_coordinates($lieu);
+                                    if ($ville_coords) :
+                                        $map_url = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyAWrQ0heLj3xzkTUy_-elelg0I9HtsvzH8&q=' . urlencode($lieu) . ',France&zoom=13';
+                                    ?>
+                                        <div class="realisation-map-container">
+                                            <iframe 
+                                                class="realisation-map"
+                                                frameborder="0" 
+                                                style="border:0" 
+                                                src="<?php echo esc_url($map_url); ?>" 
+                                                allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
 
                                 <?php if ($duree) : ?>

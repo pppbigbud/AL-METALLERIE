@@ -996,6 +996,41 @@ function almetal_seo_meta_tags() {
 add_action('wp_head', 'almetal_seo_meta_tags', 1);
 
 /**
+ * FONCTION UTILITAIRE : Récupérer les coordonnées GPS d'une ville
+ * Retourne les coordonnées du centre-ville pour le référencement local
+ */
+function almetal_get_ville_coordinates($ville) {
+    // Normaliser le nom de la ville (minuscules, sans accents, sans tirets)
+    $ville_normalized = strtolower(remove_accents($ville));
+    $ville_normalized = str_replace([' ', '-'], '', $ville_normalized);
+    
+    // Mapping des principales villes du Puy-de-Dôme et environs
+    $coordinates = array(
+        'clermontferrand' => array('lat' => '45.7772', 'lon' => '3.0870'),
+        'thiers' => array('lat' => '45.8556', 'lon' => '3.5478'),
+        'riom' => array('lat' => '45.8944', 'lon' => '3.1128'),
+        'cournondauvergne' => array('lat' => '45.7361', 'lon' => '3.1972'),
+        'issoire' => array('lat' => '45.5433', 'lon' => '3.2489'),
+        'aubiere' => array('lat' => '45.7517', 'lon' => '3.1092'),
+        'beaumont' => array('lat' => '45.7500', 'lon' => '3.0833'),
+        'chamalieres' => array('lat' => '45.7750', 'lon' => '3.0667'),
+        'royat' => array('lat' => '45.7667', 'lon' => '3.0500'),
+        'pontduchâteau' => array('lat' => '45.7978', 'lon' => '3.2461'),
+        'gerzat' => array('lat' => '45.8228', 'lon' => '3.1442'),
+        'lempdes' => array('lat' => '45.7711', 'lon' => '3.1969'),
+        'peschadoires' => array('lat' => '45.8344', 'lon' => '3.1636'),
+        'billom' => array('lat' => '45.7231', 'lon' => '3.3394'),
+        'ambert' => array('lat' => '45.5500', 'lon' => '3.7417'),
+        'vichy' => array('lat' => '46.1278', 'lon' => '3.4267'),
+        'montlucon' => array('lat' => '46.3403', 'lon' => '2.6033'),
+        'moulins' => array('lat' => '46.5667', 'lon' => '3.3333'),
+    );
+    
+    // Retourner les coordonnées si trouvées
+    return isset($coordinates[$ville_normalized]) ? $coordinates[$ville_normalized] : null;
+}
+
+/**
  * 2. GÉNÉRATION AUTOMATIQUE DES SCHEMAS JSON-LD
  * Injecte les microdonnées structurées pour Google
  */
@@ -1038,6 +1073,9 @@ function almetal_seo_json_ld_schemas() {
     $content = wp_strip_all_tags(get_the_content());
     $excerpt = wp_trim_words($content, 30, '...');
     
+    // Mapping des coordonnées GPS des villes (centre-ville)
+    $ville_coords = almetal_get_ville_coordinates($lieu);
+    
     // Schema 1 : Article
     $schema_article = [
         '@context' => 'https://schema.org',
@@ -1065,6 +1103,19 @@ function almetal_seo_json_ld_schemas() {
             '@id' => get_permalink()
         ]
     ];
+    
+    // Ajouter contentLocation si coordonnées disponibles
+    if ($ville_coords) {
+        $schema_article['contentLocation'] = [
+            '@type' => 'Place',
+            'name' => $lieu,
+            'geo' => [
+                '@type' => 'GeoCoordinates',
+                'latitude' => $ville_coords['lat'],
+                'longitude' => $ville_coords['lon']
+            ]
+        ];
+    }
     
     // Schema 2 : LocalBusiness
     $schema_business = [
