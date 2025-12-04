@@ -86,11 +86,21 @@ get_header();
         endif;
         ?>
 
-        <?php if (have_posts()) : ?>
+        <?php
+        // Requête personnalisée pour charger TOUTES les réalisations (lazy loading gère l'affichage)
+        $all_realisations = new WP_Query(array(
+            'post_type' => 'realisation',
+            'posts_per_page' => -1, // Toutes les réalisations
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ));
+        ?>
+
+        <?php if ($all_realisations->have_posts()) : ?>
             <div class="archive-grid realisations-grid">
                 <?php
-                while (have_posts()) :
-                    the_post();
+                while ($all_realisations->have_posts()) :
+                    $all_realisations->the_post();
                     
                     // Récupérer les types de réalisation
                     $types = get_the_terms(get_the_ID(), 'type_realisation');
@@ -191,12 +201,8 @@ get_header();
             </div>
 
             <?php
-            // Pagination
-            the_posts_pagination(array(
-                'mid_size'  => 2,
-                'prev_text' => __('&laquo; Précédent', 'almetal'),
-                'next_text' => __('Suivant &raquo;', 'almetal'),
-            ));
+            // Pagination supprimée - le lazy loading gère l'affichage progressif
+            wp_reset_postdata();
             ?>
 
         <?php else : ?>
