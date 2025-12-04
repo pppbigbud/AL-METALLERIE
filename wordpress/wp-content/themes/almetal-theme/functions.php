@@ -341,10 +341,8 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version'),
             true
         );
-    }
-    
-    // Script de galerie avancée (seulement sur les pages de réalisations)
-    if (is_singular('realisation')) {
+        
+        // Script de galerie avancée
         wp_enqueue_script(
             'almetal-gallery-advanced',
             get_template_directory_uri() . '/assets/js/gallery-advanced.js',
@@ -352,16 +350,13 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version'),
             true
         );
-    }
-    
-    // Script de la page contact (seulement sur la page contact)
-    if (is_page_template('page-contact.php') || is_page('contact')) {
-        wp_enqueue_script(
-            'almetal-contact',
-            get_template_directory_uri() . '/assets/js/contact.js',
-            array('jquery'),
-            wp_get_theme()->get('Version'),
-            true
+        
+        // CSS nouvelle mise en page single réalisation V2
+        wp_enqueue_style(
+            'almetal-single-realisation-v2',
+            get_template_directory_uri() . '/assets/css/single-realisation-v2.css',
+            array('almetal-style'),
+            wp_get_theme()->get('Version')
         );
     }
     
@@ -379,11 +374,12 @@ function almetal_enqueue_scripts() {
         );
     }
     
-    // CSS des pages archives (Réalisations et Formations)
+    // CSS des pages archives (Réalisations, Formations et Taxonomies)
     if (is_post_type_archive('realisation') || 
         is_page_template('page-formations.php') ||
         is_page('formations') ||
-        is_page('realisations')) {
+        is_page('realisations') ||
+        is_tax('type_realisation')) {
         wp_enqueue_style(
             'almetal-archive-pages',
             get_template_directory_uri() . '/assets/css/archive-pages.css',

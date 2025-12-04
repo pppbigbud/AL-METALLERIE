@@ -30,16 +30,60 @@ if (almetal_is_mobile()) {
 
 ?>
 
-<div class="single-realisation">
+<?php
+// Récupérer les données une seule fois
+$types = get_the_terms(get_the_ID(), 'type_realisation');
+$client = get_post_meta(get_the_ID(), '_almetal_client', true);
+$date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
+$lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+$duree = get_post_meta(get_the_ID(), '_almetal_duree', true);
+
+// Icônes SVG par type de réalisation
+$icons = array(
+    'portails' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>',
+    'garde-corps' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg>',
+    'escaliers' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h4v-4h4v-4h4V8h4"/></svg>',
+    'pergolas' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18h16M5 15h14M6 12h12M7 9h10M8 6h8M9 3h6"/></svg>',
+    'grilles' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+    'ferronnerie-dart' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
+    'rampes' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21v-8l6-6 6 6 6-6v8"/></svg>',
+    'serrurerie' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+    'autres' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+    'mobilier-metallique' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>',
+);
+?>
+
+<div class="single-realisation single-realisation-v2">
     <?php
     while (have_posts()) :
         the_post();
         ?>
         
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <!-- HERO avec image, titre et badges superposés -->
             <?php if (has_post_thumbnail()) : ?>
-                <div class="realisation-hero">
-                    <?php the_post_thumbnail('full'); ?>
+                <div class="realisation-hero-v2">
+                    <div class="hero-image">
+                        <?php the_post_thumbnail('full'); ?>
+                        <div class="hero-overlay"></div>
+                    </div>
+                    <div class="hero-content">
+                        <div class="hero-content-inner">
+                            <h1 class="hero-title"><?php the_title(); ?></h1>
+                            <?php if ($types && !is_wp_error($types)) : ?>
+                                <div class="realisation-categories">
+                                    <?php foreach ($types as $type) : 
+                                        $icon = isset($icons[$type->slug]) ? $icons[$type->slug] : $icons['autres'];
+                                    ?>
+                                        <a href="<?php echo esc_url(get_term_link($type)); ?>" class="category-badge">
+                                            <span class="category-badge__icon"><?php echo $icon; ?></span>
+                                            <span class="category-badge__text"><?php echo esc_html($type->name); ?></span>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
             <?php endif; ?>
             
@@ -48,47 +92,67 @@ if (almetal_is_mobile()) {
             almetal_seo_breadcrumb();
             ?>
 
-            <div class="container">
-                <div class="realisation-header">
-                    <h1 class="realisation-title"><?php the_title(); ?></h1>
-
-                    <?php
-                    $types = get_the_terms(get_the_ID(), 'type_realisation');
-                    if ($types && !is_wp_error($types)) :
-                        // Icônes SVG par type de réalisation (mêmes que page d'accueil)
-                        $icons = array(
-                            'portails' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>',
-                            'garde-corps' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg>',
-                            'escaliers' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h4v-4h4v-4h4V8h4"/></svg>',
-                            'pergolas' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18h16M5 15h14M6 12h12M7 9h10M8 6h8M9 3h6"/></svg>',
-                            'grilles' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
-                            'ferronnerie-dart' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
-                            'rampes' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21v-8l6-6 6 6 6-6v8"/></svg>',
-                            'serrurerie' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
-                        );
-                        ?>
-                        <div class="realisation-types">
-                            <?php foreach ($types as $type) : 
-                                $icon = isset($icons[$type->slug]) ? $icons[$type->slug] : '';
-                            ?>
-                                <a href="<?php echo esc_url(get_term_link($type)); ?>" class="type-badge type-badge-link">
-                                    <?php if ($icon) : ?>
-                                        <span class="type-icon"><?php echo $icon; ?></span>
-                                    <?php endif; ?>
-                                    <?php echo esc_html($type->name); ?>
-                                </a>
-                            <?php endforeach; ?>
+            <!-- BARRE D'INFOS HORIZONTALE -->
+            <?php if ($date_realisation || $lieu || $duree || $client) : ?>
+                <div class="realisation-info-bar">
+                    <div class="container">
+                        <div class="info-bar-items">
+                            <?php if ($date_realisation) : ?>
+                                <div class="info-bar-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="16" y1="2" x2="16" y2="6"/>
+                                        <line x1="8" y1="2" x2="8" y2="6"/>
+                                        <line x1="3" y1="10" x2="21" y2="10"/>
+                                    </svg>
+                                    <span class="info-label"><?php _e('Date', 'almetal'); ?></span>
+                                    <span class="info-value"><?php echo date_i18n('F Y', strtotime($date_realisation)); ?></span>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($lieu) : ?>
+                                <div class="info-bar-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    <span class="info-label"><?php _e('Lieu', 'almetal'); ?></span>
+                                    <span class="info-value"><?php echo esc_html($lieu); ?></span>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($duree) : ?>
+                                <div class="info-bar-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    <span class="info-label"><?php _e('Durée', 'almetal'); ?></span>
+                                    <span class="info-value"><?php echo esc_html($duree); ?></span>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <?php if ($client) : ?>
+                                <div class="info-bar-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    <span class="info-label"><?php _e('Client', 'almetal'); ?></span>
+                                    <span class="info-value"><?php echo esc_html($client); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <?php
-                    endif;
-                    ?>
+                    </div>
                 </div>
+            <?php endif; ?>
 
-                <div class="realisation-details-grid">
-                    <div class="realisation-main-content">
-                        <div class="realisation-content">
-                            <?php the_content(); ?>
-                        </div>
+            <!-- CONTENU PRINCIPAL -->
+            <div class="realisation-main-section">
+                <div class="container">
+                    <div class="realisation-content-v2">
+                        <?php the_content(); ?>
+                    </div>
 
                         <?php
                         // Galerie d'images avec carrousel
@@ -123,18 +187,27 @@ if (almetal_is_mobile()) {
                                     <div class="gallery-main">
                                         <?php foreach ($gallery_images as $index => $image_id) : 
                                             $image_url = wp_get_attachment_image_url($image_id, 'full');
+                                            $image_large_url = wp_get_attachment_image_url($image_id, 'large');
                                             $image_title = get_the_title($image_id);
                                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+                                            $is_first = ($index === 0);
                                         ?>
-                                            <div class="gallery-slide <?php echo $index === 0 ? 'active' : ''; ?>" 
+                                            <div class="gallery-slide <?php echo $is_first ? 'active' : ''; ?>" 
                                                  data-index="<?php echo $index; ?>"
                                                  data-full-url="<?php echo esc_url($image_url); ?>"
                                                  data-title="<?php echo esc_attr($image_title); ?>">
-                                                <?php echo wp_get_attachment_image($image_id, 'large', false, array(
-                                                    'class' => 'gallery-image',
-                                                    'loading' => 'lazy',
-                                                    'data-full' => esc_url($image_url)
-                                                )); ?>
+                                                <?php if ($is_first) : ?>
+                                                    <img src="<?php echo esc_url($image_large_url); ?>" 
+                                                         alt="<?php echo esc_attr($image_alt ?: $image_title); ?>" 
+                                                         class="gallery-image"
+                                                         data-full="<?php echo esc_url($image_url); ?>">
+                                                <?php else : ?>
+                                                    <img src="<?php echo esc_url($image_large_url); ?>" 
+                                                         alt="<?php echo esc_attr($image_alt ?: $image_title); ?>" 
+                                                         class="gallery-image"
+                                                         loading="lazy"
+                                                         data-full="<?php echo esc_url($image_url); ?>">
+                                                <?php endif; ?>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -224,111 +297,87 @@ if (almetal_is_mobile()) {
                             <?php
                         endif;
                         ?>
-                    </div>
+                </div>
+            </div>
 
-                    <aside class="realisation-sidebar">
-                        <div class="realisation-info-box">
-                            <h3><?php _e('Informations', 'almetal'); ?></h3>
+            <!-- SECTION POURQUOI NOUS CHOISIR + CTA -->
+            <div class="realisation-bottom-section">
+                <div class="container">
+                    <div class="bottom-grid">
+                        <!-- Bloc "Pourquoi choisir AL Métallerie" -->
+                        <div class="why-choose-block">
+                            <h2><?php _e('Pourquoi choisir AL Métallerie ?', 'almetal'); ?></h2>
                             
-                            <?php
-                            $client = get_post_meta(get_the_ID(), '_almetal_client', true);
-                            $date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
-                            $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
-                            $duree = get_post_meta(get_the_ID(), '_almetal_duree', true);
-                            ?>
-
-                            <dl class="realisation-details">
-                                <?php if ($date_realisation) : ?>
-                                    <dt><?php _e('Date de réalisation', 'almetal'); ?></dt>
-                                    <dd><?php echo date_i18n(get_option('date_format'), strtotime($date_realisation)); ?></dd>
-                                <?php endif; ?>
-
-                                <?php if ($lieu) : ?>
-                                    <dt><?php _e('Lieu', 'almetal'); ?></dt>
-                                    <dd><?php echo esc_html($lieu); ?></dd>
-                                    
-                                    <?php
-                                    // Récupérer les coordonnées GPS de la ville
-                                    $ville_coords = almetal_get_ville_coordinates($lieu);
-                                    if ($ville_coords) :
-                                        $map_url = 'https://www.google.com/maps/embed/v1/place?key=AIzaSyAWrQ0heLj3xzkTUy_-elelg0I9HtsvzH8&q=' . urlencode($lieu) . ',France&zoom=13';
-                                    ?>
-                                        <div class="realisation-map-container">
-                                            <iframe 
-                                                class="realisation-map"
-                                                frameborder="0" 
-                                                style="border:0" 
-                                                src="<?php echo esc_url($map_url); ?>" 
-                                                allowfullscreen>
-                                            </iframe>
-                                        </div>
-                                    <?php endif; ?>
-                                <?php endif; ?>
-
-                                <?php if ($duree) : ?>
-                                    <dt><?php _e('Durée du projet', 'almetal'); ?></dt>
-                                    <dd><?php echo esc_html($duree); ?></dd>
-                                <?php endif; ?>
-
-                                <?php if ($client) : ?>
-                                    <dt><?php _e('Client', 'almetal'); ?></dt>
-                                    <dd><?php echo esc_html($client); ?></dd>
-                                <?php endif; ?>
-
-                                <?php if ($types && !is_wp_error($types)) : ?>
-                                    <dt><?php _e('Type de projet', 'almetal'); ?></dt>
-                                    <dd>
-                                        <?php
-                                        $type_names = array();
-                                        foreach ($types as $type) {
-                                            $type_names[] = $type->name;
-                                        }
-                                        echo implode(', ', $type_names);
-                                        ?>
-                                    </dd>
-                                <?php endif; ?>
-                            </dl>
-
-                            <div class="realisation-cta">
-                                <a href="<?php echo esc_url(home_url('/contact')); ?>" class="btn btn-primary">
-                                    <?php _e('Un projet similaire ?', 'almetal'); ?>
-                                </a>
+                            <div class="why-choose-grid">
+                                <div class="why-choose-item">
+                                    <div class="why-choose-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                            <circle cx="12" cy="10" r="3"/>
+                                        </svg>
+                                    </div>
+                                    <div class="why-choose-text">
+                                        <strong><?php _e('Expertise locale', 'almetal'); ?></strong>
+                                        <span><?php _e('Basés à Peschadoires, nous intervenons dans tout le Puy-de-Dôme', 'almetal'); ?></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="why-choose-item">
+                                    <div class="why-choose-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="why-choose-text">
+                                        <strong><?php _e('Savoir-faire artisanal', 'almetal'); ?></strong>
+                                        <span><?php _e('Plus de 20 ans d\'expérience en métallerie', 'almetal'); ?></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="why-choose-item">
+                                    <div class="why-choose-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                            <polyline points="22 4 12 14.01 9 11.01"/>
+                                        </svg>
+                                    </div>
+                                    <div class="why-choose-text">
+                                        <strong><?php _e('Qualité garantie', 'almetal'); ?></strong>
+                                        <span><?php _e('Matériaux premium et finitions soignées', 'almetal'); ?></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="why-choose-item">
+                                    <div class="why-choose-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                        </svg>
+                                    </div>
+                                    <div class="why-choose-text">
+                                        <strong><?php _e('Sur-mesure', 'almetal'); ?></strong>
+                                        <span><?php _e('Chaque projet est unique et adapté à vos besoins', 'almetal'); ?></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Bloc "Pourquoi choisir AL Métallerie" -->
-                        <div class="realisation-info-box realisation-why-choose">
-                            <h3><?php _e('Pourquoi choisir AL Métallerie ?', 'almetal'); ?></h3>
-                            
-                            <ul class="why-choose-list">
-                                <li>
-                                    <strong><?php _e('Expertise locale', 'almetal'); ?></strong>
-                                    <span><?php _e('Basés à Peschadoires, nous intervenons dans tout le Puy-de-Dôme', 'almetal'); ?></span>
-                                </li>
-                                <li>
-                                    <strong><?php _e('Savoir-faire artisanal', 'almetal'); ?></strong>
-                                    <span><?php _e('Plus de 20 ans d\'expérience en métallerie', 'almetal'); ?></span>
-                                </li>
-                                <li>
-                                    <strong><?php _e('Qualité garantie', 'almetal'); ?></strong>
-                                    <span><?php _e('Matériaux premium et finitions soignées', 'almetal'); ?></span>
-                                </li>
-                                <li>
-                                    <strong><?php _e('Sur-mesure', 'almetal'); ?></strong>
-                                    <span><?php _e('Chaque projet est unique et adapté à vos besoins', 'almetal'); ?></span>
-                                </li>
-                            </ul>
-                            
-                            <div class="realisation-cta">
-                                <a href="<?php echo esc_url(home_url('/contact')); ?>" class="btn btn-primary">
-                                    <?php _e('Demander un devis gratuit', 'almetal'); ?>
-                                </a>
-                            </div>
+                        <!-- CTA -->
+                        <div class="cta-block">
+                            <h3><?php _e('Un projet similaire ?', 'almetal'); ?></h3>
+                            <p><?php _e('Contactez-nous pour discuter de votre projet et obtenir un devis gratuit.', 'almetal'); ?></p>
+                            <a href="<?php echo esc_url(home_url('/contact')); ?>" class="btn-cta-large">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                </svg>
+                                <?php _e('Demander un devis gratuit', 'almetal'); ?>
+                            </a>
                         </div>
-                    </aside>
+                    </div>
                 </div>
+            </div>
                 
-                <?php
+            <?php
                 // Navigation entre réalisations
                 $prev_post = get_previous_post();
                 $next_post = get_next_post();

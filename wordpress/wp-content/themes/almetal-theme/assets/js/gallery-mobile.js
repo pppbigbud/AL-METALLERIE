@@ -50,15 +50,22 @@
 
         let currentIndex = 0;
 
-        // Forcer l'affichage de la première slide
+        // Forcer le chargement de toutes les images et initialiser les slides
         slides.forEach(function(slide, index) {
+            // Forcer le chargement de l'image
+            const img = slide.querySelector('img');
+            if (img) {
+                img.removeAttribute('loading');
+            }
+            
+            // Nettoyer les styles inline
+            slide.removeAttribute('style');
+            
             if (index === 0) {
                 slide.classList.add('active');
-                slide.style.display = 'block';
                 console.log('First slide activated');
             } else {
                 slide.classList.remove('active');
-                slide.style.display = 'none';
             }
         });
 
@@ -66,16 +73,14 @@
         function showSlide(index) {
             console.log('Showing slide:', index);
 
-            // Masquer toutes les slides
+            // Masquer toutes les slides (juste via les classes CSS)
             slides.forEach(function(slide) {
                 slide.classList.remove('active');
-                slide.style.display = 'none';
             });
 
             // Afficher la slide actuelle
             if (slides[index]) {
                 slides[index].classList.add('active');
-                slides[index].style.display = 'block';
             }
 
             // Mettre à jour les miniatures

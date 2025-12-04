@@ -54,6 +54,9 @@
             
             currentSlide = index;
             
+            // Charger l'image courante si nécessaire
+            loadSlideImage(currentSlide);
+            
             // Activer le nouveau slide
             $(slides[currentSlide]).addClass('active');
             $(thumbs[currentSlide]).addClass('active');
@@ -68,17 +71,33 @@
         }
 
         /**
-         * Lazy loading de l'image suivante
+         * Charger l'image d'un slide
          */
-        function lazyLoadNextImage() {
-            const nextIndex = (currentSlide + 1) % slides.length;
-            const nextSlide = $(slides[nextIndex]);
-            const img = nextSlide.find('img');
+        function loadSlideImage(index) {
+            const slide = $(slides[index]);
+            const img = slide.find('img');
             
+            // Si l'image a un data-src, la charger
             if (img.attr('data-src') && !img.attr('src')) {
                 img.attr('src', img.attr('data-src'));
                 img.removeAttr('data-src');
             }
+            
+            // Si l'image n'a pas de src du tout, utiliser data-full-url du slide
+            if (!img.attr('src') || img.attr('src') === '') {
+                const fullUrl = slide.attr('data-full-url');
+                if (fullUrl) {
+                    img.attr('src', fullUrl);
+                }
+            }
+        }
+
+        /**
+         * Lazy loading de l'image suivante
+         */
+        function lazyLoadNextImage() {
+            const nextIndex = (currentSlide + 1) % slides.length;
+            loadSlideImage(nextIndex);
         }
 
         /**
