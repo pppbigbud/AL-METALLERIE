@@ -1,0 +1,46 @@
+# Robots.txt pour AL Métallerie
+# Métallerie, Ferronnerie, Serrurerie à Thiers, Puy-de-Dôme, Auvergne
+# https://al-metallerie.fr
+
+# Autoriser tous les robots
+User-agent: *
+
+# Autoriser l'indexation du site
+Allow: /
+
+# Bloquer les zones d'administration WordPress
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# Bloquer les fichiers sensibles
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/uploads/wpcf7_uploads/
+Disallow: /readme.html
+Disallow: /license.txt
+Disallow: /xmlrpc.php
+
+# Bloquer les paramètres de recherche et filtres
+Disallow: /*?s=
+Disallow: /*?p=
+Disallow: /wp-json/
+Disallow: /?author=*
+
+# Bloquer les pages de connexion
+Disallow: /wp-login.php
+Disallow: /wp-register.php
+
+# Bloquer les flux RSS/Atom (optionnel, décommenter si souhaité)
+# Disallow: /feed/
+# Disallow: /comments/feed/
+
+# Délai entre les requêtes (en secondes) - respectueux du serveur
+Crawl-delay: 1
+
+# Sitemap XML - Important pour le référencement local
+Sitemap: https://al-metallerie.fr/sitemap.xml
+
+# Sitemaps additionnels pour Google
+Sitemap: https://al-metallerie.fr/sitemap-pages.xml
+Sitemap: https://al-metallerie.fr/sitemap-realisations.xml
