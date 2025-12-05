@@ -222,6 +222,26 @@
     font-weight: 600;
 }
 
+/* Conteneur de scroll pour les catégories */
+.megamenu-categories__scroll-container {
+    max-height: 340px; /* Hauteur pour ~4 catégories */
+    overflow: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 1280px) {
+    .megamenu-categories__scroll-container {
+        max-height: 255px; /* Hauteur pour ~3 catégories */
+    }
+}
+
+@media (max-width: 1024px) {
+    .megamenu-categories__scroll-container {
+        max-height: 170px; /* Hauteur pour ~2 catégories */
+    }
+}
+
 .megamenu-categories__list {
     display: flex;
     flex-direction: column;
@@ -229,6 +249,7 @@
     padding: 0;
     margin: 0;
     list-style: none;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .megamenu-categories__item {

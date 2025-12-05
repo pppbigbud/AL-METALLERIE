@@ -64,13 +64,12 @@
                             <li class="header-mega__item has-megamenu">
                                 <a href="<?php echo esc_url(home_url('/?post_type=realisation')); ?>">
                                     <svg class="header-menu-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <!-- Torche de soudure -->
-                                        <path d="M14 4l-4 4 7 7 4-4-7-7z"/>
-                                        <path d="M10 8L4 14l2 2 6-6"/>
-                                        <path d="M17 11l3 3"/>
-                                        <path d="M19 9l2-2"/>
-                                        <circle cx="20" cy="4" r="2"/>
-                                        <path d="M4 20l2-2"/>
+                                        <!-- Masque de soudure -->
+                                        <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+                                        <rect x="6" y="10" width="12" height="4" rx="1"/>
+                                        <path d="M2 8l2-2h16l2 2"/>
+                                        <path d="M8 18v2"/>
+                                        <path d="M16 18v2"/>
                                     </svg>
                                     <span><?php esc_html_e('Réalisations', 'almetal'); ?></span>
                                     <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="9" height="5" viewBox="0 0 9 5" fill="none">
@@ -80,28 +79,22 @@
                                 <div class="megamenu-wrapper">
                                     <div class="megamenu-categories">
                                         <div class="megamenu-categories__title"><?php esc_html_e('Catégories', 'almetal'); ?></div>
-                                        <ul class="megamenu-categories__list">
-                                            <?php
-                                            $categories = get_terms(array(
-                                                'taxonomy' => 'type_realisation',
-                                                'hide_empty' => true,
-                                                'orderby' => 'count',
-                                                'order' => 'DESC',
-                                                'number' => 4,
-                                            ));
-                                            if ($categories && !is_wp_error($categories)) :
-                                                foreach ($categories as $index => $category) :
-                                                    $active_class = ($index === 0) ? ' active' : '';
-                                                    // Classes responsive pour masquer les catégories sur petits écrans
-                                                    $responsive_class = '';
-                                                    if ($index >= 3) {
-                                                        $responsive_class = ' hide-on-laptop'; // Masquer 4ème catégorie sur laptop
-                                                    }
-                                                    if ($index >= 2) {
-                                                        $responsive_class .= ' hide-on-tablet'; // Masquer 3ème et 4ème sur tablet
-                                                    }
-                                                    ?>
-                                                    <li class="megamenu-categories__item<?php echo $active_class . $responsive_class; ?>" data-category="<?php echo esc_attr($category->slug); ?>" data-category-id="<?php echo esc_attr($category->term_id); ?>" data-icon-slug="<?php echo esc_attr($category->slug); ?>">
+                                        <div class="megamenu-categories__scroll-container">
+                                            <ul class="megamenu-categories__list">
+                                                <?php
+                                                $categories = get_terms(array(
+                                                    'taxonomy' => 'type_realisation',
+                                                    'hide_empty' => true,
+                                                    'orderby' => 'count',
+                                                    'order' => 'DESC',
+                                                ));
+                                                $total_categories = count($categories);
+                                                if ($categories && !is_wp_error($categories)) :
+                                                    foreach ($categories as $index => $category) :
+                                                        $active_class = ($index === 0) ? ' active' : '';
+                                                        // Plus de classes responsive - le défilement gère l'affichage
+                                                        ?>
+                                                    <li class="megamenu-categories__item<?php echo $active_class; ?>" data-category="<?php echo esc_attr($category->slug); ?>" data-category-id="<?php echo esc_attr($category->term_id); ?>" data-icon-slug="<?php echo esc_attr($category->slug); ?>">
                                                         <?php
                                                         // Icônes par catégorie
                                                         $category_icons = array(
@@ -199,10 +192,18 @@
                                                         <span class="megamenu-categories__count">Voir tout</span>
                                                     </a>
                                                 </li>
-                                                <?php
-                                            endif;
-                                            ?>
-                                        </ul>
+                                                    <?php
+                                                endif;
+                                                ?>
+                                            </ul>
+                                        </div>
+                                        <?php if ($total_categories > 4) : ?>
+                                        <button class="megamenu-categories__scroll-btn" type="button" aria-label="Voir plus de catégories">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M6 9l6 6 6-6"/>
+                                            </svg>
+                                        </button>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="megamenu-content">
                                         <div class="megamenu-content__title"><?php esc_html_e('Réalisations', 'almetal'); ?></div>

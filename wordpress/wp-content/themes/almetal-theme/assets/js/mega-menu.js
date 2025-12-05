@@ -116,6 +116,98 @@
             lastScroll = currentScroll;
         });
         
+        // ============================================
+        // DÉFILEMENT DES CATÉGORIES
+        // ============================================
+        
+        const scrollContainer = document.querySelector('.megamenu-categories__scroll-container');
+        const scrollBtn = document.querySelector('.megamenu-categories__scroll-btn');
+        const categoriesList = document.querySelector('.megamenu-categories__list');
+        
+        if (scrollContainer && scrollBtn && categoriesList) {
+            let currentScrollPosition = 0;
+            const itemHeight = 76; // Hauteur approximative d'un item (padding + gap)
+            const totalItems = categoriesList.querySelectorAll('.megamenu-categories__item').length;
+            
+            // Fonction pour déterminer combien d'items afficher selon la taille d'écran
+            function getDisplayedItems() {
+                const width = window.innerWidth;
+                if (width <= 1024) return 2; // Tablet
+                if (width <= 1280) return 3; // Laptop
+                return 4; // Desktop
+            }
+            
+            // Fonction pour calculer le max scroll
+            function getMaxScroll() {
+                const displayedItems = getDisplayedItems();
+                return Math.max(0, (totalItems - displayedItems) * itemHeight);
+            }
+            
+            // Fonction pour mettre à jour la visibilité du bouton
+            function updateScrollBtnVisibility() {
+                const maxScroll = getMaxScroll();
+                if (maxScroll <= 0) {
+                    scrollBtn.style.display = 'none';
+                } else {
+                    scrollBtn.style.display = 'flex';
+                }
+            }
+            
+            // Initialiser la visibilité du bouton
+            updateScrollBtnVisibility();
+            
+            // Mettre à jour au redimensionnement
+            window.addEventListener('resize', function() {
+                updateScrollBtnVisibility();
+                // Réinitialiser la position si nécessaire
+                const maxScroll = getMaxScroll();
+                if (currentScrollPosition > maxScroll) {
+                    currentScrollPosition = maxScroll;
+                    categoriesList.style.transform = `translateY(-${currentScrollPosition}px)`;
+                }
+                // Mettre à jour l'état du bouton
+                if (currentScrollPosition >= maxScroll && maxScroll > 0) {
+                    scrollBtn.classList.add('scrolled-bottom');
+                } else {
+                    scrollBtn.classList.remove('scrolled-bottom');
+                }
+            });
+            
+            scrollBtn.addEventListener('click', function() {
+                const displayedItems = getDisplayedItems();
+                const maxScroll = getMaxScroll();
+                
+                // Si on est en bas, remonter en haut
+                if (scrollBtn.classList.contains('scrolled-bottom')) {
+                    currentScrollPosition = 0;
+                    scrollBtn.classList.remove('scrolled-bottom');
+                } else {
+                    // Défiler vers le bas
+                    currentScrollPosition += displayedItems * itemHeight;
+                    
+                    // Si on atteint ou dépasse le max, aller au max et changer l'état du bouton
+                    if (currentScrollPosition >= maxScroll) {
+                        currentScrollPosition = maxScroll;
+                        scrollBtn.classList.add('scrolled-bottom');
+                    }
+                }
+                
+                // Appliquer le défilement avec transform
+                categoriesList.style.transform = `translateY(-${currentScrollPosition}px)`;
+            });
+            
+            // Réinitialiser la position quand on quitte le mega menu
+            if (megamenuWrapper) {
+                megamenuWrapper.addEventListener('mouseleave', function() {
+                    setTimeout(function() {
+                        currentScrollPosition = 0;
+                        categoriesList.style.transform = 'translateY(0)';
+                        scrollBtn.classList.remove('scrolled-bottom');
+                    }, 300);
+                });
+            }
+        }
+        
     });
     
 })();
