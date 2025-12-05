@@ -440,6 +440,11 @@ function almetal_enqueue_scripts() {
         'template_url' => get_template_directory_uri(),
     ));
     
+    // Variables AJAX pour le formulaire de contact
+    wp_localize_script('almetal-contact', 'almetal_ajax', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+    ));
+    
     // ============================================
     // BANNIÈRE DE CONSENTEMENT AUX COOKIES
     // ============================================

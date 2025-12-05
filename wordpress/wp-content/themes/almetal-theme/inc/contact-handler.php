@@ -185,6 +185,9 @@ function almetal_handle_contact_form() {
 }
 add_action('admin_post_almetal_contact_form', 'almetal_handle_contact_form');
 add_action('admin_post_nopriv_almetal_contact_form', 'almetal_handle_contact_form');
+// Ajouter aussi les hooks AJAX pour les requêtes JavaScript
+add_action('wp_ajax_almetal_contact_form', 'almetal_handle_contact_form');
+add_action('wp_ajax_nopriv_almetal_contact_form', 'almetal_handle_contact_form');
 
 /**
  * Créer la table de contacts lors de l'activation du thème

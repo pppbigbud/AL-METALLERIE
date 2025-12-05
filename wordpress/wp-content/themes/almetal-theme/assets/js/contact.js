@@ -218,9 +218,9 @@
             // Récupérer les données du formulaire
             const formData = new FormData(this);
 
-            // Envoyer via AJAX
+            // Envoyer via AJAX vers admin-ajax.php
             $.ajax({
-                url: form.attr('action'),
+                url: almetal_ajax.ajax_url,
                 type: 'POST',
                 data: formData,
                 processData: false,
