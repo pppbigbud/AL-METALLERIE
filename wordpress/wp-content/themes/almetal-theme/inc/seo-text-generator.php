@@ -34,12 +34,85 @@ class ALMetal_SEO_Text_Generator {
         // Générer le texte SEO principal
         $texts['seo'] = $this->generate_seo_text($data);
         
+        // Générer l'extrait/sous-titre (courte description)
+        $texts['excerpt'] = $this->generate_excerpt($data);
+        
         // Générer les textes pour les réseaux sociaux
         $texts['facebook'] = $this->generate_facebook_text($data);
         $texts['instagram'] = $this->generate_instagram_text($data);
         $texts['linkedin'] = $this->generate_linkedin_text($data);
         
         return $texts;
+    }
+    
+    /**
+     * Générer l'extrait/sous-titre (courte description affichée sous le titre)
+     */
+    private function generate_excerpt($data) {
+        $type_names = !empty($data['types']) ? wp_list_pluck($data['types'], 'name') : array('métallerie');
+        $type_primary = $type_names[0];
+        $lieu = !empty($data['lieu']) ? $data['lieu'] : 'Thiers';
+        $matiere = !empty($data['matiere']) ? $data['matiere'] : '';
+        $client_type = !empty($data['client_type']) ? $data['client_type'] : '';
+        
+        // Variations d'introductions
+        $intros = array(
+            "Découvrez cette réalisation de {$type_primary}",
+            "Projet de {$type_primary} sur mesure",
+            "Création artisanale de {$type_primary}",
+            "{$type_primary} personnalisé(e)",
+            "Réalisation de {$type_primary}",
+        );
+        
+        // Variations de localisation
+        $lieux = array(
+            "à {$lieu}",
+            "réalisé(e) à {$lieu}",
+            "installé(e) à {$lieu}",
+            "pour un client de {$lieu}",
+        );
+        
+        // Variations de matière
+        $matieres = array();
+        if ($matiere) {
+            $matieres = array(
+                "en {$matiere}",
+                "fabriqué(e) en {$matiere}",
+                "conçu(e) en {$matiere}",
+            );
+        }
+        
+        // Variations de client
+        $clients = array();
+        if ($client_type === 'professionnel') {
+            $clients = array(
+                "pour un professionnel",
+                "pour une entreprise",
+            );
+        } elseif ($client_type === 'particulier') {
+            $clients = array(
+                "pour un particulier",
+                "pour une maison individuelle",
+            );
+        }
+        
+        // Construire l'extrait
+        $intro = $intros[array_rand($intros)];
+        $lieu_text = $lieux[array_rand($lieux)];
+        
+        $excerpt = $intro . ' ' . $lieu_text;
+        
+        if (!empty($matieres)) {
+            $excerpt .= ', ' . $matieres[array_rand($matieres)];
+        }
+        
+        if (!empty($clients)) {
+            $excerpt .= ' ' . $clients[array_rand($clients)];
+        }
+        
+        $excerpt .= '. AL Métallerie, artisan métallier dans le Puy-de-Dôme.';
+        
+        return $excerpt;
     }
     
     /**

@@ -287,17 +287,35 @@
                 success: function(response) {
                     if (response.success) {
                         // Remplir les champs avec les textes générés
-                        $('#almetal_generated_seo_text').val(response.data.seo);
                         $('#almetal_facebook_text').val(response.data.facebook);
                         $('#almetal_instagram_text').val(response.data.instagram);
                         $('#almetal_linkedin_text').val(response.data.linkedin);
                         
-                        // Afficher le message de succès
-                        $status.html('<div class="seo-success">✅ Textes générés avec succès ! Vous pouvez les modifier avant de publier.</div>');
+                        // Mettre à jour l'extrait
+                        if (response.data.excerpt) {
+                            // Mettre à jour notre champ personnalisé
+                            $('#almetal_excerpt').val(response.data.excerpt);
+                            
+                            // Animation de succès
+                            $('#almetal_excerpt').css('background', '#d4edda');
+                            setTimeout(function() {
+                                $('#almetal_excerpt').css('background', '');
+                            }, 2000);
+                            
+                            // Essayer aussi avec l'API Gutenberg
+                            if (typeof wp !== 'undefined' && wp.data && wp.data.dispatch('core/editor')) {
+                                wp.data.dispatch('core/editor').editPost({ excerpt: response.data.excerpt });
+                            }
+                            
+                            console.log('✅ Extrait généré:', response.data.excerpt);
+                        }
                         
-                        // Scroll vers les textes
+                        // Afficher le message de succès
+                        $status.html('<div class="seo-success">✅ Textes générés avec succès ! Le sous-titre a été ajouté sous le titre. Vous pouvez modifier les textes avant de publier.</div>');
+                        
+                        // Scroll vers les textes réseaux sociaux
                         $('html, body').animate({
-                            scrollTop: $('#almetal_generated_seo_text').offset().top - 100
+                            scrollTop: $('#almetal_facebook_text').offset().top - 100
                         }, 500);
                     } else {
                         $status.html('<div class="seo-error">❌ Erreur : ' + response.data + '</div>');

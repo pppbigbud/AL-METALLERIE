@@ -236,7 +236,6 @@ class ALMetal_Social_Auto_Publish {
      * Afficher la meta box du générateur SEO
      */
     public function render_seo_generator_box($post) {
-        $generated_text = get_post_meta($post->ID, '_almetal_generated_seo_text', true);
         $seo_description = get_post_meta($post->ID, '_almetal_seo_description', true);
         $facebook_text = get_post_meta($post->ID, '_almetal_facebook_text', true);
         $instagram_text = get_post_meta($post->ID, '_almetal_instagram_text', true);
@@ -327,9 +326,9 @@ class ALMetal_Social_Auto_Publish {
             
             <hr>
             
-            <h3>📝 Texte SEO Généré (Description WordPress)</h3>
-            <textarea name="almetal_generated_seo_text" id="almetal_generated_seo_text" rows="6" style="width: 100%;"><?php echo esc_textarea($generated_text); ?></textarea>
-            <p class="description">Ce texte sera utilisé comme description de la réalisation et optimisé pour Yoast SEO.</p>
+            <h3>📋 Sous-titre (affiché sous le titre de la réalisation)</h3>
+            <textarea name="excerpt" id="almetal_excerpt" rows="3" style="width: 100%;"><?php echo esc_textarea($post->post_excerpt); ?></textarea>
+            <p class="description">Ce texte est généré automatiquement avec le bouton "Générer textes réseaux". Il apparaît sous le titre sur la page de la réalisation.</p>
             
             <hr>
             
@@ -428,11 +427,6 @@ class ALMetal_Social_Auto_Publish {
         update_post_meta($post_id, '_almetal_publish_facebook', isset($_POST['almetal_publish_facebook']) ? '1' : '0');
         update_post_meta($post_id, '_almetal_publish_instagram', isset($_POST['almetal_publish_instagram']) ? '1' : '0');
         update_post_meta($post_id, '_almetal_publish_linkedin', isset($_POST['almetal_publish_linkedin']) ? '1' : '0');
-        
-        // Sauvegarder les textes générés
-        if (isset($_POST['almetal_generated_seo_text'])) {
-            update_post_meta($post_id, '_almetal_generated_seo_text', sanitize_textarea_field($_POST['almetal_generated_seo_text']));
-        }
         
         // Sauvegarder la description SEO longue (autoriser HTML basique)
         if (isset($_POST['almetal_seo_description'])) {
@@ -537,10 +531,17 @@ class ALMetal_Social_Auto_Publish {
         
         if ($texts) {
             // Sauvegarder les textes générés dans les meta
-            update_post_meta($post_id, '_almetal_generated_seo_text', $texts['seo']);
             update_post_meta($post_id, '_almetal_facebook_text', $texts['facebook']);
             update_post_meta($post_id, '_almetal_instagram_text', $texts['instagram']);
             update_post_meta($post_id, '_almetal_linkedin_text', $texts['linkedin']);
+            
+            // Sauvegarder l'extrait (sous-titre) dans le post WordPress
+            if (!empty($texts['excerpt'])) {
+                wp_update_post(array(
+                    'ID' => $post_id,
+                    'post_excerpt' => $texts['excerpt']
+                ));
+            }
             
             wp_send_json_success($texts);
         } else {

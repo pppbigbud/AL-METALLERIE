@@ -3121,3 +3121,70 @@ input[type="button"]:hover {
         font-size: 0.85rem;
     }
 }
+
+/* ============================================
+   SERVICE CARD - DÉSACTIVÉE (BIENTÔT DISPONIBLE)
+   ============================================ */
+
+.service-card--disabled {
+    position: relative;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.service-card--disabled::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    border-radius: inherit;
+}
+
+.service-card--disabled .realisation-image {
+    filter: grayscale(50%);
+}
+
+.service-card--disabled .realisation-title span {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.service-card--disabled .service-description {
+    color: rgba(160, 161, 165, 0.6);
+}
+
+.service-card__badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #e67e0f 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.5);
+    z-index: 10;
+}
+
+.service-card__coming-soon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: rgba(240, 139, 24, 0.15);
+    border: 1px dashed rgba(240, 139, 24, 0.4);
+    border-radius: 8px;
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.service-card__coming-soon svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
