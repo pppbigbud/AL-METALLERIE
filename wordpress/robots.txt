@@ -39,8 +39,4 @@ Disallow: /wp-register.php
 Crawl-delay: 1
 
 # Sitemap XML - Important pour le référencement local
-Sitemap: https://al-metallerie.fr/sitemap.xml
-
-# Sitemaps additionnels pour Google
-Sitemap: https://al-metallerie.fr/sitemap-pages.xml
-Sitemap: https://al-metallerie.fr/sitemap-realisations.xml
+Sitemap: https://al-metallerie.fr/sitemap.php
