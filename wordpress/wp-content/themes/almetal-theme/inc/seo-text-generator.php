@@ -446,16 +446,34 @@ Informations :
      * Générer la description SEO longue structurée pour la page
      */
     public function generate_seo_description($data) {
-        // Essayer d'abord avec l'IA
-        if (!empty($this->huggingface_api_key)) {
-            $ai_result = $this->generate_seo_description_with_ai($data);
-            if ($ai_result) {
-                return $ai_result;
+        error_log('ALMETAL SEO: generate_seo_description called');
+        
+        try {
+            // Essayer d'abord avec l'IA si la clé est configurée
+            if (!empty($this->huggingface_api_key)) {
+                error_log('ALMETAL SEO: Trying AI generation with Hugging Face');
+                $ai_result = $this->generate_seo_description_with_ai($data);
+                if ($ai_result && !empty($ai_result)) {
+                    error_log('ALMETAL SEO: AI generation successful');
+                    return $ai_result;
+                }
+                error_log('ALMETAL SEO: AI generation failed, falling back to template');
+            } else {
+                error_log('ALMETAL SEO: No API key, using template directly');
             }
+        } catch (Exception $e) {
+            error_log('ALMETAL SEO: AI Exception: ' . $e->getMessage());
         }
         
-        // Fallback : template structuré
-        return $this->generate_seo_description_template($data);
+        // Fallback : template structuré (toujours fonctionnel)
+        error_log('ALMETAL SEO: Using template fallback');
+        $template_result = $this->generate_seo_description_template($data);
+        
+        if (empty($template_result)) {
+            error_log('ALMETAL SEO: Template also returned empty!');
+        }
+        
+        return $template_result;
     }
     
     /**

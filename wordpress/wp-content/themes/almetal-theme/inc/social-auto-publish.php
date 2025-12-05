@@ -621,76 +621,116 @@ class ALMetal_Social_Auto_Publish {
      * Générer la description SEO longue (AJAX)
      */
     public function ajax_generate_seo_description() {
-        check_ajax_referer('almetal_generate_seo_desc', 'nonce');
+        // Log pour debug
+        error_log('ALMETAL: ajax_generate_seo_description called');
         
-        if (!current_user_can('edit_posts')) {
-            wp_send_json_error('Permission refusée');
+        // Vérifier le nonce
+        if (!check_ajax_referer('almetal_generate_seo_desc', 'nonce', false)) {
+            error_log('ALMETAL: Nonce verification failed');
+            wp_send_json_error('Erreur de sécurité (nonce invalide). Rechargez la page et réessayez.');
+            return;
         }
         
-        $post_id = intval($_POST['post_id']);
+        if (!current_user_can('edit_posts')) {
+            error_log('ALMETAL: Permission denied');
+            wp_send_json_error('Permission refusée');
+            return;
+        }
+        
+        $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+        
+        if (!$post_id) {
+            error_log('ALMETAL: No post_id provided');
+            wp_send_json_error('ID de post manquant');
+            return;
+        }
+        
         $post = get_post($post_id);
         
         if (!$post) {
+            error_log('ALMETAL: Post not found: ' . $post_id);
             wp_send_json_error('Post introuvable');
+            return;
         }
         
-        // Récupérer toutes les informations
-        $title = $post->post_title;
-        $types = get_the_terms($post_id, 'type_realisation');
-        $type_names = $types ? wp_list_pluck($types, 'name') : array('métallerie');
-        $type_primary = !empty($type_names) ? $type_names[0] : 'métallerie';
-        $type_list = implode(' et ', $type_names);
+        error_log('ALMETAL: Generating SEO description for post: ' . $post_id);
         
-        $lieu = get_post_meta($post_id, '_almetal_lieu', true) ?: 'Clermont-Ferrand';
-        $date = get_post_meta($post_id, '_almetal_date_realisation', true);
-        $duree = get_post_meta($post_id, '_almetal_duree', true);
-        $matiere = get_post_meta($post_id, '_almetal_matiere', true);
-        $peinture = get_post_meta($post_id, '_almetal_peinture', true);
-        $pose = get_post_meta($post_id, '_almetal_pose', true);
-        $client_type = get_post_meta($post_id, '_almetal_client_type', true);
-        $client_nom = get_post_meta($post_id, '_almetal_client_nom', true);
-        $client_url = get_post_meta($post_id, '_almetal_client_url', true);
-        
-        // Labels matières
-        $matiere_labels = array(
-            'acier' => 'acier',
-            'inox' => 'inox',
-            'aluminium' => 'aluminium',
-            'cuivre' => 'cuivre',
-            'laiton' => 'laiton',
-            'fer-forge' => 'fer forgé',
-            'mixte' => 'matériaux mixtes'
-        );
-        $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : '';
-        
-        // Déterminer le département depuis le lieu
-        $departement = $this->get_departement_from_lieu($lieu);
-        
-        // Essayer de générer via IA
-        $seo_generator = new ALMetal_SEO_Text_Generator();
-        $description = $seo_generator->generate_seo_description(array(
-            'title' => $title,
-            'types' => $types,
-            'type_primary' => $type_primary,
-            'type_list' => $type_list,
-            'lieu' => $lieu,
-            'departement' => $departement,
-            'date' => $date,
-            'duree' => $duree,
-            'matiere' => $matiere_label,
-            'peinture' => $peinture,
-            'pose' => $pose,
-            'client_type' => $client_type,
-            'client_nom' => $client_nom,
-            'client_url' => $client_url
-        ));
-        
-        if ($description) {
-            // Sauvegarder
-            update_post_meta($post_id, '_almetal_seo_description', $description);
-            wp_send_json_success(array('description' => $description));
-        } else {
-            wp_send_json_error('Erreur lors de la génération');
+        try {
+            // Récupérer toutes les informations
+            $title = $post->post_title;
+            $types = get_the_terms($post_id, 'type_realisation');
+            $type_names = ($types && !is_wp_error($types)) ? wp_list_pluck($types, 'name') : array('métallerie');
+            $type_primary = !empty($type_names) ? $type_names[0] : 'métallerie';
+            $type_list = implode(' et ', $type_names);
+            
+            $lieu = get_post_meta($post_id, '_almetal_lieu', true) ?: 'Clermont-Ferrand';
+            $date = get_post_meta($post_id, '_almetal_date_realisation', true);
+            $duree = get_post_meta($post_id, '_almetal_duree', true);
+            $matiere = get_post_meta($post_id, '_almetal_matiere', true);
+            $peinture = get_post_meta($post_id, '_almetal_peinture', true);
+            $pose = get_post_meta($post_id, '_almetal_pose', true);
+            $client_type = get_post_meta($post_id, '_almetal_client_type', true);
+            $client_nom = get_post_meta($post_id, '_almetal_client_nom', true);
+            $client_url = get_post_meta($post_id, '_almetal_client_url', true);
+            
+            // Labels matières
+            $matiere_labels = array(
+                'acier' => 'acier',
+                'inox' => 'inox',
+                'aluminium' => 'aluminium',
+                'cuivre' => 'cuivre',
+                'laiton' => 'laiton',
+                'fer-forge' => 'fer forgé',
+                'mixte' => 'matériaux mixtes'
+            );
+            $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : '';
+            
+            // Déterminer le département depuis le lieu
+            $departement = $this->get_departement_from_lieu($lieu);
+            
+            // Préparer les données
+            $data = array(
+                'title' => $title,
+                'types' => $types,
+                'type_primary' => $type_primary,
+                'type_list' => $type_list,
+                'lieu' => $lieu,
+                'departement' => $departement,
+                'date' => $date,
+                'duree' => $duree,
+                'matiere' => $matiere_label,
+                'peinture' => $peinture,
+                'pose' => $pose,
+                'client_type' => $client_type,
+                'client_nom' => $client_nom,
+                'client_url' => $client_url
+            );
+            
+            error_log('ALMETAL: Data prepared: ' . print_r($data, true));
+            
+            // Vérifier si le générateur SEO existe
+            if (!class_exists('ALMetal_SEO_Text_Generator')) {
+                error_log('ALMETAL: ALMetal_SEO_Text_Generator class not found');
+                wp_send_json_error('Classe de génération SEO non trouvée');
+                return;
+            }
+            
+            // Essayer de générer via IA ou template
+            $seo_generator = new ALMetal_SEO_Text_Generator();
+            $description = $seo_generator->generate_seo_description($data);
+            
+            if ($description && !empty($description)) {
+                // Sauvegarder
+                update_post_meta($post_id, '_almetal_seo_description', $description);
+                error_log('ALMETAL: Description generated successfully');
+                wp_send_json_success(array('description' => $description));
+            } else {
+                error_log('ALMETAL: Description generation returned empty');
+                wp_send_json_error('La génération a retourné un résultat vide. Vérifiez les informations du projet.');
+            }
+        } catch (Exception $e) {
+            error_log('ALMETAL: Exception: ' . $e->getMessage());
+            wp_send_json_error('Erreur: ' . $e->getMessage());
         }
     }
     
