@@ -319,11 +319,16 @@
         $('#generate-seo-description').on('click', function(e) {
             e.preventDefault();
             
+            console.log('🤖 Bouton Générer description SEO cliqué');
+            
             var $button = $(this);
             var $spinner = $('#seo-desc-spinner');
             var $status = $('#seo-description-status');
             var $textarea = $('#almetal_seo_description');
             var postId = $('#post_ID').val();
+            
+            console.log('📝 Post ID:', postId);
+            console.log('🔑 Nonce disponible:', almetalSocial.nonce_generate_desc ? 'Oui' : 'Non');
             
             // Confirmation si le champ n'est pas vide
             if ($textarea.val().trim() !== '') {
@@ -348,6 +353,7 @@
                     post_id: postId
                 },
                 success: function(response) {
+                    console.log('📨 Réponse AJAX reçue:', response);
                     if (response.success) {
                         // Remplir le textarea avec la description générée
                         $textarea.val(response.data.description);
@@ -366,11 +372,13 @@
                             scrollTop: $textarea.offset().top - 100
                         }, 500);
                     } else {
+                        console.error('❌ Erreur serveur:', response.data);
                         $status.html('<div class="seo-error">❌ Erreur : ' + response.data + '</div>');
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('Erreur AJAX:', {xhr: xhr, status: status, error: error});
+                    console.error('❌ Erreur AJAX:', {xhr: xhr, status: status, error: error});
+                    console.error('❌ Réponse brute:', xhr.responseText);
                     $status.html('<div class="seo-error">❌ Erreur de connexion ou timeout. Veuillez réessayer.</div>');
                 },
                 complete: function() {
