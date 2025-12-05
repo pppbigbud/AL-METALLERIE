@@ -738,6 +738,43 @@
     line-height: 1.6;
 }
 
+/* Style carte désactivée (bientôt disponible) */
+.megamenu-formation-card--disabled {
+    cursor: not-allowed;
+    position: relative;
+    opacity: 0.6;
+}
+
+.megamenu-formation-card--disabled:hover {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    transform: none;
+}
+
+.megamenu-formation-card--disabled .megamenu-formation-card__icon svg {
+    color: rgba(160, 161, 165, 0.6);
+}
+
+.megamenu-formation-card--disabled:hover .megamenu-formation-card__icon svg {
+    transform: none;
+}
+
+.megamenu-formation-card__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #e67e0f 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(240, 139, 24, 0.4);
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */

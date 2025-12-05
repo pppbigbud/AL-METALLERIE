@@ -570,7 +570,7 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
     }
     
     /**
-     * Template de description SEO (fallback)
+     * Template de description SEO (fallback) - AVEC VARIATIONS ALÉATOIRES
      */
     private function generate_seo_description_template($data) {
         $title = $data['title'] ?? 'Réalisation métallerie';
@@ -587,70 +587,226 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         $client_nom = $data['client_nom'] ?? '';
         $client_url = $data['client_url'] ?? '';
         
-        // Construire la description structurée
+        // ========================================
+        // VARIATIONS POUR CHAQUE SECTION
+        // ========================================
+        
+        // Titres H2 variés
+        $titres_h2 = array(
+            "Présentation du projet de {$type_primary} à {$lieu}",
+            "Découvrez notre réalisation de {$type_primary} à {$lieu}",
+            "{$type_primary} sur-mesure à {$lieu} : notre dernière création",
+            "Projet de {$type_primary} réalisé à {$lieu}",
+            "Notre expertise en {$type_primary} à {$lieu}",
+            "Réalisation {$type_primary} à {$lieu} par AL Métallerie",
+        );
+        
+        // Introductions variées
+        $intros = array();
+        if ($matiere) {
+            $intros[] = "Découvrez cette magnifique réalisation de {$type_list} en <strong>{$matiere}</strong>, conçue et fabriquée sur-mesure à {$lieu} par les artisans d'AL Métallerie.";
+            $intros[] = "AL Métallerie a le plaisir de vous présenter ce projet de {$type_list} en <strong>{$matiere}</strong>, réalisé avec passion à {$lieu}.";
+            $intros[] = "Ce projet de {$type_list} en <strong>{$matiere}</strong> illustre parfaitement le savoir-faire artisanal d'AL Métallerie, spécialiste de la métallerie à {$lieu}.";
+            $intros[] = "Voici notre dernière création : un{$this->get_article($type_primary)} {$type_list} en <strong>{$matiere}</strong>, fabriqué{$this->get_accord($type_primary)} sur-mesure pour un client de {$lieu}.";
+            $intros[] = "Nous sommes fiers de vous dévoiler cette réalisation de {$type_list} en <strong>{$matiere}</strong>. Un projet unique réalisé à {$lieu} avec le plus grand soin.";
+        } else {
+            $intros[] = "Découvrez cette réalisation de {$type_list} conçue et fabriquée sur-mesure à {$lieu} par les artisans d'AL Métallerie.";
+            $intros[] = "AL Métallerie vous présente son dernier projet de {$type_list}, réalisé avec passion et expertise à {$lieu}.";
+            $intros[] = "Ce projet de {$type_list} témoigne du savoir-faire artisanal d'AL Métallerie, votre spécialiste métallerie à {$lieu} et dans le {$departement}.";
+            $intros[] = "Voici notre dernière création : un{$this->get_article($type_primary)} {$type_list} fabriqué{$this->get_accord($type_primary)} sur-mesure pour un client de {$lieu}.";
+            $intros[] = "Nous avons le plaisir de vous présenter cette nouvelle réalisation de {$type_list}. Un projet unique créé à {$lieu} avec le plus grand soin.";
+        }
+        
+        // Titres H3 expertise variés
+        $titres_expertise = array(
+            "Notre savoir-faire en {$type_primary}",
+            "L'expertise AL Métallerie",
+            "Un travail artisanal de qualité",
+            "La qualité au service de votre projet",
+            "Pourquoi choisir AL Métallerie ?",
+            "Notre engagement qualité",
+        );
+        
+        // Paragraphes expertise variés
+        $expertises = array(
+            "Depuis notre atelier situé dans le {$departement}, nous concevons et fabriquons des ouvrages de {$type_primary} sur-mesure. Chaque projet est unique et bénéficie de toute notre attention pour un résultat à la hauteur de vos attentes.",
+            "AL Métallerie met son expertise au service de vos projets de {$type_primary} dans le {$departement} et ses environs. Notre équipe d'artisans qualifiés travaille avec précision pour créer des ouvrages durables et esthétiques.",
+            "Spécialisés dans la {$type_primary} sur-mesure, nous accompagnons nos clients de la conception à la réalisation. Notre atelier dans le {$departement} nous permet de maîtriser chaque étape de fabrication.",
+            "Chez AL Métallerie, nous croyons que chaque projet mérite une attention particulière. C'est pourquoi nous travaillons en étroite collaboration avec nos clients pour créer des ouvrages de {$type_primary} parfaitement adaptés à leurs besoins.",
+            "Fort de notre expérience en métallerie, nous réalisons des projets de {$type_primary} alliant robustesse, esthétique et durabilité. Notre implantation dans le {$departement} nous permet d'intervenir rapidement sur toute la région.",
+        );
+        
+        // Titres H3 caractéristiques variés
+        $titres_carac = array(
+            "Caractéristiques techniques",
+            "Les détails de ce projet",
+            "Fiche technique",
+            "Matériaux et finitions",
+            "Spécifications du projet",
+        );
+        
+        // Phrases matière variées
+        $phrases_matiere = array(
+            "Ce projet a été réalisé en <strong>{$matiere}</strong>, un matériau sélectionné pour ses qualités de durabilité et son rendu esthétique",
+            "Nous avons choisi le <strong>{$matiere}</strong> pour ce projet, un matériau noble qui garantit robustesse et longévité",
+            "La fabrication en <strong>{$matiere}</strong> assure à cet ouvrage une excellente résistance et un aspect visuel remarquable",
+            "Le <strong>{$matiere}</strong> a été privilégié pour cette réalisation, offrant le parfait équilibre entre solidité et élégance",
+            "Cet ouvrage en <strong>{$matiere}</strong> allie les qualités mécaniques du matériau à une finition soignée",
+        );
+        
+        // Phrases peinture variées
+        $phrases_peinture = array(
+            "La finition <strong>{$peinture}</strong> apporte une touche finale soignée et une protection optimale contre les intempéries",
+            "Le traitement de surface <strong>{$peinture}</strong> garantit une protection durable tout en sublimant l'aspect de l'ouvrage",
+            "La finition <strong>{$peinture}</strong> a été appliquée pour assurer une protection longue durée et un rendu esthétique impeccable",
+            "Nous avons opté pour une finition <strong>{$peinture}</strong>, offrant à la fois protection et esthétique",
+            "Le revêtement <strong>{$peinture}</strong> protège l'ouvrage tout en lui conférant son aspect définitif",
+        );
+        
+        // Phrases pose variées
+        $phrases_pose = array(
+            "La <strong>pose a été réalisée par nos équipes</strong>, garantissant une installation professionnelle conforme aux normes en vigueur",
+            "Nos artisans ont assuré la <strong>pose complète</strong> de l'ouvrage, pour un résultat parfait et sécurisé",
+            "L'<strong>installation a été effectuée par AL Métallerie</strong>, assurant ainsi une mise en œuvre dans les règles de l'art",
+            "La <strong>pose professionnelle</strong> par notre équipe garantit une fixation solide et durable",
+            "Nous avons pris en charge l'<strong>installation sur site</strong>, pour un service complet de A à Z",
+        );
+        
+        // Titres H3 à propos variés
+        $titres_apropos = array(
+            "À propos de ce projet",
+            "En résumé",
+            "Ce projet en quelques mots",
+            "Informations sur cette réalisation",
+            "Détails du projet",
+        );
+        
+        // Phrases conclusion variées
+        $conclusions = array(
+            "Ce projet de {$type_primary} a été réalisé à {$lieu} par AL Métallerie, artisan métallier dans le {$departement}.",
+            "Cette réalisation de {$type_primary} à {$lieu} illustre notre engagement pour la qualité et le sur-mesure.",
+            "AL Métallerie, votre artisan métallier dans le {$departement}, a eu le plaisir de réaliser ce projet de {$type_primary} à {$lieu}.",
+            "Basés dans le {$departement}, nous avons conçu et fabriqué ce projet de {$type_primary} pour un client de {$lieu}.",
+            "Ce projet de {$type_primary} réalisé à {$lieu} témoigne de notre savoir-faire en métallerie sur-mesure.",
+        );
+        
+        // Phrases durée variées
+        $phrases_duree = array(
+            "La réalisation s'est étalée sur <strong>{$duree}</strong>, un délai optimisé grâce à notre organisation efficace.",
+            "Ce projet a nécessité <strong>{$duree}</strong> de travail, de la conception à l'installation finale.",
+            "Durée de réalisation : <strong>{$duree}</strong>, témoignant de notre réactivité et de notre professionnalisme.",
+            "En <strong>{$duree}</strong>, nous avons mené ce projet à bien, dans le respect des délais convenus.",
+        );
+        
+        // Appels à l'action variés
+        $ctas = array(
+            "<strong>Vous avez un projet similaire ?</strong> Contactez AL Métallerie pour un devis gratuit et personnalisé. Notre équipe est à votre écoute pour concrétiser vos idées en {$type_primary} sur-mesure.",
+            "<strong>Envie d'un projet sur-mesure ?</strong> N'hésitez pas à nous contacter pour discuter de votre projet de {$type_primary}. Devis gratuit et conseils personnalisés.",
+            "<strong>Ce projet vous inspire ?</strong> AL Métallerie réalise votre {$type_primary} sur-mesure dans le {$departement} et ses environs. Demandez votre devis gratuit !",
+            "<strong>Besoin d'un artisan métallier ?</strong> Contactez-nous pour votre projet de {$type_primary}. Nous vous accompagnons de la conception à la pose.",
+            "<strong>Prêt à concrétiser votre projet ?</strong> AL Métallerie est à votre disposition pour étudier votre projet de {$type_primary}. Devis gratuit sous 48h.",
+        );
+        
+        // ========================================
+        // CONSTRUCTION DU HTML AVEC VARIATIONS
+        // ========================================
+        
         $html = '';
         
-        // H2 - Titre principal
-        $html .= "<h2>Présentation du projet de {$type_primary} à {$lieu}</h2>\n\n";
+        // H2 - Titre principal (aléatoire)
+        $html .= "<h2>" . $titres_h2[array_rand($titres_h2)] . "</h2>\n\n";
         
-        // Introduction
-        $intro = "<p>{$type_list} sur-mesure à {$lieu} par AL Métallerie. ";
-        if ($matiere) {
-            $intro .= "Ce projet en <strong>{$matiere}</strong> ";
-        } else {
-            $intro .= "Ce projet ";
-        }
-        $intro .= "illustre notre expertise et notre engagement envers la qualité.</p>\n\n";
-        $html .= $intro;
+        // Introduction (aléatoire)
+        $html .= "<p>" . $intros[array_rand($intros)] . "</p>\n\n";
         
         // Section expertise
-        $html .= "<h3>Notre expertise en {$type_primary}</h3>\n";
-        $html .= "<p>AL Métallerie met son savoir-faire au service de vos projets de {$type_primary} dans le {$departement} et ses environs. ";
-        $html .= "Chaque réalisation est conçue sur-mesure pour répondre parfaitement à vos besoins et s'intégrer harmonieusement à votre environnement.</p>\n\n";
+        $html .= "<h3>" . $titres_expertise[array_rand($titres_expertise)] . "</h3>\n";
+        $html .= "<p>" . $expertises[array_rand($expertises)] . "</p>\n\n";
         
         // Section caractéristiques techniques (si données disponibles)
         if ($matiere || $peinture || $pose) {
-            $html .= "<h3>Caractéristiques techniques</h3>\n";
+            $html .= "<h3>" . $titres_carac[array_rand($titres_carac)] . "</h3>\n";
             $html .= "<p>";
             $specs = array();
             if ($matiere) {
-                $specs[] = "Ce projet a été réalisé en <strong>{$matiere}</strong>, un matériau choisi pour sa durabilité et son esthétique";
+                $specs[] = $phrases_matiere[array_rand($phrases_matiere)];
             }
             if ($peinture) {
-                $specs[] = "La finition <strong>{$peinture}</strong> apporte une touche finale soignée et une protection optimale";
+                $specs[] = $phrases_peinture[array_rand($phrases_peinture)];
             }
             if ($pose) {
-                $specs[] = "La <strong>pose a été réalisée par nos équipes</strong>, garantissant une installation professionnelle et conforme aux normes";
+                $specs[] = $phrases_pose[array_rand($phrases_pose)];
             }
             $html .= implode('. ', $specs) . ".</p>\n\n";
         }
         
         // Section client professionnel (si applicable)
         if ($client_type === 'professionnel' && $client_nom) {
-            $html .= "<h3>Un projet pour {$client_nom}</h3>\n";
-            $html .= "<p>Ce projet a été réalisé pour <strong>{$client_nom}</strong>";
+            $titres_client = array(
+                "Un projet pour {$client_nom}",
+                "Collaboration avec {$client_nom}",
+                "Réalisation pour {$client_nom}",
+            );
+            $html .= "<h3>" . $titres_client[array_rand($titres_client)] . "</h3>\n";
+            
+            $phrases_client = array(
+                "Ce projet a été réalisé pour <strong>{$client_nom}</strong>",
+                "Nous avons eu le plaisir de collaborer avec <strong>{$client_nom}</strong> pour ce projet",
+                "<strong>{$client_nom}</strong> nous a fait confiance pour cette réalisation",
+            );
+            $html .= "<p>" . $phrases_client[array_rand($phrases_client)];
             if ($client_url) {
-                $html .= " (<a href=\"{$client_url}\" target=\"_blank\" rel=\"noopener\">{$client_url}</a>)";
+                $html .= " (<a href=\"{$client_url}\" target=\"_blank\" rel=\"noopener\">voir leur site</a>)";
             }
             $html .= ". Nous sommes fiers de cette collaboration qui témoigne de la confiance que nous accordent les professionnels de la région.</p>\n\n";
         }
         
         // Section à propos du projet
-        $html .= "<h3>À propos de ce projet</h3>\n";
-        $html .= "<p>Ce projet de {$type_primary} a été réalisé à {$lieu} par AL Métallerie, spécialiste de la métallerie dans le {$departement}. ";
+        $html .= "<h3>" . $titres_apropos[array_rand($titres_apropos)] . "</h3>\n";
+        $html .= "<p>" . $conclusions[array_rand($conclusions)] . " ";
         if ($duree) {
-            $html .= "La durée de réalisation de ce projet a été de <strong>{$duree}</strong>, témoignant de notre efficacité et de notre professionnalisme. ";
+            $html .= $phrases_duree[array_rand($phrases_duree)] . " ";
         }
         if ($date) {
-            $html .= "Projet finalisé en {$date}. ";
+            $phrases_date = array(
+                "Projet finalisé en {$date}.",
+                "Réalisation achevée en {$date}.",
+                "Livraison effectuée en {$date}.",
+            );
+            $html .= $phrases_date[array_rand($phrases_date)] . " ";
         }
         $html .= "</p>\n\n";
         
-        // Appel à l'action
-        $html .= "<p><strong>Vous avez un projet similaire ?</strong> Contactez AL Métallerie pour un devis gratuit et personnalisé. ";
-        $html .= "Notre équipe est à votre écoute pour concrétiser vos idées en {$type_primary} sur-mesure.</p>";
+        // Appel à l'action (aléatoire)
+        $html .= "<p>" . $ctas[array_rand($ctas)] . "</p>";
         
         return $html;
+    }
+    
+    /**
+     * Retourne l'article approprié (e/empty) selon le type
+     */
+    private function get_article($type) {
+        $feminins = array('rampe', 'rambarde', 'grille', 'porte', 'pergola', 'marquise', 'verrière', 'clôture', 'barrière');
+        foreach ($feminins as $fem) {
+            if (stripos($type, $fem) !== false) {
+                return 'e';
+            }
+        }
+        return '';
+    }
+    
+    /**
+     * Retourne l'accord approprié (e/empty) selon le type
+     */
+    private function get_accord($type) {
+        $feminins = array('rampe', 'rambarde', 'grille', 'porte', 'pergola', 'marquise', 'verrière', 'clôture', 'barrière');
+        foreach ($feminins as $fem) {
+            if (stripos($type, $fem) !== false) {
+                return 'e';
+            }
+        }
+        return '';
     }
     
     /**

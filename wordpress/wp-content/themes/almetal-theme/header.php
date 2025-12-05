@@ -260,7 +260,8 @@
                                             <div class="megamenu-formation-card__title"><?php esc_html_e('Formations Particuliers', 'almetal'); ?></div>
                                             <div class="megamenu-formation-card__text"><?php esc_html_e('Apprenez les bases de la métallerie pour vos projets personnels', 'almetal'); ?></div>
                                         </a>
-                                        <a href="<?php echo esc_url(home_url('/formations-professionnels/')); ?>" class="megamenu-formation-card">
+                                        <div class="megamenu-formation-card megamenu-formation-card--disabled">
+                                            <div class="megamenu-formation-card__badge"><?php esc_html_e('Bientôt', 'almetal'); ?></div>
                                             <div class="megamenu-formation-card__icon">
                                                 <!-- Icône Mallette (Professionnels) -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -271,8 +272,8 @@
                                                 </svg>
                                             </div>
                                             <div class="megamenu-formation-card__title"><?php esc_html_e('Formations Professionnels', 'almetal'); ?></div>
-                                            <div class="megamenu-formation-card__text"><?php esc_html_e('Perfectionnez vos compétences en métallerie professionnelle', 'almetal'); ?></div>
-                                        </a>
+                                            <div class="megamenu-formation-card__text"><?php esc_html_e('Disponible courant 2026', 'almetal'); ?></div>
+                                        </div>
                                     </div>
                                 </div>
                             </li>

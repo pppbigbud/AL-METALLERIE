@@ -38,7 +38,7 @@ get_header();
         <!-- Carte Particuliers -->
         <a href="<?php echo esc_url(home_url('/formations-particuliers')); ?>" class="formation-card card card-primary hover-lift">
             <div class="formation-card-icon mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
@@ -74,34 +74,24 @@ get_header();
                     Tous niveaux acceptés
                 </div>
             </div>
-            <div class="btn-cta btn-cta--full">
-                <span class="circle">
-                    <span class="icon arrow">
-                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </span>
-                <span class="button-text">Découvrir</span>
-            </div>
         </a>
 
-        <!-- Carte Professionnels -->
-        <a href="<?php echo esc_url(home_url('/formations-professionnels')); ?>" class="formation-card card card-primary hover-lift">
-            <div class="formation-card-icon mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary);">
+        <!-- Carte Professionnels - Bientôt disponible -->
+        <div class="formation-card formation-card--coming-soon card card-primary">
+            <div class="formation-card-icon mb-2" style="opacity: 0.5;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
                     <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                 </svg>
             </div>
-            <h2 class="formation-card-title" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem;">
+            <h2 class="formation-card-title" style="font-size: 2rem; color: rgba(240, 139, 24, 0.5); margin-bottom: 1rem;">
                 Formations Professionnels
             </h2>
-            <p class="formation-card-description" style="font-size: 1.1rem; color: var(--color-text-light); line-height: 1.6; margin-bottom: 1.5rem;">
-                Formations certifiantes et qualifiantes pour les professionnels du bâtiment, artisans en reconversion 
-                ou demandeurs d'emploi. Financement CPF et Pôle Emploi possible.
+            <p class="formation-card-description" style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.5); line-height: 1.6; margin-bottom: 1.5rem;">
+                Nos formations certifiantes et qualifiantes pour les professionnels du bâtiment arrivent prochainement. 
+                Inscrivez-vous à notre newsletter pour être informé du lancement.
             </p>
-            <div class="formation-card-features mb-3">
+            <div class="formation-card-features mb-3" style="opacity: 0.5;">
                 <div class="badge badge--small mb-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
@@ -124,17 +114,14 @@ get_header();
                     Financement CPF/Pôle Emploi
                 </div>
             </div>
-            <div class="btn-cta btn-cta--full">
-                <span class="circle">
-                    <span class="icon arrow">
-                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </span>
-                </span>
-                <span class="button-text">Découvrir</span>
+            <div class="coming-soon-notice">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Lancement prévu courant 2026</span>
             </div>
-        </a>
+        </div>
             </div>
 
             <!-- Section avantages -->
@@ -184,6 +171,29 @@ get_header();
                         </div>
                         <h3><?php _e('Suivi personnalisé', 'almetal'); ?></h3>
                         <p><?php _e('Groupes restreints pour un accompagnement individualisé et adapté à votre niveau et vos objectifs.', 'almetal'); ?></p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-item-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <h3><?php _e('Repartez avec votre création', 'almetal'); ?></h3>
+                        <p><?php _e('À la fin de chaque stage, repartez avec l\'objet que vous avez fabriqué : un souvenir unique de votre apprentissage.', 'almetal'); ?></p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-item-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                        </div>
+                        <h3><?php _e('Horaires flexibles', 'almetal'); ?></h3>
+                        <p><?php _e('Des créneaux adaptés à vos disponibilités : stages en semaine, week-end ou pendant les vacances scolaires.', 'almetal'); ?></p>
                     </div>
                 </div>
             </div>
