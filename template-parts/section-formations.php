@@ -1,24 +1,61 @@
 <?php
 /**
- * Section Formations - Page d'accueil (Version dynamique)
- * Affiche les cards formations depuis le backoffice
+ * Section Formations - Page d'accueil (Version dynamique avec fallback statique)
+ * Affiche les cards formations depuis le backoffice ou contenu statique par défaut
  * 
  * @package ALMetallerie
  * @since 2.0.0
  */
 
-// Récupérer les données depuis l'admin
-$cards = Almetal_Formations_Cards_Admin::get_cards();
-$section = Almetal_Formations_Cards_Admin::get_section_settings();
+// Récupérer les données depuis l'admin (si la classe existe)
+$cards = array();
+$section = array();
+$active_cards = array();
 
-// Filtrer les cards actives
-$active_cards = array_filter($cards, function($card) {
-    return isset($card['active']) && $card['active'];
-});
+if (class_exists('Almetal_Formations_Cards_Admin')) {
+    $cards = Almetal_Formations_Cards_Admin::get_cards();
+    $section = Almetal_Formations_Cards_Admin::get_section_settings();
+    
+    // Filtrer les cards actives
+    $active_cards = array_filter($cards, function($card) {
+        return isset($card['active']) && $card['active'];
+    });
+}
 
-// Si aucune card active, ne pas afficher la section
-if (empty($active_cards)) {
-    return;
+// Si aucune card active, utiliser le contenu statique par défaut
+$use_static = empty($active_cards);
+
+if ($use_static) {
+    // Contenu statique par défaut
+    $section = array(
+        'tag' => 'Nos Formations',
+        'title' => 'DÉVELOPPEZ VOS COMPÉTENCES',
+        'subtitle' => 'Formations professionnelles en métallerie adaptées à vos besoins',
+        'background_image' => '',
+    );
+    
+    $active_cards = array(
+        array(
+            'title' => 'PROFESSIONNELS',
+            'description' => 'Formations spécialisées pour les professionnels du métal : techniques avancées, perfectionnement et certification.',
+            'icon' => 'users',
+            'features' => "Certification professionnelle\nFormateurs experts\nÉquipement professionnel",
+            'cta_text' => 'En savoir plus',
+            'cta_url' => '/formations-professionnels',
+            'coming_soon' => false,
+            'active' => true,
+        ),
+        array(
+            'title' => 'PARTICULIERS',
+            'description' => 'Initiations et ateliers pour les passionnés de métallerie : découverte des techniques et création de projets personnels.',
+            'icon' => 'home',
+            'features' => "Ateliers découverte\nPetits groupes\nProjets personnels",
+            'cta_text' => 'En savoir plus',
+            'cta_url' => '/formations-particuliers',
+            'coming_soon' => false,
+            'active' => true,
+        ),
+    );
 }
 
 // Préparer les styles inline pour l'image de fond
