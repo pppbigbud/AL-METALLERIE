@@ -1,0 +1,304 @@
+/**
+ * Styles pour la page En Construction
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* ============================================
+   CONTENEUR PRINCIPAL
+   ============================================ */
+
+.under-construction-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Pas de texture en fond - Fond transparent simple */
+.under-construction-page::before {
+    display: none;
+}
+
+.under-construction-container {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* ============================================
+   ICÔNE EN CONSTRUCTION
+   ============================================ */
+
+.under-construction-icon {
+    width: clamp(120px, 20vw, 200px);
+    height: clamp(120px, 20vw, 200px);
+    margin: 0 auto var(--spacing-2xl);
+    color: var(--color-primary);
+    filter: drop-shadow(0 0 30px rgba(240, 139, 24, 0.4));
+    animation: scaleIn 0.6s ease-out 0.2s backwards;
+}
+
+.under-construction-icon svg {
+    width: 100%;
+    height: 100%;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Animation de flottement */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ============================================
+   TEXTES
+   ============================================ */
+
+.under-construction-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--color-text-light);
+    margin: 0 0 var(--spacing-lg) 0;
+    line-height: 1.3;
+    animation: fadeInUp 0.8s ease-out 0.4s backwards;
+}
+
+.under-construction-description {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-2xl) 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 0.8s ease-out 0.6s backwards;
+}
+
+/* ============================================
+   BOUTON RETOUR
+   ============================================ */
+
+.under-construction-actions {
+    animation: fadeInUp 0.8s ease-out 0.8s backwards;
+}
+
+.under-construction-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 40px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 15px rgba(240, 139, 24, 0.3),
+        0 0 0 0 rgba(240, 139, 24, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.under-construction-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.under-construction-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.under-construction-btn:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 25px rgba(240, 139, 24, 0.4),
+        0 0 0 8px rgba(240, 139, 24, 0.1);
+}
+
+.under-construction-btn:active {
+    transform: translateY(-1px);
+}
+
+.btn-icon {
+    position: relative;
+    z-index: 1;
+}
+
+.under-construction-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============================================
+   RESPONSIVE - TABLET
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .under-construction-page {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .under-construction-icon {
+        width: 150px;
+        height: 150px;
+    }
+
+    .under-construction-title {
+        font-size: 2rem;
+    }
+
+    .under-construction-description {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .under-construction-page {
+        padding: var(--spacing-lg) var(--spacing-md);
+        min-height: calc(100vh - 80px);
+    }
+
+    .under-construction-icon {
+        width: 120px;
+        height: 120px;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .under-construction-title {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .under-construction-description {
+        font-size: 0.95rem;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .under-construction-btn {
+        padding: 14px 32px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - TRÈS PETIT MOBILE
+   ============================================ */
+
+@media (max-width: 480px) {
+    .under-construction-icon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .under-construction-title {
+        font-size: 1.3rem;
+    }
+
+    .under-construction-description {
+        font-size: 0.9rem;
+    }
+
+    .under-construction-btn {
+        padding: 12px 28px;
+        font-size: 0.95rem;
+    }
+}
+
+/* ============================================
+   DARK MODE (si activé)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .under-construction-page {
+        background: var(--color-background-dark);
+    }
+}
+
+/* ============================================
+   ACCESSIBILITÉ
+   ============================================ */
+
+/* Focus visible pour navigation clavier */
+.under-construction-btn:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+/* Réduire les animations si préférence utilisateur */
+@media (prefers-reduced-motion: reduce) {
+    .under-construction-container,
+    .under-construction-icon,
+    .under-construction-title,
+    .under-construction-description,
+    .under-construction-actions {
+        animation: none;
+    }
+
+    .under-construction-icon svg {
+        animation: none;
+    }
+
+    .under-construction-btn::before {
+        transition: none;
+    }
+}

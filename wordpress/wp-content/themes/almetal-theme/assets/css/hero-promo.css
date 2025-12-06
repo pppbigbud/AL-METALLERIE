@@ -1,0 +1,630 @@
+/**
+ * Styles pour les slides promotionnelles/commerciales du Hero
+ * 
+ * @package ALMetallerie
+ * @since 2.0.0
+ */
+
+/* ============================================
+   BADGE PROMO - DESKTOP
+   ============================================ */
+
+.promo-badge-hero {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(255, 107, 0, 0.4);
+    z-index: 10;
+    animation: badgePulse 2s ease-in-out infinite;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ============================================
+   COMPTE À REBOURS
+   ============================================ */
+
+.promo-countdown {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    z-index: 10;
+    text-align: center;
+}
+
+.countdown-label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.countdown-timer {
+    display: flex;
+    gap: 10px;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+    background: rgba(255, 107, 0, 0.3);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.countdown-item span {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff9800;
+}
+
+.countdown-item small {
+    font-size: 10px;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+/* ============================================
+   SLIDES CLASSIQUES - Style cards réalisations
+   ============================================ */
+
+/* S'assurer que les slides classiques gardent leur style original */
+.hero-slide:not(.slide-promo) .hero-content .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-slide:not(.slide-promo) .hero-content .hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+/* Icône devant le titre */
+.hero-title-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+.hero-title-icon svg {
+    stroke: #ff6b00;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* CTA style cards réalisations */
+.hero-slide:not(.slide-promo) .hero-content .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(240, 139, 24, 0.4);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+/* Centrer l'icône formation et le texte */
+.hero-cta .cta-icon-left,
+.hero-cta span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.hero-slide:not(.slide-promo) .hero-content .hero-cta:hover {
+    background: rgba(240, 139, 24, 0.2) !important;
+    border-color: rgba(240, 139, 24, 0.8);
+    box-shadow: 0 5px 20px rgba(240, 139, 24, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Icônes du CTA - Forcer le style outline (pas de remplissage) */
+.hero-content .hero-cta svg {
+    flex-shrink: 0;
+    background: transparent !important;
+    overflow: visible;
+    fill: none !important;
+}
+
+.hero-content .hero-cta svg,
+.hero-content .hero-cta svg *,
+.hero-content .hero-cta svg path,
+.hero-content .hero-cta svg rect,
+.hero-content .hero-cta svg circle,
+.hero-content .hero-cta svg ellipse,
+.hero-content .hero-cta svg line,
+.hero-content .hero-cta svg polyline,
+.hero-content .hero-cta svg polygon {
+    stroke: rgba(240, 139, 24, 0.9) !important;
+    fill: none !important;
+    fill-opacity: 0 !important;
+    background: transparent !important;
+    transition: all 0.3s ease;
+}
+
+.hero-content .hero-cta:hover svg,
+.hero-content .hero-cta:hover svg *,
+.hero-content .hero-cta:hover svg path,
+.hero-content .hero-cta:hover svg rect,
+.hero-content .hero-cta:hover svg circle {
+    stroke: #f08b18 !important;
+}
+
+/* Animation de la souris pour inciter au clic */
+.hero-cta .cta-icon-right {
+    animation: mouseClick 1.5s ease-in-out infinite;
+}
+
+@keyframes mouseClick {
+    0%, 100% { 
+        transform: translateY(0);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(2px);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   FLECHES DE NAVIGATION - Style cards réalisations
+   ============================================ */
+
+.hero-prev,
+.hero-next {
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(240, 139, 24, 0.3) !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+}
+
+.hero-prev:hover,
+.hero-next:hover {
+    background: rgba(0, 0, 0, 0.7) !important;
+    border-color: rgba(240, 139, 24, 0.6) !important;
+    box-shadow: 0 5px 20px rgba(240, 139, 24, 0.3);
+}
+
+.hero-prev .circle,
+.hero-next .circle {
+    background: transparent !important;
+}
+
+.hero-prev .icon.arrow path,
+.hero-next .icon.arrow path {
+    stroke: rgba(240, 139, 24, 0.8);
+    transition: stroke 0.3s ease;
+}
+
+.hero-prev:hover .icon.arrow path,
+.hero-next:hover .icon.arrow path {
+    stroke: #f08b18;
+}
+
+/* ============================================
+   LAYOUT PROMO - 2 COLONNES
+   ============================================ */
+
+/* Container principal du layout promo */
+.promo-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10; /* Au-dessus de l'overlay */
+    pointer-events: none; /* Permet les clics à travers sauf sur les enfants */
+}
+
+/* Colonne gauche : Titre et sous-titre */
+.promo-left {
+    flex: 1;
+    max-width: 50%;
+    padding-right: 40px;
+    pointer-events: auto;
+}
+
+/* Style discret inspiré des cards réalisations */
+.promo-left-card {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(240, 139, 24, 0.4);
+    border-radius: 12px;
+    padding: 25px 30px;
+    max-width: 550px;
+    transition: all 0.3s ease;
+}
+
+.promo-left-card:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: rgba(240, 139, 24, 0.6);
+}
+
+.promo-left .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 12px 0;
+    line-height: 1.1;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.promo-left .hero-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Colonne droite : Card promo */
+.promo-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto; /* Réactive les clics sur la card */
+}
+
+/* Card promo */
+.promo-card {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    min-width: 320px;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 4px #ff6b00;
+    border: none;
+    position: relative;
+    z-index: 20; /* Bien au-dessus de tout */
+}
+
+/* Prix dans la card */
+.promo-card .promo-price-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.promo-card .old-price {
+    font-size: 20px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.promo-card .current-price {
+    font-size: 42px;
+    font-weight: 800;
+    color: #ff6b00;
+}
+
+.promo-card .discount-badge {
+    background: #4caf50;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 15px;
+}
+
+/* Points forts dans la card */
+.promo-card .promo-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.promo-card .promo-features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #333;
+}
+
+.promo-card .promo-features li::before {
+    content: "✓";
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Stock dans la card */
+.promo-card .promo-stock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid #f44336;
+    color: #d32f2f;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    animation: stockPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes stockPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.promo-card .promo-stock svg {
+    stroke: #d32f2f;
+    width: 16px;
+    height: 16px;
+}
+
+/* Bouton CTA dans la card */
+.promo-cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.promo-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 0, 0.4);
+    color: white;
+}
+
+.promo-cta-button svg {
+    stroke: white;
+    width: 20px;
+    height: 20px;
+}
+
+/* ============================================
+   STYLES MOBILE
+   ============================================ */
+
+.promo-badge-mobile {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 6px;
+    z-index: 10;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+.promo-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+    ) !important;
+}
+
+.promo-content {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 12px;
+    margin: 0 15px;
+}
+
+/* Prix Mobile */
+.promo-price-block-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.promo-price-block-mobile .old-price {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: line-through;
+}
+
+.promo-price-block-mobile .current-price {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ff9800;
+}
+
+.promo-price-block-mobile .discount-badge {
+    background: #4caf50;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+/* Stock Mobile */
+.promo-stock-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid #f44336;
+    color: #ff8a80;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+/* CTA Mobile Promo */
+.mobile-hero-cta.promo-cta {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
+    color: white;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .promo-layout {
+        padding: 0 40px;
+    }
+    
+    .promo-left-card {
+        padding: 20px 25px;
+    }
+    
+    .promo-left .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .promo-left .hero-subtitle {
+        font-size: 1.05rem;
+    }
+    
+    .promo-card {
+        min-width: 280px;
+        padding: 25px;
+    }
+    
+    .promo-card .current-price {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 992px) {
+    .promo-layout {
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 30px 30px;
+        gap: 20px;
+    }
+    
+    .promo-left {
+        max-width: 100%;
+        padding-right: 0;
+        text-align: center;
+    }
+    
+    .promo-left-card {
+        padding: 15px 20px;
+        max-width: 100%;
+        text-align: center;
+    }
+    
+    .promo-left .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .promo-left .hero-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .promo-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .promo-card {
+        max-width: 350px;
+    }
+    
+    .promo-badge-hero {
+        font-size: 14px;
+        padding: 10px 18px;
+    }
+    
+    .promo-countdown {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .promo-badge-hero {
+        font-size: 12px;
+        padding: 8px 14px;
+        top: 10px;
+        left: 10px;
+    }
+    
+    .countdown-item {
+        min-width: 40px;
+        padding: 6px;
+    }
+    
+    .countdown-item span {
+        font-size: 18px;
+    }
+}

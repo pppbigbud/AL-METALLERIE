@@ -1,0 +1,603 @@
+/**
+ * Composants réutilisables - AL Metallerie
+ * Centralisation des styles communs pour alléger le thème
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* ============================================
+   BOUTONS CTA UNIVERSELS
+   ============================================ */
+
+/**
+ * Bouton avec cercle qui s'étend au hover
+ * Utilisé pour : Voir projet, Demander devis, CTA footer, etc.
+ * Classes : .btn-cta (base) + variantes
+ */
+.btn-cta,
+.btn-view-project,
+.footer-cta-btn,
+.megamenu-card__btn {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    width: 12rem;
+    height: auto;
+}
+
+.btn-cta .circle,
+.btn-view-project .circle,
+.footer-cta-btn .circle,
+.megamenu-card__btn .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: var(--color-primary);
+    border-radius: 1.625rem;
+}
+
+.btn-cta .circle .icon.arrow,
+.btn-view-project .circle .icon.arrow,
+.footer-cta-btn .circle .icon.arrow,
+.megamenu-card__btn .circle .icon.arrow {
+    transition: none;
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 12px;
+}
+
+.btn-cta .button-text,
+.btn-view-project .button-text,
+.footer-cta-btn .button-text,
+.megamenu-card__btn .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem;
+    color: var(--color-text-light);
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.btn-cta:hover .circle,
+.btn-view-project:hover .circle,
+.footer-cta-btn:hover .circle,
+.megamenu-card__btn:hover .circle {
+    width: 100%;
+}
+
+.btn-cta:hover .circle .icon.arrow,
+.btn-view-project:hover .circle .icon.arrow,
+.footer-cta-btn:hover .circle .icon.arrow,
+.megamenu-card__btn:hover .circle .icon.arrow {
+    transform: translateY(-50%);
+}
+
+.btn-cta:hover .button-text,
+.btn-view-project:hover .button-text,
+.footer-cta-btn:hover .button-text,
+.megamenu-card__btn:hover .button-text {
+    color: white;
+}
+
+/* Variantes de taille */
+.btn-cta--small {
+    width: 10rem;
+}
+
+.btn-cta--large {
+    width: 14rem;
+}
+
+.btn-cta--full {
+    width: 100%;
+}
+
+/* Bouton mobile CTA */
+.footer-cta-mobile-btn {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    width: 100%;
+    height: auto;
+}
+
+.footer-cta-mobile-btn .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: var(--color-primary);
+    border-radius: 1.625rem;
+}
+
+.footer-cta-mobile-btn .circle .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.footer-cta-mobile-btn .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem;
+    color: var(--color-text-light);
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.footer-cta-mobile-btn:hover .circle {
+    width: 100%;
+}
+
+.footer-cta-mobile-btn:hover .button-text {
+    color: white;
+}
+
+/* ============================================
+   CARTES UNIVERSELLES
+   ============================================ */
+
+/**
+ * Card de base avec blur backdrop
+ * Utilisée pour : footer, contact, réalisations
+ */
+.card {
+    background: rgba(34, 34, 34, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(240, 139, 24, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(240, 139, 24, 0.3);
+    border-color: var(--color-primary);
+}
+
+/* Variantes de fond */
+.card--light {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(240, 139, 24, 0.2);
+}
+
+.card--transparent {
+    background: transparent;
+    backdrop-filter: none;
+}
+
+.card--no-hover:hover {
+    transform: none;
+}
+
+/* Items dans les cartes */
+.card-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-item:hover {
+    background: rgba(240, 139, 24, 0.1);
+    border-color: var(--color-primary);
+}
+
+.card-item-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.card-item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.card-item-label {
+    font-size: 0.85rem;
+    color: var(--color-text);
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.card-item-value {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* ============================================
+   ANIMATIONS GLOBALES
+   ============================================ */
+
+/**
+ * Animations réutilisables pour icônes et éléments
+ */
+
+/* Shake - rotation gauche/droite */
+@keyframes shake {
+    0%, 100% { 
+        transform: rotate(0deg); 
+    }
+    25% { 
+        transform: rotate(-10deg); 
+    }
+    75% { 
+        transform: rotate(10deg); 
+    }
+}
+
+/* Bounce - saut vertical */
+@keyframes bounce {
+    0%, 100% { 
+        transform: translateY(0); 
+    }
+    50% { 
+        transform: translateY(-10px); 
+    }
+}
+
+/* Pulse - agrandissement */
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.1); 
+    }
+}
+
+/* Rotate - rotation complète */
+@keyframes rotate {
+    0% { 
+        transform: rotate(0deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+}
+
+/* Rotate par étapes (90°) */
+@keyframes rotate-steps {
+    0% { 
+        transform: rotate(0deg); 
+    }
+    25% { 
+        transform: rotate(90deg); 
+    }
+    50% { 
+        transform: rotate(180deg); 
+    }
+    75% { 
+        transform: rotate(270deg); 
+    }
+    100% { 
+        transform: rotate(360deg); 
+    }
+}
+
+/* Fade in up - apparition du bas */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in - apparition simple */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Pulse glow - pulsation avec luminosité */
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(240, 139, 24, 0.5);
+    }
+    50% {
+        opacity: 0.8;
+        box-shadow: 0 0 30px rgba(240, 139, 24, 0.8);
+    }
+}
+
+/* Gradient shift - changement de dégradé */
+@keyframes gradient-shift {
+    0% {
+        opacity: 0.5;
+    }
+    25% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    75% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================
+   CLASSES UTILITAIRES D'ANIMATION
+   ============================================ */
+
+/* Appliquer les animations aux éléments */
+.animate-shake {
+    animation: shake 0.5s ease;
+}
+
+.animate-bounce {
+    animation: bounce 0.5s ease;
+}
+
+.animate-pulse {
+    animation: pulse 0.5s ease;
+}
+
+.animate-rotate {
+    animation: rotate 0.6s ease;
+}
+
+.animate-rotate-steps {
+    animation: rotate-steps 0.6s ease;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out;
+}
+
+/* Delays pour animations séquentielles */
+.animate-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.3s;
+}
+
+.animate-delay-4 {
+    animation-delay: 0.4s;
+}
+
+/* ============================================
+   BADGES & LABELS
+   ============================================ */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.2), rgba(230, 126, 15, 0.2));
+    border-radius: 50px;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1.5rem;
+}
+
+.badge svg {
+    color: var(--color-primary);
+}
+
+.badge--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+.badge--large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+/* ============================================
+   SÉPARATEURS DÉCORATIFS
+   ============================================ */
+
+.separator {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    margin: var(--spacing-lg) auto;
+    border-radius: 2px;
+}
+
+.separator--full {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.separator--animated {
+    animation: gradient-shift 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ============================================
+   OVERLAYS
+   ============================================ */
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.5) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.overlay--visible {
+    opacity: 1;
+}
+
+/* ============================================
+   ICÔNES AVEC ANIMATIONS
+   ============================================ */
+
+.icon-animated {
+    transition: all 0.3s ease;
+}
+
+.icon-animated--shake:hover {
+    animation: shake 0.5s ease;
+}
+
+.icon-animated--bounce:hover {
+    animation: bounce 0.5s ease;
+}
+
+.icon-animated--pulse:hover {
+    animation: pulse 0.5s ease;
+}
+
+.icon-animated--rotate:hover {
+    animation: rotate 0.6s ease;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .btn-cta,
+    .btn-view-project,
+    .footer-cta-btn {
+        width: 100%;
+    }
+    
+    .card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .card-item-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mb-lg {
+        padding-top: 4rem;
+    }
+}
