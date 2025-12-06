@@ -225,9 +225,44 @@
 /* Conteneur de scroll pour les catégories */
 .megamenu-categories__scroll-container {
     max-height: 340px; /* Hauteur pour ~4 catégories */
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     scroll-behavior: smooth;
+    padding-left: 10px;
+    padding-right: 0;
+    direction: rtl; /* Scrollbar à gauche */
+}
+
+/* Remettre le contenu dans le bon sens */
+.megamenu-categories__scroll-container > * {
+    direction: ltr;
+}
+
+/* Scrollbar stylisée */
+.megamenu-categories__scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.megamenu-categories__scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.megamenu-categories__scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(240, 139, 24, 0.4);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.megamenu-categories__scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(240, 139, 24, 0.7);
+}
+
+/* Firefox */
+.megamenu-categories__scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(240, 139, 24, 0.4) rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 1280px) {

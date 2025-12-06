@@ -481,3 +481,573 @@ textarea.form-control {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
+/* ============================================
+   STATISTIQUES ADMIN
+   ============================================ */
+
+.almetal-admin-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.almetal-admin-stats .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.almetal-admin-stats .stat-item .dashicons {
+    color: #F08B18;
+}
+
+.almetal-admin-stats .stat-item strong {
+    color: #333;
+}
+
+/* ============================================
+   CONVERSION WEBP - LOADER
+   ============================================ */
+
+.image-preview.is-converting {
+    border-color: #F08B18;
+}
+
+.conversion-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #F08B18;
+    font-weight: 600;
+}
+
+.conversion-loader .dashicons {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+.conversion-loader .dashicons.spinning {
+    animation: spin 1s linear infinite;
+}
+
+/* ============================================
+   STATISTIQUES D'OPTIMISATION
+   ============================================ */
+
+.optimization-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #e8f5e9;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #2e7d32;
+}
+
+.optimization-stats .dashicons {
+    color: #2e7d32;
+}
+
+.optimization-stats.error {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.optimization-stats.error .dashicons {
+    color: #c62828;
+}
+
+.optimization-stats .size-original {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.optimization-stats .size-webp {
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.optimization-stats .savings {
+    background: #2e7d32;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ============================================
+   BOUTON AJOUTER SLIDE
+   ============================================ */
+
+#add-new-slide {
+    background: #4caf50 !important;
+    border-color: #4caf50 !important;
+    color: white !important;
+}
+
+#add-new-slide:hover {
+    background: #388e3c !important;
+    border-color: #388e3c !important;
+}
+
+/* ============================================
+   BOUTON SUPPRIMER SLIDE
+   ============================================ */
+
+.slide-actions {
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.delete-slide-button {
+    color: #dc3232 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+.delete-slide-button:hover {
+    color: #a00 !important;
+    background: rgba(220, 50, 50, 0.1) !important;
+}
+
+/* ============================================
+   BADGE NOUVEAU
+   ============================================ */
+
+.new-badge {
+    display: inline-block;
+    background: #4caf50;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+/* ============================================
+   STATISTIQUES SEO
+   ============================================ */
+
+.seo-stats {
+    margin-top: 10px;
+    padding: 15px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-radius: 8px;
+    border-left: 4px solid #1976d2;
+}
+
+.seo-stats-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #1565c0;
+    font-size: 14px;
+}
+
+.seo-stats-header .dashicons {
+    color: #1976d2;
+}
+
+.seo-stats-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.seo-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.seo-label {
+    font-weight: 600;
+    color: #1565c0;
+    min-width: 70px;
+}
+
+.seo-value {
+    color: #333;
+    flex: 1;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.seo-keywords .seo-value {
+    background: #1976d2;
+    color: white;
+    font-size: 11px;
+}
+
+/* ============================================
+   INDICATEUR SEO DANS L'APERÇU
+   ============================================ */
+
+.image-preview.has-image::after {
+    content: "SEO ✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #1976d2;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+/* ============================================
+   MODE COMMERCIAL / PROMOTIONNEL
+   ============================================ */
+
+/* Toggle Mode Promo */
+.slide-mode-toggle {
+    margin-right: 15px;
+}
+
+.mode-switch {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background: #f0f0f0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.mode-switch:hover {
+    background: #e0e0e0;
+}
+
+.mode-switch input {
+    display: none;
+}
+
+.mode-switch input:checked + .dashicons {
+    color: #ff6b00;
+}
+
+.mode-switch input:checked ~ .mode-label {
+    color: #ff6b00;
+    font-weight: 600;
+}
+
+.mode-switch .dashicons {
+    color: #999;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.mode-label {
+    font-size: 12px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+/* Slide en mode promo */
+.slide-editor.slide-promo {
+    border: 2px solid #ff6b00;
+}
+
+.slide-editor.slide-promo .slide-header {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+}
+
+/* Badge type de slide */
+.slide-type-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.slide-type-badge.promo-badge {
+    background: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
+    color: white;
+}
+
+/* Section Promo */
+.promo-section {
+    margin-top: 25px;
+    padding: 20px;
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border-radius: 12px;
+    border: 2px solid #ff9800;
+    transition: all 0.3s ease;
+}
+
+.promo-section.promo-hidden {
+    display: none;
+}
+
+.promo-section.promo-visible {
+    display: block;
+}
+
+.promo-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #ff9800;
+}
+
+.promo-section-header .dashicons {
+    color: #ff6b00;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.promo-section-header h3 {
+    margin: 0;
+    color: #e65100;
+    font-size: 16px;
+}
+
+/* Champs prix */
+.form-group-third {
+    flex: 1;
+}
+
+.price-input {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    text-align: center;
+}
+
+.price-input.old-price {
+    text-decoration: line-through;
+    color: #999 !important;
+}
+
+/* Animation pour la section promo */
+.promo-section {
+    animation: promoSlideIn 0.3s ease-out;
+}
+
+@keyframes promoSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive pour les 3 colonnes */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-group-third {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   SÉLECTEUR D'ICÔNES
+   ============================================ */
+
+.almetal-icon-selector {
+    position: relative;
+    width: 100%;
+}
+
+.icon-selector-preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-selector-preview:hover {
+    border-color: #ff6b00;
+}
+
+.icon-selector-preview .icon-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    color: #ff6b00;
+}
+
+.icon-selector-preview .icon-preview svg {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-selector-preview .icon-preview.no-icon {
+    color: #999;
+    font-size: 18px;
+}
+
+.icon-selector-preview .icon-name {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.icon-selector-preview .icon-selector-toggle {
+    padding: 4px 8px;
+    min-height: auto;
+}
+
+.icon-selector-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    margin-top: 5px;
+    max-height: 350px;
+    overflow: hidden;
+}
+
+.almetal-icon-selector.open .icon-selector-dropdown {
+    display: block;
+}
+
+.icon-selector-search {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.icon-selector-search input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.icon-selector-search input:focus {
+    outline: none;
+    border-color: #ff6b00;
+}
+
+.icon-selector-options {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.icon-group {
+    margin-bottom: 10px;
+}
+
+.icon-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #999;
+    padding: 8px 10px 5px;
+    letter-spacing: 0.5px;
+}
+
+.icon-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.icon-option:hover {
+    background: #fff8e1;
+}
+
+.icon-option.selected {
+    background: #ff6b00;
+    color: #fff;
+}
+
+.icon-option.selected .icon-svg svg {
+    color: #fff;
+    stroke: #fff;
+}
+
+.icon-option .icon-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.icon-option .icon-svg svg {
+    width: 20px;
+    height: 20px;
+    color: #ff6b00;
+    stroke: #ff6b00;
+}
+
+.icon-option .icon-label {
+    font-size: 13px;
+}
+
+.icon-option.hidden {
+    display: none;
+}
+
+/* Scrollbar pour les options */
+.icon-selector-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.icon-selector-options::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+.icon-selector-options::-webkit-scrollbar-thumb {
+    background: #ff6b00;
+    border-radius: 3px;
+}

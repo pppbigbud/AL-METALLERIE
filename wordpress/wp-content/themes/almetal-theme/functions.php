@@ -85,6 +85,14 @@ function almetal_enqueue_scripts() {
         wp_get_theme()->get('Version')
     );
     
+    // Styles pour les slides promotionnelles/commerciales
+    wp_enqueue_style(
+        'almetal-hero-promo',
+        get_template_directory_uri() . '/assets/css/hero-promo.css',
+        array('almetal-style'),
+        wp_get_theme()->get('Version')
+    );
+    
     // ============================================
     // CSS DESKTOP UNIQUEMENT
     // ============================================
@@ -193,11 +201,11 @@ function almetal_enqueue_scripts() {
         );
     }
     
-    // Script principal (DESKTOP UNIQUEMENT)
+    // Script principal (DESKTOP UNIQUEMENT) - Version minifiée pour performance
     if (!almetal_is_mobile()) {
         wp_enqueue_script(
             'almetal-script',
-            get_template_directory_uri() . '/assets/js/main.js',
+            get_template_directory_uri() . '/assets/js/main.min.js',
             array('jquery'),
             wp_get_theme()->get('Version'),
             true
@@ -210,6 +218,17 @@ function almetal_enqueue_scripts() {
             'almetal-actualites-filter',
             get_template_directory_uri() . '/assets/js/actualites-filter.js',
             array('jquery'),
+            wp_get_theme()->get('Version'),
+            true
+        );
+    }
+    
+    // Script compte à rebours pour les promos (front-page uniquement)
+    if (is_front_page()) {
+        wp_enqueue_script(
+            'almetal-promo-countdown',
+            get_template_directory_uri() . '/assets/js/promo-countdown.js',
+            array(),
             wp_get_theme()->get('Version'),
             true
         );
@@ -770,17 +789,39 @@ function almetal_get_section_id($post_id = null) {
 }
 
 /**
- * Enqueue Google Fonts
+ * Enqueue Google Fonts - Optimisé pour performance
+ * Charge uniquement les poids utilisés
  */
 function almetal_enqueue_fonts() {
+    // Version optimisée : seulement les poids réellement utilisés
     wp_enqueue_style(
         'almetal-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap',
+        'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap',
         array(),
         null
     );
 }
 add_action('wp_enqueue_scripts', 'almetal_enqueue_fonts');
+
+/**
+ * Préconnexion aux serveurs de polices pour améliorer le LCP
+ */
+function almetal_preconnect_fonts() {
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+}
+add_action('wp_head', 'almetal_preconnect_fonts', 1);
+
+/**
+ * Ajouter fetchpriority et preload pour l'image LCP
+ */
+function almetal_add_lcp_hints() {
+    if (is_front_page()) {
+        // Précharger l'image LCP (hero ou première image visible)
+        $hero_image = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
+        echo '<link rel="preload" as="image" href="' . esc_url($hero_image) . '" type="image/webp">' . "\n";
+    }
+}
+add_action('wp_head', 'almetal_add_lcp_hints', 2);
 
 /**
  * Walker personnalisé pour les menus avec dropdown et icônes
@@ -937,6 +978,7 @@ add_action('wp_update_nav_menu_item', 'almetal_update_menu_item_icon', 10, 3);
 /**
  * Inclure les fichiers personnalisés
  */
+require_once get_template_directory() . '/inc/theme-icons.php';
 require_once get_template_directory() . '/inc/custom-post-types.php';
 require_once get_template_directory() . '/inc/facebook-importer.php';
 require_once get_template_directory() . '/inc/contact-handler.php';

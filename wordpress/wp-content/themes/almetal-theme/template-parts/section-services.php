@@ -85,10 +85,14 @@
             <article class="service-card realisation-card service-card--disabled">
                 <div class="service-card__badge"><?php esc_html_e('Bientôt', 'almetal'); ?></div>
                 <div class="realisation-image-wrapper">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-tima-miroshnichenko-5846282 1.png'); ?>" 
-                         alt="Formation métallerie pour professionnels à Thiers"
-                         class="realisation-image"
-                         loading="lazy">
+                    <picture>
+                        <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-tima-miroshnichenko-5846282 1.webp'); ?>" type="image/webp">
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-tima-miroshnichenko-5846282 1.png'); ?>" 
+                             alt="Formation métallerie pour professionnels à Thiers"
+                             class="realisation-image"
+                             loading="lazy"
+                             width="400" height="300">
+                    </picture>
                 </div>
                 <div class="realisation-content">
                     <h3 class="realisation-title">

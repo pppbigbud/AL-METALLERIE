@@ -20,9 +20,10 @@
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.png'); ?>" 
                          alt="Soudeur professionnel AL-Metallerie en action à Thiers"
                          class="presentation-img"
-                         loading="lazy"
-                         width="300"
-                         height="400">
+                         fetchpriority="high"
+                         decoding="async"
+                         width="400"
+                         height="498">
                 </picture>
             </div>
             <div class="presentation-image-wrapper presentation-image-bottom">
