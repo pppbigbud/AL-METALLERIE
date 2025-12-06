@@ -24,10 +24,20 @@ $realisations_query = new WP_Query(array(
 
 <section class="actualites-section" id="actualites">
     <div class="actualites-container">
+        <!-- Tag -->
+        <div class="actualites-tag">
+            <span><?php esc_html_e('Nos Réalisations', 'almetal'); ?></span>
+        </div>
+        
         <!-- Titre -->
         <h2 class="actualites-title">
             <?php esc_html_e('MES DERNIÈRES RÉALISATIONS', 'almetal'); ?>
         </h2>
+        
+        <!-- Sous-titre -->
+        <p class="actualites-subtitle">
+            <?php esc_html_e('Découvrez nos projets récents en métallerie et ferronnerie d\'art', 'almetal'); ?>
+        </p>
 
         <!-- Filtres dynamiques (catégories de réalisations) -->
         <?php if (!empty($categories) && !is_wp_error($categories)) : ?>

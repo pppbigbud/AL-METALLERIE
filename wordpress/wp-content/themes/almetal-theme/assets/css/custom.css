@@ -2746,19 +2746,48 @@ input[type="button"]:hover {
     padding-top: var(--spacing-2xl);
 }
 
+/* Tag */
+.actualites-tag {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.actualites-tag span {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(240, 139, 24, 0.1);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 30px;
+    color: #F08B18;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 /* Titre */
 .actualites-title {
-    font-size: 3rem;
-    font-weight: 900;
+    font-size: 2.5rem;
+    font-weight: 700;
     line-height: 1.2;
     color: white;
-    margin: 0 0 var(--spacing-2xl) 0;
+    margin: 0 0 1rem 0;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-align: center;
 }
 
-/* Filtres (style identique à la page réalisations) */
+/* Sous-titre */
+.actualites-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    margin: 0 auto var(--spacing-2xl) auto;
+    line-height: 1.6;
+}
+
+/* Filtres */
 .actualites-filters {
     display: flex;
     flex-wrap: wrap;

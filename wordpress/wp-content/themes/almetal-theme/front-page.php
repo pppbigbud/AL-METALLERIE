@@ -29,8 +29,8 @@ get_header();
         // Afficher la section actualités
         get_template_part('template-parts/section', 'actualites');
         
-        // Afficher la section services/offres
-        get_template_part('template-parts/section', 'services');
+        // Afficher la section formations
+        get_template_part('template-parts/section', 'formations');
         ?>
         
         <div class="container">

@@ -187,7 +187,8 @@ function almetal_enqueue_scripts() {
     }
     
     // Style des pages formations (seulement sur les pages formations)
-    if (is_page_template('page-formations.php') || 
+    if (is_front_page() ||
+        is_page_template('page-formations.php') || 
         is_page_template('page-formations-particuliers.php') || 
         is_page_template('page-formations-professionnels.php') ||
         is_page('formations') || 
@@ -983,6 +984,7 @@ require_once get_template_directory() . '/inc/custom-post-types.php';
 require_once get_template_directory() . '/inc/facebook-importer.php';
 require_once get_template_directory() . '/inc/contact-handler.php';
 require_once get_template_directory() . '/inc/slideshow-admin.php';
+require_once get_template_directory() . '/inc/formations-cards-admin.php';
 // require_once get_template_directory() . '/inc/customizer.php';
 
 /**

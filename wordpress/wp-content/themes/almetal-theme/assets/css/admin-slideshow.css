@@ -183,6 +183,40 @@ input:checked + .toggle-slider:before {
     transform: translateX(24px);
 }
 
+/* Toggle "Bientôt disponible" - Style warning */
+.coming-soon-toggle {
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid #ddd;
+}
+
+.toggle-switch-warning .toggle-slider-warning {
+    background-color: #ccc;
+}
+
+input:checked + .toggle-slider-warning {
+    background-color: #dc3545 !important;
+}
+
+.toggle-label-warning {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+}
+
+.toggle-label-warning .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+input:checked ~ .toggle-label-warning,
+.coming-soon-toggle:has(input:checked) .toggle-label-warning {
+    color: #dc3545;
+    font-weight: 600;
+}
+
 /* Contenu du slide */
 .slide-content {
     padding: 25px;

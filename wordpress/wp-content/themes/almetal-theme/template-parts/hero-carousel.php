@@ -246,26 +246,6 @@ function almetal_format_features($features_text) {
                             
                             <?php if (!empty($slide['cta_text']) && !empty($slide['cta_url'])) : ?>
                                 <a href="<?php echo esc_url($slide['cta_url']); ?>" class="hero-cta">
-                                    <?php 
-                                    // Icône personnalisée ou formations par défaut
-                                    $title_icon = isset($slide['title_icon']) ? $slide['title_icon'] : '';
-                                    if (!empty($title_icon)) :
-                                        $icon_svg = almetal_get_icon_with_attrs($title_icon, array(
-                                            'width' => '20',
-                                            'height' => '20',
-                                            'class' => 'cta-icon cta-icon-left'
-                                        ));
-                                        if ($icon_svg) :
-                                            echo $icon_svg;
-                                        endif;
-                                    else :
-                                        // Icône formations par défaut
-                                    ?>
-                                    <svg class="cta-icon cta-icon-left" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                                        <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/>
-                                    </svg>
-                                    <?php endif; ?>
                                     <span><?php echo esc_html($slide['cta_text']); ?></span>
                                     <!-- Icône curseur/pointeur -->
                                     <svg class="cta-icon cta-icon-right" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
