@@ -24,9 +24,9 @@
         const ajaxUrl = container.dataset.ajaxUrl;
         const filterSelect = document.getElementById('mobile-realisations-select');
         const grid = document.getElementById('mobile-realisations-grid');
-        const loader = container.querySelector('.mobile-realisations-loader');
-        const emptyMessage = document.getElementById('mobile-realisations-empty');
-        const loadMoreWrapper = document.getElementById('mobile-realisations-load-more');
+        const loader = document.getElementById('realisations-loader');
+        const emptyMessage = document.getElementById('realisations-empty');
+        const loadMoreWrapper = document.getElementById('realisations-loadmore-wrap');
         const loadMoreBtn = document.getElementById('btn-load-more-realisations');
 
         console.log('🎨 Filtrage AJAX réalisations mobile initialisé');

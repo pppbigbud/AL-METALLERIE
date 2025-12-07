@@ -51,8 +51,8 @@ $total_count = wp_count_posts('realisation')->publish;
     <?php endif; ?>
 
     <!-- Loader -->
-    <div class="mobile-realisations-loader" style="display: none;">
-        <div class="loader-spinner"></div>
+    <div class="realisations-ajax-loader" id="realisations-loader" style="display: none;">
+        <div class="realisations-spinner"></div>
         <span>Chargement...</span>
     </div>
 
@@ -62,7 +62,7 @@ $total_count = wp_count_posts('realisation')->publish;
     </div>
 
     <!-- Message si aucun résultat -->
-    <div class="mobile-realisations-empty" id="mobile-realisations-empty" style="display: none;">
+    <div class="realisations-no-results" id="realisations-empty" style="display: none;">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="11" cy="11" r="8"/>
             <path d="M21 21l-4.35-4.35"/>
@@ -71,8 +71,8 @@ $total_count = wp_count_posts('realisation')->publish;
     </div>
 
     <!-- Bouton Voir plus -->
-    <div class="mobile-realisations-load-more" id="mobile-realisations-load-more">
-        <button type="button" class="mobile-btn-load-more" id="btn-load-more-realisations">
+    <div class="realisations-loadmore-wrap" id="realisations-loadmore-wrap">
+        <button type="button" class="btn-realisations-loadmore" id="btn-load-more-realisations">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
