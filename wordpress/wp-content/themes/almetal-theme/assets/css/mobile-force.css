@@ -278,13 +278,28 @@ body.is-mobile .mobile-hero-subtitle {
 
 body.is-mobile .mobile-hero-cta {
     display: inline-flex !important;
-    padding: 1rem 2rem !important;
-    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%) !important;
-    color: #000 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    padding: 14px 28px !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(240, 139, 24, 0.4) !important;
+    color: white !important;
     text-decoration: none !important;
-    font-weight: 700 !important;
-    border-radius: 25px !important;
-    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.4) !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+body.is-mobile .mobile-hero-cta svg {
+    flex-shrink: 0 !important;
+    stroke: rgba(240, 139, 24, 0.9) !important;
+    fill: none !important;
+    animation: mouseClick 1.5s ease-in-out infinite !important;
 }
 
 /* SECTIONS MOBILES */
