@@ -136,16 +136,19 @@
     }
 
     /**
-     * Animation CTA au scroll (mobile)
-     * Déclenche l'animation hover (icône bulle) quand la section entre dans le viewport
+     * Animation des sections au scroll (mobile)
+     * Déclenche l'animation ::before quand la section entre dans le viewport
      * Se désactive quand elle sort du viewport
      */
     function initCtaScrollAnimation() {
-        const ctaSection = document.querySelector('.cta-section');
+        // Sélectionner toutes les sections avec animation ::before
+        const sections = document.querySelectorAll(
+            '.cta-section, .mobile-formations, .mobile-realisations, .mobile-contact, .mobile-services'
+        );
         
-        if (!ctaSection) return;
+        if (!sections.length) return;
 
-        const ctaObserver = new IntersectionObserver((entries) => {
+        const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     // Entré dans le viewport : activer l'animation avec délai
@@ -162,8 +165,11 @@
             rootMargin: '0px'
         });
 
-        ctaObserver.observe(ctaSection);
-        console.log('✅ CTA scroll animation initialisée');
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+        
+        console.log('✅ Sections scroll animation initialisée:', sections.length, 'sections');
     }
 
     /**

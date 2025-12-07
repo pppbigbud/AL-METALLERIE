@@ -343,29 +343,60 @@ body {
     box-shadow: 0 0 10px rgba(240, 139, 24, 0.6);
 }
 
-/* Bouton CTA dans le slideshow - Style "NOS FORMATIONS" */
+/* Bouton CTA dans le slideshow - Style Desktop */
 .mobile-hero-cta,
 .mobile-hero-content .btn-cta {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     margin-top: 1.5rem;
-    padding: 0.9rem 2rem;
-    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    padding: 14px 28px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(240, 139, 24, 0.4);
     color: white;
     text-decoration: none;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-radius: 30px;
-    border: 2px solid transparent;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.4);
+    box-shadow: none;
+}
+
+.mobile-hero-cta span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.mobile-hero-cta svg {
+    flex-shrink: 0;
+    stroke: rgba(240, 139, 24, 0.9);
+    fill: none;
+    animation: mouseClick 1.5s ease-in-out infinite;
+}
+
+@keyframes mouseClick {
+    0%, 100% { 
+        transform: translateY(0);
+    }
+    50% { 
+        transform: translateY(3px);
+    }
 }
 
 .mobile-hero-cta:active,
 .mobile-hero-content .btn-cta:active {
+    background: rgba(240, 139, 24, 0.2);
+    border-color: rgba(240, 139, 24, 0.8);
+    box-shadow: 0 5px 20px rgba(240, 139, 24, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(240, 139, 24, 0.6);
+}
+
+.mobile-hero-cta:active svg {
+    stroke: #f08b18;
 }
 
 /* ============================================
@@ -719,6 +750,24 @@ body {
 .cta-section.scroll-animated::before {
     opacity: 1;
     transform: translateY(-50%) rotate(15deg) scale(1.2);
+}
+
+/* Animation des ::before pour toutes les sections mobiles */
+.mobile-formations::before,
+.mobile-realisations::before,
+.mobile-contact::before,
+.mobile-services::before {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.8);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mobile-formations.scroll-animated::before,
+.mobile-realisations.scroll-animated::before,
+.mobile-contact.scroll-animated::before,
+.mobile-services.scroll-animated::before {
+    opacity: 0.1;
+    transform: rotate(15deg) scale(1.2);
 }
 
 /* ============================================

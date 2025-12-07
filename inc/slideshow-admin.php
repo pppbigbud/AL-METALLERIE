@@ -391,10 +391,10 @@ class Almetal_Slideshow_Admin {
                 
                 <!-- Bouton CTA -->
                 <div class="form-row">
-                    <div class="form-group form-group-half">
+                    <div class="form-group form-group-third">
                         <label class="form-label">
-                            <span class="dashicons dashicons-admin-links"></span>
-                            Texte du bouton
+                            <span class="dashicons dashicons-desktop"></span>
+                            Texte bouton (Desktop)
                         </label>
                         <input type="text" 
                                name="slides[<?php echo $index; ?>][cta_text]" 
@@ -403,7 +403,21 @@ class Almetal_Slideshow_Admin {
                                placeholder="Ex: Demander un devis">
                     </div>
                     
-                    <div class="form-group form-group-half">
+                    <div class="form-group form-group-third">
+                        <label class="form-label">
+                            <span class="dashicons dashicons-smartphone"></span>
+                            Texte bouton (Mobile)
+                        </label>
+                        <?php $cta_text_mobile = isset($slide['cta_text_mobile']) ? $slide['cta_text_mobile'] : ''; ?>
+                        <input type="text" 
+                               name="slides[<?php echo $index; ?>][cta_text_mobile]" 
+                               value="<?php echo esc_attr($cta_text_mobile); ?>" 
+                               class="form-control"
+                               placeholder="Ex: Devis (si vide = Desktop)">
+                        <p class="form-help">Laissez vide pour utiliser le texte Desktop</p>
+                    </div>
+                    
+                    <div class="form-group form-group-third">
                         <label class="form-label">
                             <span class="dashicons dashicons-admin-site"></span>
                             URL du bouton
@@ -413,7 +427,7 @@ class Almetal_Slideshow_Admin {
                                value="<?php echo esc_attr($cta_url); ?>" 
                                class="form-control"
                                placeholder="Ex: #contact ou /contact">
-                        <p class="form-help">Utilisez # pour les ancres (ex: #contact) ou une URL complète</p>
+                        <p class="form-help">Utilisez # pour les ancres</p>
                     </div>
                 </div>
                 
@@ -574,6 +588,7 @@ class Almetal_Slideshow_Admin {
                 'title' => sanitize_text_field($slide['title']),
                 'subtitle' => sanitize_textarea_field($slide['subtitle']),
                 'cta_text' => sanitize_text_field($slide['cta_text']),
+                'cta_text_mobile' => sanitize_text_field(isset($slide['cta_text_mobile']) ? $slide['cta_text_mobile'] : ''),
                 'cta_url' => esc_url_raw($slide['cta_url']),
                 'order' => intval($slide['order']),
                 

@@ -118,9 +118,16 @@ function almetal_format_features($features_text) {
                             <?php endif; ?>
                         <?php endif; ?>
                         
-                        <?php if (!empty($slide['cta_text']) && !empty($slide['cta_url'])) : ?>
+                        <?php if (!empty($slide['cta_text']) && !empty($slide['cta_url'])) : 
+                            // Utiliser le texte mobile si défini, sinon le texte desktop
+                            $mobile_cta_text = !empty($slide['cta_text_mobile']) ? $slide['cta_text_mobile'] : $slide['cta_text'];
+                        ?>
                             <a href="<?php echo esc_url($slide['cta_url']); ?>" class="mobile-hero-cta<?php echo $is_promo ? ' promo-cta' : ''; ?>">
-                                <?php echo esc_html($slide['cta_text']); ?>
+                                <span><?php echo esc_html($mobile_cta_text); ?></span>
+                                <svg class="cta-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/>
+                                    <path d="M13 13l6 6"/>
+                                </svg>
                             </a>
                         <?php endif; ?>
                     </div>
