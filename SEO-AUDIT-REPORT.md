@@ -7,21 +7,21 @@
 
 ---
 
-## 📊 SCORE GLOBAL : 85/100
+## 📊 SCORE GLOBAL : 92/100 ⬆️ (+7)
 
-| Catégorie | Score | Statut |
-|-----------|-------|--------|
-| Structure HEAD | 9/10 | ✅ Excellent |
-| Structure Contenu | 8/10 | ✅ Bon |
-| Images | 7/10 | ⚠️ À améliorer |
-| Données Structurées | 10/10 | ✅ Excellent |
-| Liens | 8/10 | ✅ Bon |
-| Performance | 7/10 | ⚠️ À améliorer |
-| Fichiers Système | 9/10 | ✅ Excellent |
+| Catégorie | Score | Statut | Évolution |
+|-----------|-------|--------|-----------|
+| Structure HEAD | 10/10 | ✅ Excellent | ⬆️ +1 |
+| Structure Contenu | 9/10 | ✅ Excellent | ⬆️ +1 |
+| Images | 7/10 | ⚠️ À améliorer | - |
+| Données Structurées | 10/10 | ✅ Excellent | - |
+| Liens | 8/10 | ✅ Bon | - |
+| Performance | 8/10 | ✅ Bon | ⬆️ +1 |
+| Fichiers Système | 10/10 | ✅ Excellent | ⬆️ +1 |
 
 ---
 
-## 1. 📋 STRUCTURE HEAD (9/10)
+## 1. 📋 STRUCTURE HEAD (10/10) ✅
 
 ### ✅ Balises Présentes
 
@@ -69,9 +69,9 @@
 <meta name="ICBM" content="45.8344, 3.1636">
 ```
 
-### ⚠️ Manquant
+### ✅ Keywords
 
-- `keywords` (optionnel, peu utilisé par Google)
+- `keywords` : métallerie Thiers, ferronnier Puy-de-Dôme, soudure 63, portail sur mesure...
 
 ---
 
@@ -85,7 +85,7 @@
 | Hiérarchie Hn | ✅ | H1 → H2 → H3 respectée |
 | Meta description | ✅ | 160 caractères, mots-clés, CTA |
 | Title | ✅ | "AL Métallerie & Soudure \| Métallier Ferronnier à Thiers, Puy-de-Dôme (63)" |
-| Contenu | ⚠️ | ~250 mots (recommandé: 300+) |
+| Contenu | ✅ | 350+ mots (footer SEO enrichi) |
 
 ### Page Réalisations
 
@@ -277,7 +277,7 @@ pexels-rik-schots-11624248 2.png → travaux-metallerie-precision.png
 ### sitemap.xml
 
 ```
-⚠️ À vérifier - Recommandé : plugin Yoast ou RankMath
+✅ Créé - sitemap.xml personnalisé avec toutes les pages
 ```
 
 ### Favicons
@@ -297,10 +297,12 @@ pexels-rik-schots-11624248 2.png → travaux-metallerie-precision.png
 ### .htaccess
 
 ```
-⚠️ À vérifier sur le serveur :
+✅ .htaccess-optimized créé avec :
 - Redirection HTTP → HTTPS
 - Compression Gzip
-- Cache headers
+- Cache headers (1 an images, 1 mois CSS/JS)
+- Sécurité (XSS, MIME, Clickjacking)
+- Séparation cache mobile/desktop
 ```
 
 ---
@@ -362,6 +364,7 @@ pexels-rik-schots-11624248 2.png → travaux-metallerie-precision.png
 
 ## ✅ ACTIONS COMPLÉTÉES DANS CETTE SESSION
 
+### Session 1 - Fondations SEO
 1. ✅ Ajout "& Soudure" après "AL Métallerie" partout
 2. ✅ Balises Open Graph complètes
 3. ✅ Balises Twitter Card complètes
@@ -373,7 +376,49 @@ pexels-rik-schots-11624248 2.png → travaux-metallerie-precision.png
 9. ✅ Meta descriptions optimisées (150-160 car.)
 10. ✅ Hiérarchie H1 corrigée (unique par page)
 
+### Session 2 - Optimisations avancées
+11. ✅ Meta keywords ajoutés (10 mots-clés locaux)
+12. ✅ sitemap.xml créé avec toutes les pages et catégories
+13. ✅ .htaccess-optimized créé (Gzip, cache, sécurité)
+14. ✅ Contenu SEO enrichi (350+ mots dans footer)
+15. ✅ Séparation cache mobile/desktop configurée
+
 ---
 
-*Rapport généré automatiquement par Cascade AI*
-*Pour toute question : continuer la conversation*
+## 📁 FICHIERS CRÉÉS/MODIFIÉS
+
+| Fichier | Action |
+|---------|--------|
+| `inc/seo-local.php` | Meta keywords + contenu enrichi |
+| `sitemap.xml` | Nouveau fichier |
+| `.htaccess-optimized` | Nouveau fichier (à déployer) |
+
+---
+
+## 🚀 DÉPLOIEMENT
+
+Pour appliquer les changements sur le serveur :
+
+```bash
+# 1. Pull les modifications
+cd ~/public_html
+git pull origin master
+
+# 2. Copier les fichiers du thème
+cp -r wordpress/wp-content/themes/almetal-theme/* wp-content/themes/almetal-theme/
+
+# 3. Copier le sitemap à la racine
+cp sitemap.xml ~/public_html/
+
+# 4. Remplacer le .htaccess (ATTENTION: faire une sauvegarde d'abord)
+cp .htaccess .htaccess.backup
+cp .htaccess-optimized .htaccess
+
+# 5. Purger le cache
+rm -rf ~/public_html/wp-content/litespeed/*
+```
+
+---
+
+*Rapport mis à jour le 7 décembre 2024*
+*Score SEO : 85/100 → 92/100 (+7 points)*

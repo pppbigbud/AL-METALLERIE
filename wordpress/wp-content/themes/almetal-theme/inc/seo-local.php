@@ -122,8 +122,9 @@ function almetal_seo_meta_head() {
     }
     
     ?>
-    <!-- SEO Local - AL Métallerie -->
+    <!-- SEO Local - AL Métallerie & Soudure -->
     <meta name="description" content="<?php echo esc_attr($description); ?>">
+    <meta name="keywords" content="métallerie Thiers, ferronnier Puy-de-Dôme, soudure 63, portail sur mesure, garde-corps, escalier métallique, pergola, ferronnerie art, artisan métallier Auvergne, formation soudure">
     <meta name="author" content="AL Métallerie & Soudure">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="<?php echo esc_url($og_url); ?>">
@@ -470,21 +471,49 @@ add_action('wp_head', 'almetal_schema_breadcrumb', 6);
 
 /**
  * Ajouter les mots-clés locaux dans le contenu (footer SEO)
+ * Contenu enrichi pour atteindre 300+ mots
  */
 function almetal_seo_footer_text() {
     if (!is_front_page()) {
         return;
     }
     ?>
-    <div class="seo-footer-text" style="background: #1a1a1a; padding: 2rem 0; border-top: 1px solid rgba(240,139,24,0.2);">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-            <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.8; text-align: center;">
-                <strong style="color: #F08B18;">AL Métallerie & Soudure</strong> - Votre artisan métallier ferronnier à <strong>Thiers</strong> et dans tout le <strong>Puy-de-Dôme (63)</strong>. 
-                Nous intervenons à <strong>Clermont-Ferrand</strong>, <strong>Riom</strong>, <strong>Issoire</strong>, <strong>Ambert</strong>, <strong>Cournon-d'Auvergne</strong> 
-                et dans toute l'<strong>Auvergne</strong> pour vos projets de <strong>portails sur mesure</strong>, <strong>garde-corps</strong>, 
-                <strong>escaliers métalliques</strong>, <strong>pergolas</strong>, <strong>verrières</strong> et <strong>ferronnerie d'art</strong>. 
-                Devis gratuit au <a href="tel:+33673333532" style="color: #F08B18;">06 73 33 35 32</a>.
-            </p>
+    <div class="seo-footer-text" style="background: #1a1a1a; padding: 3rem 0; border-top: 1px solid rgba(240,139,24,0.2);">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+            <h2 style="color: #F08B18; font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem;">
+                Votre Artisan Métallier Ferronnier à Thiers, Puy-de-Dôme
+            </h2>
+            <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.9; text-align: justify; column-count: 1;">
+                <p style="margin-bottom: 1rem;">
+                    <strong style="color: #F08B18;">AL Métallerie & Soudure</strong> est votre artisan métallier ferronnier de confiance, 
+                    installé à <strong>Peschadoires</strong>, près de <strong>Thiers</strong> dans le <strong>Puy-de-Dôme (63)</strong>. 
+                    Spécialisé dans la <strong>fabrication sur mesure</strong> d'ouvrages métalliques, notre atelier allie savoir-faire 
+                    traditionnel et techniques modernes pour réaliser vos projets les plus ambitieux.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    Notre expertise couvre un large éventail de réalisations : <strong>portails sur mesure</strong> (coulissants, battants, 
+                    automatisés), <strong>garde-corps</strong> et rambardes pour escaliers et terrasses, <strong>escaliers métalliques</strong> 
+                    droits ou hélicoïdaux, <strong>pergolas</strong> et structures d'extérieur, <strong>verrières</strong> d'intérieur style 
+                    atelier, ainsi que des pièces de <strong>ferronnerie d'art</strong> uniques. Chaque création est pensée et fabriquée 
+                    selon vos besoins spécifiques.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    Nous maîtrisons les techniques de <strong>soudure MIG, TIG et ARC</strong>, permettant de travailler l'acier, 
+                    l'inox et l'aluminium avec précision. Notre atelier propose également des <strong>formations soudure</strong> 
+                    pour particuliers et professionnels souhaitant acquérir ou perfectionner leurs compétences.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <strong>Zone d'intervention</strong> : nous intervenons dans tout le Puy-de-Dôme et l'Auvergne, notamment à 
+                    <strong>Clermont-Ferrand</strong>, <strong>Riom</strong>, <strong>Issoire</strong>, <strong>Ambert</strong>, 
+                    <strong>Cournon-d'Auvergne</strong>, <strong>Chamalières</strong>, <strong>Lezoux</strong>, <strong>Courpière</strong>, 
+                    <strong>Pont-du-Château</strong> et toutes les communes environnantes dans un rayon de 50 km.
+                </p>
+                <p style="margin-bottom: 0; text-align: center;">
+                    <strong>Devis gratuit et personnalisé</strong> sous 48h. Contactez-nous au 
+                    <a href="tel:+33673333532" style="color: #F08B18; font-weight: 700;">06 73 33 35 32</a> 
+                    ou par email à <a href="mailto:aurelien@al-metallerie.fr" style="color: #F08B18;">aurelien@al-metallerie.fr</a>.
+                </p>
+            </div>
         </div>
     </div>
     <?php
