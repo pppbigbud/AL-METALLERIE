@@ -3,6 +3,9 @@
 .env.local
 .env.production
 
+# Index.php racine (WordPress core, pas le thème)
+/index.php
+
 # WordPress
 wordpress/wp-config.php
 wordpress/wp-content/uploads/
