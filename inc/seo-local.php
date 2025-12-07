@@ -158,6 +158,7 @@ add_action('wp_head', 'almetal_seo_meta_head', 1);
 
 /**
  * Schema JSON-LD LocalBusiness pour toutes les pages
+ * Optimisé pour le SEO local avec zones d'intervention complètes
  */
 function almetal_schema_local_business() {
     // Ne pas ajouter sur les single realisation (déjà géré)
@@ -165,17 +166,97 @@ function almetal_schema_local_business() {
         return;
     }
     
+    // Communes dans un rayon de 30km autour de Thiers (63)
+    $communes_30km = array(
+        // Proches (< 10km)
+        'Peschadoires', 'Thiers', 'Escoutoux', 'Celles-sur-Durolle', 'La Monnerie-le-Montel',
+        'Palladuc', 'Dorat', 'Puy-Guillaume', 'Noalhat', 'Orléat',
+        // 10-20km
+        'Lezoux', 'Courpière', 'Vollore-Ville', 'Augerolles', 'Olliergues',
+        'Saint-Rémy-sur-Durolle', 'Chabreloche', 'Arconsat', 'Viscomtat', 'Sainte-Agathe',
+        'Sermentizon', 'Bort-l\'Étang', 'Seychalles', 'Lempty', 'Bulhon',
+        'Maringues', 'Joze', 'Culhat', 'Luzillat', 'Limons',
+        // 20-30km
+        'Billom', 'Saint-Dier-d\'Auvergne', 'Cunlhat', 'Ambert', 'Viverols',
+        'Pont-de-Dore', 'Ris', 'Châteldon', 'Randan', 'Saint-Priest-Bramefant',
+        'Aigueperse', 'Effiat', 'Thuret', 'Ennezat', 'Riom',
+        'Mozac', 'Volvic', 'Châtel-Guyon', 'Manzat', 'Combronde',
+        'Clermont-Ferrand', 'Chamalières', 'Royat', 'Beaumont', 'Aubière',
+        'Cournon-d\'Auvergne', 'Lempdes', 'Pont-du-Château', 'Gerzat', 'Cébazat',
+        'Issoire', 'Vic-le-Comte', 'Veyre-Monton', 'Saint-Amant-Tallende', 'Tallende'
+    );
+    
+    // Récupérer les catégories de réalisations dynamiquement
+    $terms = get_terms(array(
+        'taxonomy' => 'type_realisation',
+        'hide_empty' => false,
+    ));
+    
+    // Construire les services dynamiquement
+    $services = array();
+    if (!empty($terms) && !is_wp_error($terms)) {
+        foreach ($terms as $term) {
+            $services[] = array(
+                '@type' => 'Offer',
+                'itemOffered' => array(
+                    '@type' => 'Service',
+                    'name' => ucfirst($term->name) . ' sur mesure',
+                    'description' => 'Fabrication et installation de ' . strtolower($term->name) . ' sur mesure à Thiers et dans le Puy-de-Dôme.',
+                    'url' => get_term_link($term),
+                    'areaServed' => 'Puy-de-Dôme (63)',
+                    'provider' => array(
+                        '@type' => 'LocalBusiness',
+                        'name' => 'AL Métallerie'
+                    )
+                )
+            );
+        }
+    }
+    
+    // Ajouter les formations
+    $services[] = array(
+        '@type' => 'Offer',
+        'itemOffered' => array(
+            '@type' => 'Service',
+            'name' => 'Formations soudure MIG, TIG, ARC',
+            'description' => 'Formations professionnelles en soudure pour particuliers et entreprises à Thiers.',
+            'url' => home_url('/formations/'),
+            'areaServed' => 'Puy-de-Dôme (63)'
+        )
+    );
+    
+    // Construire les zones desservies
+    $areas_served = array();
+    foreach ($communes_30km as $commune) {
+        $areas_served[] = array(
+            '@type' => 'City',
+            'name' => $commune,
+            'containedInPlace' => array(
+                '@type' => 'AdministrativeArea',
+                'name' => 'Puy-de-Dôme'
+            )
+        );
+    }
+    
     $schema = array(
         '@context' => 'https://schema.org',
-        '@type' => 'LocalBusiness',
+        '@type' => array('LocalBusiness', 'HomeAndConstructionBusiness'),
+        'additionalType' => 'https://schema.org/Locksmith',
         '@id' => home_url('/#localbusiness'),
         'name' => 'AL Métallerie',
-        'description' => 'Métallerie, ferronnerie et serrurerie à Thiers dans le Puy-de-Dôme. Fabrication sur mesure de portails, garde-corps, escaliers, pergolas.',
+        'alternateName' => 'AL Métallerie Thiers',
+        'description' => 'Artisan métallier ferronnier à Thiers (63). Fabrication sur mesure de portails, garde-corps, escaliers, pergolas, ferronnerie d\'art. Formations soudure. Devis gratuit.',
         'url' => home_url('/'),
         'telephone' => '+33673333532',
         'email' => 'aurelien@al-metallerie.fr',
-        'image' => get_template_directory_uri() . '/assets/images/logo.png',
+        'image' => array(
+            get_template_directory_uri() . '/assets/images/logo.png',
+            get_template_directory_uri() . '/assets/images/og-image.jpg'
+        ),
+        'logo' => get_template_directory_uri() . '/assets/images/logo.png',
         'priceRange' => '€€',
+        'currenciesAccepted' => 'EUR',
+        'paymentAccepted' => 'Espèces, Chèque, Virement bancaire',
         'address' => array(
             '@type' => 'PostalAddress',
             'streetAddress' => '14 route de Maringues',
@@ -186,8 +267,8 @@ function almetal_schema_local_business() {
         ),
         'geo' => array(
             '@type' => 'GeoCoordinates',
-            'latitude' => '45.8344',
-            'longitude' => '3.1636'
+            'latitude' => 45.8344,
+            'longitude' => 3.1636
         ),
         'openingHoursSpecification' => array(
             array(
@@ -195,21 +276,24 @@ function almetal_schema_local_business() {
                 'dayOfWeek' => array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'),
                 'opens' => '08:00',
                 'closes' => '18:00'
+            ),
+            array(
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => 'Saturday',
+                'opens' => '09:00',
+                'closes' => '12:00',
+                'description' => 'Sur rendez-vous uniquement'
             )
         ),
-        'areaServed' => array(
-            array(
-                '@type' => 'City',
-                'name' => 'Thiers'
+        'areaServed' => $areas_served,
+        'serviceArea' => array(
+            '@type' => 'GeoCircle',
+            'geoMidpoint' => array(
+                '@type' => 'GeoCoordinates',
+                'latitude' => 45.8556,
+                'longitude' => 3.5478
             ),
-            array(
-                '@type' => 'City',
-                'name' => 'Clermont-Ferrand'
-            ),
-            array(
-                '@type' => 'AdministrativeArea',
-                'name' => 'Puy-de-Dôme'
-            )
+            'geoRadius' => '30000'
         ),
         'sameAs' => array(
             'https://www.facebook.com/almetallerie',
@@ -217,50 +301,82 @@ function almetal_schema_local_business() {
         ),
         'hasOfferCatalog' => array(
             '@type' => 'OfferCatalog',
-            'name' => 'Services de métallerie',
-            'itemListElement' => array(
-                array(
-                    '@type' => 'Offer',
-                    'itemOffered' => array(
-                        '@type' => 'Service',
-                        'name' => 'Fabrication de portails sur mesure'
-                    )
-                ),
-                array(
-                    '@type' => 'Offer',
-                    'itemOffered' => array(
-                        '@type' => 'Service',
-                        'name' => 'Installation de garde-corps'
-                    )
-                ),
-                array(
-                    '@type' => 'Offer',
-                    'itemOffered' => array(
-                        '@type' => 'Service',
-                        'name' => 'Création d\'escaliers métalliques'
-                    )
-                ),
-                array(
-                    '@type' => 'Offer',
-                    'itemOffered' => array(
-                        '@type' => 'Service',
-                        'name' => 'Construction de pergolas'
-                    )
-                ),
-                array(
-                    '@type' => 'Offer',
-                    'itemOffered' => array(
-                        '@type' => 'Service',
-                        'name' => 'Formations soudure'
-                    )
-                )
-            )
+            'name' => 'Services de métallerie et ferronnerie',
+            'itemListElement' => $services
+        ),
+        'knowsAbout' => array(
+            'Métallerie',
+            'Ferronnerie',
+            'Serrurerie',
+            'Soudure MIG',
+            'Soudure TIG',
+            'Soudure ARC',
+            'Travail du fer forgé',
+            'Fabrication sur mesure'
+        ),
+        'slogan' => 'Votre artisan métallier ferronnier à Thiers',
+        'foundingDate' => '2020',
+        'founder' => array(
+            '@type' => 'Person',
+            'name' => 'Aurélien',
+            'jobTitle' => 'Artisan métallier ferronnier'
         )
     );
     
     echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
 }
 add_action('wp_head', 'almetal_schema_local_business', 5);
+
+/**
+ * Schema JSON-LD Service pour chaque catégorie de réalisation
+ * Affiché sur les pages de taxonomie
+ */
+function almetal_schema_service() {
+    if (!is_tax('type_realisation')) {
+        return;
+    }
+    
+    $term = get_queried_object();
+    
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'Service',
+        '@id' => get_term_link($term) . '#service',
+        'name' => ucfirst($term->name) . ' sur mesure',
+        'description' => 'Fabrication et installation de ' . strtolower($term->name) . ' sur mesure par AL Métallerie, artisan métallier ferronnier à Thiers (63). Travail artisanal de qualité, devis gratuit.',
+        'url' => get_term_link($term),
+        'provider' => array(
+            '@type' => 'LocalBusiness',
+            '@id' => home_url('/#localbusiness'),
+            'name' => 'AL Métallerie',
+            'telephone' => '+33673333532',
+            'address' => array(
+                '@type' => 'PostalAddress',
+                'addressLocality' => 'Peschadoires',
+                'postalCode' => '63920',
+                'addressCountry' => 'FR'
+            )
+        ),
+        'areaServed' => array(
+            '@type' => 'AdministrativeArea',
+            'name' => 'Puy-de-Dôme'
+        ),
+        'serviceType' => ucfirst($term->name),
+        'category' => 'Métallerie / Ferronnerie',
+        'offers' => array(
+            '@type' => 'Offer',
+            'availability' => 'https://schema.org/InStock',
+            'priceSpecification' => array(
+                '@type' => 'PriceSpecification',
+                'priceCurrency' => 'EUR',
+                'description' => 'Devis gratuit sur demande'
+            )
+        )
+    );
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'almetal_schema_service', 7);
 
 /**
  * Schema BreadcrumbList pour le fil d'Ariane
