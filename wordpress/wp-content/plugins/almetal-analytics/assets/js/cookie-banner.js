@@ -186,7 +186,7 @@
                         <div class="almetal-cookie-category__header">
                             <span class="almetal-cookie-category__name">${cat.name}${cat.required ? ' <span class="almetal-cookie-badge">Requis</span>' : ''}</span>
                             <label class="almetal-cookie-toggle">
-                                <input type="checkbox" name="${key}" ${cat.default || cat.required ? 'checked' : ''} ${cat.required ? 'disabled' : ''}>
+                                <input type="checkbox" name="${key}" checked ${cat.required ? 'disabled' : ''}>
                                 <span class="almetal-cookie-toggle__slider"></span>
                             </label>
                         </div>
