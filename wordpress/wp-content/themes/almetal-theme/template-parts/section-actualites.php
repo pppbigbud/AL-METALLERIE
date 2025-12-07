@@ -124,13 +124,23 @@ $realisations_query = new WP_Query(array(
                     }
                     ?>
                     
+                    <?php
+                    // Générer un alt SEO optimisé
+                    $terms = get_the_terms(get_the_ID(), 'type_realisation');
+                    $type_realisation = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Réalisation';
+                    $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true) ?: 'Puy-de-Dôme';
+                    $alt_seo = $type_realisation . ' à ' . $lieu . ' - ' . get_the_title() . ' | AL Métallerie';
+                    ?>
                     <article class="realisation-card <?php echo esc_attr($term_classes); ?>" data-categories="<?php echo esc_attr($term_classes); ?>">
                         <div class="realisation-image-wrapper">
                             <?php if ($thumbnail_url) : ?>
                                 <img src="<?php echo esc_url($thumbnail_url); ?>" 
-                                     alt="<?php echo esc_attr(get_the_title()); ?>" 
+                                     alt="<?php echo esc_attr($alt_seo); ?>" 
                                      class="realisation-image"
-                                     loading="lazy">
+                                     width="400"
+                                     height="300"
+                                     loading="lazy"
+                                     decoding="async">
                             <?php endif; ?>
                         </div>
                         

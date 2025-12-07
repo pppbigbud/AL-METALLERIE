@@ -1577,12 +1577,16 @@ function almetal_ajax_load_mobile_realisations() {
             }
             
             $date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
-            $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+            $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true) ?: 'Puy-de-Dôme';
+            
+            // Alt SEO optimisé avec type + lieu
+            $type_name = ($terms && !is_wp_error($terms)) ? $terms[0]->name : 'Réalisation';
+            $alt_seo = $type_name . ' à ' . $lieu . ' - ' . get_the_title() . ' | AL Métallerie Thiers';
             
             $html .= '<article class="mobile-realisation-card ' . esc_attr($term_classes) . '" data-categories="' . esc_attr($term_data) . '">';
             $html .= '<div class="mobile-realisation-image-wrapper">';
             $html .= '<a href="' . get_permalink() . '">';
-            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr(get_the_title()) . '" loading="lazy" class="mobile-realisation-image">';
+            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" width="400" height="300" loading="lazy" decoding="async" class="mobile-realisation-image">';
             $html .= '<div class="mobile-realisation-overlay"><span class="view-more">Voir le projet</span></div>';
             $html .= '</a>';
             
