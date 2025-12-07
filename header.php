@@ -213,8 +213,8 @@
                                 if (has_custom_logo()) {
                                     the_custom_logo();
                                 } else {
-                                    $logo_webp = get_template_directory_uri() . '/assets/images/logo.webp';
-                                    $logo_png = get_template_directory_uri() . '/assets/images/logo.png';
+                                    $logo_webp = get_template_directory_uri() . '/assets/images/logo-optimized.webp';
+                                    $logo_png = get_template_directory_uri() . '/assets/images/logo.webp'; // Fallback sur l'original
                                     ?>
                                     <picture>
                                         <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp" width="81" height="80">
