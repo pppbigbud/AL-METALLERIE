@@ -300,21 +300,32 @@ function hp_parse_features($features_text) {
     box-shadow: 0 8px 25px rgba(240, 139, 24, 0.4);
 }
 
-/* Image de fond de section */
-.hp-formations-overlay {
+/* Image de fond de section avec dégradé vers le bas */
+.hp-formations-section[style*="background-image"] {
+    position: relative;
+    background-size: cover;
+    background-position: center top;
+}
+
+.hp-formations-section[style*="background-image"]::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0a0a0a;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 10, 10, 0.3) 0%,
+        rgba(10, 10, 10, 0.5) 40%,
+        rgba(10, 10, 10, 0.85) 70%,
+        #0a0a0a 100%
+    );
     z-index: 0;
 }
 
-.hp-formations-section[style*="background-image"] {
-    position: relative;
-    background-size: cover;
-    background-position: center;
+.hp-formations-overlay {
+    display: none; /* On utilise le pseudo-element ::before à la place */
 }
 
 .hp-formations-section[style*="background-image"] .hp-formations-wrapper {
