@@ -691,6 +691,76 @@ body {
     color: #000;
 }
 
+/* ============================================
+   ANIMATION CTA AU SCROLL (MOBILE)
+   Icône bulle en arrière-plan - comme le hover desktop
+   ============================================ */
+
+/* Icône bulle en arrière-plan - invisible par défaut */
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    width: 200px;
+    height: 200px;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: translateY(-50%) rotate(0deg) scale(0.8);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Animation déclenchée au scroll (classe ajoutée par JS) */
+.cta-section.scroll-animated::before {
+    opacity: 1;
+    transform: translateY(-50%) rotate(15deg) scale(1.2);
+}
+
+/* ============================================
+   CARDS FORMATIONS MOBILE - Images et Badge
+   ============================================ */
+
+/* Image de card */
+.mobile-formation-image {
+    width: 100%;
+    height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.mobile-formation-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Card désactivée (bientôt disponible) */
+.mobile-formation-card--disabled {
+    position: relative;
+    opacity: 0.7;
+}
+
+.mobile-formation-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(240, 139, 24, 0.9);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+}
+
 /* Séparateur entre sections */
 .mobile-section-separator {
     height: 1px;

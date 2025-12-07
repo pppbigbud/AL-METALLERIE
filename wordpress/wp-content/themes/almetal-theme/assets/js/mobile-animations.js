@@ -96,8 +96,42 @@
 
         console.log('✅ Animations initialisées:', observedCount, 'éléments observés');
 
+        // Initialiser l'animation CTA au scroll
+        initCtaScrollAnimation();
+
         // Nettoyer will-change après les animations pour optimiser la mémoire
         setTimeout(cleanupWillChange, 3000);
+    }
+
+    /**
+     * Animation CTA au scroll (mobile)
+     * Déclenche l'animation hover (icône bulle) quand la section entre dans le viewport
+     * Se désactive quand elle sort du viewport
+     */
+    function initCtaScrollAnimation() {
+        const ctaSection = document.querySelector('.cta-section');
+        
+        if (!ctaSection) return;
+
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Entré dans le viewport : activer l'animation avec délai
+                    setTimeout(() => {
+                        entry.target.classList.add('scroll-animated');
+                    }, 400); // Délai de 400ms
+                } else {
+                    // Sorti du viewport : désactiver l'animation
+                    entry.target.classList.remove('scroll-animated');
+                }
+            });
+        }, {
+            threshold: 0.3, // Déclencher quand 30% de la section est visible
+            rootMargin: '0px'
+        });
+
+        ctaObserver.observe(ctaSection);
+        console.log('✅ CTA scroll animation initialisée');
     }
 
     /**

@@ -60,134 +60,157 @@
 <!-- Séparateur -->
 <div class="mobile-section-separator"></div>
 
-<!-- Section Formations (Professionnels + Particuliers) -->
+<!-- Section Formations (Dynamique depuis backoffice) -->
+<?php
+// Récupérer les données depuis le backoffice
+$mobile_cards = array();
+$mobile_section = array();
+
+if (class_exists('Almetal_Formations_Cards_Admin')) {
+    $mobile_cards = Almetal_Formations_Cards_Admin::get_cards();
+    $mobile_section = Almetal_Formations_Cards_Admin::get_section_settings();
+    
+    // Filtrer les cards actives
+    $mobile_cards = array_filter($mobile_cards, function($card) {
+        return isset($card['active']) && $card['active'];
+    });
+}
+
+// Paramètres de la section
+$mobile_tag = !empty($mobile_section['tag']) ? $mobile_section['tag'] : 'Nos Formations';
+$mobile_title = !empty($mobile_section['title']) ? $mobile_section['title'] : 'DÉVELOPPEZ VOS COMPÉTENCES';
+$mobile_subtitle = !empty($mobile_section['subtitle']) ? $mobile_section['subtitle'] : 'Formations professionnelles en métallerie adaptées à vos besoins';
+
+// Fonction pour obtenir l'icône SVG (si pas déjà définie)
+if (!function_exists('mobile_get_formation_icon')) {
+function mobile_get_formation_icon($icon_key) {
+    $icons = array(
+        'users' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+        'home' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
+        'building' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>',
+        'graduation' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>',
+        'tools' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>',
+        'zap' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
+        'certificate' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>',
+        'calendar' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>',
+    );
+    return isset($icons[$icon_key]) ? $icons[$icon_key] : $icons['users'];
+}
+}
+
+// Fonction pour parser les points clés
+if (!function_exists('mobile_parse_features')) {
+function mobile_parse_features($features_text) {
+    if (empty($features_text)) return array();
+    $lines = explode("\n", $features_text);
+    $features = array();
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if (!empty($line)) {
+            $features[] = $line;
+        }
+    }
+    return array_slice($features, 0, 5);
+}
+}
+
+if (!empty($mobile_cards)) :
+?>
 <section id="formations" class="mobile-section mobile-formations scroll-fade">
     <div class="mobile-formations-container">
         <!-- Tag -->
         <div class="mobile-formations-tag scroll-zoom">
-            <span><?php esc_html_e('Nos Formations', 'almetal'); ?></span>
+            <span><?php echo esc_html($mobile_tag); ?></span>
         </div>
 
         <!-- Titre -->
         <h2 class="mobile-section-title">
-            <?php esc_html_e('DÉVELOPPEZ VOS COMPÉTENCES', 'almetal'); ?>
+            <?php echo esc_html($mobile_title); ?>
         </h2>
 
         <!-- Sous-titre -->
         <p class="mobile-formations-subtitle scroll-fade scroll-delay-2">
-            <?php esc_html_e('Formations professionnelles en métallerie adaptées à vos besoins', 'almetal'); ?>
+            <?php echo esc_html($mobile_subtitle); ?>
         </p>
 
-        <!-- Grille de 2 cards -->
+        <!-- Grille de cards dynamiques -->
         <div class="mobile-formations-grid">
             
-            <!-- Card Professionnels -->
-            <article class="mobile-formation-card scroll-slide-up scroll-delay-1">
+            <?php 
+            $card_index = 1;
+            foreach ($mobile_cards as $card) : 
+                $is_coming_soon = !empty($card['coming_soon']);
+                $has_image = !empty($card['image']);
+                $icon = !empty($card['icon']) ? $card['icon'] : 'users';
+                $features = mobile_parse_features($card['features'] ?? '');
+                $cta_url = !empty($card['cta_url']) ? $card['cta_url'] : '#';
+                $cta_text = !empty($card['cta_text']) ? $card['cta_text'] : 'En savoir +';
+                $delay_class = 'scroll-delay-' . (($card_index % 5) + 1);
+            ?>
+            
+            <article class="mobile-formation-card scroll-slide-up <?php echo $delay_class; ?><?php echo $is_coming_soon ? ' mobile-formation-card--disabled' : ''; ?>">
                 <div class="mobile-formation-card-inner">
+                    
+                    <?php if ($is_coming_soon) : ?>
+                    <div class="mobile-formation-badge">Bientôt disponible</div>
+                    <?php endif; ?>
+                    
+                    <?php if ($has_image) : ?>
+                    <!-- Image -->
+                    <div class="mobile-formation-image">
+                        <img src="<?php echo esc_url($card['image']); ?>" 
+                             alt="<?php echo esc_attr($card['image_alt'] ?? $card['title']); ?>"
+                             loading="lazy">
+                    </div>
+                    <?php else : ?>
                     <!-- Icône -->
                     <div class="mobile-formation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
+                        <?php echo mobile_get_formation_icon($icon); ?>
                     </div>
+                    <?php endif; ?>
 
                     <!-- Contenu -->
                     <div class="mobile-formation-content">
                         <h3 class="mobile-formation-title">
-                            <?php esc_html_e('PROFESSIONNELS', 'almetal'); ?>
+                            <?php echo esc_html($card['title']); ?>
                         </h3>
                         
+                        <?php if (!empty($card['description'])) : ?>
                         <p class="mobile-formation-description">
-                            <?php esc_html_e('Formations spécialisées pour les professionnels du métal : techniques avancées et perfectionnement.', 'almetal'); ?>
+                            <?php echo esc_html($card['description']); ?>
                         </p>
+                        <?php endif; ?>
 
+                        <?php if (!empty($features)) : ?>
                         <!-- Points clés -->
                         <ul class="mobile-formation-features">
+                            <?php foreach ($features as $feature) : ?>
                             <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                <span><?php esc_html_e('Certification pro', 'almetal'); ?></span>
+                                <span><?php echo esc_html($feature); ?></span>
                             </li>
-                            <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                <span><?php esc_html_e('Formateurs experts', 'almetal'); ?></span>
-                            </li>
-                            <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                <span><?php esc_html_e('Équipement pro', 'almetal'); ?></span>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
+                        <?php endif; ?>
 
+                        <?php if (!$is_coming_soon) : ?>
                         <!-- Bouton -->
-                        <a href="<?php echo esc_url(home_url('/formations-professionnels')); ?>" class="mobile-btn-cta scroll-zoom">
-                            <?php esc_html_e('En savoir +', 'almetal'); ?>
+                        <a href="<?php echo esc_url(home_url($cta_url)); ?>" class="mobile-btn-cta scroll-zoom">
+                            <?php echo esc_html($cta_text); ?>
                         </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </article>
-
-            <!-- Card Particuliers -->
-            <article class="mobile-formation-card scroll-slide-up scroll-delay-2">
-                <div class="mobile-formation-card-inner">
-                    <!-- Icône -->
-                    <div class="mobile-formation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                    </div>
-
-                    <!-- Contenu -->
-                    <div class="mobile-formation-content">
-                        <h3 class="mobile-formation-title">
-                            <?php esc_html_e('PARTICULIERS', 'almetal'); ?>
-                        </h3>
-                        
-                        <p class="mobile-formation-description">
-                            <?php esc_html_e('Initiations et ateliers pour les passionnés : découverte et création en toute sécurité.', 'almetal'); ?>
-                        </p>
-
-                        <!-- Points clés -->
-                        <ul class="mobile-formation-features">
-                            <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                <span><?php esc_html_e('Ateliers découverte', 'almetal'); ?></span>
-                            </li>
-                            <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                <span><?php esc_html_e('Petits groupes', 'almetal'); ?></span>
-                            </li>
-                            <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                                <span><?php esc_html_e('Projets perso', 'almetal'); ?></span>
-                            </li>
-                        </ul>
-
-                        <!-- Bouton -->
-                        <a href="<?php echo esc_url(home_url('/formations-particuliers')); ?>" class="mobile-btn-cta scroll-zoom">
-                            <?php esc_html_e('En savoir +', 'almetal'); ?>
-                        </a>
-                    </div>
-                </div>
-            </article>
+            
+            <?php 
+            $card_index++;
+            endforeach; 
+            ?>
 
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <!-- Séparateur -->
 <div class="mobile-section-separator"></div>
