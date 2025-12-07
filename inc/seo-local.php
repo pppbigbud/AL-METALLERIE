@@ -95,11 +95,38 @@ function almetal_seo_meta_head() {
         return; // Ne pas doubler les meta tags
     }
     
+    // Générer le titre OG selon la page
+    $og_title = 'AL Métallerie | Métallier Ferronnier à Thiers (63)';
+    $og_type = 'website';
+    $og_url = home_url('/');
+    $og_image = get_template_directory_uri() . '/assets/images/og-image.jpg';
+    
+    if (is_front_page() || is_home()) {
+        $og_title = 'AL Métallerie | Métallier Ferronnier à Thiers, Puy-de-Dôme';
+    } elseif (is_post_type_archive('realisation') || is_page('realisations')) {
+        $og_title = 'Nos Réalisations | Portails, Garde-corps, Escaliers | AL Métallerie';
+        $og_url = get_post_type_archive_link('realisation');
+    } elseif (is_page('formations')) {
+        $og_title = 'Formations Soudure & Métallerie | AL Métallerie Thiers';
+        $og_url = get_permalink();
+    } elseif (is_page('contact')) {
+        $og_title = 'Contact | AL Métallerie à Thiers (63)';
+        $og_url = get_permalink();
+    } elseif (is_tax('type_realisation')) {
+        $term = get_queried_object();
+        $og_title = ucfirst($term->name) . ' sur mesure | AL Métallerie Thiers';
+        $og_url = get_term_link($term);
+    } elseif (is_page()) {
+        $og_title = get_the_title() . ' | AL Métallerie';
+        $og_url = get_permalink();
+    }
+    
     ?>
     <!-- SEO Local - AL Métallerie -->
     <meta name="description" content="<?php echo esc_attr($description); ?>">
     <meta name="author" content="AL Métallerie">
     <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="<?php echo esc_url($og_url); ?>">
     
     <!-- Géolocalisation -->
     <meta name="geo.region" content="FR-63">
@@ -107,16 +134,24 @@ function almetal_seo_meta_head() {
     <meta name="geo.position" content="<?php echo $business['lat']; ?>;<?php echo $business['lon']; ?>">
     <meta name="ICBM" content="<?php echo $business['lat']; ?>, <?php echo $business['lon']; ?>">
     
-    <!-- Open Graph -->
+    <!-- Open Graph (Facebook, LinkedIn, etc.) -->
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="AL Métallerie">
+    <meta property="og:type" content="<?php echo esc_attr($og_type); ?>">
+    <meta property="og:title" content="<?php echo esc_attr($og_title); ?>">
     <meta property="og:description" content="<?php echo esc_attr($description); ?>">
-    <meta property="og:image" content="<?php echo get_template_directory_uri(); ?>/assets/images/og-image.jpg">
+    <meta property="og:url" content="<?php echo esc_url($og_url); ?>">
+    <meta property="og:site_name" content="AL Métallerie">
+    <meta property="og:image" content="<?php echo esc_url($og_image); ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="AL Métallerie - Artisan métallier ferronnier à Thiers (63)">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo esc_attr($og_title); ?>">
     <meta name="twitter:description" content="<?php echo esc_attr($description); ?>">
+    <meta name="twitter:image" content="<?php echo esc_url($og_image); ?>">
+    <meta name="twitter:image:alt" content="AL Métallerie - Artisan métallier ferronnier à Thiers (63)">
     <?php
 }
 add_action('wp_head', 'almetal_seo_meta_head', 1);
