@@ -217,12 +217,12 @@
                                     $logo_png = get_template_directory_uri() . '/assets/images/logo.png';
                                     ?>
                                     <picture>
-                                        <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp">
+                                        <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp" width="81" height="80">
                                         <img src="<?php echo esc_url($logo_png); ?>" 
                                              alt="<?php bloginfo('name'); ?> - Métallier Ferronnier Thiers" 
                                              class="site-logo-img"
-                                             width="142"
-                                             height="140"
+                                             width="81"
+                                             height="80"
                                              fetchpriority="high"
                                              decoding="async">
                                     </picture>

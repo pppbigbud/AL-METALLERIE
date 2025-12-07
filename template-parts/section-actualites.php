@@ -117,15 +117,21 @@ $realisations_query = new WP_Query(array(
                         $term_classes = implode(' ', $term_slugs);
                     }
                     
-                    // Image à la une - utiliser medium_large pour optimiser le LCP
+                    // Image à la une - utiliser realisation-card (400x300) pour optimiser le LCP
                     $thumbnail_id = get_post_thumbnail_id(get_the_ID());
-                    $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
+                    // Utiliser la taille optimisée realisation-card (400x300)
+                    $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'realisation-card');
+                    // Fallback sur medium si realisation-card n'existe pas encore
+                    if (!$thumbnail_url) {
+                        $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+                    }
                     if (!$thumbnail_url) {
                         $thumbnail_url = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
                     }
                     // Générer le srcset pour les images responsives
-                    $srcset = $thumbnail_id ? wp_get_attachment_image_srcset($thumbnail_id, 'medium_large') : '';
-                    $sizes = '(max-width: 480px) 400px, (max-width: 768px) 600px, 800px';
+                    $srcset = $thumbnail_id ? wp_get_attachment_image_srcset($thumbnail_id, 'realisation-card') : '';
+                    // Tailles adaptées aux dimensions réellement affichées (PageSpeed)
+                    $sizes = '(max-width: 480px) 300px, (max-width: 768px) 390px, 640px';
                     ?>
                     
                     <?php
@@ -144,8 +150,8 @@ $realisations_query = new WP_Query(array(
                                 <img src="<?php echo esc_url($thumbnail_url); ?>" 
                                      alt="<?php echo esc_attr($alt_seo); ?>" 
                                      class="realisation-image"
-                                     width="600"
-                                     height="400"
+                                     width="400"
+                                     height="300"
                                      <?php if ($srcset) : ?>
                                      srcset="<?php echo esc_attr($srcset); ?>"
                                      sizes="<?php echo esc_attr($sizes); ?>"

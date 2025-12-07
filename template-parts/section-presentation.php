@@ -16,7 +16,10 @@
         <div class="presentation-images">
             <div class="presentation-image-wrapper presentation-image-top">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" type="image/webp">
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?> 720w,
+                                    <?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?> 400w"
+                            sizes="(max-width: 768px) 300px, 400px"
+                            type="image/webp">
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.png'); ?>" 
                          alt="Soudeur professionnel AL-Metallerie Soudure en action à Thiers"
                          class="presentation-img"
@@ -28,13 +31,16 @@
             </div>
             <div class="presentation-image-wrapper presentation-image-bottom">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?>" type="image/webp">
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?> 800w,
+                                    <?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?> 400w"
+                            sizes="(max-width: 768px) 250px, 400px"
+                            type="image/webp">
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.png'); ?>" 
                          alt="Travaux de métallerie de précision à Thiers, Puy-de-Dôme"
                          class="presentation-img"
                          loading="lazy"
-                         width="300"
-                         height="400">
+                         width="400"
+                         height="267">
                 </picture>
             </div>
         </div>
