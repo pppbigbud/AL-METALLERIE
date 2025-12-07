@@ -117,11 +117,15 @@ $realisations_query = new WP_Query(array(
                         $term_classes = implode(' ', $term_slugs);
                     }
                     
-                    // Image à la une
-                    $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'large');
+                    // Image à la une - utiliser medium_large pour optimiser le LCP
+                    $thumbnail_id = get_post_thumbnail_id(get_the_ID());
+                    $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
                     if (!$thumbnail_url) {
                         $thumbnail_url = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
                     }
+                    // Générer le srcset pour les images responsives
+                    $srcset = $thumbnail_id ? wp_get_attachment_image_srcset($thumbnail_id, 'medium_large') : '';
+                    $sizes = '(max-width: 480px) 400px, (max-width: 768px) 600px, 800px';
                     ?>
                     
                     <?php
@@ -133,14 +137,26 @@ $realisations_query = new WP_Query(array(
                     ?>
                     <article class="realisation-card <?php echo esc_attr($term_classes); ?>" data-categories="<?php echo esc_attr($term_classes); ?>">
                         <div class="realisation-image-wrapper">
-                            <?php if ($thumbnail_url) : ?>
+                            <?php if ($thumbnail_url) : 
+                                // Première image = LCP, pas de lazy loading
+                                $is_first = ($realisations_query->current_post === 0);
+                            ?>
                                 <img src="<?php echo esc_url($thumbnail_url); ?>" 
                                      alt="<?php echo esc_attr($alt_seo); ?>" 
                                      class="realisation-image"
-                                     width="400"
-                                     height="300"
+                                     width="600"
+                                     height="400"
+                                     <?php if ($srcset) : ?>
+                                     srcset="<?php echo esc_attr($srcset); ?>"
+                                     sizes="<?php echo esc_attr($sizes); ?>"
+                                     <?php endif; ?>
+                                     <?php if ($is_first) : ?>
+                                     fetchpriority="high"
+                                     decoding="sync"
+                                     <?php else : ?>
                                      loading="lazy"
-                                     decoding="async">
+                                     decoding="async"
+                                     <?php endif; ?>>
                             <?php endif; ?>
                         </div>
                         

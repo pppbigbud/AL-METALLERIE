@@ -62,7 +62,7 @@
                             
                             <!-- Réalisations avec mega menu -->
                             <li class="header-mega__item has-megamenu">
-                                <a href="<?php echo esc_url(home_url('/?post_type=realisation')); ?>">
+                                <a href="<?php echo esc_url(home_url('/realisations/')); ?>">
                                     <svg class="header-menu-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <!-- Masque de soudure -->
                                         <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
@@ -187,7 +187,7 @@
                                                 // Fallback si pas de catégories
                                                 ?>
                                                 <li class="megamenu-categories__item active">
-                                                    <a href="<?php echo esc_url(home_url('/?post_type=realisation')); ?>">
+                                                    <a href="<?php echo esc_url(home_url('/realisations/')); ?>">
                                                         <span class="megamenu-categories__name">Toutes les réalisations</span>
                                                         <span class="megamenu-categories__count">Voir tout</span>
                                                     </a>
