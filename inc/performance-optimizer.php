@@ -238,13 +238,47 @@ add_filter('style_loader_tag', 'almetal_font_loader_tag', 10, 2);
 /**
  * Générer des images responsives avec srcset optimisé
  * Améliore le LCP en servant la bonne taille d'image
+ * Basé sur les dimensions réelles affichées (rapport PageSpeed)
  */
 function almetal_responsive_image_sizes($sizes, $size, $image_src, $image_meta, $attachment_id) {
     // Tailles optimisées pour les différents breakpoints
-    $sizes = '(max-width: 480px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1024px';
+    // Mobile: 400px, Tablet: 600px, Desktop: 640px max
+    $sizes = '(max-width: 480px) 400px, (max-width: 768px) 500px, (max-width: 1024px) 640px, 640px';
     return $sizes;
 }
 add_filter('wp_calculate_image_sizes', 'almetal_responsive_image_sizes', 10, 5);
+
+/**
+ * Forcer l'utilisation des tailles d'images optimisées pour les réalisations
+ */
+function almetal_optimize_realisation_thumbnails($html, $post_id, $post_thumbnail_id, $size, $attr) {
+    // Si c'est une archive ou la page d'accueil, utiliser la taille optimisée
+    if (is_archive() || is_front_page() || is_home()) {
+        // Récupérer l'image dans la taille optimisée
+        $optimized_html = wp_get_attachment_image($post_thumbnail_id, 'realisation-card', false, $attr);
+        if ($optimized_html) {
+            return $optimized_html;
+        }
+    }
+    return $html;
+}
+add_filter('post_thumbnail_html', 'almetal_optimize_realisation_thumbnails', 10, 5);
+
+/**
+ * Augmenter la compression des images WebP/JPEG
+ * Réduit la taille de téléchargement (recommandation PageSpeed)
+ */
+function almetal_image_quality($quality, $mime_type = '') {
+    // Qualité optimale pour le web (balance taille/qualité)
+    // 70-75 est recommandé pour WebP, 75-80 pour JPEG
+    if ($mime_type === 'image/webp') {
+        return 70;
+    }
+    return 75;
+}
+add_filter('wp_editor_set_quality', 'almetal_image_quality', 10, 2);
+add_filter('jpeg_quality', function() { return 75; });
+add_filter('wp_image_quality', function() { return 75; });
 
 /**
  * Ajouter fetchpriority="high" aux images du slideshow (LCP)
@@ -289,16 +323,23 @@ add_filter('wp_editor_set_quality', 'almetal_webp_quality');
 
 /**
  * Ajouter les tailles d'images personnalisées optimisées
+ * Basé sur les dimensions réelles affichées (rapport PageSpeed)
  */
 function almetal_add_image_sizes() {
-    // Taille pour le slideshow desktop
-    add_image_size('slideshow-desktop', 800, 450, true);
+    // Taille pour le slideshow desktop (dimensions affichées: ~633x293)
+    add_image_size('slideshow-desktop', 640, 300, true);
     // Taille pour le slideshow mobile
     add_image_size('slideshow-mobile', 400, 300, true);
-    // Taille pour les cartes de réalisation
-    add_image_size('realisation-card', 600, 400, true);
+    // Taille pour les cartes de réalisation (dimensions affichées: ~390x293)
+    add_image_size('realisation-card', 400, 300, true);
+    // Taille pour les cartes portrait (dimensions affichées: ~390x520)
+    add_image_size('realisation-card-portrait', 400, 530, true);
     // Taille pour les miniatures
     add_image_size('realisation-thumb', 300, 200, true);
+    // Taille pour la galerie (dimensions affichées: ~400x498)
+    add_image_size('gallery-image', 400, 500, true);
+    // Taille pour le logo (dimensions affichées: 81x80)
+    add_image_size('logo-small', 100, 100, false);
 }
 add_action('after_setup_theme', 'almetal_add_image_sizes');
 
