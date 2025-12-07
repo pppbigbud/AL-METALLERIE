@@ -147,14 +147,17 @@ function almetal_enqueue_scripts() {
     }
     
     // ============================================
-    // CSS MOBILE - Chargé pour tous (media query gère l'affichage)
+    // CSS MOBILE UNIQUEMENT
     // ============================================
-    wp_enqueue_style(
-        'almetal-mobile-unified',
-        get_template_directory_uri() . '/assets/css/mobile-unified.css',
-        array('almetal-style', 'almetal-components'),
-        '2.1.0'
-    );
+    if (almetal_is_mobile()) {
+        // CSS Mobile unifié (remplace tous les anciens fichiers mobiles)
+        wp_enqueue_style(
+            'almetal-mobile-unified',
+            get_template_directory_uri() . '/assets/css/mobile-unified.css',
+            array('almetal-style', 'almetal-components'),
+            '2.1.0'
+        );
+    }
     
     /* ANCIENS FICHIERS MOBILES DÉSACTIVÉS - Remplacés par mobile-unified.css
     - mobile.css
