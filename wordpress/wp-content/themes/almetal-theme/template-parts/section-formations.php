@@ -158,7 +158,7 @@ function hp_parse_features($features_text) {
    ============================================ */
 .hp-formations-section {
     padding: 80px 0;
-    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+    background: #191919;
 }
 
 .hp-formations-wrapper {
@@ -316,11 +316,11 @@ function hp_parse_features($features_text) {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(10, 10, 10, 0.4) 0%,
-        rgba(10, 10, 10, 0.6) 30%,
-        rgba(10, 10, 10, 0.9) 50%,
-        #0a0a0a 65%,
-        #0a0a0a 100%
+        rgba(25, 25, 25, 0.4) 0%,
+        rgba(25, 25, 25, 0.6) 30%,
+        rgba(25, 25, 25, 0.9) 50%,
+        #191919 65%,
+        #191919 100%
     );
     z-index: 0;
 }
