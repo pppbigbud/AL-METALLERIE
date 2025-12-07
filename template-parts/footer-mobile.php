@@ -45,7 +45,7 @@
         <div class="mobile-footer-copyright">
             <p>
                 &copy; <?php echo date('Y'); ?> 
-                <strong>AL Métallerie</strong> - 
+                <strong>AL Métallerie & Soudure</strong> - 
                 <?php esc_html_e('Tous droits réservés', 'almetal'); ?>
             </p>
             <div class="mobile-footer-bottom-links">

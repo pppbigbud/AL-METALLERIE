@@ -18,28 +18,28 @@ if (!defined('ABSPATH')) {
 function almetal_seo_title($title) {
     // Page d'accueil
     if (is_front_page() || is_home()) {
-        return 'AL Métallerie | Métallier Ferronnier à Thiers, Puy-de-Dôme (63)';
+        return 'AL Métallerie & Soudure | Métallier Ferronnier à Thiers, Puy-de-Dôme (63)';
     }
     
     // Page réalisations
     if (is_post_type_archive('realisation') || is_page('realisations')) {
-        return 'Nos Réalisations | Portails, Garde-corps, Escaliers | AL Métallerie Thiers';
+        return 'Nos Réalisations | Portails, Garde-corps, Escaliers | AL Métallerie & Soudure Thiers';
     }
     
     // Page formations
     if (is_page('formations')) {
-        return 'Formations Soudure & Métallerie | AL Métallerie Thiers (63)';
+        return 'Formations Soudure & Métallerie | AL Métallerie & Soudure Thiers (63)';
     }
     
     // Page contact
     if (is_page('contact')) {
-        return 'Contact | AL Métallerie à Peschadoires près de Thiers (63)';
+        return 'Contact | AL Métallerie & Soudure à Peschadoires près de Thiers (63)';
     }
     
     // Taxonomie type de réalisation
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
-        return ucfirst($term->name) . ' sur mesure | AL Métallerie Thiers, Puy-de-Dôme';
+        return ucfirst($term->name) . ' sur mesure | AL Métallerie & Soudure Thiers, Puy-de-Dôme';
     }
     
     return $title;
@@ -52,7 +52,7 @@ add_filter('pre_get_document_title', 'almetal_seo_title', 10);
 function almetal_seo_meta_head() {
     // Informations de l'entreprise
     $business = array(
-        'name' => 'AL Métallerie',
+        'name' => 'AL Métallerie & Soudure',
         'address' => '14 route de Maringues, 63920 Peschadoires',
         'phone' => '06 73 33 35 32',
         'email' => 'aurelien@al-metallerie.fr',
@@ -62,11 +62,11 @@ function almetal_seo_meta_head() {
     );
     
     // Meta description par défaut (160 caractères max)
-    $description = 'AL Métallerie, artisan métallier ferronnier à Thiers (63). Portails, garde-corps, escaliers sur mesure. Devis gratuit ☎ 06 73 33 35 32';
+    $description = 'AL Métallerie & Soudure, artisan métallier ferronnier à Thiers (63). Portails, garde-corps, escaliers sur mesure. Devis gratuit ☎ 06 73 33 35 32';
     
     // Page d'accueil (158 caractères)
     if (is_front_page() || is_home()) {
-        $description = 'AL Métallerie, artisan métallier ferronnier à Thiers (63). Fabrication sur mesure : portails, garde-corps, escaliers, ferronnerie d\'art. Devis gratuit ☎ 06 73 33 35 32';
+        $description = 'AL Métallerie & Soudure, artisan métallier ferronnier à Thiers (63). Fabrication sur mesure : portails, garde-corps, escaliers. Devis gratuit ☎ 06 73 33 35 32';
     }
     
     // Page réalisations (156 caractères)
@@ -81,13 +81,13 @@ function almetal_seo_meta_head() {
     
     // Page contact (155 caractères)
     if (is_page('contact')) {
-        $description = 'Contactez AL Métallerie à Thiers (63) pour votre projet sur mesure. Devis gratuit sous 48h. ☎ 06 73 33 35 32 ou formulaire en ligne. Réponse rapide !';
+        $description = 'Contactez AL Métallerie & Soudure à Thiers (63) pour votre projet sur mesure. Devis gratuit sous 48h. ☎ 06 73 33 35 32 ou formulaire. Réponse rapide !';
     }
     
     // Taxonomie type de réalisation (adapté dynamiquement)
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
-        $description = ucfirst($term->name) . ' sur mesure à Thiers (63) par AL Métallerie. Fabrication artisanale, fer forgé et métal. Demandez votre devis gratuit !';
+        $description = ucfirst($term->name) . ' sur mesure à Thiers (63) par AL Métallerie & Soudure. Fabrication artisanale, fer forgé et métal. Devis gratuit !';
     }
     
     // Single réalisation - géré par almetal_seo_meta_tags() dans functions.php
@@ -96,35 +96,35 @@ function almetal_seo_meta_head() {
     }
     
     // Générer le titre OG selon la page
-    $og_title = 'AL Métallerie | Métallier Ferronnier à Thiers (63)';
+    $og_title = 'AL Métallerie & Soudure | Métallier Ferronnier à Thiers (63)';
     $og_type = 'website';
     $og_url = home_url('/');
     $og_image = get_template_directory_uri() . '/assets/images/og-image.jpg';
     
     if (is_front_page() || is_home()) {
-        $og_title = 'AL Métallerie | Métallier Ferronnier à Thiers, Puy-de-Dôme';
+        $og_title = 'AL Métallerie & Soudure | Métallier Ferronnier à Thiers, Puy-de-Dôme';
     } elseif (is_post_type_archive('realisation') || is_page('realisations')) {
-        $og_title = 'Nos Réalisations | Portails, Garde-corps, Escaliers | AL Métallerie';
+        $og_title = 'Nos Réalisations | Portails, Garde-corps, Escaliers | AL Métallerie & Soudure';
         $og_url = get_post_type_archive_link('realisation');
     } elseif (is_page('formations')) {
-        $og_title = 'Formations Soudure & Métallerie | AL Métallerie Thiers';
+        $og_title = 'Formations Soudure & Métallerie | AL Métallerie & Soudure Thiers';
         $og_url = get_permalink();
     } elseif (is_page('contact')) {
-        $og_title = 'Contact | AL Métallerie à Thiers (63)';
+        $og_title = 'Contact | AL Métallerie & Soudure à Thiers (63)';
         $og_url = get_permalink();
     } elseif (is_tax('type_realisation')) {
         $term = get_queried_object();
-        $og_title = ucfirst($term->name) . ' sur mesure | AL Métallerie Thiers';
+        $og_title = ucfirst($term->name) . ' sur mesure | AL Métallerie & Soudure Thiers';
         $og_url = get_term_link($term);
     } elseif (is_page()) {
-        $og_title = get_the_title() . ' | AL Métallerie';
+        $og_title = get_the_title() . ' | AL Métallerie & Soudure';
         $og_url = get_permalink();
     }
     
     ?>
     <!-- SEO Local - AL Métallerie -->
     <meta name="description" content="<?php echo esc_attr($description); ?>">
-    <meta name="author" content="AL Métallerie">
+    <meta name="author" content="AL Métallerie & Soudure">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="<?php echo esc_url($og_url); ?>">
     
@@ -140,18 +140,18 @@ function almetal_seo_meta_head() {
     <meta property="og:title" content="<?php echo esc_attr($og_title); ?>">
     <meta property="og:description" content="<?php echo esc_attr($description); ?>">
     <meta property="og:url" content="<?php echo esc_url($og_url); ?>">
-    <meta property="og:site_name" content="AL Métallerie">
+    <meta property="og:site_name" content="AL Métallerie & Soudure">
     <meta property="og:image" content="<?php echo esc_url($og_image); ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="AL Métallerie - Artisan métallier ferronnier à Thiers (63)">
+    <meta property="og:image:alt" content="AL Métallerie & Soudure - Artisan métallier ferronnier à Thiers (63)">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo esc_attr($og_title); ?>">
     <meta name="twitter:description" content="<?php echo esc_attr($description); ?>">
     <meta name="twitter:image" content="<?php echo esc_url($og_image); ?>">
-    <meta name="twitter:image:alt" content="AL Métallerie - Artisan métallier ferronnier à Thiers (63)">
+    <meta name="twitter:image:alt" content="AL Métallerie & Soudure - Artisan métallier ferronnier à Thiers (63)">
     <?php
 }
 add_action('wp_head', 'almetal_seo_meta_head', 1);
@@ -243,8 +243,8 @@ function almetal_schema_local_business() {
         '@type' => array('LocalBusiness', 'HomeAndConstructionBusiness'),
         'additionalType' => 'https://schema.org/Locksmith',
         '@id' => home_url('/#localbusiness'),
-        'name' => 'AL Métallerie',
-        'alternateName' => 'AL Métallerie Thiers',
+        'name' => 'AL Métallerie & Soudure',
+        'alternateName' => 'AL Métallerie & Soudure Thiers',
         'description' => 'Artisan métallier ferronnier à Thiers (63). Fabrication sur mesure de portails, garde-corps, escaliers, pergolas, ferronnerie d\'art. Formations soudure. Devis gratuit.',
         'url' => home_url('/'),
         'telephone' => '+33673333532',
@@ -314,7 +314,7 @@ function almetal_schema_local_business() {
             'Travail du fer forgé',
             'Fabrication sur mesure'
         ),
-        'slogan' => 'Votre artisan métallier ferronnier à Thiers',
+        'slogan' => 'Votre artisan métallier ferronnier & soudeur à Thiers',
         'foundingDate' => '2020',
         'founder' => array(
             '@type' => 'Person',
@@ -479,7 +479,7 @@ function almetal_seo_footer_text() {
     <div class="seo-footer-text" style="background: #1a1a1a; padding: 2rem 0; border-top: 1px solid rgba(240,139,24,0.2);">
         <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
             <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.8; text-align: center;">
-                <strong style="color: #F08B18;">AL Métallerie</strong> - Votre artisan métallier ferronnier à <strong>Thiers</strong> et dans tout le <strong>Puy-de-Dôme (63)</strong>. 
+                <strong style="color: #F08B18;">AL Métallerie & Soudure</strong> - Votre artisan métallier ferronnier à <strong>Thiers</strong> et dans tout le <strong>Puy-de-Dôme (63)</strong>. 
                 Nous intervenons à <strong>Clermont-Ferrand</strong>, <strong>Riom</strong>, <strong>Issoire</strong>, <strong>Ambert</strong>, <strong>Cournon-d'Auvergne</strong> 
                 et dans toute l'<strong>Auvergne</strong> pour vos projets de <strong>portails sur mesure</strong>, <strong>garde-corps</strong>, 
                 <strong>escaliers métalliques</strong>, <strong>pergolas</strong>, <strong>verrières</strong> et <strong>ferronnerie d'art</strong>. 

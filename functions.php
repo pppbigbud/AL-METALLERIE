@@ -1072,7 +1072,7 @@ function almetal_seo_meta_tags() {
     <meta property="og:title" content="<?php echo esc_attr($title . ' - ' . $type_realisation . ' à ' . $lieu); ?>">
     <meta property="og:description" content="<?php echo esc_attr($description); ?>">
     <meta property="og:url" content="<?php echo esc_url($canonical_url); ?>">
-    <meta property="og:site_name" content="AL Métallerie">
+    <meta property="og:site_name" content="AL Métallerie & Soudure">
     <meta property="og:image" content="<?php echo esc_url($image_url); ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
