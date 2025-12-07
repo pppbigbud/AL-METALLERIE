@@ -316,9 +316,10 @@ function hp_parse_features($features_text) {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(10, 10, 10, 0.3) 0%,
-        rgba(10, 10, 10, 0.5) 40%,
-        rgba(10, 10, 10, 0.85) 70%,
+        rgba(10, 10, 10, 0.4) 0%,
+        rgba(10, 10, 10, 0.6) 30%,
+        rgba(10, 10, 10, 0.9) 50%,
+        #0a0a0a 65%,
         #0a0a0a 100%
     );
     z-index: 0;
