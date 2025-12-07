@@ -2811,3 +2811,84 @@ background: #262626;
 }
 
 } /* Fin @media (max-width: 768px) */
+
+/* ============================================
+   STYLES MOBILES CRITIQUES (hors media query)
+   Pour garantir l'application sur tous les appareils mobiles
+   ============================================ */
+
+/* Bouton Voir plus - Réalisations */
+.mobile-realisations-load-more {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.mobile-btn-load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    border: 2px solid rgba(240, 139, 24, 0.5);
+    color: #F08B18;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-load-more:active,
+.mobile-btn-load-more:hover {
+    background: rgba(240, 139, 24, 0.1);
+    border-color: #F08B18;
+    transform: scale(0.98);
+}
+
+.mobile-btn-load-more svg {
+    transition: transform 0.3s ease;
+    stroke: #F08B18;
+}
+
+/* Loader AJAX */
+.mobile-realisations-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(240, 139, 24, 0.2);
+    border-top-color: #F08B18;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Message aucun résultat */
+.mobile-realisations-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 3rem 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.mobile-realisations-empty svg {
+    stroke: rgba(240, 139, 24, 0.5);
+}
+
+.mobile-realisations-empty p {
+    margin: 0;
+    font-size: 1rem;
+}
