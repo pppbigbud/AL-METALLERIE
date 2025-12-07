@@ -5,7 +5,7 @@
  * Affiche toutes les sections en une seule page avec navigation par ancres
  * Optimisé pour la performance et le SEO mobile
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 ?>

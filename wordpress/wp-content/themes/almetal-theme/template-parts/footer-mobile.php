@@ -1,6 +1,6 @@
 <?php
 /**
- * Footer Mobile Light - AL Metallerie
+ * Footer Mobile Light - AL-Metallerie Soudure
  * 
  * Version allégée du footer pour mobile
  * - Mentions légales

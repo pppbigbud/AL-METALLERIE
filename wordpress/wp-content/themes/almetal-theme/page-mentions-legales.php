@@ -3,7 +3,7 @@
  * Template Name: Mentions Légales
  * Description: Page des mentions légales conformes RGPD
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 

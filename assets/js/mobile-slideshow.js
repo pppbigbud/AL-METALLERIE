@@ -1,5 +1,5 @@
 /**
- * Slideshow Touch Mobile - AL Metallerie
+ * Slideshow Touch Mobile - AL Metallerie Soudure
  * 
  * Utilise Swiper.js pour un carrousel tactile optimisé mobile
  * - Navigation par swipe

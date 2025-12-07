@@ -1,6 +1,6 @@
 /**
  * Bannière de Consentement aux Cookies
- * Gestion du consentement RGPD pour AL Metallerie
+ * Gestion du consentement RGPD pour AL Metallerie Soudure
  * 
  * @package ALMetallerie
  * @since 1.0.0

@@ -3,7 +3,7 @@
  * Template Name: Page Contact
  * Template pour la page de contact avec carte Google Maps
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 

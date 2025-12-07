@@ -1,6 +1,6 @@
 <?php
 /**
- * AL Metallerie Theme Functions
+ * AL Metallerie Soudure Theme Functions
  * 
  * @package ALMetallerie
  * @since 1.0.0

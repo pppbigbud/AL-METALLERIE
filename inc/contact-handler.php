@@ -2,7 +2,7 @@
 /**
  * Gestionnaire du formulaire de contact
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 

@@ -3,7 +3,7 @@
  * Template Name: Politique de Confidentialité
  * Description: Page de politique de confidentialité conforme RGPD
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 

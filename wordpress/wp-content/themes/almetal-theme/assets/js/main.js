@@ -1,5 +1,5 @@
 /**
- * Scripts JavaScript AL Metallerie
+ * Scripts JavaScript AL Metallerie Soudure
  * 
  * @package ALMetallerie
  * @since 1.0.0
@@ -725,7 +725,7 @@
 
         // Log pour debug (à retirer en production)
         if (typeof almetalData !== 'undefined') {
-            console.log('AL Metallerie Theme loaded');
+            console.log('AL Metallerie Soudure Theme loaded');
             console.log('Is Mobile:', almetalData.isMobile);
         }
     });

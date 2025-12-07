@@ -27,7 +27,7 @@
                     <picture>
                         <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" type="image/webp">
                         <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.png'); ?>" 
-                             alt="Formation métallerie et soudure à Thiers - AL Metallerie"
+                             alt="Formation métallerie et soudure à Thiers - AL Metallerie Soudure"
                              class="realisation-image"
                              loading="lazy"
                              width="400" height="498">

@@ -2,7 +2,7 @@
 /**
  * Nouveau Footer avec style contact-info-card
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 ?>

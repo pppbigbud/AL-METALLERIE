@@ -6,7 +6,7 @@
  * Affiche le formulaire de contact complet + Google Maps
  * Header avec bouton retour vers l'accueil
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 

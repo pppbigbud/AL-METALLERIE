@@ -1,6 +1,6 @@
 <?php
 /**
- * Header Mobile - AL Metallerie
+ * Header Mobile - AL Metallerie Soudure
  * 
  * 2 variantes :
  * - Menu burger (one-page accueil)
@@ -31,7 +31,7 @@ $header_class = $is_home ? 'mobile-header--burger' : 'mobile-header--back';
         
         <!-- Logo centré -->
         <div class="mobile-logo">
-            <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('AL Metallerie - Accueil', 'almetal'); ?>">
+            <a href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('AL Metallerie Soudure - Accueil', 'almetal'); ?>">
                 <?php
                 if (has_custom_logo()) {
                     the_custom_logo();

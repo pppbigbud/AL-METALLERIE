@@ -1,9 +1,9 @@
 <?php
 /**
- * Optimisations SEO Local pour AL Métallerie
+ * Optimisations SEO Local pour AL Métallerie Soudure
  * Métallerie, Ferronnerie, Serrurerie à Thiers, Puy-de-Dôme
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 

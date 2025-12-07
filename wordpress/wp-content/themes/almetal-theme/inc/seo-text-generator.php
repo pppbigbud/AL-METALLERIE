@@ -2,7 +2,7 @@
 /**
  * Générateur de Texte SEO avec Hugging Face
  * 
- * @package ALMetallerie
+ * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 
@@ -110,7 +110,7 @@ class ALMetal_SEO_Text_Generator {
             $excerpt .= ' ' . $clients[array_rand($clients)];
         }
         
-        $excerpt .= '. AL Métallerie, artisan métallier dans le Puy-de-Dôme.';
+        $excerpt .= '. AL-Metallerie Soudure, artisan métallier dans le Puy-de-Dôme.';
         
         return $excerpt;
     }
@@ -241,7 +241,7 @@ Informations :
         
         // Pose
         if (!empty($data['pose']) && $data['pose'] === '1') {
-            $prompt .= "\n- Pose réalisée par AL Métallerie : Oui";
+            $prompt .= "\n- Pose réalisée par AL-Metallerie Soudure : Oui";
         }
         
         if (!empty($data['duree'])) {
@@ -258,7 +258,7 @@ Informations :
         
         $prompt .= "
 - Être engageante et professionnelle
-- Mentionner AL Métallerie
+- Mentionner AL-Metallerie Soudure
 - Ne pas utiliser de guillemets
 
 Écris uniquement la description, sans introduction ni conclusion.";
@@ -308,7 +308,7 @@ Informations :
 - Être conversationnel et chaleureux
 - Faire 3-4 paragraphes
 - Inclure des émojis pertinents
-- Mentionner AL Métallerie
+- Mentionner AL-Metallerie Soudure
 - Mentionner les détails techniques (matière, finition) si disponibles
 - Terminer par un call-to-action
 - Ne pas dépasser 500 caractères
@@ -351,7 +351,7 @@ Informations :
 - Être courte et impactante (2-3 lignes)
 - Inclure 10-15 hashtags pertinents (dont des hashtags sur la matière si disponible)
 - Utiliser des émojis
-- Mentionner AL Métallerie
+- Mentionner AL-Metallerie Soudure
 - Ne pas dépasser 300 caractères (hors hashtags)
 
 Format : [Texte] + [Hashtags sur des lignes séparées]";
@@ -406,7 +406,7 @@ Informations :
 - Faire 4-5 paragraphes
 - Mettre en avant l'expertise et le savoir-faire
 - Inclure des détails techniques (matière, finition, pose)
-- Mentionner AL Métallerie
+- Mentionner AL-Metallerie Soudure
 - Terminer par un call-to-action professionnel
 - Ne pas dépasser 600 caractères
 
@@ -460,7 +460,7 @@ Informations :
      * Template SEO (fallback) - 5 variations
      */
     private function generate_seo_template($data) {
-        $type_names = !empty($data['types']) ? implode(' et ', wp_list_pluck($data['types'], 'name')) : 'métallerie';
+        $type_names = !empty($data['types']) ? implode(', ', wp_list_pluck($data['types'], 'name')) : 'métallerie';
         $lieu = !empty($data['lieu']) ? $data['lieu'] : 'Clermont-Ferrand';
         $date = !empty($data['date']) ? date_i18n('F Y', strtotime($data['date'])) : date_i18n('F Y');
         $matiere = !empty($data['matiere']) ? $this->get_matiere_label($data['matiere']) : '';
@@ -470,30 +470,30 @@ Informations :
         
         // Template 1 : Classique
         if ($matiere) {
-            $templates[] = "AL Métallerie : {$type_names} en {$matiere} à {$lieu} ({$date}). Découvrez notre savoir-faire artisanal.{$pose_text}";
+            $templates[] = "AL-Metallerie Soudure : {$type_names} en {$matiere} à {$lieu} ({$date}). Découvrez notre savoir-faire artisanal.{$pose_text}";
         } else {
-            $templates[] = "AL Métallerie vous présente sa réalisation de {$type_names} à {$lieu} ({$date}). Découvrez notre savoir-faire en métallerie sur-mesure.";
+            $templates[] = "AL-Metallerie Soudure vous présente sa réalisation de {$type_names} à {$lieu} ({$date}). Découvrez notre savoir-faire en métallerie sur-mesure.";
         }
         
         // Template 2 : Focus projet avec matière
         if ($matiere) {
-            $templates[] = "Projet {$type_names} en {$matiere} réalisé à {$lieu}. AL Métallerie, expert en métallerie sur-mesure.{$pose_text}";
+            $templates[] = "Projet {$type_names} en {$matiere} réalisé à {$lieu}. AL-Metallerie Soudure, expert en métallerie sur-mesure.{$pose_text}";
         } else {
-            $templates[] = "Découvrez notre projet de {$type_names} réalisé à {$lieu} en {$date}. AL Métallerie, votre expert en métallerie sur-mesure.";
+            $templates[] = "Découvrez notre projet de {$type_names} réalisé à {$lieu} en {$date}. AL-Metallerie Soudure, votre expert en métallerie sur-mesure.";
         }
         
         // Template 3 : Focus expertise
         if ($matiere) {
-            $templates[] = "{$type_names} {$matiere} sur-mesure à {$lieu} par AL Métallerie. Expertise et qualité pour vos projets.{$pose_text}";
+            $templates[] = "{$type_names} {$matiere} sur-mesure à {$lieu} par AL-Metallerie Soudure. Expertise et qualité pour vos projets.{$pose_text}";
         } else {
-            $templates[] = "{$type_names} sur-mesure à {$lieu} par AL Métallerie ({$date}). Expertise et qualité pour vos projets de métallerie.";
+            $templates[] = "{$type_names} sur-mesure à {$lieu} par AL-Metallerie Soudure ({$date}). Expertise et qualité pour vos projets de métallerie.";
         }
         
         // Template 4 : Focus résultat
-        $templates[] = "Projet de {$type_names} finalisé à {$lieu} en {$date}. AL Métallerie : conception et réalisation de métallerie haut de gamme.{$pose_text}";
+        $templates[] = "Projet de {$type_names} finalisé à {$lieu} en {$date}. AL-Metallerie Soudure : conception et réalisation de métallerie haut de gamme.{$pose_text}";
         
         // Template 5 : Focus local
-        $templates[] = "AL Métallerie réalise votre {$type_names} à {$lieu}. Découvrez notre dernière réalisation de {$date}. Métallerie artisanale.";
+        $templates[] = "AL-Metallerie Soudure réalise votre {$type_names} à {$lieu}. Découvrez notre dernière réalisation de {$date}. Métallerie artisanale.";
         
         // Choisir un template aléatoire
         return $templates[array_rand($templates)];
@@ -585,7 +585,7 @@ STRUCTURE OBLIGATOIRE (utilise ces balises HTML) :
 <p>Introduction accrocheuse avec mots-clés SEO...</p>
 
 <h3>Notre expertise en {$type_primary}</h3>
-<p>Paragraphe sur le savoir-faire AL Métallerie...</p>
+<p>Paragraphe sur le savoir-faire AL-Metallerie Soudure...</p>
 
 <h3>Caractéristiques techniques</h3>
 <p>Détails sur les matériaux, finitions, pose...</p>
@@ -597,7 +597,7 @@ RÈGLES :
 - Utilise les mots-clés : {$type_list}, métallerie, {$lieu}, {$departement}, sur-mesure, artisan
 - Écris en français professionnel
 - Environ 300-400 mots
-- Mentionne AL Métallerie naturellement
+- Mentionne AL-Metallerie Soudure naturellement
 - Inclus les informations techniques si disponibles
 
 Génère uniquement le HTML, sans commentaires. [/INST]";
@@ -671,21 +671,21 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
             "{$type_primary} sur-mesure à {$lieu} : notre dernière création",
             "Projet de {$type_primary} réalisé à {$lieu}",
             "Notre expertise en {$type_primary} à {$lieu}",
-            "Réalisation {$type_primary} à {$lieu} par AL Métallerie",
+            "Réalisation {$type_primary} à {$lieu} par AL-Metallerie Soudure",
         );
         
         // Introductions variées
         $intros = array();
         if ($matiere) {
-            $intros[] = "Découvrez cette magnifique réalisation de {$type_list} en <strong>{$matiere}</strong>, conçue et fabriquée sur-mesure à {$lieu} par les artisans d'AL Métallerie.";
-            $intros[] = "AL Métallerie a le plaisir de vous présenter ce projet de {$type_list} en <strong>{$matiere}</strong>, réalisé avec passion à {$lieu}.";
-            $intros[] = "Ce projet de {$type_list} en <strong>{$matiere}</strong> illustre parfaitement le savoir-faire artisanal d'AL Métallerie, spécialiste de la métallerie à {$lieu}.";
+            $intros[] = "Découvrez cette magnifique réalisation de {$type_list} en <strong>{$matiere}</strong>, conçue et fabriquée sur-mesure à {$lieu} par les artisans d'AL-Metallerie Soudure.";
+            $intros[] = "AL-Metallerie Soudure a le plaisir de vous présenter ce projet de {$type_list} en <strong>{$matiere}</strong>, réalisé avec passion à {$lieu}.";
+            $intros[] = "Ce projet de {$type_list} en <strong>{$matiere}</strong> illustre parfaitement le savoir-faire artisanal d'AL-Metallerie Soudure, spécialiste de la métallerie à {$lieu}.";
             $intros[] = "Voici notre dernière création : un{$this->get_article($type_primary)} {$type_list} en <strong>{$matiere}</strong>, fabriqué{$this->get_accord($type_primary)} sur-mesure pour un client de {$lieu}.";
             $intros[] = "Nous sommes fiers de vous dévoiler cette réalisation de {$type_list} en <strong>{$matiere}</strong>. Un projet unique réalisé à {$lieu} avec le plus grand soin.";
         } else {
-            $intros[] = "Découvrez cette réalisation de {$type_list} conçue et fabriquée sur-mesure à {$lieu} par les artisans d'AL Métallerie.";
-            $intros[] = "AL Métallerie vous présente son dernier projet de {$type_list}, réalisé avec passion et expertise à {$lieu}.";
-            $intros[] = "Ce projet de {$type_list} témoigne du savoir-faire artisanal d'AL Métallerie, votre spécialiste métallerie à {$lieu} et dans le {$departement}.";
+            $intros[] = "Découvrez cette réalisation de {$type_list} conçue et fabriquée sur-mesure à {$lieu} par les artisans d'AL-Metallerie Soudure.";
+            $intros[] = "AL-Metallerie Soudure vous présente son dernier projet de {$type_list}, réalisé avec passion et expertise à {$lieu}.";
+            $intros[] = "Ce projet de {$type_list} témoigne du savoir-faire artisanal d'AL-Metallerie Soudure, votre spécialiste métallerie à {$lieu} et dans le {$departement}.";
             $intros[] = "Voici notre dernière création : un{$this->get_article($type_primary)} {$type_list} fabriqué{$this->get_accord($type_primary)} sur-mesure pour un client de {$lieu}.";
             $intros[] = "Nous avons le plaisir de vous présenter cette nouvelle réalisation de {$type_list}. Un projet unique créé à {$lieu} avec le plus grand soin.";
         }
@@ -693,19 +693,19 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         // Titres H3 expertise variés
         $titres_expertise = array(
             "Notre savoir-faire en {$type_primary}",
-            "L'expertise AL Métallerie",
+            "L'expertise AL-Metallerie Soudure",
             "Un travail artisanal de qualité",
             "La qualité au service de votre projet",
-            "Pourquoi choisir AL Métallerie ?",
+            "Pourquoi choisir AL-Metallerie Soudure ?",
             "Notre engagement qualité",
         );
         
         // Paragraphes expertise variés
         $expertises = array(
             "Depuis notre atelier situé dans le {$departement}, nous concevons et fabriquons des ouvrages de {$type_primary} sur-mesure. Chaque projet est unique et bénéficie de toute notre attention pour un résultat à la hauteur de vos attentes.",
-            "AL Métallerie met son expertise au service de vos projets de {$type_primary} dans le {$departement} et ses environs. Notre équipe d'artisans qualifiés travaille avec précision pour créer des ouvrages durables et esthétiques.",
+            "AL-Metallerie Soudure met son expertise au service de vos projets de {$type_primary} dans le {$departement} et ses environs. Notre équipe d'artisans qualifiés travaille avec précision pour créer des ouvrages durables et esthétiques.",
             "Spécialisés dans la {$type_primary} sur-mesure, nous accompagnons nos clients de la conception à la réalisation. Notre atelier dans le {$departement} nous permet de maîtriser chaque étape de fabrication.",
-            "Chez AL Métallerie, nous croyons que chaque projet mérite une attention particulière. C'est pourquoi nous travaillons en étroite collaboration avec nos clients pour créer des ouvrages de {$type_primary} parfaitement adaptés à leurs besoins.",
+            "Chez AL-Metallerie Soudure, nous croyons que chaque projet mérite une attention particulière. C'est pourquoi nous travaillons en étroite collaboration avec nos clients pour créer des ouvrages de {$type_primary} parfaitement adaptés à leurs besoins.",
             "Fort de notre expérience en métallerie, nous réalisons des projets de {$type_primary} alliant robustesse, esthétique et durabilité. Notre implantation dans le {$departement} nous permet d'intervenir rapidement sur toute la région.",
         );
         
@@ -740,7 +740,7 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         $phrases_pose = array(
             "La <strong>pose a été réalisée par nos équipes</strong>, garantissant une installation professionnelle conforme aux normes en vigueur",
             "Nos artisans ont assuré la <strong>pose complète</strong> de l'ouvrage, pour un résultat parfait et sécurisé",
-            "L'<strong>installation a été effectuée par AL Métallerie</strong>, assurant ainsi une mise en œuvre dans les règles de l'art",
+            "L'<strong>installation a été effectuée par AL-Metallerie Soudure</strong>, assurant ainsi une mise en œuvre dans les règles de l'art",
             "La <strong>pose professionnelle</strong> par notre équipe garantit une fixation solide et durable",
             "Nous avons pris en charge l'<strong>installation sur site</strong>, pour un service complet de A à Z",
         );
@@ -756,9 +756,9 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         
         // Phrases conclusion variées
         $conclusions = array(
-            "Ce projet de {$type_primary} a été réalisé à {$lieu} par AL Métallerie, artisan métallier dans le {$departement}.",
+            "Ce projet de {$type_primary} a été réalisé à {$lieu} par AL-Metallerie Soudure, artisan métallier dans le {$departement}.",
             "Cette réalisation de {$type_primary} à {$lieu} illustre notre engagement pour la qualité et le sur-mesure.",
-            "AL Métallerie, votre artisan métallier dans le {$departement}, a eu le plaisir de réaliser ce projet de {$type_primary} à {$lieu}.",
+            "AL-Metallerie Soudure, votre artisan métallier dans le {$departement}, a eu le plaisir de réaliser ce projet de {$type_primary} à {$lieu}.",
             "Basés dans le {$departement}, nous avons conçu et fabriqué ce projet de {$type_primary} pour un client de {$lieu}.",
             "Ce projet de {$type_primary} réalisé à {$lieu} témoigne de notre savoir-faire en métallerie sur-mesure.",
         );
@@ -773,11 +773,11 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         
         // Appels à l'action variés
         $ctas = array(
-            "<strong>Vous avez un projet similaire ?</strong> Contactez AL Métallerie pour un devis gratuit et personnalisé. Notre équipe est à votre écoute pour concrétiser vos idées en {$type_primary} sur-mesure.",
+            "<strong>Vous avez un projet similaire ?</strong> Contactez AL-Metallerie Soudure pour un devis gratuit et personnalisé. Notre équipe est à votre écoute pour concrétiser vos idées en {$type_primary} sur-mesure.",
             "<strong>Envie d'un projet sur-mesure ?</strong> N'hésitez pas à nous contacter pour discuter de votre projet de {$type_primary}. Devis gratuit et conseils personnalisés.",
-            "<strong>Ce projet vous inspire ?</strong> AL Métallerie réalise votre {$type_primary} sur-mesure dans le {$departement} et ses environs. Demandez votre devis gratuit !",
+            "<strong>Ce projet vous inspire ?</strong> AL-Metallerie Soudure réalise votre {$type_primary} sur-mesure dans le {$departement} et ses environs. Demandez votre devis gratuit !",
             "<strong>Besoin d'un artisan métallier ?</strong> Contactez-nous pour votre projet de {$type_primary}. Nous vous accompagnons de la conception à la pose.",
-            "<strong>Prêt à concrétiser votre projet ?</strong> AL Métallerie est à votre disposition pour étudier votre projet de {$type_primary}. Devis gratuit sous 48h.",
+            "<strong>Prêt à concrétiser votre projet ?</strong> AL-Metallerie Soudure est à votre disposition pour étudier votre projet de {$type_primary}. Devis gratuit sous 48h.",
         );
         
         // ========================================
@@ -919,7 +919,8 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         $templates = array();
         
         // Template 1 : Enthousiaste avec détails
-        $templates[] = "🔥 Nouvelle réalisation AL Métallerie ! 🔥\n\n"
+        $matiere_line = $matiere ? "⚙️ " . ucfirst($matiere) . "\n" : "";
+        $templates[] = "✨ {$data['title']} ✨\n\n"
             . "Nous sommes fiers de vous présenter notre dernier projet : {$data['title']} à {$lieu}.\n\n"
             . "✨ Un travail de {$type_names} réalisé avec passion et expertise par notre équipe.\n\n"
             . $details_text
@@ -938,7 +939,7 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         
         // Template 3 : Professionnel avec détails techniques
         $templates[] = "✅ Projet finalisé !\n\n"
-            . "AL Métallerie vient de terminer la réalisation de {$type_names} à {$lieu}.\n\n"
+            . "AL-Metallerie Soudure vient de terminer la réalisation de {$type_names} à {$lieu}.\n\n"
             . "📐 {$data['title']}\n"
             . ($matiere ? "🔧 Matière : " . ucfirst($matiere) . "\n" : "🔧 Conception et réalisation sur-mesure\n")
             . ($peinture ? "🎨 Finition : {$peinture}\n" : "")
@@ -963,7 +964,7 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
             . $client_collab
             . "Le résultat ? {$data['title']} qui allie esthétique et robustesse ! 💎\n\n"
             . $details_text
-            . "Votre projet mérite le meilleur. Faites confiance à AL Métallerie ! 🤝\n"
+            . "Votre projet mérite le meilleur. Faites confiance à AL-Metallerie Soudure ! 🤝\n"
             . "👉 www.al-metallerie.fr";
         
         // Template 5 : Fiche technique style avec client
@@ -983,7 +984,7 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
             . ($peinture ? "🎨 Finition : {$peinture}\n" : "")
             . ($pose ? "✅ Pose incluse\n" : "")
             . $client_fiche
-            . "\nDe la conception à la réalisation, AL Métallerie transforme vos idées en réalité. ✨\n\n"
+            . "\nDe la conception à la réalisation, AL-Metallerie Soudure transforme vos idées en réalité. ✨\n\n"
             . "Besoin d'un artisan de confiance ? On est là ! 💪\n"
             . "👉 www.al-metallerie.fr";
         
@@ -1006,7 +1007,7 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         $pose = (!empty($data['pose']) && ($data['pose'] === '1' || $data['pose'] == 1));
         
         // Hashtags de base avec matière si disponible
-        $base_hashtags = "#ALMetallerie #{$type_names} #Metallerie #MetalWork #Artisan #SurMesure #{$lieu_hashtag} #Auvergne #AuvergneRhoneAlpes #Ferronnerie";
+        $base_hashtags = "#AL-Metallerie Soudure #{$type_names} #Metallerie #MetalWork #Artisan #SurMesure #{$lieu_hashtag} #Auvergne #AuvergneRhoneAlpes #Ferronnerie";
         if ($matiere_hashtag) {
             $base_hashtags .= " {$matiere_hashtag}";
         }

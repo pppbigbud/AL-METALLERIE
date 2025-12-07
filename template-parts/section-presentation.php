@@ -18,7 +18,7 @@
                 <picture>
                     <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" type="image/webp">
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.png'); ?>" 
-                         alt="Soudeur professionnel AL-Metallerie en action à Thiers"
+                         alt="Soudeur professionnel AL-Metallerie Soudure en action à Thiers"
                          class="presentation-img"
                          fetchpriority="high"
                          decoding="async"
@@ -43,7 +43,7 @@
         <div class="presentation-content">
             <!-- Tag de bienvenue -->
             <div class="presentation-tag">
-                <span><?php esc_html_e('Bienvenu chez AL-Metallerie', 'almetal'); ?></span>
+                <span><?php esc_html_e('Bienvenu chez AL-Metallerie Soudure', 'almetal'); ?></span>
             </div>
 
             <!-- H1 unique pour le SEO - Titre principal de la page -->
@@ -60,7 +60,7 @@
             <!-- Description -->
             <div class="presentation-description">
                 <p>
-                    <?php esc_html_e('AL-Metallerie, votre expert en métallerie à Thiers (Puy-de-Dôme), accompagne entreprises et particuliers depuis de nombreuses années. Spécialisés dans la fabrication sur mesure, la rénovation et l\'installation de structures métalliques, nous mettons notre savoir-faire au service de vos projets les plus exigeants. De la conception à la réalisation, notre équipe qualifiée garantit des travaux de qualité supérieure, allégeant coûts et délais. Nous proposons également des formations professionnelles pour transmettre notre expertise. Faites confiance à AL-Metallerie pour donner vie à vos idées avec créativité et professionnalisme.', 'almetal'); ?>
+                    <?php esc_html_e('AL-Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme), accompagne entreprises et particuliers depuis de nombreuses années. Spécialisés dans la fabrication sur mesure, la rénovation et l\'installation de structures métalliques, nous mettons notre savoir-faire au service de vos projets les plus exigeants. De la conception à la réalisation, notre équipe qualifiée garantit des travaux de qualité supérieure, allégeant coûts et délais. Nous proposons également des formations professionnelles pour transmettre notre expertise. Faites confiance à AL-Metallerie Soudure pour donner vie à vos idées avec créativité et professionnalisme.', 'almetal'); ?>
                 </p>
             </div>
 

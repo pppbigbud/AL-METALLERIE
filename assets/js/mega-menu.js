@@ -1,5 +1,5 @@
 /**
- * Mega Menu - AL Metallerie
+ * Mega Menu - AL Metallerie Soudure
  * Gestion des interactions du mega menu
  */
 
