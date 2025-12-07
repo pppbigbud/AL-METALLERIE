@@ -378,7 +378,7 @@ function almetal_inline_critical_css() {
         .header-mega{display:flex;justify-content:center;align-items:center;padding:1rem 2rem}
         .header-mega__list{display:flex;list-style:none;margin:0;padding:0;gap:2rem}
         .header-mega__item a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.5rem}
-        .site-logo img{max-height:80px;width:auto}
+        .site-logo img{max-height:140px;width:auto}
         </style>
         <?php
     }

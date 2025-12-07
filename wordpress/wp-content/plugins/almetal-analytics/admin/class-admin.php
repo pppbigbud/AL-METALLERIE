@@ -30,23 +30,28 @@ class Almetal_Analytics_Admin {
      * Ajouter le menu admin
      */
     public function add_admin_menu() {
+        // Capacité pour accéder au menu Analytics (éditeurs et admins)
+        $analytics_cap = 'edit_pages';
+        // Capacité pour les réglages (admins uniquement)
+        $settings_cap = 'manage_options';
+        
         // Menu principal
         add_menu_page(
             __('Analytics', 'almetal-analytics'),
             __('Analytics', 'almetal-analytics'),
-            'manage_options',
+            $analytics_cap,
             'almetal-analytics',
             array($this, 'render_dashboard_page'),
             'dashicons-chart-area',
             30
         );
         
-        // Sous-menus
+        // Sous-menus accessibles aux éditeurs
         add_submenu_page(
             'almetal-analytics',
             __('Dashboard', 'almetal-analytics'),
             __('Dashboard', 'almetal-analytics'),
-            'manage_options',
+            $analytics_cap,
             'almetal-analytics',
             array($this, 'render_dashboard_page')
         );
@@ -55,7 +60,7 @@ class Almetal_Analytics_Admin {
             'almetal-analytics',
             __('Temps réel', 'almetal-analytics'),
             __('Temps réel', 'almetal-analytics'),
-            'manage_options',
+            $analytics_cap,
             'almetal-analytics-realtime',
             array($this, 'render_realtime_page')
         );
@@ -64,7 +69,7 @@ class Almetal_Analytics_Admin {
             'almetal-analytics',
             __('Heatmaps', 'almetal-analytics'),
             __('Heatmaps', 'almetal-analytics'),
-            'manage_options',
+            $analytics_cap,
             'almetal-analytics-heatmaps',
             array($this, 'render_heatmaps_page')
         );
@@ -73,7 +78,7 @@ class Almetal_Analytics_Admin {
             'almetal-analytics',
             __('Opt-ins', 'almetal-analytics'),
             __('Opt-ins', 'almetal-analytics'),
-            'manage_options',
+            $analytics_cap,
             'almetal-analytics-optins',
             array($this, 'render_optins_page')
         );
@@ -82,16 +87,17 @@ class Almetal_Analytics_Admin {
             'almetal-analytics',
             __('RGPD', 'almetal-analytics'),
             __('RGPD', 'almetal-analytics'),
-            'manage_options',
+            $analytics_cap,
             'almetal-analytics-gdpr',
             array($this, 'render_gdpr_page')
         );
         
+        // Réglages - réservé aux administrateurs
         add_submenu_page(
             'almetal-analytics',
             __('Réglages', 'almetal-analytics'),
             __('Réglages', 'almetal-analytics'),
-            'manage_options',
+            $settings_cap,
             'almetal-analytics-settings',
             array($this, 'render_settings_page')
         );
