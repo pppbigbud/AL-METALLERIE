@@ -24,18 +24,18 @@ $realisations_query = new WP_Query(array(
 
 <section class="actualites-section" id="actualites">
     <div class="actualites-container">
-        <!-- Tag -->
-        <div class="actualites-tag">
+        <!-- Tag (style formations) -->
+        <div class="hp-section-tag">
             <span><?php esc_html_e('Nos Réalisations', 'almetal'); ?></span>
         </div>
         
-        <!-- Titre -->
-        <h2 class="actualites-title">
-            <?php esc_html_e('MES DERNIÈRES RÉALISATIONS', 'almetal'); ?>
+        <!-- Titre (style formations) -->
+        <h2 class="hp-section-title">
+            <?php esc_html_e('NOS DERNIÈRES RÉALISATIONS', 'almetal'); ?>
         </h2>
         
-        <!-- Sous-titre -->
-        <p class="actualites-subtitle">
+        <!-- Sous-titre (style formations) -->
+        <p class="hp-section-subtitle">
             <?php esc_html_e('Découvrez nos projets récents en métallerie et ferronnerie d\'art', 'almetal'); ?>
         </p>
 
@@ -200,3 +200,53 @@ $realisations_query = new WP_Query(array(
         </div>
     </div>
 </section>
+
+<style>
+/* Styles partagés pour tag/titre/sous-titre (même style que formations) */
+.hp-section-tag {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.hp-section-tag span {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(240, 139, 24, 0.1);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 30px;
+    color: #F08B18;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hp-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.hp-section-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .hp-section-title {
+        font-size: 1.75rem;
+    }
+    
+    .hp-section-subtitle {
+        font-size: 1rem;
+    }
+}
+</style>
