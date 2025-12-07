@@ -312,11 +312,11 @@ function almetal_enqueue_scripts() {
             true
         );
         
-        // Filtrage réalisations (front-page uniquement)
+        // Filtrage AJAX réalisations (front-page uniquement)
         if (is_front_page()) {
             wp_enqueue_script(
-                'almetal-mobile-realisations-simple-filter',
-                get_template_directory_uri() . '/assets/js/mobile-realisations-simple-filter.js',
+                'almetal-mobile-realisations-ajax',
+                get_template_directory_uri() . '/assets/js/mobile-realisations-ajax.js',
                 array(),
                 wp_get_theme()->get('Version'),
                 true
@@ -1521,3 +1521,114 @@ function almetal_seo_enqueue_styles() {
     }
 }
 add_action('wp_enqueue_scripts', 'almetal_seo_enqueue_styles');
+
+/**
+ * ============================================================================
+ * AJAX : CHARGEMENT DES RÉALISATIONS MOBILE AVEC FILTRAGE
+ * ============================================================================
+ */
+function almetal_ajax_load_mobile_realisations() {
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : '';
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    $per_page = 3;
+    
+    $args = array(
+        'post_type' => 'realisation',
+        'posts_per_page' => $per_page,
+        'paged' => $page,
+        'orderby' => 'date',
+        'order' => 'DESC',
+    );
+    
+    // Filtrer par catégorie si spécifiée
+    if (!empty($category) && $category !== '*') {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'type_realisation',
+                'field' => 'slug',
+                'terms' => $category,
+            ),
+        );
+    }
+    
+    $query = new WP_Query($args);
+    $html = '';
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            
+            $terms = get_the_terms(get_the_ID(), 'type_realisation');
+            $term_classes = '';
+            $term_data = '';
+            if ($terms && !is_wp_error($terms)) {
+                $term_slugs = array_map(function($term) {
+                    return $term->slug;
+                }, $terms);
+                $term_classes = implode(' ', $term_slugs);
+                $term_data = implode(' ', $term_slugs);
+            }
+            
+            $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+            if (!$thumbnail_url) {
+                $thumbnail_url = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
+            }
+            
+            $date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
+            $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+            
+            $html .= '<article class="mobile-realisation-card ' . esc_attr($term_classes) . '" data-categories="' . esc_attr($term_data) . '">';
+            $html .= '<div class="mobile-realisation-image-wrapper">';
+            $html .= '<a href="' . get_permalink() . '">';
+            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr(get_the_title()) . '" loading="lazy" class="mobile-realisation-image">';
+            $html .= '<div class="mobile-realisation-overlay"><span class="view-more">Voir le projet</span></div>';
+            $html .= '</a>';
+            
+            if ($terms && !is_wp_error($terms)) {
+                $html .= '<div class="mobile-realisation-badges">';
+                foreach (array_slice($terms, 0, 2) as $term) {
+                    $html .= '<span class="mobile-realisation-badge">';
+                    $html .= '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+                    $html .= esc_html($term->name);
+                    $html .= '</span>';
+                }
+                $html .= '</div>';
+            }
+            
+            $html .= '</div>';
+            $html .= '<div class="mobile-realisation-content">';
+            $html .= '<h3 class="mobile-realisation-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
+            
+            if ($date_realisation || $lieu) {
+                $html .= '<div class="mobile-realisation-meta">';
+                if ($date_realisation) {
+                    $html .= '<span class="meta-item meta-date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' . date_i18n('M Y', strtotime($date_realisation)) . '</span>';
+                }
+                if ($lieu) {
+                    $html .= '<span class="meta-item meta-lieu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . esc_html($lieu) . '</span>';
+                }
+                $html .= '</div>';
+            }
+            
+            $html .= '<a href="' . get_permalink() . '" class="mobile-btn-view-project">';
+            $html .= '<span class="circle" aria-hidden="true"><svg class="icon arrow" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+            $html .= '<span class="button-text">Voir le projet</span>';
+            $html .= '</a>';
+            $html .= '</div>';
+            $html .= '</article>';
+        }
+        wp_reset_postdata();
+    }
+    
+    // Calculer s'il y a plus de pages
+    $has_more = ($page * $per_page) < $query->found_posts;
+    
+    wp_send_json_success(array(
+        'html' => $html,
+        'has_more' => $has_more,
+        'total' => $query->found_posts,
+        'current_page' => $page,
+    ));
+}
+add_action('wp_ajax_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
+add_action('wp_ajax_nopriv_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
