@@ -104,7 +104,6 @@ add_filter('style_loader_tag', 'almetal_defer_non_critical_css', 10, 4);
 function almetal_defer_scripts($tag, $handle, $src) {
     // Scripts à différer
     $defer_handles = array(
-        'almetal-cookie-consent',
         'almetal-actualites-filter',
         'jquery-migrate',
     );
