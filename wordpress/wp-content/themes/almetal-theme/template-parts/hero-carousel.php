@@ -86,7 +86,7 @@ function almetal_format_features($features_text) {
                     
                     <div class="mobile-hero-content<?php echo $is_promo ? ' promo-content' : ''; ?>">
                         <?php if (!empty($slide['title'])) : ?>
-                            <h1 class="mobile-hero-title"><?php echo esc_html($slide['title']); ?></h1>
+                            <h2 class="mobile-hero-title"><?php echo esc_html($slide['title']); ?></h2>
                         <?php endif; ?>
                         
                         <?php if (!empty($slide['subtitle'])) : ?>
@@ -183,7 +183,7 @@ function almetal_format_features($features_text) {
                             <div class="promo-left">
                                 <div class="promo-left-card">
                                     <?php if (!empty($slide['title'])) : ?>
-                                        <h1 class="hero-title"><?php echo esc_html($slide['title']); ?></h1>
+                                        <h2 class="hero-title"><?php echo esc_html($slide['title']); ?></h2>
                                     <?php endif; ?>
                                     
                                     <?php if (!empty($slide['subtitle'])) : ?>
@@ -244,7 +244,7 @@ function almetal_format_features($features_text) {
                         <!-- LAYOUT STANDARD : Contenu centré -->
                         <div class="hero-content">
                             <?php if (!empty($slide['title'])) : ?>
-                                <h1 class="hero-title"><?php echo esc_html($slide['title']); ?></h1>
+                                <h2 class="hero-title"><?php echo esc_html($slide['title']); ?></h2>
                             <?php endif; ?>
                             
                             <?php if (!empty($slide['subtitle'])) : ?>

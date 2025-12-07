@@ -46,7 +46,12 @@
                 <span><?php esc_html_e('Bienvenu chez AL-Metallerie', 'almetal'); ?></span>
             </div>
 
-            <!-- Titre principal -->
+            <!-- H1 unique pour le SEO - Titre principal de la page -->
+            <h1 class="presentation-h1">
+                <?php esc_html_e('Métallier Ferronnier à Thiers', 'almetal'); ?>
+            </h1>
+
+            <!-- Sous-titre -->
             <h2 class="presentation-title">
                 <?php esc_html_e('PROFESSIONNEL', 'almetal'); ?><br>
                 <?php esc_html_e('ET CRÉATIF', 'almetal'); ?>
