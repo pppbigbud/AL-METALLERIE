@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Définir les constantes du plugin
-define('ALMETAL_ANALYTICS_VERSION', '1.0.0');
+define('ALMETAL_ANALYTICS_VERSION', '1.0.1');
 define('ALMETAL_ANALYTICS_PATH', plugin_dir_path(__FILE__));
 define('ALMETAL_ANALYTICS_URL', plugin_dir_url(__FILE__));
 define('ALMETAL_ANALYTICS_BASENAME', plugin_basename(__FILE__));
