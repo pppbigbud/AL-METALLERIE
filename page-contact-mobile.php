@@ -58,12 +58,12 @@ get_header();
                 </div>
                 <div class="mobile-contact-page-content">
                     <h3><?php esc_html_e('Email', 'almetal'); ?></h3>
-                    <p>contact@al-metallerie.fr</p>
+                    <p>aurelien@al-metallerie.fr</p>
                 </div>
             </a>
 
             <!-- Adresse -->
-            <a href="https://maps.google.com/?q=Clermont-Ferrand" target="_blank" rel="noopener" class="mobile-contact-page-card scroll-fade scroll-delay-3">
+            <a href="https://maps.google.com/?q=Thiers" target="_blank" rel="noopener" class="mobile-contact-page-card scroll-fade scroll-delay-3">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -72,7 +72,7 @@ get_header();
                 </div>
                 <div class="mobile-contact-page-content">
                     <h3><?php esc_html_e('Adresse', 'almetal'); ?></h3>
-                    <p>Clermont-Ferrand, France</p>
+                    <p>Thiers, France</p>
                 </div>
             </a>
 
@@ -87,16 +87,17 @@ get_header();
                 <div class="mobile-contact-page-content">
                     <h3><?php esc_html_e('Horaires', 'almetal'); ?></h3>
                     <p><?php esc_html_e('Lun - Sam : 8h - 18h', 'almetal'); ?></p>
+                    <p><?php esc_html_e('Sam : sur RDV', 'almetal'); ?></p>
                 </div>
             </div>
         </div>
 
         <!-- Formulaire de contact -->
-        <div class="mobile-contact-form-section">
-            <h2 class="mobile-contact-form-title">
+        <div class="mobile-contact-form-section scroll-fade">
+            <h2 class="mobile-contact-form-title scroll-fade scroll-delay-1">
                 <?php esc_html_e('Envoyez-nous un message', 'almetal'); ?>
             </h2>
-            <p class="mobile-contact-form-subtitle">
+            <p class="mobile-contact-form-subtitle scroll-fade scroll-delay-2">
                 <?php esc_html_e('Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais', 'almetal'); ?>
             </p>
             
@@ -107,7 +108,7 @@ get_header();
             } else {
                 // Formulaire HTML de secours
                 ?>
-                <form class="mobile-contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                <form class="mobile-contact-form scroll-fade scroll-delay-3" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                     <input type="hidden" name="action" value="submit_contact_form">
                     <?php wp_nonce_field('contact_form_nonce', 'contact_nonce'); ?>
                     
@@ -136,7 +137,7 @@ get_header();
                         <textarea id="contact-message" name="contact_message" rows="6" required></textarea>
                     </div>
                     
-                    <button type="submit" class="mobile-btn-cta mobile-btn-cta--large">
+                    <button type="submit" class="mobile-btn-cta mobile-btn-cta--large scroll-zoom">
                         <?php esc_html_e('Envoyer le message', 'almetal'); ?>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="22" y1="2" x2="11" y2="13"></line>

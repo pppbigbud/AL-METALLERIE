@@ -96,11 +96,43 @@
 
         console.log('✅ Animations initialisées:', observedCount, 'éléments observés');
 
+        // Déclencher immédiatement les animations pour les éléments déjà visibles
+        triggerVisibleOnLoad(animateElements);
+
         // Initialiser l'animation CTA au scroll
         initCtaScrollAnimation();
 
         // Nettoyer will-change après les animations pour optimiser la mémoire
         setTimeout(cleanupWillChange, 3000);
+    }
+
+    /**
+     * Déclenche les animations pour les éléments déjà visibles au chargement
+     */
+    function triggerVisibleOnLoad(elements) {
+        // Petit délai pour laisser le rendu initial se faire
+        setTimeout(() => {
+            elements.forEach((element, index) => {
+                // Vérifier si l'élément est dans le viewport
+                const rect = element.getBoundingClientRect();
+                const isVisible = (
+                    rect.top < window.innerHeight &&
+                    rect.bottom > 0 &&
+                    rect.left < window.innerWidth &&
+                    rect.right > 0
+                );
+
+                if (isVisible && element.dataset.animated === 'pending') {
+                    // Ajouter un délai progressif basé sur la position
+                    const delay = index * 100; // 100ms entre chaque élément
+                    setTimeout(() => {
+                        element.dataset.animated = 'done';
+                        element.classList.add('visible');
+                    }, delay);
+                }
+            });
+            console.log('✅ Animations au chargement déclenchées');
+        }, 100);
     }
 
     /**
