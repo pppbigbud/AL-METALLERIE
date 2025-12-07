@@ -113,19 +113,34 @@
             
             const banner = document.createElement('div');
             banner.className = 'almetal-cookie-banner';
+            banner.setAttribute('role', 'dialog');
+            banner.setAttribute('aria-label', 'Consentement aux cookies');
+            banner.setAttribute('aria-live', 'polite');
             banner.innerHTML = `
                 <div class="almetal-cookie-banner__container">
                     <div class="almetal-cookie-banner__content">
-                        <h2 class="almetal-cookie-banner__title">🍪 Gestion des cookies</h2>
-                        <p class="almetal-cookie-banner__text">
-                            Nous utilisons des cookies pour améliorer votre expérience et analyser notre trafic de manière anonyme.
-                            <a href="${window.almetalAnalytics?.privacyUrl || '/politique-confidentialite/'}" target="_blank">En savoir plus</a>
-                        </p>
+                        <div class="almetal-cookie-banner__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/>
+                                <path d="M8.5 8.5v.01"/>
+                                <path d="M16 15.5v.01"/>
+                                <path d="M12 12v.01"/>
+                                <path d="M11 17v.01"/>
+                                <path d="M7 14v.01"/>
+                            </svg>
+                        </div>
+                        <div class="almetal-cookie-banner__text">
+                            <p>
+                                Nous utilisons des cookies pour améliorer votre expérience sur notre site. 
+                                En continuant à naviguer, vous acceptez notre utilisation des cookies.
+                                <a href="${window.almetalAnalytics?.privacyUrl || '/politique-confidentialite/'}" target="_blank" rel="noopener noreferrer">En savoir plus</a>
+                            </p>
+                        </div>
                     </div>
                     <div class="almetal-cookie-banner__actions">
-                        <button class="almetal-cookie-btn almetal-cookie-btn--refuse" data-action="refuse">Refuser</button>
-                        <button class="almetal-cookie-btn almetal-cookie-btn--settings" data-action="settings">Personnaliser</button>
-                        <button class="almetal-cookie-btn almetal-cookie-btn--accept" data-action="accept">Tout accepter</button>
+                        <button type="button" class="almetal-cookie-btn almetal-cookie-btn--refuse" data-action="refuse" aria-label="Refuser les cookies">Refuser</button>
+                        <button type="button" class="almetal-cookie-btn almetal-cookie-btn--settings" data-action="settings" aria-label="Personnaliser les cookies">Personnaliser</button>
+                        <button type="button" class="almetal-cookie-btn almetal-cookie-btn--accept" data-action="accept" aria-label="Accepter tous les cookies">Accepter</button>
                     </div>
                 </div>
             `;
@@ -136,7 +151,26 @@
 
             document.body.appendChild(banner);
             this.banner = banner;
-            requestAnimationFrame(() => banner.classList.add('visible'));
+            
+            // Animation d'apparition avec délai
+            setTimeout(() => {
+                banner.offsetHeight; // Force reflow
+                banner.classList.add('visible', 'animate-in');
+                
+                // Focus sur le bouton accepter pour l'accessibilité
+                setTimeout(() => {
+                    const acceptBtn = banner.querySelector('[data-action="accept"]');
+                    if (acceptBtn) acceptBtn.focus();
+                }, 100);
+            }, 800);
+            
+            // Gestion du clavier (Escape pour fermer)
+            this.escapeHandler = (e) => {
+                if (e.key === 'Escape' && this.banner?.classList.contains('visible')) {
+                    this.refuseAll();
+                }
+            };
+            document.addEventListener('keydown', this.escapeHandler);
         }
 
         createModal() {
@@ -221,10 +255,19 @@
 
         hide() {
             if (this.banner) {
+                this.banner.classList.add('hide');
                 this.banner.classList.remove('visible');
-                setTimeout(() => { this.banner?.remove(); this.banner = null; }, 400);
+                setTimeout(() => { 
+                    this.banner?.remove(); 
+                    this.banner = null; 
+                }, 400);
             }
             this.closeModal();
+            
+            // Nettoyer l'event listener
+            if (this.escapeHandler) {
+                document.removeEventListener('keydown', this.escapeHandler);
+            }
         }
 
         showIfNeeded() {
