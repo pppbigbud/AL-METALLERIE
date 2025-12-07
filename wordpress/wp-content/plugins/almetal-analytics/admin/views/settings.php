@@ -64,6 +64,10 @@ if (!defined('ABSPATH')) {
                     <td>
                         <?php
                         $excluded_roles = get_option('almetal_analytics_exclude_roles', array('administrator'));
+                        // S'assurer que c'est un tableau
+                        if (!is_array($excluded_roles)) {
+                            $excluded_roles = array('administrator');
+                        }
                         $all_roles = wp_roles()->get_names();
                         foreach ($all_roles as $role_key => $role_name) :
                         ?>
