@@ -143,6 +143,18 @@ function almetal_realisation_rewrite_rules() {
 add_action('init', 'almetal_realisation_rewrite_rules', 10);
 
 /**
+ * Rediriger ?post_type=realisation vers /realisations/
+ * Pour éviter le contenu dupliqué
+ */
+function almetal_redirect_realisation_archive() {
+    if (isset($_GET['post_type']) && $_GET['post_type'] === 'realisation' && !is_admin()) {
+        wp_redirect(home_url('/realisations/'), 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'almetal_redirect_realisation_archive');
+
+/**
  * Enregistrer la query var personnalisée
  */
 function almetal_realisation_query_vars($vars) {

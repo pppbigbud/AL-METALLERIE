@@ -42,6 +42,32 @@ function almetal_seo_title($title) {
         return ucfirst($term->name) . ' sur mesure | AL Métallerie & Soudure Thiers, Puy-de-Dôme';
     }
     
+    // Réalisations individuelles - Title optimisé (max 60 caractères)
+    if (is_singular('realisation')) {
+        global $post;
+        $post_title = get_the_title();
+        $lieu = get_post_meta($post->ID, '_almetal_lieu', true);
+        $terms = get_the_terms($post->ID, 'type_realisation');
+        $type = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : '';
+        
+        // Format court: "Titre – AL Métallerie Soudure | Thiers"
+        // Si le titre est trop long, on le tronque intelligemment
+        $suffix = ' – AL Métallerie Soudure';
+        $max_title_length = 60 - strlen($suffix);
+        
+        if (strlen($post_title) > $max_title_length) {
+            // Tronquer au dernier mot complet
+            $post_title = substr($post_title, 0, $max_title_length - 3);
+            $last_space = strrpos($post_title, ' ');
+            if ($last_space !== false) {
+                $post_title = substr($post_title, 0, $last_space);
+            }
+            $post_title .= '...';
+        }
+        
+        return $post_title . $suffix;
+    }
+    
     return $title;
 }
 add_filter('pre_get_document_title', 'almetal_seo_title', 10);

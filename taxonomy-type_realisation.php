@@ -29,6 +29,57 @@ $category_icons = array(
 );
 
 $current_icon = isset($category_icons[$current_term->slug]) ? $category_icons[$current_term->slug] : $category_icons['autres'];
+
+// Contenus SEO par catégorie (150-200 mots pour améliorer le ratio texte)
+$seo_contents = array(
+    'portails' => array(
+        'intro' => 'Spécialiste de la fabrication de portails sur mesure dans le Puy-de-Dôme, AL Métallerie & Soudure conçoit des portails battants et coulissants adaptés à vos besoins.',
+        'details' => 'Nos portails sont fabriqués en acier, fer forgé ou aluminium selon vos préférences. Chaque création est unique : portail plein pour plus d\'intimité, portail ajouré pour un style contemporain, ou portail ornemental pour une touche classique. Nous assurons également la motorisation et l\'installation complète. Intervention dans tout le Puy-de-Dôme : Thiers, Clermont-Ferrand, Riom, Issoire et leurs environs.',
+        'cta' => 'Demandez votre devis gratuit pour un portail sur mesure.'
+    ),
+    'garde-corps' => array(
+        'intro' => 'AL Métallerie & Soudure réalise des garde-corps sur mesure pour sécuriser vos escaliers, balcons et terrasses tout en apportant une touche esthétique à votre habitat.',
+        'details' => 'Nos garde-corps sont conçus selon les normes de sécurité en vigueur (NF P01-012). Nous proposons différents styles : garde-corps à barreaux verticaux, à câbles inox, avec remplissage verre ou panneaux décoratifs. Matériaux disponibles : acier thermolaqué, inox brossé ou poli, fer forgé traditionnel. Chaque projet est étudié sur place pour garantir une adaptation parfaite à votre configuration.',
+        'cta' => 'Contactez-nous pour un devis personnalisé.'
+    ),
+    'escaliers' => array(
+        'intro' => 'Fabrication d\'escaliers métalliques sur mesure par AL Métallerie & Soudure. Escaliers droits, quart tournant, hélicoïdaux : nous réalisons tous types de configurations.',
+        'details' => 'Nos escaliers allient solidité et design. Structure en acier ou inox, marches en métal, bois ou verre selon vos goûts. Nous concevons des escaliers intérieurs et extérieurs, avec limons latéraux ou crémaillère centrale. Chaque escalier est fabriqué dans notre atelier à Peschadoires puis installé par nos soins. Garantie décennale sur tous nos ouvrages.',
+        'cta' => 'Obtenez un devis pour votre projet d\'escalier.'
+    ),
+    'ferronnerie-dart' => array(
+        'intro' => 'La ferronnerie d\'art est notre passion. AL Métallerie & Soudure crée des pièces uniques qui subliment votre intérieur et extérieur.',
+        'details' => 'Marquises, auvents, grilles décoratives, luminaires, mobilier d\'art... Nous travaillons le fer forgé selon les techniques traditionnelles tout en intégrant les tendances contemporaines. Chaque création est une œuvre unique, façonnée à la main dans notre atelier. Restauration de ferronnerie ancienne également disponible pour préserver le patrimoine.',
+        'cta' => 'Parlez-nous de votre projet de ferronnerie d\'art.'
+    ),
+    'grilles' => array(
+        'intro' => 'Protection et esthétisme avec nos grilles de défense sur mesure. AL Métallerie & Soudure sécurise vos ouvertures sans compromettre le style.',
+        'details' => 'Grilles de fenêtres, grilles de porte, grilles de soupirail : nous fabriquons tous types de grilles de protection. Modèles fixes ou ouvrants, designs classiques ou modernes. L\'acier thermolaqué garantit une durabilité optimale et un entretien minimal. Pose professionnelle incluse dans nos prestations.',
+        'cta' => 'Demandez un devis pour vos grilles de protection.'
+    ),
+    'serrurerie' => array(
+        'intro' => 'Services de serrurerie métallique par AL Métallerie & Soudure. Fabrication et pose de portes, portillons et systèmes de fermeture sur mesure.',
+        'details' => 'Notre expertise en serrurerie couvre la fabrication de portes métalliques, portillons de jardin, trappes d\'accès et systèmes de verrouillage. Nous travaillons l\'acier et l\'inox pour des réalisations durables et sécurisées. Intégration de serrures multipoints, cylindres haute sécurité et systèmes de contrôle d\'accès selon vos besoins.',
+        'cta' => 'Contactez-nous pour votre projet de serrurerie.'
+    ),
+    'mobilier-metallique' => array(
+        'intro' => 'Mobilier métallique sur mesure : tables, chaises, étagères, verrières... AL Métallerie & Soudure crée le mobilier qui correspond exactement à vos envies.',
+        'details' => 'Du mobilier industriel au design contemporain, nous réalisons toutes vos idées. Tables avec pieds en métal, bibliothèques sur mesure, verrières d\'intérieur, consoles, porte-manteaux... Chaque pièce est fabriquée selon vos dimensions et finitions souhaitées. Possibilité de combiner métal et bois pour un rendu chaleureux.',
+        'cta' => 'Imaginez votre mobilier, nous le créons.'
+    ),
+    'vehicules' => array(
+        'intro' => 'Aménagements métalliques pour véhicules par AL Métallerie & Soudure. Hard-tops, racks, protections et accessoires sur mesure.',
+        'details' => 'Nous concevons des équipements métalliques pour tous types de véhicules : hard-tops pour pick-up, galeries de toit, protections de benne, racks à outils. Fabrication robuste en acier ou aluminium, adaptée à un usage intensif. Idéal pour les professionnels et les passionnés de plein air.',
+        'cta' => 'Équipez votre véhicule sur mesure.'
+    ),
+    'autres' => array(
+        'intro' => 'AL Métallerie & Soudure réalise tous vos projets métalliques sur mesure, même les plus originaux.',
+        'details' => 'Piscines inox, récupérateurs d\'eau, structures décoratives, pièces techniques... Notre savoir-faire nous permet de répondre à toutes vos demandes. Chaque projet est étudié individuellement pour vous proposer la solution la plus adaptée. N\'hésitez pas à nous soumettre vos idées les plus créatives.',
+        'cta' => 'Parlez-nous de votre projet unique.'
+    ),
+);
+
+$current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$current_term->slug] : $seo_contents['autres'];
 ?>
 
 <div class="archive-page taxonomy-type-realisation">
@@ -39,15 +90,23 @@ $current_icon = isset($category_icons[$current_term->slug]) ? $category_icons[$c
                 <span class="archive-icon"><?php echo $current_icon; ?></span>
                 <?php echo esc_html($current_term->name); ?>
             </h1>
-            <?php if ($current_term->description) : ?>
-                <p class="archive-subtitle"><?php echo esc_html($current_term->description); ?></p>
-            <?php else : ?>
-                <p class="archive-subtitle">
-                    Découvrez toutes nos réalisations de <strong><?php echo esc_html(strtolower($current_term->name)); ?></strong> 
-                    en métallerie. Chaque projet est conçu sur mesure avec des matériaux de qualité 
-                    et un savoir-faire artisanal.
+            <p class="archive-subtitle">
+                <?php echo esc_html($current_seo['intro']); ?>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Section SEO descriptive -->
+    <div class="taxonomy-seo-content">
+        <div class="container">
+            <div class="seo-text-block">
+                <h2>Nos <?php echo esc_html(strtolower($current_term->name)); ?> sur mesure à Thiers</h2>
+                <p><?php echo esc_html($current_seo['details']); ?></p>
+                <p class="seo-cta"><strong><?php echo esc_html($current_seo['cta']); ?></strong> 
+                    <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="inline-link">Contactez-nous</a> 
+                    ou appelez le <a href="tel:+33673333532" class="inline-link">06 73 33 35 32</a>.
                 </p>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
 

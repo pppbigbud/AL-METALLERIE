@@ -916,3 +916,51 @@
 .formations-grid .formation-card:not(.formation-card--coming-soon):active {
   transform: translateY(-4px);
 }
+
+/* ============================================
+   SECTION SEO TAXONOMIE
+   ============================================ */
+
+.taxonomy-seo-content {
+  background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+  padding: 2.5rem 0;
+  border-bottom: 1px solid rgba(240, 139, 24, 0.15);
+}
+
+.taxonomy-seo-content .seo-text-block {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.taxonomy-seo-content h2 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.taxonomy-seo-content p {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.taxonomy-seo-content .seo-cta {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.taxonomy-seo-content .inline-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.taxonomy-seo-content .inline-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
