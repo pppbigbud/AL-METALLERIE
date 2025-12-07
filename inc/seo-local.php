@@ -61,33 +61,33 @@ function almetal_seo_meta_head() {
         'lon' => '3.1636',
     );
     
-    // Meta description par défaut
-    $description = 'AL Métallerie, votre expert en métallerie, ferronnerie et serrurerie à Thiers dans le Puy-de-Dôme. Portails, garde-corps, escaliers, pergolas sur mesure. Devis gratuit.';
+    // Meta description par défaut (160 caractères max)
+    $description = 'AL Métallerie, artisan métallier ferronnier à Thiers (63). Portails, garde-corps, escaliers sur mesure. Devis gratuit ☎ 06 73 33 35 32';
     
-    // Page d'accueil
+    // Page d'accueil (158 caractères)
     if (is_front_page() || is_home()) {
-        $description = 'AL Métallerie à Thiers (63) : fabrication sur mesure de portails, garde-corps, escaliers, pergolas en métal. Métallier ferronnier expert en Auvergne. Devis gratuit.';
+        $description = 'AL Métallerie, artisan métallier ferronnier à Thiers (63). Fabrication sur mesure : portails, garde-corps, escaliers, ferronnerie d\'art. Devis gratuit ☎ 06 73 33 35 32';
     }
     
-    // Page réalisations
+    // Page réalisations (156 caractères)
     if (is_post_type_archive('realisation') || is_page('realisations')) {
-        $description = 'Découvrez nos réalisations en métallerie : portails, garde-corps, escaliers, pergolas. Travail artisanal de qualité à Thiers, Puy-de-Dôme. Photos et détails de nos projets.';
+        $description = 'Découvrez nos réalisations en métallerie à Thiers (63) : portails, garde-corps, escaliers, pergolas. Artisanat de qualité. Inspirez-vous pour votre projet !';
     }
     
-    // Page formations
+    // Page formations (159 caractères)
     if (is_page('formations')) {
-        $description = 'Formations soudure et métallerie à Thiers (63). Apprenez les techniques de soudure MIG, TIG, ARC avec AL Métallerie. Formations pour particuliers et professionnels.';
+        $description = 'Formations soudure MIG, TIG, ARC à Thiers (63). Stages pour particuliers et pros. Apprenez avec un artisan métallier expérimenté. Inscrivez-vous maintenant !';
     }
     
-    // Page contact
+    // Page contact (155 caractères)
     if (is_page('contact')) {
-        $description = 'Contactez AL Métallerie à Peschadoires près de Thiers. Devis gratuit pour vos projets de métallerie : portails, garde-corps, escaliers. Tél : 06 73 33 35 32.';
+        $description = 'Contactez AL Métallerie à Thiers (63) pour votre projet sur mesure. Devis gratuit sous 48h. ☎ 06 73 33 35 32 ou formulaire en ligne. Réponse rapide !';
     }
     
-    // Taxonomie type de réalisation
+    // Taxonomie type de réalisation (adapté dynamiquement)
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
-        $description = ucfirst($term->name) . ' sur mesure par AL Métallerie à Thiers (63). Fabrication artisanale en métal, fer forgé. Devis gratuit dans le Puy-de-Dôme.';
+        $description = ucfirst($term->name) . ' sur mesure à Thiers (63) par AL Métallerie. Fabrication artisanale, fer forgé et métal. Demandez votre devis gratuit !';
     }
     
     // Single réalisation - géré par almetal_seo_meta_tags() dans functions.php

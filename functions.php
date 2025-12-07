@@ -1038,15 +1038,17 @@ function almetal_seo_meta_tags() {
     $terms = get_the_terms($post->ID, 'type_realisation');
     $type_realisation = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Métallerie';
     
-    // Construction de la description SEO optimisée
-    $description = "Découvrez notre réalisation de {$type_realisation} à {$lieu}";
-    if ($client) {
-        $description .= " pour {$client}";
-    }
+    // Construction de la description SEO optimisée (max 160 caractères)
+    $description = "{$type_realisation} à {$lieu} par AL Métallerie, artisan ferronnier à Thiers (63).";
     if ($duree) {
-        $description .= ". Projet réalisé en {$duree}";
+        $description .= " Réalisé en {$duree}.";
     }
-    $description .= ". AL Métallerie, votre expert en métallerie dans le Puy-de-Dôme.";
+    $description .= " Découvrez ce projet et demandez votre devis gratuit !";
+    
+    // Tronquer si trop long (160 caractères max)
+    if (strlen($description) > 160) {
+        $description = substr($description, 0, 157) . '...';
+    }
     
     // Image à la une pour Open Graph
     $image_url = get_the_post_thumbnail_url($post->ID, 'large') ?: get_template_directory_uri() . '/assets/images/default-og.jpg';
