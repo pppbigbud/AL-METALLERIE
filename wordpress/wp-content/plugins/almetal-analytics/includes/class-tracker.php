@@ -137,20 +137,49 @@ class Almetal_Analytics_Tracker {
         global $wpdb;
         
         if (empty($data['visit_id'])) {
-            return false;
+            return array('success' => false, 'message' => 'Missing visit_id');
         }
         
-        return $wpdb->update(
+        $visit_id = intval($data['visit_id']);
+        $duration = intval($data['duration'] ?? 0);
+        $scroll_depth = intval($data['scroll_depth'] ?? 0);
+        $is_bounce = intval($data['is_bounce'] ?? 1);
+        
+        // Mettre à jour la visite
+        $result = $wpdb->update(
             $wpdb->prefix . 'almetal_analytics_visits',
             array(
-                'duration' => intval($data['duration'] ?? 0),
-                'scroll_depth' => intval($data['scroll_depth'] ?? 0),
-                'is_bounce' => intval($data['is_bounce'] ?? 1),
+                'duration' => $duration,
+                'scroll_depth' => $scroll_depth,
+                'is_bounce' => $is_bounce,
             ),
-            array('id' => intval($data['visit_id'])),
+            array('id' => $visit_id),
             array('%d', '%d', '%d'),
             array('%d')
         );
+        
+        // Récupérer le session_id de cette visite pour mettre à jour la session
+        $session_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT session_id FROM {$wpdb->prefix}almetal_analytics_visits WHERE id = %d",
+            $visit_id
+        ));
+        
+        if ($session_id) {
+            // Mettre à jour la session (ended_at pour le temps réel)
+            $wpdb->update(
+                $wpdb->prefix . 'almetal_analytics_sessions',
+                array(
+                    'ended_at' => current_time('mysql'),
+                    'duration' => $duration,
+                    'is_bounce' => $is_bounce,
+                ),
+                array('session_id' => $session_id),
+                array('%s', '%d', '%d'),
+                array('%s')
+            );
+        }
+        
+        return array('success' => $result !== false, 'updated' => $result);
     }
     
     /**

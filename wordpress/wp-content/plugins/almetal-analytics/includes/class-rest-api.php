@@ -111,8 +111,8 @@ class Almetal_Analytics_REST_API {
             'permission_callback' => array($this, 'check_admin_permission'),
         ));
         
-        // Heatmap data
-        register_rest_route($namespace, '/heatmap/(?P<page_hash>[a-f0-9]+)', array(
+        // Heatmap data (par URL encodée ou par hash)
+        register_rest_route($namespace, '/heatmap', array(
             'methods' => 'GET',
             'callback' => array($this, 'get_heatmap_data'),
             'permission_callback' => array($this, 'check_admin_permission'),
@@ -284,21 +284,34 @@ class Almetal_Analytics_REST_API {
     public function get_realtime($request) {
         global $wpdb;
         
-        // Visiteurs actifs (dernières 5 minutes)
+        // Visiteurs actifs (dernières 5 minutes) - basé sur les sessions actives
         $five_minutes_ago = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $fifteen_minutes_ago = date('Y-m-d H:i:s', strtotime('-15 minutes'));
         
+        // Compter les sessions actives (ended_at récent ou NULL avec started_at récent)
         $active_visitors = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(DISTINCT visitor_id) FROM {$wpdb->prefix}almetal_analytics_visits WHERE created_at >= %s",
-            $five_minutes_ago
+            "SELECT COUNT(DISTINCT visitor_id) FROM {$wpdb->prefix}almetal_analytics_sessions 
+             WHERE (ended_at >= %s OR (ended_at IS NULL AND started_at >= %s))",
+            $five_minutes_ago, $fifteen_minutes_ago
         ));
         
+        // Si pas de sessions, fallback sur les visites récentes (15 min pour plus de données)
+        if ($active_visitors == 0) {
+            $active_visitors = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(DISTINCT visitor_id) FROM {$wpdb->prefix}almetal_analytics_visits WHERE created_at >= %s",
+                $fifteen_minutes_ago
+            ));
+        }
+        
+        // Visites récentes (dernières 30 minutes pour avoir plus de données)
+        $thirty_minutes_ago = date('Y-m-d H:i:s', strtotime('-30 minutes'));
         $recent_visits = $wpdb->get_results($wpdb->prepare(
             "SELECT page_url, page_title, device_type, browser, country, created_at 
              FROM {$wpdb->prefix}almetal_analytics_visits 
              WHERE created_at >= %s 
              ORDER BY created_at DESC 
              LIMIT 20",
-            $five_minutes_ago
+            $thirty_minutes_ago
         ), ARRAY_A);
         
         return rest_ensure_response(array(

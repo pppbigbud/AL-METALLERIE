@@ -91,12 +91,36 @@
             const duration = Math.round((Date.now() - startTime) / 1000);
             const pageViews = parseInt(sessionStorage.getItem('almetal_page_views') || '0');
             
-            navigator.sendBeacon(restUrl + 'track/update', JSON.stringify({
-                visit_id: visitId,
-                duration: duration,
-                scroll_depth: maxScroll,
-                is_bounce: pageViews <= 1 ? 1 : 0
-            }));
+            // Utiliser FormData pour sendBeacon (compatible avec REST API)
+            const formData = new FormData();
+            formData.append('visit_id', visitId);
+            formData.append('duration', duration);
+            formData.append('scroll_depth', maxScroll);
+            formData.append('is_bounce', pageViews <= 1 ? 1 : 0);
+            
+            // Essayer fetch d'abord, puis sendBeacon en fallback
+            try {
+                await fetch(restUrl + 'track/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        visit_id: visitId,
+                        duration: duration,
+                        scroll_depth: maxScroll,
+                        is_bounce: pageViews <= 1 ? 1 : 0
+                    }),
+                    keepalive: true
+                });
+            } catch (e) {
+                // Fallback: sendBeacon avec Blob JSON
+                const blob = new Blob([JSON.stringify({
+                    visit_id: visitId,
+                    duration: duration,
+                    scroll_depth: maxScroll,
+                    is_bounce: pageViews <= 1 ? 1 : 0
+                })], { type: 'application/json' });
+                navigator.sendBeacon(restUrl + 'track/update', blob);
+            }
         }
 
         // Track events
@@ -131,6 +155,24 @@
                 updateVisit();
             }
         });
+        
+        // Heartbeat pour maintenir la session active (toutes les 30 secondes)
+        setInterval(function() {
+            if (document.visibilityState === 'visible' && visitId) {
+                const duration = Math.round((Date.now() - startTime) / 1000);
+                fetch(restUrl + 'track/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        visit_id: visitId,
+                        duration: duration,
+                        scroll_depth: maxScroll,
+                        is_bounce: parseInt(sessionStorage.getItem('almetal_page_views') || '0') <= 1 ? 1 : 0
+                    }),
+                    keepalive: true
+                }).catch(() => {});
+            }
+        }, 30000);
 
         // Auto-track clicks on important elements
         document.addEventListener('click', function(e) {

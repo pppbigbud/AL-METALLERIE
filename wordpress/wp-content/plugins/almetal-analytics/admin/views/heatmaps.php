@@ -101,21 +101,42 @@ $tracked_pages = Almetal_Analytics_Heatmap::get_tracked_pages(20);
 
 <script>
 jQuery(document).ready(function($) {
+    let currentUrl = '';
+    
     $('.view-heatmap').on('click', function() {
-        const url = $(this).data('url');
+        currentUrl = $(this).data('url');
+        loadHeatmap();
+    });
+    
+    $('#heatmap-device').on('change', function() {
+        if (currentUrl) {
+            loadHeatmap();
+        }
+    });
+    
+    function loadHeatmap() {
         const device = $('#heatmap-device').val();
         
         $('#heatmap-viewer').show();
+        $('#heatmap-canvas').html('<p class="almetal-loading"><span class="spinner is-active"></span> Chargement...</p>');
         
-        // Charger les données
+        // Charger les données avec l'URL en paramètre GET
         $.ajax({
-            url: almetalAnalyticsAdmin.restUrl + 'heatmap/' + encodeURIComponent(url) + '?device=' + device,
+            url: almetalAnalyticsAdmin.restUrl + 'heatmap',
+            data: {
+                page_url: currentUrl,
+                device: device,
+                period: '30days'
+            },
             headers: { 'X-WP-Nonce': almetalAnalyticsAdmin.nonce },
             success: function(data) {
                 renderHeatmap(data);
+            },
+            error: function(xhr, status, error) {
+                $('#heatmap-canvas').html('<p class="almetal-no-data">Erreur: ' + error + '</p>');
             }
         });
-    });
+    }
     
     function renderHeatmap(data) {
         const canvas = $('#heatmap-canvas');
@@ -123,17 +144,55 @@ jQuery(document).ready(function($) {
         
         if (!data.clicks || data.clicks.length === 0) {
             canvas.html('<p class="almetal-no-data"><?php _e('Pas de données pour cette page', 'almetal-analytics'); ?></p>');
+            $('#top-elements-list').empty();
             return;
         }
         
-        // Trouver le max pour normaliser
-        const maxCount = Math.max(...data.clicks.map(c => c.count));
+        // Afficher les stats
+        const statsHtml = `
+            <div class="almetal-heatmap-stats" style="margin-bottom: 15px; padding: 10px; background: #f9f9f9; border-radius: 4px;">
+                <strong>Page:</strong> ${data.page_url} | 
+                <strong>Total clics:</strong> ${data.total_clicks} | 
+                <strong>Période:</strong> ${data.period}
+            </div>
+        `;
+        canvas.append(statsHtml);
+        
+        // Créer le conteneur de la heatmap
+        const heatmapContainer = $('<div>').css({
+            position: 'relative',
+            width: '100%',
+            minHeight: '600px',
+            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+            borderRadius: '8px',
+            overflow: 'hidden'
+        });
+        
+        // Trouver le max pour normaliser et les dimensions
+        const maxCount = Math.max(...data.clicks.map(c => parseInt(c.count)));
+        const maxX = Math.max(...data.clicks.map(c => parseInt(c.x)));
+        const maxY = Math.max(...data.clicks.map(c => parseInt(c.y)));
+        
+        // Ajuster la hauteur du conteneur
+        heatmapContainer.css('height', Math.min(maxY + 100, 800) + 'px');
         
         // Créer les points de chaleur
         data.clicks.forEach(click => {
-            const intensity = click.count / maxCount;
-            const size = 20 + (intensity * 40);
-            const opacity = 0.3 + (intensity * 0.5);
+            const intensity = parseInt(click.count) / maxCount;
+            const size = 30 + (intensity * 60);
+            const opacity = 0.4 + (intensity * 0.5);
+            
+            // Couleur basée sur l'intensité (vert -> jaune -> orange -> rouge)
+            let color;
+            if (intensity < 0.25) {
+                color = `rgba(76, 175, 80, ${opacity})`; // Vert
+            } else if (intensity < 0.5) {
+                color = `rgba(255, 235, 59, ${opacity})`; // Jaune
+            } else if (intensity < 0.75) {
+                color = `rgba(255, 152, 0, ${opacity})`; // Orange
+            } else {
+                color = `rgba(244, 67, 54, ${opacity})`; // Rouge
+            }
             
             const dot = $('<div>').css({
                 position: 'absolute',
@@ -142,22 +201,53 @@ jQuery(document).ready(function($) {
                 width: size + 'px',
                 height: size + 'px',
                 borderRadius: '50%',
-                background: `radial-gradient(circle, rgba(240, 139, 24, ${opacity}) 0%, transparent 70%)`,
+                background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
                 transform: 'translate(-50%, -50%)',
-                pointerEvents: 'none'
-            });
+                pointerEvents: 'none',
+                zIndex: Math.round(intensity * 100)
+            }).attr('title', `${click.count} clics`);
             
-            canvas.append(dot);
+            heatmapContainer.append(dot);
         });
+        
+        canvas.append(heatmapContainer);
+        
+        // Légende
+        const legend = `
+            <div style="margin-top: 15px; display: flex; gap: 20px; align-items: center;">
+                <span style="display: flex; align-items: center; gap: 5px;">
+                    <span style="width: 15px; height: 15px; background: #4CAF50; border-radius: 50%;"></span> Faible
+                </span>
+                <span style="display: flex; align-items: center; gap: 5px;">
+                    <span style="width: 15px; height: 15px; background: #FFEB3B; border-radius: 50%;"></span> Moyen
+                </span>
+                <span style="display: flex; align-items: center; gap: 5px;">
+                    <span style="width: 15px; height: 15px; background: #FF9800; border-radius: 50%;"></span> Élevé
+                </span>
+                <span style="display: flex; align-items: center; gap: 5px;">
+                    <span style="width: 15px; height: 15px; background: #F44336; border-radius: 50%;"></span> Très élevé
+                </span>
+            </div>
+        `;
+        canvas.append(legend);
         
         // Afficher les éléments les plus cliqués
         const list = $('#top-elements-list');
         list.empty();
         
-        if (data.top_elements) {
-            data.top_elements.forEach(el => {
-                list.append(`<li><code>${el.element_selector}</code> - ${el.clicks} clics</li>`);
+        if (data.top_elements && data.top_elements.length > 0) {
+            data.top_elements.forEach((el, index) => {
+                const percent = data.total_clicks > 0 ? Math.round((el.clicks / data.total_clicks) * 100) : 0;
+                list.append(`
+                    <li style="margin-bottom: 8px; padding: 8px; background: #f5f5f5; border-radius: 4px;">
+                        <strong>#${index + 1}</strong> 
+                        <code style="background: #e0e0e0; padding: 2px 6px; border-radius: 3px;">${el.element_selector}</code>
+                        <span style="float: right; color: #F08B18; font-weight: bold;">${el.clicks} clics (${percent}%)</span>
+                    </li>
+                `);
             });
+        } else {
+            list.append('<li>Aucun élément identifié</li>');
         }
     }
 });
