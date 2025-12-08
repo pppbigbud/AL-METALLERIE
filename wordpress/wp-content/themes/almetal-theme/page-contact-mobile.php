@@ -174,24 +174,6 @@ wp_enqueue_script('jquery');
                     <textarea id="contact-message" name="contact_message" rows="5" required></textarea>
                 </div>
 
-                <!-- Opt-ins pour le marketing -->
-                <div class="form-optins mobile-form-optins">
-                    <div class="optin-group mobile-optin-group">
-                        <label class="optin-label mobile-optin-label">
-                            <input type="checkbox" name="consent_newsletter" value="1">
-                            <span class="optin-checkbox mobile-optin-checkbox"></span>
-                            <span class="optin-text mobile-optin-text"><?php _e('Je souhaite recevoir les actualités et offres d\'AL Métallerie', 'almetal'); ?></span>
-                        </label>
-                    </div>
-                    <div class="optin-group mobile-optin-group">
-                        <label class="optin-label mobile-optin-label">
-                            <input type="checkbox" name="consent_marketing" value="1">
-                            <span class="optin-checkbox mobile-optin-checkbox"></span>
-                            <span class="optin-text mobile-optin-text"><?php _e('J\'accepte d\'être recontacté pour des offres personnalisées', 'almetal'); ?></span>
-                        </label>
-                    </div>
-                </div>
-
                 <input type="hidden" name="contact_consent" value="1">
 
                 <button type="submit" class="contact-submit-btn mobile-contact-submit-btn">

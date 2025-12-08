@@ -179,24 +179,6 @@ if (function_exists('wp_body_open')) {
                         <textarea id="contact-message" name="contact_message" rows="5" required></textarea>
                     </div>
 
-                    <!-- Opt-ins pour le marketing -->
-                    <div class="form-optins">
-                        <div class="optin-group">
-                            <label class="optin-label">
-                                <input type="checkbox" name="consent_newsletter" value="1">
-                                <span class="optin-checkbox"></span>
-                                <span class="optin-text"><?php _e('Je souhaite recevoir les actualités et offres d\'AL Métallerie', 'almetal'); ?></span>
-                            </label>
-                        </div>
-                        <div class="optin-group">
-                            <label class="optin-label">
-                                <input type="checkbox" name="consent_marketing" value="1">
-                                <span class="optin-checkbox"></span>
-                                <span class="optin-text"><?php _e('J\'accepte d\'être recontacté pour des offres personnalisées', 'almetal'); ?></span>
-                            </label>
-                        </div>
-                    </div>
-
                     <input type="hidden" name="contact_consent" value="1">
                     <input type="hidden" name="form_source" value="desktop_contact">
 
