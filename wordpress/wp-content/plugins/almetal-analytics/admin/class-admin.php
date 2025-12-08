@@ -92,6 +92,15 @@ class Almetal_Analytics_Admin {
             array($this, 'render_gdpr_page')
         );
         
+        add_submenu_page(
+            'almetal-analytics',
+            __('SEO', 'almetal-analytics'),
+            __('SEO', 'almetal-analytics'),
+            $analytics_cap,
+            'almetal-analytics-seo',
+            array($this, 'render_seo_page')
+        );
+        
         // Réglages - réservé aux administrateurs
         add_submenu_page(
             'almetal-analytics',
@@ -198,6 +207,13 @@ class Almetal_Analytics_Admin {
      */
     public function render_gdpr_page() {
         include ALMETAL_ANALYTICS_PATH . 'admin/views/gdpr.php';
+    }
+    
+    /**
+     * Page SEO
+     */
+    public function render_seo_page() {
+        include ALMETAL_ANALYTICS_PATH . 'admin/views/seo.php';
     }
     
     /**

@@ -64,6 +64,7 @@ class Almetal_Analytics {
         require_once ALMETAL_ANALYTICS_PATH . 'includes/class-heatmap.php';
         require_once ALMETAL_ANALYTICS_PATH . 'includes/class-optin.php';
         require_once ALMETAL_ANALYTICS_PATH . 'includes/class-export.php';
+        require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo.php';
         
         // Admin
         if (is_admin()) {
