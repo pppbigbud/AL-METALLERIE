@@ -161,7 +161,7 @@ function almetal_handle_contact_form() {
                     <p>Cordialement,<br>L\'équipe AL Métallerie</p>
                 </div>
                 <div class="footer">
-                    <p>AL Métallerie - Expert en métallerie à Clermont-Ferrand</p>
+                    <p>AL Métallerie - Expert en métallerie à Thiers</p>
                 </div>
             </div>
         </body>
@@ -175,8 +175,26 @@ function almetal_handle_contact_form() {
 
         wp_mail($email, $client_subject, $client_body, $client_headers);
 
-        // Sauvegarder dans la base de données (optionnel)
+        // Sauvegarder dans la base de données
         almetal_save_contact_submission($name, $phone, $email, $project_type, $message);
+        
+        // Intégrer avec le système d'opt-ins Analytics si disponible
+        $consent_newsletter = isset($_POST['consent_newsletter']) && $_POST['consent_newsletter'] == '1';
+        $consent_marketing = isset($_POST['consent_marketing']) && $_POST['consent_marketing'] == '1';
+        $form_source = sanitize_text_field($_POST['form_source'] ?? 'contact_form');
+        
+        if (($consent_newsletter || $consent_marketing) && class_exists('Almetal_Analytics_Optin')) {
+            Almetal_Analytics_Optin::create_optin(array(
+                'email' => $email,
+                'phone' => $phone,
+                'name' => $name,
+                'source' => $form_source,
+                'form_id' => 'contact_' . $project_type,
+                'consent_marketing' => $consent_marketing,
+                'consent_newsletter' => $consent_newsletter,
+                'visitor_id' => sanitize_text_field($_COOKIE['almetal_visitor_id'] ?? ''),
+            ));
+        }
 
         wp_send_json_success(array('message' => 'Message envoyé avec succès'));
     } else {

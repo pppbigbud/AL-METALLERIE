@@ -560,3 +560,84 @@
 .contact-info-item:nth-child(2) { animation-delay: 0.2s; }
 .contact-info-item:nth-child(3) { animation-delay: 0.3s; }
 .contact-info-item:nth-child(4) { animation-delay: 0.4s; }
+
+/* ============================================
+   OPT-INS CHECKBOXES (Desktop)
+   ============================================ */
+
+.form-optins {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: rgba(240, 139, 24, 0.05);
+    border: 1px solid rgba(240, 139, 24, 0.2);
+    border-radius: 8px;
+}
+
+.optin-group {
+    margin-bottom: 0.875rem;
+}
+
+.optin-group:last-child {
+    margin-bottom: 0;
+}
+
+.optin-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.optin-label input[type="checkbox"] {
+    display: none;
+}
+
+.optin-checkbox {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.optin-label:hover .optin-checkbox {
+    border-color: #F08B18;
+}
+
+.optin-label input[type="checkbox"]:checked + .optin-checkbox {
+    background: #F08B18;
+    border-color: #F08B18;
+}
+
+.optin-label input[type="checkbox"]:checked + .optin-checkbox::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.optin-text {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Lien politique de confidentialité */
+.form-consent-text a {
+    color: #F08B18;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.form-consent-text a:hover {
+    color: #e67e0f;
+    text-decoration: underline;
+}

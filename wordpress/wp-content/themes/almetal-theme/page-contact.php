@@ -179,7 +179,26 @@ if (function_exists('wp_body_open')) {
                         <textarea id="contact-message" name="contact_message" rows="5" required></textarea>
                     </div>
 
+                    <!-- Opt-ins pour le marketing -->
+                    <div class="form-optins">
+                        <div class="optin-group">
+                            <label class="optin-label">
+                                <input type="checkbox" name="consent_newsletter" value="1">
+                                <span class="optin-checkbox"></span>
+                                <span class="optin-text"><?php _e('Je souhaite recevoir les actualités et offres d\'AL Métallerie', 'almetal'); ?></span>
+                            </label>
+                        </div>
+                        <div class="optin-group">
+                            <label class="optin-label">
+                                <input type="checkbox" name="consent_marketing" value="1">
+                                <span class="optin-checkbox"></span>
+                                <span class="optin-text"><?php _e('J\'accepte d\'être recontacté pour des offres personnalisées', 'almetal'); ?></span>
+                            </label>
+                        </div>
+                    </div>
+
                     <input type="hidden" name="contact_consent" value="1">
+                    <input type="hidden" name="form_source" value="desktop_contact">
 
                     <button type="submit" class="contact-submit-btn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -188,7 +207,10 @@ if (function_exists('wp_body_open')) {
                         </svg>
                         <?php _e('Envoyer ma demande', 'almetal'); ?>
                     </button>
-                    <p class="form-consent-text"><?php _e('En cliquant sur "Envoyer ma demande", vous acceptez que vos données soient utilisées pour vous recontacter.', 'almetal'); ?></p>
+                    <p class="form-consent-text">
+                        <?php _e('En cliquant sur "Envoyer ma demande", vous acceptez que vos données soient utilisées pour vous recontacter.', 'almetal'); ?>
+                        <a href="<?php echo esc_url(home_url('/politique-confidentialite')); ?>"><?php _e('Politique de confidentialité', 'almetal'); ?></a>
+                    </p>
 
                     <div class="form-message" style="display: none;"></div>
                 </form>
