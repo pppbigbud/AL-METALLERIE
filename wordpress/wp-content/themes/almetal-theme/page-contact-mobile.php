@@ -11,6 +11,9 @@
  */
 
 get_header();
+
+// Enqueue jQuery si pas déjà chargé
+wp_enqueue_script('jquery');
 ?>
 
 <!-- Header Mobile avec bouton RETOUR -->
@@ -55,7 +58,7 @@ get_header();
         <!-- Informations de contact -->
         <div class="mobile-contact-info-grid">
             <!-- Téléphone -->
-            <a href="tel:+33673333532" class="mobile-contact-page-card scroll-fade scroll-delay-1" data-track="Contact|phone_click|mobile">
+            <a href="tel:+33673333532" class="mobile-contact-page-card scroll-fade scroll-delay-1">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -68,7 +71,7 @@ get_header();
             </a>
 
             <!-- Email -->
-            <a href="mailto:aurelien@al-metallerie.fr" class="mobile-contact-page-card scroll-fade scroll-delay-2" data-track="Contact|email_click|mobile">
+            <a href="mailto:aurelien@al-metallerie.fr" class="mobile-contact-page-card scroll-fade scroll-delay-2">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -85,8 +88,7 @@ get_header();
             <a href="https://www.google.com/maps/dir/?api=1&destination=14+route+de+Maringues,+Peschadoires,+63920" 
                target="_blank" 
                rel="noopener noreferrer" 
-               class="mobile-contact-page-card scroll-fade scroll-delay-3"
-               data-track="Contact|directions_click|mobile">
+               class="mobile-contact-page-card scroll-fade scroll-delay-3">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -114,7 +116,7 @@ get_header();
             </div>
         </div>
 
-        <!-- Formulaire de devis -->
+        <!-- Formulaire de devis - IDENTIQUE AU DESKTOP -->
         <div class="mobile-contact-form-section scroll-fade">
             <div class="mobile-contact-form-header">
                 <svg class="mobile-contact-form-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -128,143 +130,199 @@ get_header();
                 <?php esc_html_e('Décrivez-nous votre projet', 'almetal'); ?>
             </p>
             
-            <form id="mobile-contact-form" class="mobile-contact-form scroll-fade scroll-delay-3" method="post">
+            <!-- Formulaire identique au desktop avec action vers admin-post.php -->
+            <form id="contact-form" class="mobile-contact-form contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                 <?php wp_nonce_field('almetal_contact_form', 'contact_nonce'); ?>
                 <input type="hidden" name="action" value="almetal_contact_form">
                 <input type="hidden" name="form_source" value="mobile_contact">
 
-                <div class="mobile-form-row">
-                    <div class="mobile-form-group">
-                        <label for="mobile-contact-name"><?php esc_html_e('Nom complet', 'almetal'); ?> *</label>
-                        <input type="text" id="mobile-contact-name" name="contact_name" placeholder="Jean Dupont" required>
+                <div class="form-row mobile-form-row">
+                    <div class="form-group mobile-form-group">
+                        <label for="contact-name"><?php _e('Nom complet', 'almetal'); ?> *</label>
+                        <input type="text" id="contact-name" name="contact_name" required>
                     </div>
 
-                    <div class="mobile-form-group">
-                        <label for="mobile-contact-phone"><?php esc_html_e('Téléphone', 'almetal'); ?> *</label>
-                        <input type="tel" id="mobile-contact-phone" name="contact_phone" placeholder="06 12 34 56 78" required>
+                    <div class="form-group mobile-form-group">
+                        <label for="contact-phone"><?php _e('Téléphone', 'almetal'); ?> *</label>
+                        <input type="tel" id="contact-phone" name="contact_phone" required>
                     </div>
                 </div>
 
-                <div class="mobile-form-group">
-                    <label for="mobile-contact-email"><?php esc_html_e('Email', 'almetal'); ?> *</label>
-                    <input type="email" id="mobile-contact-email" name="contact_email" placeholder="jean.dupont@email.com" required>
+                <div class="form-group mobile-form-group">
+                    <label for="contact-email"><?php _e('Email', 'almetal'); ?> *</label>
+                    <input type="email" id="contact-email" name="contact_email" required>
                 </div>
 
-                <div class="mobile-form-group">
-                    <label for="mobile-contact-project"><?php esc_html_e('Type de projet', 'almetal'); ?> *</label>
-                    <select id="mobile-contact-project" name="contact_project" required>
-                        <option value=""><?php esc_html_e('Sélectionnez un type', 'almetal'); ?></option>
-                        <option value="portail"><?php esc_html_e('Portail', 'almetal'); ?></option>
-                        <option value="garde-corps"><?php esc_html_e('Garde-corps', 'almetal'); ?></option>
-                        <option value="escalier"><?php esc_html_e('Escalier', 'almetal'); ?></option>
-                        <option value="pergola"><?php esc_html_e('Pergola', 'almetal'); ?></option>
-                        <option value="verriere"><?php esc_html_e('Verrière', 'almetal'); ?></option>
-                        <option value="mobilier"><?php esc_html_e('Mobilier métallique', 'almetal'); ?></option>
-                        <option value="reparation"><?php esc_html_e('Réparation', 'almetal'); ?></option>
-                        <option value="formation"><?php esc_html_e('Formation', 'almetal'); ?></option>
-                        <option value="autre"><?php esc_html_e('Autre', 'almetal'); ?></option>
+                <div class="form-group mobile-form-group">
+                    <label for="contact-project"><?php _e('Type de projet', 'almetal'); ?> *</label>
+                    <select id="contact-project" name="contact_project" required>
+                        <option value=""><?php _e('Sélectionnez un type', 'almetal'); ?></option>
+                        <option value="portail"><?php _e('Portail', 'almetal'); ?></option>
+                        <option value="garde-corps"><?php _e('Garde-corps', 'almetal'); ?></option>
+                        <option value="escalier"><?php _e('Escalier', 'almetal'); ?></option>
+                        <option value="pergola"><?php _e('Pergola', 'almetal'); ?></option>
+                        <option value="verriere"><?php _e('Verrière', 'almetal'); ?></option>
+                        <option value="mobilier"><?php _e('Mobilier métallique', 'almetal'); ?></option>
+                        <option value="reparation"><?php _e('Réparation', 'almetal'); ?></option>
+                        <option value="formation"><?php _e('Formation', 'almetal'); ?></option>
+                        <option value="autre"><?php _e('Autre', 'almetal'); ?></option>
                     </select>
                 </div>
 
-                <div class="mobile-form-group">
-                    <label for="mobile-contact-message"><?php esc_html_e('Votre message', 'almetal'); ?> *</label>
-                    <textarea id="mobile-contact-message" name="contact_message" rows="5" placeholder="Décrivez votre projet..." required></textarea>
+                <div class="form-group mobile-form-group">
+                    <label for="contact-message"><?php _e('Votre message', 'almetal'); ?> *</label>
+                    <textarea id="contact-message" name="contact_message" rows="5" required></textarea>
                 </div>
 
                 <!-- Opt-ins pour le marketing -->
-                <div class="mobile-form-optins">
-                    <div class="mobile-optin-group">
-                        <label class="mobile-optin-label">
+                <div class="form-optins mobile-form-optins">
+                    <div class="optin-group mobile-optin-group">
+                        <label class="optin-label mobile-optin-label">
                             <input type="checkbox" name="consent_newsletter" value="1">
-                            <span class="mobile-optin-checkbox"></span>
-                            <span class="mobile-optin-text"><?php esc_html_e('Je souhaite recevoir les actualités et offres d\'AL Métallerie', 'almetal'); ?></span>
+                            <span class="optin-checkbox mobile-optin-checkbox"></span>
+                            <span class="optin-text mobile-optin-text"><?php _e('Je souhaite recevoir les actualités et offres d\'AL Métallerie', 'almetal'); ?></span>
                         </label>
                     </div>
-                    <div class="mobile-optin-group">
-                        <label class="mobile-optin-label">
+                    <div class="optin-group mobile-optin-group">
+                        <label class="optin-label mobile-optin-label">
                             <input type="checkbox" name="consent_marketing" value="1">
-                            <span class="mobile-optin-checkbox"></span>
-                            <span class="mobile-optin-text"><?php esc_html_e('J\'accepte d\'être recontacté pour des offres personnalisées', 'almetal'); ?></span>
+                            <span class="optin-checkbox mobile-optin-checkbox"></span>
+                            <span class="optin-text mobile-optin-text"><?php _e('J\'accepte d\'être recontacté pour des offres personnalisées', 'almetal'); ?></span>
                         </label>
                     </div>
                 </div>
 
                 <input type="hidden" name="contact_consent" value="1">
 
-                <button type="submit" class="mobile-contact-submit-btn" data-track="Contact|form_submit|mobile">
+                <button type="submit" class="contact-submit-btn mobile-contact-submit-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="22" y1="2" x2="11" y2="13"/>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                     </svg>
-                    <?php esc_html_e('Envoyer ma demande', 'almetal'); ?>
+                    <?php _e('Envoyer ma demande', 'almetal'); ?>
                 </button>
                 
-                <p class="mobile-form-consent-text">
-                    <?php esc_html_e('En cliquant sur "Envoyer ma demande", vous acceptez que vos données soient utilisées pour vous recontacter.', 'almetal'); ?>
-                    <a href="<?php echo esc_url(home_url('/politique-confidentialite')); ?>"><?php esc_html_e('Politique de confidentialité', 'almetal'); ?></a>
+                <p class="form-consent-text mobile-form-consent-text">
+                    <?php _e('En cliquant sur "Envoyer ma demande", vous acceptez que vos données soient utilisées pour vous recontacter.', 'almetal'); ?>
+                    <a href="<?php echo esc_url(home_url('/politique-confidentialite')); ?>"><?php _e('Politique de confidentialité', 'almetal'); ?></a>
                 </p>
 
-                <div class="mobile-form-message" style="display: none;"></div>
+                <div class="form-message mobile-form-message" style="display: none;"></div>
             </form>
         </div>
 
     </div>
 </main>
 
-<!-- Script pour le formulaire AJAX -->
+<!-- Script AJAX identique au desktop -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('mobile-contact-form');
-    const messageDiv = form.querySelector('.mobile-form-message');
-    const submitBtn = form.querySelector('.mobile-contact-submit-btn');
+(function($) {
+    'use strict';
     
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
+    $(document).ready(function() {
+        var form = $('#contact-form');
+        var messageDiv = $('.form-message');
         
-        // Désactiver le bouton
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> Envoi en cours...';
-        
-        const formData = new FormData(form);
-        
-        try {
-            const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                method: 'POST',
-                body: formData,
-                credentials: 'same-origin'
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                messageDiv.className = 'mobile-form-message mobile-form-success';
-                messageDiv.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> ' + (data.data?.message || 'Message envoyé avec succès !');
-                messageDiv.style.display = 'flex';
-                form.reset();
-                
-                // Tracker l'événement
-                if (window.almetalTrackEvent) {
-                    window.almetalTrackEvent('Contact', 'form_success', 'mobile');
-                }
-            } else {
-                messageDiv.className = 'mobile-form-message mobile-form-error';
-                messageDiv.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ' + (data.data?.message || 'Erreur lors de l\'envoi');
-                messageDiv.style.display = 'flex';
-            }
-        } catch (error) {
-            messageDiv.className = 'mobile-form-message mobile-form-error';
-            messageDiv.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Erreur de connexion';
-            messageDiv.style.display = 'flex';
+        if (!form.length) {
+            return;
         }
         
-        // Réactiver le bouton
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Envoyer ma demande';
+        form.on('submit', function(e) {
+            e.preventDefault();
+            
+            // Désactiver le bouton de soumission
+            var submitBtn = form.find('button[type="submit"]');
+            var originalText = submitBtn.html();
+            submitBtn.prop('disabled', true).html('<span>Envoi en cours...</span>');
+            
+            // Récupérer les données du formulaire
+            var formData = new FormData(this);
+            
+            // Envoyer via AJAX vers admin-ajax.php
+            $.ajax({
+                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        // Afficher le message de succès
+                        messageDiv
+                            .removeClass('error mobile-form-error')
+                            .addClass('success mobile-form-success')
+                            .html('✓ Votre message a été envoyé avec succès ! Nous vous recontacterons rapidement.')
+                            .fadeIn();
+                        
+                        // Réinitialiser le formulaire
+                        form[0].reset();
+                    } else {
+                        // Afficher le message d'erreur
+                        messageDiv
+                            .removeClass('success mobile-form-success')
+                            .addClass('error mobile-form-error')
+                            .html('✗ ' + (response.data?.message || 'Une erreur est survenue.'))
+                            .fadeIn();
+                    }
+                    
+                    // Faire défiler vers le message
+                    $('html, body').animate({
+                        scrollTop: messageDiv.offset().top - 100
+                    }, 500);
+                },
+                error: function(xhr, status, error) {
+                    // Afficher le message d'erreur
+                    messageDiv
+                        .removeClass('success mobile-form-success')
+                        .addClass('error mobile-form-error')
+                        .html('✗ Une erreur est survenue. Veuillez réessayer ou nous contacter directement par téléphone.')
+                        .fadeIn();
+                },
+                complete: function() {
+                    // Réactiver le bouton
+                    submitBtn.prop('disabled', false).html(originalText);
+                    
+                    // Masquer le message après 8 secondes
+                    setTimeout(function() {
+                        messageDiv.fadeOut();
+                    }, 8000);
+                }
+            });
+        });
         
-        // Scroll vers le message
-        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Validation en temps réel
+        form.find('input[required], textarea[required], select[required]').on('blur', function() {
+            var field = $(this);
+            if (!field.val()) {
+                field.css('border-color', '#f44336');
+            } else {
+                field.css('border-color', 'rgba(255, 255, 255, 0.1)');
+            }
+        });
+        
+        // Validation de l'email
+        form.find('input[type="email"]').on('blur', function() {
+            var email = $(this).val();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email && !emailRegex.test(email)) {
+                $(this).css('border-color', '#f44336');
+            } else {
+                $(this).css('border-color', 'rgba(255, 255, 255, 0.1)');
+            }
+        });
+        
+        // Validation du téléphone
+        form.find('input[type="tel"]').on('blur', function() {
+            var phone = $(this).val();
+            var phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
+            if (phone && !phoneRegex.test(phone)) {
+                $(this).css('border-color', '#f44336');
+            } else {
+                $(this).css('border-color', 'rgba(255, 255, 255, 0.1)');
+            }
+        });
     });
-});
+})(jQuery);
 </script>
 
 <?php get_footer(); ?>
