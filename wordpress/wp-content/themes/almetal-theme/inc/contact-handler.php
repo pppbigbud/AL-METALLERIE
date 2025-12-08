@@ -261,8 +261,13 @@ function almetal_contacts_admin_page() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'almetal_contacts';
 
-    // Récupérer tous les contacts
-    $contacts = $wpdb->get_results("SELECT * FROM $table_name ORDER BY submitted_at DESC");
+    // Récupérer tous les contacts (requête préparée pour la sécurité)
+    $contacts = $wpdb->get_results(
+        $wpdb->prepare(
+            "SELECT * FROM %i ORDER BY submitted_at DESC",
+            $table_name
+        )
+    );
 
     ?>
     <div class="wrap">
