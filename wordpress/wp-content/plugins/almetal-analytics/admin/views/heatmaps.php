@@ -79,10 +79,8 @@ $tracked_pages = Almetal_Analytics_Heatmap::get_tracked_pages(20);
                 <h3><?php _e('Visualisation', 'almetal-analytics'); ?></h3>
                 <div class="almetal-heatmap-controls">
                     <select id="heatmap-device" class="almetal-select">
-                        <option value="all"><?php _e('Tous les appareils', 'almetal-analytics'); ?></option>
                         <option value="desktop"><?php _e('Desktop', 'almetal-analytics'); ?></option>
                         <option value="mobile"><?php _e('Mobile', 'almetal-analytics'); ?></option>
-                        <option value="tablet"><?php _e('Tablet', 'almetal-analytics'); ?></option>
                     </select>
                 </div>
             </div>
@@ -140,6 +138,7 @@ jQuery(document).ready(function($) {
     
     function renderHeatmap(data) {
         const canvas = $('#heatmap-canvas');
+        const device = $('#heatmap-device').val();
         canvas.empty();
         
         if (!data.clicks || data.clicks.length === 0) {
@@ -158,31 +157,76 @@ jQuery(document).ready(function($) {
         `;
         canvas.append(statsHtml);
         
-        // Créer le conteneur de la heatmap
-        const heatmapContainer = $('<div>').css({
+        // Dimensions selon l'appareil
+        const isMobile = device === 'mobile';
+        const containerWidth = isMobile ? 375 : 1200;
+        const containerHeight = 800;
+        
+        // Créer le conteneur principal
+        const wrapper = $('<div>').css({
             position: 'relative',
-            width: '100%',
-            minHeight: '600px',
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+            width: containerWidth + 'px',
+            height: containerHeight + 'px',
+            margin: '0 auto',
+            border: '1px solid #ddd',
             borderRadius: '8px',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
         });
         
-        // Trouver le max pour normaliser et les dimensions
-        const maxCount = Math.max(...data.clicks.map(c => parseInt(c.count)));
-        const maxX = Math.max(...data.clicks.map(c => parseInt(c.x)));
-        const maxY = Math.max(...data.clicks.map(c => parseInt(c.y)));
+        // Ajouter l'iframe avec la page réelle en arrière-plan
+        const pageUrl = '<?php echo home_url(); ?>' + data.page_url;
+        const iframe = $('<iframe>').attr({
+            src: pageUrl,
+            scrolling: 'no',
+            frameborder: '0'
+        }).css({
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: isMobile ? '375px' : '100%',
+            height: '100%',
+            border: 'none',
+            pointerEvents: 'none',
+            transform: isMobile ? 'none' : 'none',
+            transformOrigin: 'top left'
+        });
+        wrapper.append(iframe);
         
-        // Ajuster la hauteur du conteneur
-        heatmapContainer.css('height', Math.min(maxY + 100, 800) + 'px');
+        // Overlay semi-transparent pour mieux voir les points
+        const overlay = $('<div>').css({
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0, 0, 0, 0.3)',
+            pointerEvents: 'none',
+            zIndex: 1
+        });
+        wrapper.append(overlay);
+        
+        // Conteneur des points de chaleur
+        const heatmapLayer = $('<div>').css({
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            zIndex: 2
+        });
+        
+        // Trouver le max pour normaliser
+        const maxCount = Math.max(...data.clicks.map(c => parseInt(c.count)));
         
         // Créer les points de chaleur
         data.clicks.forEach(click => {
             const intensity = parseInt(click.count) / maxCount;
-            const size = 30 + (intensity * 60);
-            const opacity = 0.4 + (intensity * 0.5);
+            const size = 30 + (intensity * 70);
+            const opacity = 0.5 + (intensity * 0.4);
             
-            // Couleur basée sur l'intensité (vert -> jaune -> orange -> rouge)
+            // Couleur basée sur l'intensité
             let color;
             if (intensity < 0.25) {
                 color = `rgba(76, 175, 80, ${opacity})`; // Vert
@@ -194,27 +238,36 @@ jQuery(document).ready(function($) {
                 color = `rgba(244, 67, 54, ${opacity})`; // Rouge
             }
             
+            // Ajuster les coordonnées pour mobile si nécessaire
+            let x = parseInt(click.x);
+            let y = parseInt(click.y);
+            
+            // S'assurer que les points sont dans les limites
+            if (x > containerWidth) x = containerWidth - 20;
+            if (x < 0) x = 20;
+            
             const dot = $('<div>').css({
                 position: 'absolute',
-                left: click.x + 'px',
-                top: click.y + 'px',
+                left: x + 'px',
+                top: y + 'px',
                 width: size + 'px',
                 height: size + 'px',
                 borderRadius: '50%',
                 background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
                 transform: 'translate(-50%, -50%)',
                 pointerEvents: 'none',
-                zIndex: Math.round(intensity * 100)
+                zIndex: Math.round(intensity * 100) + 10
             }).attr('title', `${click.count} clics`);
             
-            heatmapContainer.append(dot);
+            heatmapLayer.append(dot);
         });
         
-        canvas.append(heatmapContainer);
+        wrapper.append(heatmapLayer);
+        canvas.append(wrapper);
         
         // Légende
         const legend = `
-            <div style="margin-top: 15px; display: flex; gap: 20px; align-items: center;">
+            <div style="margin-top: 15px; display: flex; gap: 20px; align-items: center; justify-content: center;">
                 <span style="display: flex; align-items: center; gap: 5px;">
                     <span style="width: 15px; height: 15px; background: #4CAF50; border-radius: 50%;"></span> Faible
                 </span>
