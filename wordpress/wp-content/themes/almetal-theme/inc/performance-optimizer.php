@@ -43,36 +43,33 @@ function almetal_preconnect_resources() {
 add_action('wp_head', 'almetal_preconnect_resources', 1);
 
 /**
- * Précharger l'image LCP (Largest Contentful Paint)
+ * Précharger l'image LCP (Largest Contentful Paint) - DESKTOP UNIQUEMENT
+ * Note: Le mobile a son propre preload dans mobile-performance.php
  */
 function almetal_preload_lcp_image() {
-    // Page d'accueil - précharger l'image LCP du slideshow
-    if (is_front_page() || is_home()) {
-        // Précharger la première image du slideshow (LCP)
-        $args = array(
-            'post_type' => 'realisation',
-            'posts_per_page' => 1,
-            'orderby' => 'date',
-            'order' => 'DESC',
-        );
-        $query = new WP_Query($args);
-        if ($query->have_posts()) {
-            $query->the_post();
-            $image_id = get_post_thumbnail_id();
-            if ($image_id) {
-                // Obtenir l'URL de l'image en taille medium_large (optimale pour LCP)
-                $image_src = wp_get_attachment_image_src($image_id, 'medium_large');
-                if ($image_src) {
-                    echo '<link rel="preload" as="image" href="' . esc_url($image_src[0]) . '" fetchpriority="high" type="image/webp">' . "\n";
-                }
-            }
-            wp_reset_postdata();
-        }
-        
-        // Précharger aussi le logo
-        $logo_url = get_template_directory_uri() . '/assets/images/logo.webp';
-        echo '<link rel="preload" as="image" href="' . esc_url($logo_url) . '">' . "\n";
+    // Ne pas exécuter sur mobile (géré par mobile-performance.php)
+    if (wp_is_mobile()) {
+        return;
     }
+    
+    // Page d'accueil uniquement
+    if (!is_front_page() && !is_home()) {
+        return;
+    }
+    
+    // Précharger la première image du slideshow depuis les options
+    $slides = get_option('almetal_slideshow_slides', array());
+    if (!empty($slides) && isset($slides[0]['image_id'])) {
+        $image_id = $slides[0]['image_id'];
+        $image_src = wp_get_attachment_image_src($image_id, 'large');
+        if ($image_src) {
+            echo '<link rel="preload" as="image" href="' . esc_url($image_src[0]) . '" fetchpriority="high">' . "\n";
+        }
+    }
+    
+    // Logo desktop
+    $logo_url = get_template_directory_uri() . '/assets/images/logo.webp';
+    echo '<link rel="preload" as="image" href="' . esc_url($logo_url) . '">' . "\n";
 }
 add_action('wp_head', 'almetal_preload_lcp_image', 2);
 

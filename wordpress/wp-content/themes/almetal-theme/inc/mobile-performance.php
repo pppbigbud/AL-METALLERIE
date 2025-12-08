@@ -280,17 +280,10 @@ function almetal_use_img_tag_for_lcp() {
  * ============================================
  * 13. AJOUTER FETCHPRIORITY AUX RESSOURCES CRITIQUES
  * ============================================
+ * Note: Le logo est déjà préchargé dans almetal_preload_mobile_lcp()
+ * Cette fonction est désactivée pour éviter les doublons
  */
-function almetal_add_fetchpriority_hints() {
-    if (!almetal_is_mobile() || (!is_front_page() && !is_home())) {
-        return;
-    }
-    
-    // Logo mobile
-    $logo_url = get_template_directory_uri() . '/assets/images/logo.webp';
-    echo '<link rel="preload" as="image" href="' . esc_url($logo_url) . '" fetchpriority="high">' . "\n";
-}
-add_action('wp_head', 'almetal_add_fetchpriority_hints', 1);
+// Fonction désactivée - preload géré dans almetal_preload_mobile_lcp()
 
 /**
  * ============================================
