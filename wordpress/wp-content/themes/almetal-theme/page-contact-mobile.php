@@ -36,25 +36,6 @@ wp_enqueue_script('jquery');
             <?php esc_html_e('Expert en Métallerie, Ferronerie, Serrurie à Thiers', 'almetal'); ?>
         </p>
 
-        <!-- Boutons d'action rapide -->
-        <div class="mobile-quick-actions scroll-fade scroll-delay-1">
-            <a href="tel:+33673333532" class="mobile-quick-action-btn mobile-quick-action-call">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                <?php esc_html_e('Appeler', 'almetal'); ?>
-            </a>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=14+route+de+Maringues,+Peschadoires,+63920" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               class="mobile-quick-action-btn mobile-quick-action-directions">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
-                </svg>
-                <?php esc_html_e('Itinéraire', 'almetal'); ?>
-            </a>
-        </div>
-
         <!-- Informations de contact -->
         <div class="mobile-contact-info-grid">
             <!-- Téléphone -->
@@ -119,9 +100,6 @@ wp_enqueue_script('jquery');
         <!-- Formulaire de devis - IDENTIQUE AU DESKTOP -->
         <div class="mobile-contact-form-section scroll-fade">
             <div class="mobile-contact-form-header">
-                <svg class="mobile-contact-form-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                </svg>
                 <h2 class="mobile-contact-form-title">
                     <?php esc_html_e('Demande de devis', 'almetal'); ?>
                 </h2>
@@ -190,6 +168,20 @@ wp_enqueue_script('jquery');
                 </p>
 
                 <div class="form-message mobile-form-message" style="display: none;"></div>
+                
+                <!-- Message de succès amélioré -->
+                <div id="mobile-success-message" class="mobile-success-overlay" style="display: none;">
+                    <div class="mobile-success-content">
+                        <div class="mobile-success-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </div>
+                        <h3>Message envoyé !</h3>
+                        <p>Nous vous recontacterons dans les plus brefs délais.</p>
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -229,15 +221,23 @@ wp_enqueue_script('jquery');
                 contentType: false,
                 success: function(response) {
                     if (response.success) {
-                        // Afficher le message de succès
-                        messageDiv
-                            .removeClass('error mobile-form-error')
-                            .addClass('success mobile-form-success')
-                            .html('✓ Votre message a été envoyé avec succès ! Nous vous recontacterons rapidement.')
-                            .fadeIn();
+                        // Afficher le message de succès amélioré
+                        $('#mobile-success-message').fadeIn(300);
+                        
+                        // Masquer après 5 secondes
+                        setTimeout(function() {
+                            $('#mobile-success-message').fadeOut(300);
+                        }, 5000);
                         
                         // Réinitialiser le formulaire
                         form[0].reset();
+                        
+                        // Aussi afficher le message inline
+                        messageDiv
+                            .removeClass('error mobile-form-error')
+                            .addClass('success mobile-form-success')
+                            .html('✓ Votre message a été envoyé avec succès !')
+                            .fadeIn();
                     } else {
                         // Afficher le message d'erreur
                         messageDiv
