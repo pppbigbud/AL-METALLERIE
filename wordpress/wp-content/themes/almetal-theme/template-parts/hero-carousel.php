@@ -70,10 +70,23 @@ function almetal_format_features($features_text) {
             <?php foreach ($active_slides as $index => $slide) : 
                 $is_promo = isset($slide['is_promo']) && $slide['is_promo'];
                 $slide_class = $is_promo ? 'mobile-hero-slide slide-promo' : 'mobile-hero-slide';
+                $is_first_slide = ($index === 0);
             ?>
                 <!-- Slide <?php echo ($index + 1); ?> -->
                 <div class="swiper-slide <?php echo $slide_class; ?>">
-                    <div class="mobile-hero-image" style="background-image: url('<?php echo esc_url($slide['image']); ?>');"></div>
+                    <?php if ($is_first_slide) : ?>
+                        <!-- Première slide: IMG tag pour LCP optimal -->
+                        <img src="<?php echo esc_url($slide['image']); ?>" 
+                             alt="<?php echo esc_attr($slide['title'] ?? 'AL Métallerie'); ?>"
+                             class="mobile-hero-image-img"
+                             width="480"
+                             height="640"
+                             fetchpriority="high"
+                             decoding="async">
+                    <?php else : ?>
+                        <!-- Autres slides: background-image avec lazy loading -->
+                        <div class="mobile-hero-image" style="background-image: url('<?php echo esc_url($slide['image']); ?>');"></div>
+                    <?php endif; ?>
                     <div class="mobile-hero-overlay<?php echo $is_promo ? ' promo-overlay' : ''; ?>"></div>
                     
                     <?php if ($is_promo) : ?>
