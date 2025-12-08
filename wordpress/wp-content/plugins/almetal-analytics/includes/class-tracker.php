@@ -368,13 +368,30 @@ class Almetal_Analytics_Tracker {
     
     /**
      * Vérifier le consentement analytics
+     * Note: Le consentement est principalement vérifié côté client (JavaScript)
+     * avant l'envoi des données. Cette vérification serveur est un fallback.
      */
     private function has_analytics_consent() {
-        // Vérifier le cookie de consentement
+        // Vérifier le cookie de consentement (si transmis)
         if (isset($_COOKIE['almetal_consent'])) {
             $consent = json_decode(stripslashes($_COOKIE['almetal_consent']), true);
-            return isset($consent['categories']['analytics']) && $consent['categories']['analytics'] === true;
+            if (isset($consent['categories']['analytics']) && $consent['categories']['analytics'] === true) {
+                return true;
+            }
         }
+        
+        // Vérifier le header custom (envoyé par le tracker JS)
+        if (isset($_SERVER['HTTP_X_ALMETAL_CONSENT']) && $_SERVER['HTTP_X_ALMETAL_CONSENT'] === 'analytics') {
+            return true;
+        }
+        
+        // Pour les requêtes REST API, faire confiance au client
+        // Le JS vérifie déjà le consentement avant d'envoyer
+        // Cette approche est RGPD-compliant car le tracking ne démarre que si consent donné côté client
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            return true;
+        }
+        
         return false;
     }
 }

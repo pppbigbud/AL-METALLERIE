@@ -46,7 +46,11 @@
             try {
                 const response = await fetch(restUrl + 'track/visit', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-Almetal-Consent': 'analytics'
+                    },
+                    credentials: 'same-origin', // Envoyer les cookies
                     body: JSON.stringify({
                         visitor_id: visitorId,
                         session_id: sessionId,
@@ -62,6 +66,9 @@
                 const data = await response.json();
                 if (data.success) {
                     visitId = data.visit_id;
+                    console.log('Analytics: Visit tracked, ID:', visitId);
+                } else {
+                    console.warn('Analytics: Track failed:', data.message);
                 }
             } catch (e) {
                 console.warn('Analytics tracking error:', e);
@@ -102,7 +109,11 @@
             try {
                 await fetch(restUrl + 'track/update', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-Almetal-Consent': 'analytics'
+                    },
+                    credentials: 'same-origin',
                     body: JSON.stringify({
                         visit_id: visitId,
                         duration: duration,
@@ -129,7 +140,11 @@
             
             fetch(restUrl + 'track/event', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Almetal-Consent': 'analytics'
+                },
+                credentials: 'same-origin',
                 body: JSON.stringify({
                     visit_id: visitId,
                     visitor_id: visitorId,
@@ -162,7 +177,11 @@
                 const duration = Math.round((Date.now() - startTime) / 1000);
                 fetch(restUrl + 'track/update', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-Almetal-Consent': 'analytics'
+                    },
+                    credentials: 'same-origin',
                     body: JSON.stringify({
                         visit_id: visitId,
                         duration: duration,

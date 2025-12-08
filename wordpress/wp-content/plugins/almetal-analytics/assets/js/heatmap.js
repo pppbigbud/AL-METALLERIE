@@ -77,7 +77,11 @@
             // Utiliser fetch avec keepalive
             fetch(restUrl + 'track/heatmap', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Almetal-Consent': 'analytics'
+                },
+                credentials: 'same-origin',
                 body: data,
                 keepalive: true
             }).catch(() => {});
