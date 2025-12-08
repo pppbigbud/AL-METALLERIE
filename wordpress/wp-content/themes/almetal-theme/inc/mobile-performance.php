@@ -63,14 +63,16 @@ add_action('wp_head', 'almetal_preload_mobile_lcp', 1);
  */
 function almetal_remove_block_library_css() {
     // Supprimer le CSS Gutenberg si on n'utilise pas de blocs
-    if (!is_admin()) {
-        wp_dequeue_style('wp-block-library');
-        wp_dequeue_style('wp-block-library-theme');
-        wp_dequeue_style('wc-blocks-style'); // WooCommerce blocks
-        wp_dequeue_style('global-styles'); // Styles globaux Gutenberg
-    }
+    wp_dequeue_style('wp-block-library');
+    wp_deregister_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_deregister_style('wp-block-library-theme');
+    wp_dequeue_style('wc-blocks-style');
+    wp_dequeue_style('global-styles');
+    wp_deregister_style('global-styles');
 }
-add_action('wp_enqueue_scripts', 'almetal_remove_block_library_css', 100);
+add_action('wp_enqueue_scripts', 'almetal_remove_block_library_css', 200);
+add_action('wp_print_styles', 'almetal_remove_block_library_css', 200);
 
 /**
  * ============================================
@@ -127,36 +129,21 @@ function almetal_inline_mobile_critical_css() {
     }
     ?>
     <style id="mobile-critical-css">
-    /* CSS critique mobile - Above the fold */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{font-size:16px;-webkit-text-size-adjust:100%}
-    body{font-family:Poppins,system-ui,sans-serif;background:#191919;color:#fff;overflow-x:hidden}
-    
-    /* Header mobile */
-    .mobile-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(25,25,25,.95);backdrop-filter:blur(10px);height:60px;display:flex;align-items:center;padding:0 1rem}
-    .mobile-header-inner{display:flex;align-items:center;justify-content:space-between;width:100%}
-    .mobile-logo{flex:1;display:flex;justify-content:center}
-    .mobile-logo-img{height:40px;width:auto}
-    .mobile-burger-btn{background:none;border:none;padding:8px;cursor:pointer}
-    .mobile-burger-line{display:block;width:24px;height:2px;background:#fff;margin:5px 0;transition:transform .3s}
-    
-    /* Hero slideshow mobile */
-    .mobile-hero-swiper{width:100%;height:70vh;min-height:400px;position:relative;margin-top:60px}
-    .swiper-slide{position:relative;overflow:hidden}
-    .mobile-hero-image{position:absolute;inset:0;background-size:cover;background-position:center}
-    .mobile-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3),rgba(0,0,0,.7))}
-    .mobile-hero-content{position:absolute;bottom:80px;left:1rem;right:1rem;z-index:2}
-    .mobile-hero-title{font-size:1.5rem;font-weight:700;margin-bottom:.5rem;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+    /* CSS critique mobile - Above the fold - Minifié */
+    *{box-sizing:border-box;margin:0;padding:0}html{font-size:16px;-webkit-text-size-adjust:100%}body{font-family:Poppins,system-ui,sans-serif;background:#191919;color:#fff;overflow-x:hidden;padding-top:70px}
+    .mobile-header{position:fixed;top:0;left:0;right:0;z-index:999999;background:rgba(34,34,34,.98);backdrop-filter:blur(10px);height:70px;border-bottom:1px solid rgba(240,139,24,.2);box-shadow:0 2px 10px rgba(0,0,0,.3)}
+    .mobile-header-inner{display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 1rem;position:relative}
+    .mobile-logo{position:absolute;left:50%;transform:translateX(-50%);z-index:2}.mobile-logo a{display:block}.mobile-logo img,.mobile-logo-img{height:5rem;width:auto;display:block;margin-top:3.5vh}
+    .mobile-burger-btn{background:none;border:none;padding:8px;cursor:pointer;z-index:3}.mobile-burger-line{display:block;width:24px;height:2px;background:#fff;margin:5px 0}
+    .mobile-hero-swiper{width:100%;height:70vh;min-height:400px;position:relative;z-index:1}.swiper,.swiper-wrapper{height:100%}.swiper-slide{position:relative;width:100%;height:100%}
+    .mobile-hero-image,.mobile-hero-image-img{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;object-fit:cover;object-position:center;background-color:#000}
+    .mobile-hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.3) 0%,rgba(0,0,0,.7) 100%);z-index:1}
+    .mobile-hero-content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:#fff;z-index:2;width:90%;max-width:600px;padding-top:70px}
+    .mobile-hero-title{font-size:1.5rem;font-weight:700;margin-bottom:.5rem;text-shadow:0 2px 4px rgba(0,0,0,.5);line-height:1.2}
     .mobile-hero-subtitle{font-size:.9rem;opacity:.9;margin-bottom:1rem}
-    .mobile-hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:#F08B18;color:#fff;padding:.75rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600}
-    
-    /* Pagination Swiper */
-    .swiper-pagination{bottom:20px!important}
-    .swiper-pagination-bullet{background:#fff;opacity:.5;width:8px;height:8px}
-    .swiper-pagination-bullet-active{opacity:1;background:#F08B18}
-    
-    /* Masquer le desktop header sur mobile */
-    .site-header:not(.mobile-header){display:none}
+    .mobile-hero-cta{display:inline-flex;align-items:center;gap:.5rem;background:#F08B18;color:#fff;padding:.75rem 1.5rem;border-radius:8px;text-decoration:none;font-weight:600;transition:transform .2s}
+    .swiper-pagination{bottom:20px!important}.swiper-pagination-bullet{background:#fff;opacity:.5;width:8px;height:8px}.swiper-pagination-bullet-active{opacity:1;background:#F08B18}
+    .site-header:not(.mobile-header){display:none!important}
     </style>
     <?php
 }
@@ -315,19 +302,50 @@ function almetal_optimize_fonts_mobile() {
         return;
     }
     
-    // Charger uniquement les poids nécessaires sur mobile
+    // Supprimer toutes les polices Google enregistrées
     wp_dequeue_style('almetal-google-fonts');
     wp_dequeue_style('almetal-google-fonts-optimized');
-    
-    // Version ultra-légère pour mobile (seulement 400 et 600)
-    wp_enqueue_style(
-        'almetal-fonts-mobile',
-        'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap',
-        array(),
-        null
-    );
+    wp_deregister_style('almetal-google-fonts');
+    wp_deregister_style('almetal-google-fonts-optimized');
 }
-add_action('wp_enqueue_scripts', 'almetal_optimize_fonts_mobile', 20);
+add_action('wp_enqueue_scripts', 'almetal_optimize_fonts_mobile', 200);
+
+/**
+ * Charger les Google Fonts de manière non-bloquante sur mobile
+ */
+function almetal_async_google_fonts_mobile() {
+    if (!almetal_is_mobile() || (!is_front_page() && !is_home())) {
+        return;
+    }
+    ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"></noscript>
+    <?php
+}
+add_action('wp_head', 'almetal_async_google_fonts_mobile', 1);
+
+/**
+ * Différer le CSS Swiper (non critique)
+ */
+function almetal_defer_swiper_css($html, $handle, $href, $media) {
+    if (!almetal_is_mobile()) {
+        return $html;
+    }
+    
+    // Différer le CSS Swiper
+    if (strpos($href, 'swiper') !== false) {
+        return sprintf(
+            '<link rel="preload" href="%s" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="%s"></noscript>',
+            esc_url($href),
+            esc_url($href)
+        );
+    }
+    
+    return $html;
+}
+add_filter('style_loader_tag', 'almetal_defer_swiper_css', 20, 4);
 
 /**
  * ============================================
