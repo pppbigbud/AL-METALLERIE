@@ -987,6 +987,7 @@ require_once get_template_directory() . '/inc/sitemap-generator.php';
 require_once get_template_directory() . '/inc/seo-local.php';
 require_once get_template_directory() . '/inc/performance-optimizer.php';
 require_once get_template_directory() . '/inc/mobile-performance.php';
+require_once get_template_directory() . '/inc/image-auto-optimizer.php';
 require_once get_template_directory() . '/inc/security-hardening.php';
 
 /**
