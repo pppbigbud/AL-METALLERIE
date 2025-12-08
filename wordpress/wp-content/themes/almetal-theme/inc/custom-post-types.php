@@ -530,7 +530,9 @@ function almetal_realisation_custom_column($column, $post_id) {
     switch ($column) {
         case 'thumbnail':
             if (has_post_thumbnail($post_id)) {
-                echo get_the_post_thumbnail($post_id, array(80, 80));
+                echo get_the_post_thumbnail($post_id, 'thumbnail', array(
+                    'style' => 'width: 60px; height: 60px; object-fit: cover; border-radius: 4px;'
+                ));
             } else {
                 echo '—';
             }
@@ -556,3 +558,26 @@ function almetal_realisation_sortable_columns($columns) {
     return $columns;
 }
 add_filter('manage_edit-realisation_sortable_columns', 'almetal_realisation_sortable_columns');
+
+/**
+ * CSS admin pour les miniatures des réalisations
+ */
+function almetal_admin_realisation_styles() {
+    global $typenow;
+    if ($typenow === 'realisation') {
+        ?>
+        <style>
+            .column-thumbnail {
+                width: 80px !important;
+            }
+            .column-thumbnail img {
+                width: 60px !important;
+                height: 60px !important;
+                object-fit: cover !important;
+                border-radius: 4px !important;
+            }
+        </style>
+        <?php
+    }
+}
+add_action('admin_head', 'almetal_admin_realisation_styles');
