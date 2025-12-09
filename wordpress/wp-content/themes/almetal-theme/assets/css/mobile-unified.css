@@ -109,7 +109,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     padding: 0;
     z-index: 999999;
     margin-left: auto;
@@ -118,25 +118,27 @@ body {
 }
 
 .mobile-burger-line {
-    width: 28px;
-    height: 3px;
+    width: 24px;
+    height: 2px;
     background: #F08B18;
     border-radius: 2px;
     transition: all 0.3s ease;
     pointer-events: none;
+    transform-origin: center;
 }
 
 /* Animation burger → X */
 .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
+    transform: translateY(6px) rotate(45deg);
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
     opacity: 0;
+    transform: scaleX(0);
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-6px) rotate(-45deg);
 }
 
 /* Espace vide pour équilibrer */

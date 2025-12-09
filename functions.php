@@ -583,7 +583,7 @@ function almetal_critical_mobile_css() {
             flex-direction: column !important;
             justify-content: center !important;
             align-items: center !important;
-            gap: 6px !important;
+            gap: 4px !important;
             background: transparent !important;
             border: none !important;
             cursor: pointer !important;
@@ -597,15 +597,27 @@ function almetal_critical_mobile_css() {
         }
         .mobile-burger-btn .mobile-burger-line,
         #mobile-burger-btn .mobile-burger-line {
-            width: 28px !important;
-            height: 3px !important;
-            min-height: 3px !important;
+            width: 24px !important;
+            height: 2px !important;
+            min-height: 2px !important;
             background: #F08B18 !important;
             border-radius: 2px !important;
             transition: all 0.3s ease !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
+            transform-origin: center !important;
+        }
+        /* Animation burger → X (croix) */
+        .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
+            transform: translateY(6px) rotate(45deg) !important;
+        }
+        .mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
+            opacity: 0 !important;
+            transform: scaleX(0) !important;
+        }
+        .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg) !important;
         }
         .mobile-header {
             pointer-events: none !important;
