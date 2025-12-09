@@ -3,6 +3,7 @@
  * Template pour l'archive des réalisations - VERSION MOBILE
  * 
  * Affiche toutes les réalisations avec filtrage par catégories
+ * Gère aussi les pages de taxonomie (catégories)
  * Header avec bouton retour vers l'accueil
  * 
  * @package ALMetallerie
@@ -10,6 +11,15 @@
  */
 
 get_header();
+
+// Détecter si on est sur une page de taxonomie (catégorie)
+$is_taxonomy_page = is_tax('type_realisation');
+$current_term = $is_taxonomy_page ? get_queried_object() : null;
+$page_title = $is_taxonomy_page ? $current_term->name : __('TOUTES NOS RÉALISATIONS', 'almetal');
+$page_subtitle = $is_taxonomy_page 
+    ? sprintf(__('Découvrez nos réalisations en %s', 'almetal'), strtolower($current_term->name))
+    : __('Découvrez l\'ensemble de nos projets en métallerie', 'almetal');
+$tag_text = $is_taxonomy_page ? $current_term->name : __('Nos Réalisations', 'almetal');
 ?>
 
 <!-- Header Mobile avec bouton RETOUR -->
@@ -20,15 +30,15 @@ get_header();
         
         <!-- Tag -->
         <div class="mobile-archive-tag scroll-zoom">
-            <span><?php esc_html_e('Nos Réalisations', 'almetal'); ?></span>
+            <span><?php echo esc_html($tag_text); ?></span>
         </div>
 
         <!-- Titre de la page -->
         <h1 class="mobile-archive-title scroll-fade scroll-delay-1">
-            <?php esc_html_e('TOUTES NOS RÉALISATIONS', 'almetal'); ?>
+            <?php echo esc_html(strtoupper($page_title)); ?>
         </h1>
         <p class="mobile-archive-subtitle scroll-fade scroll-delay-2">
-            <?php esc_html_e('Découvrez l\'ensemble de nos projets en métallerie', 'almetal'); ?>
+            <?php echo esc_html($page_subtitle); ?>
         </p>
 
         <?php
@@ -41,8 +51,8 @@ get_header();
         ));
         ?>
 
-        <?php if (!empty($categories) && !is_wp_error($categories)) : ?>
-        <!-- Menu déroulant de filtrage -->
+        <?php if (!$is_taxonomy_page && !empty($categories) && !is_wp_error($categories)) : ?>
+        <!-- Menu déroulant de filtrage (uniquement sur l'archive générale) -->
         <div class="mobile-archive-filter-wrapper scroll-fade scroll-delay-3">
             <label for="mobile-archive-filter-select" class="mobile-filter-label">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -72,14 +82,42 @@ get_header();
         </div>
         <?php endif; ?>
 
+        <?php if ($is_taxonomy_page) : ?>
+        <!-- Lien retour vers toutes les réalisations -->
+        <div class="mobile-back-to-all scroll-fade scroll-delay-3">
+            <a href="<?php echo esc_url(get_post_type_archive_link('realisation')); ?>" class="mobile-back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <?php esc_html_e('Voir toutes les réalisations', 'almetal'); ?>
+            </a>
+            <span class="mobile-category-count">
+                <?php echo esc_html(sprintf(__('%d projet(s)', 'almetal'), $current_term->count)); ?>
+            </span>
+        </div>
+        <?php endif; ?>
+
         <?php
-        // Query pour récupérer toutes les réalisations
-        $realisations_query = new WP_Query(array(
+        // Query pour récupérer les réalisations (filtrées si on est sur une taxonomie)
+        $query_args = array(
             'post_type' => 'realisation',
-            'posts_per_page' => -1, // Toutes les réalisations
+            'posts_per_page' => -1,
             'orderby' => 'date',
             'order' => 'DESC',
-        ));
+        );
+        
+        // Si on est sur une page de catégorie, filtrer par cette catégorie
+        if ($is_taxonomy_page && $current_term) {
+            $query_args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'type_realisation',
+                    'field' => 'slug',
+                    'terms' => $current_term->slug,
+                ),
+            );
+        }
+        
+        $realisations_query = new WP_Query($query_args);
         ?>
 
         <!-- Grille de réalisations -->

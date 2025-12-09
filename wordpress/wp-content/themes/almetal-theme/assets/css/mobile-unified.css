@@ -98,10 +98,10 @@ body {
     stroke: #F08B18;
 }
 
-/* Bouton burger - Style pilule avec animation élastique */
+/* Bouton burger */
 .mobile-burger-btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -109,55 +109,34 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2.5px;
+    gap: 6px;
     padding: 0;
     z-index: 999999;
     margin-left: auto;
     position: relative;
     pointer-events: auto;
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-/* Effet pulsation au touch */
-.mobile-burger-btn:active {
-    transform: scale(0.85);
 }
 
 .mobile-burger-line {
-    width: 26px;
+    width: 28px;
     height: 3px;
     background: #F08B18;
-    border-radius: 10px; /* Style pilule très arrondi */
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animation élastique */
+    border-radius: 2px;
+    transition: all 0.3s ease;
     pointer-events: none;
-    transform-origin: center;
-    box-shadow: 0 0 4px rgba(240, 139, 24, 0.3);
 }
 
-/* Ligne du milieu légèrement plus courte pour le style */
-.mobile-burger-line:nth-child(2) {
-    width: 20px;
-}
-
-/* Animation burger → X avec effet rebond */
+/* Animation burger → X */
 .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
-    transform: translateY(5.5px) rotate(45deg);
-    width: 26px;
+    transform: translateY(9px) rotate(45deg);
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
     opacity: 0;
-    transform: scaleX(0) rotate(180deg);
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
-    transform: translateY(-5.5px) rotate(-45deg);
-    width: 26px;
-}
-
-/* Glow effect quand actif */
-.mobile-burger-btn.active .mobile-burger-line {
-    box-shadow: 0 0 8px rgba(240, 139, 24, 0.6);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Espace vide pour équilibrer */
@@ -294,18 +273,6 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #000;
-}
-
-/* Image LCP optimisée (première slide) */
-.mobile-hero-image-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
     background-color: #000;
 }
 
@@ -2146,6 +2113,50 @@ background: #262626;
     text-align: center;
     margin-bottom: 2rem;
     line-height: 1.6;
+}
+
+/* Lien retour (pages catégories) */
+.mobile-back-to-all {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.mobile-back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #F08B18;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.mobile-back-link:active {
+    transform: translateX(-3px);
+}
+
+.mobile-back-link svg {
+    transition: transform 0.3s ease;
+}
+
+.mobile-back-link:active svg {
+    transform: translateX(-3px);
+}
+
+.mobile-category-count {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(240, 139, 24, 0.15);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
 }
 
 /* Filtre */
