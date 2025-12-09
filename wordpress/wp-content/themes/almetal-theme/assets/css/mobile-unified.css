@@ -98,10 +98,10 @@ body {
     stroke: #F08B18;
 }
 
-/* Bouton burger */
+/* Bouton burger - Style pilule avec animation élastique */
 .mobile-burger-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -109,36 +109,55 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     padding: 0;
     z-index: 999999;
     margin-left: auto;
     position: relative;
     pointer-events: auto;
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Effet pulsation au touch */
+.mobile-burger-btn:active {
+    transform: scale(0.85);
 }
 
 .mobile-burger-line {
-    width: 24px;
-    height: 2px;
+    width: 26px;
+    height: 3px;
     background: #F08B18;
-    border-radius: 2px;
-    transition: all 0.3s ease;
+    border-radius: 10px; /* Style pilule très arrondi */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animation élastique */
     pointer-events: none;
     transform-origin: center;
+    box-shadow: 0 0 4px rgba(240, 139, 24, 0.3);
 }
 
-/* Animation burger → X */
+/* Ligne du milieu légèrement plus courte pour le style */
+.mobile-burger-line:nth-child(2) {
+    width: 20px;
+}
+
+/* Animation burger → X avec effet rebond */
 .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
+    transform: translateY(8px) rotate(45deg);
+    width: 26px;
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
     opacity: 0;
-    transform: scaleX(0);
+    transform: scaleX(0) rotate(180deg);
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: translateY(-8px) rotate(-45deg);
+    width: 26px;
+}
+
+/* Glow effect quand actif */
+.mobile-burger-btn.active .mobile-burger-line {
+    box-shadow: 0 0 8px rgba(240, 139, 24, 0.6);
 }
 
 /* Espace vide pour équilibrer */

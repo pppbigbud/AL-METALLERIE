@@ -597,27 +597,36 @@ function almetal_critical_mobile_css() {
         }
         .mobile-burger-btn .mobile-burger-line,
         #mobile-burger-btn .mobile-burger-line {
-            width: 24px !important;
-            height: 2px !important;
-            min-height: 2px !important;
+            width: 26px !important;
+            height: 3px !important;
+            min-height: 3px !important;
             background: #F08B18 !important;
-            border-radius: 2px !important;
-            transition: all 0.3s ease !important;
+            border-radius: 10px !important;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
             transform-origin: center !important;
+            box-shadow: 0 0 4px rgba(240, 139, 24, 0.3) !important;
         }
-        /* Animation burger → X (croix) */
+        .mobile-burger-btn .mobile-burger-line:nth-child(2) {
+            width: 20px !important;
+        }
+        /* Animation burger → X (croix) avec rebond */
         .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
-            transform: translateY(6px) rotate(45deg) !important;
+            transform: translateY(8px) rotate(45deg) !important;
+            width: 26px !important;
         }
         .mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
             opacity: 0 !important;
-            transform: scaleX(0) !important;
+            transform: scaleX(0) rotate(180deg) !important;
         }
         .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
-            transform: translateY(-6px) rotate(-45deg) !important;
+            transform: translateY(-8px) rotate(-45deg) !important;
+            width: 26px !important;
+        }
+        .mobile-burger-btn.active .mobile-burger-line {
+            box-shadow: 0 0 8px rgba(240, 139, 24, 0.6) !important;
         }
         .mobile-header {
             pointer-events: none !important;
