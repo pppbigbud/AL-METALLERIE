@@ -78,8 +78,7 @@ class PostTypes {
             'has_archive'         => 'formations',
             'exclude_from_search' => false,
             'publicly_queryable'  => true,
-            'capability_type'     => 'training_session',
-            'map_meta_cap'        => true,
+            'capability_type'     => 'post',
             'show_in_rest'        => true,
             'rest_base'           => 'training-sessions',
             'rewrite'             => [
