@@ -136,12 +136,12 @@ get_header();
                             <?php if ($types && !is_wp_error($types)) : ?>
                                 <div class="realisation-types">
                                     <?php foreach ($types as $type) : ?>
-                                        <span class="type-badge">
+                                        <a href="<?php echo esc_url(get_term_link($type)); ?>" class="type-badge">
                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
                                             </svg>
                                             <?php echo esc_html($type->name); ?>
-                                        </span>
+                                        </a>
                                     <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>
