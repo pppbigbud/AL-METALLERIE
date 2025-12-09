@@ -1,0 +1,511 @@
+/**
+ * Training Manager - Admin Styles
+ *
+ * @package TrainingManager
+ * @since 1.0.0
+ */
+
+/* Variables */
+:root {
+    --tm-primary: #F08B18;
+    --tm-primary-dark: #d97a0f;
+    --tm-secondary: #222222;
+    --tm-success: #10b981;
+    --tm-warning: #f59e0b;
+    --tm-danger: #dc2626;
+    --tm-info: #3b82f6;
+    --tm-gray-100: #f3f4f6;
+    --tm-gray-200: #e5e7eb;
+    --tm-gray-300: #d1d5db;
+    --tm-gray-500: #6b7280;
+    --tm-gray-700: #374151;
+    --tm-gray-900: #111827;
+}
+
+/* ============================================
+   METABOXES
+   ============================================ */
+
+.tm-metabox-content {
+    padding: 15px 0;
+}
+
+.tm-field-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.tm-field-group {
+    margin-bottom: 15px;
+}
+
+.tm-field-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--tm-gray-700);
+}
+
+.tm-field-group label .required {
+    color: var(--tm-danger);
+}
+
+.tm-field-group input[type="text"],
+.tm-field-group input[type="email"],
+.tm-field-group input[type="number"],
+.tm-field-group input[type="date"],
+.tm-field-group input[type="time"],
+.tm-field-group select,
+.tm-field-group textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+.tm-field-group .description {
+    color: var(--tm-gray-500);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Time Slots */
+.tm-time-slots {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--tm-gray-200);
+}
+
+.tm-time-slot-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.tm-time-slot-row input[type="time"] {
+    width: 120px;
+}
+
+.tm-remove-slot {
+    color: var(--tm-danger);
+    border-color: var(--tm-danger);
+}
+
+.tm-add-slot {
+    margin-top: 10px;
+}
+
+/* Capacity Display */
+.tm-capacity-display {
+    background: var(--tm-gray-100);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.tm-capacity-stat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.tm-stat-label {
+    color: var(--tm-gray-500);
+}
+
+.tm-stat-value {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.tm-stat-value.tm-reserved {
+    color: var(--tm-primary);
+}
+
+.tm-stat-value.tm-remaining {
+    color: var(--tm-success);
+}
+
+.tm-stat-value.tm-warning {
+    color: var(--tm-warning);
+}
+
+.tm-capacity-bar {
+    height: 8px;
+    background: var(--tm-gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.tm-capacity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--tm-primary), var(--tm-primary-dark));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* Status Indicator */
+.tm-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.tm-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.tm-status-open .tm-status-dot { background: var(--tm-success); }
+.tm-status-open { background: rgba(16, 185, 129, 0.1); }
+
+.tm-status-full .tm-status-dot { background: var(--tm-danger); }
+.tm-status-full { background: rgba(220, 38, 38, 0.1); }
+
+.tm-status-waitlist .tm-status-dot { background: var(--tm-warning); }
+.tm-status-waitlist { background: rgba(245, 158, 11, 0.1); }
+
+.tm-status-cancelled .tm-status-dot { background: var(--tm-gray-500); }
+.tm-status-cancelled { background: var(--tm-gray-100); }
+
+.tm-status-completed .tm-status-dot { background: var(--tm-info); }
+.tm-status-completed { background: rgba(59, 130, 246, 0.1); }
+
+/* Stats Grid */
+.tm-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.tm-stat-item {
+    text-align: center;
+    padding: 15px;
+    background: var(--tm-gray-100);
+    border-radius: 6px;
+}
+
+.tm-stat-number {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--tm-primary);
+}
+
+.tm-stat-item .tm-stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Documents */
+.tm-document-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--tm-gray-100);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.tm-doc-name {
+    flex: 1;
+    font-size: 13px;
+}
+
+/* ============================================
+   DASHBOARD
+   ============================================ */
+
+.tm-dashboard {
+    max-width: 1400px;
+}
+
+.tm-dashboard-grid {
+    display: grid;
+    gap: 20px;
+}
+
+/* Stats Cards */
+.tm-stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.tm-stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 4px solid var(--tm-primary);
+}
+
+.tm-stat-card .tm-stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240, 139, 24, 0.1);
+}
+
+.tm-stat-card .tm-stat-icon .dashicons {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: var(--tm-primary);
+}
+
+.tm-stat-card .tm-stat-content {
+    flex: 1;
+}
+
+.tm-stat-card .tm-stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--tm-gray-900);
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.tm-stat-card .tm-stat-label {
+    font-size: 13px;
+    color: var(--tm-gray-500);
+}
+
+/* Dashboard Sections */
+.tm-dashboard-section {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.tm-dashboard-section h2 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: var(--tm-gray-900);
+}
+
+/* Quick Actions */
+.tm-quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.tm-quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: var(--tm-gray-100);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--tm-gray-700);
+    transition: all 0.2s ease;
+}
+
+.tm-quick-action:hover {
+    background: var(--tm-primary);
+    color: white;
+}
+
+.tm-quick-action .dashicons {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+}
+
+/* Status Badges */
+.tm-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tm-status-badge.tm-status-open,
+.tm-status-badge.tm-status-pending {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--tm-success);
+}
+
+.tm-status-badge.tm-status-full,
+.tm-status-badge.tm-status-cancelled {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--tm-danger);
+}
+
+.tm-status-badge.tm-status-waitlist {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--tm-warning);
+}
+
+.tm-status-badge.tm-status-confirmed,
+.tm-status-badge.tm-status-completed {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--tm-info);
+}
+
+/* Places Bar Mini */
+.tm-places-bar-mini {
+    width: 60px;
+    height: 4px;
+    background: var(--tm-gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.tm-places-bar-mini div {
+    height: 100%;
+    background: var(--tm-primary);
+    border-radius: 2px;
+}
+
+/* ============================================
+   BOOKINGS PAGE
+   ============================================ */
+
+.tm-bookings-filters {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tm-bookings-filters form {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.tm-bookings-filters select {
+    min-width: 200px;
+}
+
+/* ============================================
+   REPORTS PAGE
+   ============================================ */
+
+.tm-reports-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.tm-report-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tm-report-card h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    color: var(--tm-gray-900);
+}
+
+.tm-popular-list,
+.tm-type-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tm-popular-list li,
+.tm-type-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--tm-gray-200);
+}
+
+.tm-popular-list li:last-child,
+.tm-type-list li:last-child {
+    border-bottom: none;
+}
+
+.tm-session-count,
+.tm-type-count {
+    font-weight: 600;
+    color: var(--tm-primary);
+}
+
+/* ============================================
+   SETTINGS PAGE
+   ============================================ */
+
+.tm-settings-wrap {
+    max-width: 900px;
+}
+
+.tm-settings-tabs .nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.tm-tab-content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .tm-stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .tm-quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 782px) {
+    .tm-field-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .tm-stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .tm-reports-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tm-bookings-filters form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .tm-bookings-filters select {
+        min-width: 100%;
+    }
+}
