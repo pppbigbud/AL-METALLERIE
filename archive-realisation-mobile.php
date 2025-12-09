@@ -106,11 +106,11 @@ get_header();
                                     <?php the_post_thumbnail('medium_large', array('loading' => 'lazy')); ?>
                                     
                                     <?php if ($terms && !is_wp_error($terms)) : ?>
-                                        <div class="mobile-realisation-badges">
+                                        <div class="mobile-realisation-badges" onclick="event.stopPropagation();">
                                             <?php foreach ($terms as $term) : ?>
-                                                <span class="mobile-realisation-badge">
+                                                <a href="<?php echo esc_url(get_term_link($term)); ?>" class="mobile-realisation-badge" onclick="event.stopPropagation();">
                                                     <?php echo esc_html($term->name); ?>
-                                                </span>
+                                                </a>
                                             <?php endforeach; ?>
                                         </div>
                                     <?php endif; ?>

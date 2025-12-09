@@ -2474,11 +2474,19 @@ background: #262626;
     background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
     color: white;
     padding: 0.4rem 0.8rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.mobile-realisation-badge:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(240, 139, 24, 0.5);
 }
 
 /* Contenu */
