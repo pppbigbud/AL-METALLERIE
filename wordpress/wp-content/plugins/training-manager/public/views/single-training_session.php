@@ -1,6 +1,7 @@
 <?php
 /**
  * Template pour afficher une session de formation
+ * Style cohérent avec le thème AL Métallerie
  *
  * Ce template peut être copié dans votre thème :
  * votre-theme/single-training_session.php
@@ -38,12 +39,48 @@ while (have_posts()) :
     $date_format = get_option('tm_date_format', 'd/m/Y');
     $currency = get_option('tm_currency_symbol', '€');
     
+    // Déterminer le type pour le contenu SEO
+    $type_slug = (!empty($types) && !is_wp_error($types)) ? $types[0]->slug : 'particuliers';
+    $type_name = (!empty($types) && !is_wp_error($types)) ? $types[0]->name : 'Particuliers';
+    $theme_name = (!empty($themes) && !is_wp_error($themes)) ? $themes[0]->name : '';
+    
     $status_labels = [
         'open'      => __('Inscriptions ouvertes', 'training-manager'),
         'full'      => __('Complet', 'training-manager'),
         'waitlist'  => __('Liste d\'attente', 'training-manager'),
         'cancelled' => __('Annulé', 'training-manager'),
     ];
+    
+    // Contenu SEO dynamique selon le type de formation
+    $seo_content = [];
+    
+    if ($type_slug === 'particuliers') {
+        $seo_content = [
+            'intro' => 'Découvrez nos formations soudure pour particuliers à Thiers, dans le Puy-de-Dôme. Que vous soyez débutant ou bricoleur confirmé, AL Métallerie vous accompagne dans l\'apprentissage des techniques de soudure.',
+            'benefits' => [
+                'Formation pratique en petit groupe (8 personnes max)',
+                'Encadrement par un professionnel certifié',
+                'Matériel professionnel fourni',
+                'Atelier équipé aux normes de sécurité',
+                'Certificat de participation délivré',
+            ],
+            'target' => 'Cette formation s\'adresse aux particuliers souhaitant acquérir les bases de la soudure pour leurs projets personnels : bricolage, rénovation, création artistique ou simplement par passion pour le travail du métal.',
+            'cta_text' => 'Réservez votre place dès maintenant et rejoignez notre prochain stage de soudure !',
+        ];
+    } else {
+        $seo_content = [
+            'intro' => 'AL Métallerie propose des formations professionnelles en soudure et métallerie à Thiers (63). Nos programmes sont conçus pour répondre aux exigences du marché et vous permettre d\'obtenir les qualifications nécessaires.',
+            'benefits' => [
+                'Formation certifiante reconnue',
+                'Préparation aux examens officiels',
+                'Formateurs expérimentés du métier',
+                'Équipements professionnels dernière génération',
+                'Accompagnement personnalisé',
+            ],
+            'target' => 'Cette formation s\'adresse aux professionnels de la métallerie, aux demandeurs d\'emploi en reconversion, et aux entreprises souhaitant former leurs équipes aux techniques de soudure.',
+            'cta_text' => 'Inscrivez-vous à cette formation professionnelle et développez vos compétences en soudure !',
+        ];
+    }
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tm-single-session'); ?>>
@@ -165,16 +202,63 @@ while (have_posts()) :
                         <?php endif; ?>
                     </div>
                     
+                    <!-- Introduction SEO -->
+                    <div class="tm-session-intro">
+                        <p class="tm-intro-text"><?php echo esc_html($seo_content['intro']); ?></p>
+                    </div>
+                    
                     <!-- Description -->
                     <div class="tm-session-description">
-                        <h2><?php _e('Description de la formation', 'training-manager'); ?></h2>
+                        <h2><?php _e('Programme de la formation', 'training-manager'); ?></h2>
                         <?php the_content(); ?>
+                    </div>
+                    
+                    <!-- Points forts - SEO -->
+                    <div class="tm-session-section tm-benefits">
+                        <h3>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            <?php _e('Les points forts de cette formation', 'training-manager'); ?>
+                        </h3>
+                        <ul class="tm-benefits-list">
+                            <?php foreach ($seo_content['benefits'] as $benefit) : ?>
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                    <?php echo esc_html($benefit); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    
+                    <!-- Public cible - SEO -->
+                    <div class="tm-session-section tm-target">
+                        <h3>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <?php _e('À qui s\'adresse cette formation ?', 'training-manager'); ?>
+                        </h3>
+                        <p><?php echo esc_html($seo_content['target']); ?></p>
                     </div>
                     
                     <!-- Prérequis -->
                     <?php if ($prerequisites) : ?>
-                        <div class="tm-session-section">
-                            <h3><?php _e('Prérequis', 'training-manager'); ?></h3>
+                        <div class="tm-session-section tm-prerequisites">
+                            <h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="16" x2="12" y2="12"/>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                                </svg>
+                                <?php _e('Prérequis', 'training-manager'); ?>
+                            </h3>
                             <div class="tm-section-content">
                                 <?php echo wpautop(esc_html($prerequisites)); ?>
                             </div>
@@ -183,19 +267,31 @@ while (have_posts()) :
                     
                     <!-- Matériel -->
                     <?php if ($materials) : ?>
-                        <div class="tm-session-section">
-                            <h3><?php _e('Matériel nécessaire', 'training-manager'); ?></h3>
+                        <div class="tm-session-section tm-materials">
+                            <h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                                </svg>
+                                <?php _e('Matériel nécessaire', 'training-manager'); ?>
+                            </h3>
                             <div class="tm-section-content">
                                 <?php echo wpautop(esc_html($materials)); ?>
                             </div>
                         </div>
                     <?php endif; ?>
                     
-                    <!-- Adresse -->
+                    <!-- Lieu et adresse -->
                     <?php if ($address) : ?>
-                        <div class="tm-session-section">
-                            <h3><?php _e('Adresse', 'training-manager'); ?></h3>
+                        <div class="tm-session-section tm-location-details">
+                            <h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                <?php _e('Lieu de formation', 'training-manager'); ?>
+                            </h3>
                             <div class="tm-section-content">
+                                <p><strong><?php echo esc_html($location); ?></strong></p>
                                 <p><?php echo nl2br(esc_html($address)); ?></p>
                             </div>
                         </div>
@@ -203,17 +299,21 @@ while (have_posts()) :
                     
                     <!-- Documents -->
                     <?php if (!empty($documents)) : ?>
-                        <div class="tm-session-section">
-                            <h3><?php _e('Documents', 'training-manager'); ?></h3>
+                        <div class="tm-session-section tm-documents">
+                            <h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <?php _e('Documents à télécharger', 'training-manager'); ?>
+                            </h3>
                             <div class="tm-documents-list">
                                 <?php foreach ($documents as $doc) : ?>
-                                    <a href="<?php echo esc_url($doc); ?>" class="tm-document-link" target="_blank">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                            <polyline points="14 2 14 8 20 8"/>
-                                            <line x1="16" y1="13" x2="8" y2="13"/>
-                                            <line x1="16" y1="17" x2="8" y2="17"/>
-                                            <polyline points="10 9 9 9 8 9"/>
+                                    <a href="<?php echo esc_url($doc); ?>" class="tm-document-link" target="_blank" rel="noopener">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                            <polyline points="7 10 12 15 17 10"/>
+                                            <line x1="12" y1="15" x2="12" y2="3"/>
                                         </svg>
                                         <?php echo esc_html(basename($doc)); ?>
                                     </a>
@@ -221,6 +321,27 @@ while (have_posts()) :
                             </div>
                         </div>
                     <?php endif; ?>
+                    
+                    <!-- Pourquoi choisir AL Métallerie - SEO -->
+                    <div class="tm-session-section tm-why-us">
+                        <h3>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            <?php _e('Pourquoi choisir AL Métallerie ?', 'training-manager'); ?>
+                        </h3>
+                        <div class="tm-section-content">
+                            <p>Depuis plus de 15 ans, <strong>AL Métallerie</strong> forme des particuliers et des professionnels aux métiers de la soudure et de la métallerie à Thiers, au cœur du Puy-de-Dôme (63).</p>
+                            <p>Notre atelier de 400m² est équipé de postes de soudure professionnels (MIG, TIG, électrode) et répond aux normes de sécurité les plus strictes. Nos formateurs, artisans expérimentés, transmettent leur savoir-faire avec passion et pédagogie.</p>
+                            <p><strong>Nos engagements :</strong></p>
+                            <ul>
+                                <li>Groupes limités à 8 personnes pour un suivi personnalisé</li>
+                                <li>80% de pratique, 20% de théorie</li>
+                                <li>Matériel professionnel fourni</li>
+                                <li>Attestation de formation délivrée</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Sidebar -->
