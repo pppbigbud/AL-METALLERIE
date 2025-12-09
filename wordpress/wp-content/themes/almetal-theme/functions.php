@@ -170,20 +170,46 @@ function almetal_enqueue_scripts() {
     
     // Style et script de la page contact (seulement sur la page contact)
     if (is_page_template('page-contact.php') || is_page('contact')) {
-        wp_enqueue_style(
-            'almetal-contact',
-            get_template_directory_uri() . '/assets/css/contact.css',
-            array('almetal-style', 'almetal-components'),
-            wp_get_theme()->get('Version')
-        );
         
-        wp_enqueue_script(
-            'almetal-contact',
-            get_template_directory_uri() . '/assets/js/contact.js',
-            array('jquery'),
-            wp_get_theme()->get('Version'),
-            true
-        );
+        // Version MOBILE
+        if (almetal_is_mobile()) {
+            wp_enqueue_style(
+                'almetal-mobile-contact-page',
+                get_template_directory_uri() . '/assets/css/mobile-contact-page.css',
+                array('almetal-style', 'almetal-components'),
+                wp_get_theme()->get('Version')
+            );
+            
+            wp_enqueue_script(
+                'almetal-mobile-contact-form',
+                get_template_directory_uri() . '/assets/js/mobile-contact-form.js',
+                array(),
+                wp_get_theme()->get('Version'),
+                true
+            );
+            
+            // Variables AJAX pour le formulaire mobile
+            wp_localize_script('almetal-mobile-contact-form', 'almetal_mobile_ajax', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+            ));
+        } 
+        // Version DESKTOP
+        else {
+            wp_enqueue_style(
+                'almetal-contact',
+                get_template_directory_uri() . '/assets/css/contact.css',
+                array('almetal-style', 'almetal-components'),
+                wp_get_theme()->get('Version')
+            );
+            
+            wp_enqueue_script(
+                'almetal-contact',
+                get_template_directory_uri() . '/assets/js/contact.js',
+                array('jquery'),
+                wp_get_theme()->get('Version'),
+                true
+            );
+        }
     }
     
     // Style des pages formations (seulement sur les pages formations)
@@ -470,9 +496,25 @@ function almetal_enqueue_scripts() {
     ));
     
     // ============================================
-    // ANCIEN COOKIE BANNER DÉSACTIVÉ
-    // Le nouveau cookie banner est géré par le plugin almetal-analytics
+    // BANNIÈRE DE CONSENTEMENT AUX COOKIES
     // ============================================
+    
+    // CSS de la bannière de cookies (chargé sur toutes les pages)
+    wp_enqueue_style(
+        'almetal-cookie-banner',
+        get_template_directory_uri() . '/assets/css/cookie-banner.css',
+        array('almetal-style'),
+        wp_get_theme()->get('Version')
+    );
+    
+    // JavaScript de la bannière de cookies (chargé sur toutes les pages)
+    wp_enqueue_script(
+        'almetal-cookie-consent',
+        get_template_directory_uri() . '/assets/js/cookie-consent.js',
+        array(),
+        wp_get_theme()->get('Version'),
+        true // Chargé dans le footer
+    );
     
     // ============================================
     // PAGE 404
@@ -567,7 +609,7 @@ function almetal_critical_mobile_css() {
             flex-direction: column !important;
             justify-content: center !important;
             align-items: center !important;
-            gap: 6px !important;
+            gap: 4px !important;
             background: transparent !important;
             border: none !important;
             cursor: pointer !important;
@@ -581,15 +623,36 @@ function almetal_critical_mobile_css() {
         }
         .mobile-burger-btn .mobile-burger-line,
         #mobile-burger-btn .mobile-burger-line {
-            width: 28px !important;
+            width: 26px !important;
             height: 3px !important;
             min-height: 3px !important;
             background: #F08B18 !important;
-            border-radius: 2px !important;
-            transition: all 0.3s ease !important;
+            border-radius: 10px !important;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
+            transform-origin: center !important;
+            box-shadow: 0 0 4px rgba(240, 139, 24, 0.3) !important;
+        }
+        .mobile-burger-btn .mobile-burger-line:nth-child(2) {
+            width: 20px !important;
+        }
+        /* Animation burger → X (croix) avec rebond */
+        .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg) !important;
+            width: 26px !important;
+        }
+        .mobile-burger-btn.active .mobile-burger-line:nth-child(2) {
+            opacity: 0 !important;
+            transform: scaleX(0) rotate(180deg) !important;
+        }
+        .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg) !important;
+            width: 26px !important;
+        }
+        .mobile-burger-btn.active .mobile-burger-line {
+            box-shadow: 0 0 8px rgba(240, 139, 24, 0.6) !important;
         }
         .mobile-header {
             pointer-events: none !important;
@@ -986,9 +1049,6 @@ require_once get_template_directory() . '/inc/image-webp-optimizer.php';
 require_once get_template_directory() . '/inc/sitemap-generator.php';
 require_once get_template_directory() . '/inc/seo-local.php';
 require_once get_template_directory() . '/inc/performance-optimizer.php';
-require_once get_template_directory() . '/inc/mobile-performance.php';
-require_once get_template_directory() . '/inc/image-auto-optimizer.php';
-require_once get_template_directory() . '/inc/security-hardening.php';
 
 /**
  * ============================================================================
@@ -1625,181 +1685,3 @@ function almetal_ajax_load_mobile_realisations() {
 }
 add_action('wp_ajax_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
 add_action('wp_ajax_nopriv_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
-
-/**
- * ============================================
- * RESTRICTION DES MENUS ADMIN POUR LES ÉDITEURS
- * ============================================
- * Les éditeurs n'ont accès qu'à :
- * - Tableau de bord
- * - Réalisations
- * - Médias
- * - Pages
- * - SlideshowAccueil
- * - Contacts
- * - Analytics
- * - Cards Formations
- */
-
-/**
- * Ajouter les capacités nécessaires au rôle éditeur
- * Cette fonction s'exécute une seule fois lors de l'activation du thème
- */
-function almetal_add_editor_capabilities() {
-    $editor = get_role('editor');
-    
-    if (!$editor) {
-        return;
-    }
-    
-    // Capacités pour les CPT personnalisés
-    $custom_post_types = array(
-        'realisation',
-        'slideshow_accueil',
-        'card_formation',
-    );
-    
-    foreach ($custom_post_types as $cpt) {
-        // Capacités de base pour chaque CPT
-        $editor->add_cap("edit_{$cpt}s");
-        $editor->add_cap("edit_others_{$cpt}s");
-        $editor->add_cap("publish_{$cpt}s");
-        $editor->add_cap("read_private_{$cpt}s");
-        $editor->add_cap("delete_{$cpt}s");
-        $editor->add_cap("delete_others_{$cpt}s");
-        $editor->add_cap("delete_published_{$cpt}s");
-        $editor->add_cap("edit_published_{$cpt}s");
-        
-        // Capacités alternatives (certains plugins utilisent ce format)
-        $editor->add_cap("edit_{$cpt}");
-        $editor->add_cap("read_{$cpt}");
-        $editor->add_cap("delete_{$cpt}");
-    }
-    
-    // Capacité pour accéder au menu Analytics (plugin almetal-analytics)
-    $editor->add_cap('almetal_view_analytics');
-    $editor->add_cap('manage_almetal_analytics');
-    
-    // Capacité pour accéder aux contacts (Contact Form 7 ou autre)
-    $editor->add_cap('wpcf7_read_contact_forms');
-    $editor->add_cap('wpcf7_edit_contact_forms');
-    $editor->add_cap('wpcf7_read_contact_form');
-    $editor->add_cap('wpcf7_edit_contact_form');
-}
-add_action('after_switch_theme', 'almetal_add_editor_capabilities');
-
-// Exécuter à chaque chargement admin pour s'assurer que les caps sont là
-function almetal_ensure_editor_capabilities() {
-    $editor = get_role('editor');
-    if (!$editor) {
-        return;
-    }
-    
-    // Forcer l'ajout des capacités à chaque fois (debug)
-    // Les éditeurs ont déjà accès aux posts par défaut
-    // Mais on s'assure qu'ils ont aussi accès au menu Analytics
-    $editor->add_cap('almetal_view_analytics');
-    $editor->add_cap('manage_almetal_analytics');
-    $editor->add_cap('view_almetal_analytics');
-    
-    // Debug : afficher les capacités de l'éditeur
-    // error_log('Editor caps: ' . print_r($editor->capabilities, true));
-}
-add_action('admin_init', 'almetal_ensure_editor_capabilities');
-
-function almetal_restrict_editor_menu() {
-    // Ne s'applique qu'aux éditeurs
-    $user = wp_get_current_user();
-    if (!in_array('editor', (array) $user->roles)) {
-        return;
-    }
-    
-    // Menus à CACHER pour les éditeurs
-    $menus_to_hide = array(
-        'edit.php',                    // Articles
-        'edit-comments.php',           // Commentaires
-        'themes.php',                  // Apparence
-        'plugins.php',                 // Extensions
-        'users.php',                   // Utilisateurs
-        'tools.php',                   // Outils
-        'options-general.php',         // Réglages
-        'wpseo_dashboard',             // Yoast SEO (si installé)
-        'wpseo_workouts',              // Yoast SEO Workouts
-        'rank-math',                   // Rank Math (si installé)
-        'litespeed',                   // LiteSpeed Cache
-        'lscache-dash',                // LiteSpeed Dashboard
-    );
-    
-    foreach ($menus_to_hide as $menu) {
-        remove_menu_page($menu);
-    }
-    
-    // Sous-menus à cacher également
-    remove_submenu_page('themes.php', 'themes.php');
-    remove_submenu_page('themes.php', 'customize.php');
-    remove_submenu_page('themes.php', 'widgets.php');
-    remove_submenu_page('themes.php', 'nav-menus.php');
-    remove_submenu_page('themes.php', 'theme-editor.php');
-}
-add_action('admin_menu', 'almetal_restrict_editor_menu', 999);
-
-/**
- * Masquer la barre d'outils admin pour les éditeurs (optionnel)
- * Décommentez si vous voulez aussi simplifier la barre d'outils
- */
-/*
-function almetal_restrict_editor_admin_bar($wp_admin_bar) {
-    $user = wp_get_current_user();
-    if (!in_array('editor', (array) $user->roles)) {
-        return;
-    }
-    
-    // Éléments à retirer de la barre d'outils
-    $wp_admin_bar->remove_node('comments');
-    $wp_admin_bar->remove_node('new-post');
-    $wp_admin_bar->remove_node('customize');
-}
-add_action('admin_bar_menu', 'almetal_restrict_editor_admin_bar', 999);
-*/
-
-/**
- * Rediriger les éditeurs s'ils tentent d'accéder à une page interdite
- */
-function almetal_redirect_editor_from_forbidden_pages() {
-    $user = wp_get_current_user();
-    if (!in_array('editor', (array) $user->roles)) {
-        return;
-    }
-    
-    global $pagenow;
-    
-    // Pages interdites
-    $forbidden_pages = array(
-        'edit.php',              // Articles (sans paramètre post_type)
-        'edit-comments.php',
-        'themes.php',
-        'plugins.php',
-        'users.php',
-        'tools.php',
-        'options-general.php',
-        'options-writing.php',
-        'options-reading.php',
-        'options-discussion.php',
-        'options-media.php',
-        'options-permalink.php',
-        'options-privacy.php',
-    );
-    
-    // Vérifier si c'est edit.php sans post_type (= Articles)
-    if ($pagenow === 'edit.php' && !isset($_GET['post_type'])) {
-        wp_redirect(admin_url('index.php'));
-        exit;
-    }
-    
-    // Vérifier les autres pages interdites
-    if (in_array($pagenow, $forbidden_pages) && $pagenow !== 'edit.php') {
-        wp_redirect(admin_url('index.php'));
-        exit;
-    }
-}
-add_action('admin_init', 'almetal_redirect_editor_from_forbidden_pages');

@@ -3,17 +3,14 @@
  * Template Name: Contact Mobile
  * Template pour la page Contact - VERSION MOBILE
  * 
- * Formulaire de contact identique à la version desktop
- * Intégration avec le système d'opt-ins Analytics
+ * Affiche le formulaire de contact complet + Google Maps
+ * Header avec bouton retour vers l'accueil
  * 
  * @package AL-Metallerie Soudure
  * @since 1.0.0
  */
 
 get_header();
-
-// Enqueue jQuery si pas déjà chargé
-wp_enqueue_script('jquery');
 ?>
 
 <!-- Header Mobile avec bouton RETOUR -->
@@ -33,13 +30,13 @@ wp_enqueue_script('jquery');
             <?php esc_html_e('CONTACTEZ-NOUS', 'almetal'); ?>
         </h1>
         <p class="mobile-page-subtitle scroll-fade scroll-delay-2">
-            <?php esc_html_e('Expert en Métallerie, Ferronerie, Serrurie à Thiers', 'almetal'); ?>
+            <?php esc_html_e('Une question ? Un projet ? N\'hésitez pas à nous contacter', 'almetal'); ?>
         </p>
 
         <!-- Informations de contact -->
         <div class="mobile-contact-info-grid">
             <!-- Téléphone -->
-            <a href="tel:+33673333532" class="mobile-contact-page-card scroll-fade scroll-delay-1">
+            <a href="tel:0673333532" class="mobile-contact-page-card scroll-fade scroll-delay-1">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
@@ -52,7 +49,7 @@ wp_enqueue_script('jquery');
             </a>
 
             <!-- Email -->
-            <a href="mailto:aurelien@al-metallerie.fr" class="mobile-contact-page-card scroll-fade scroll-delay-2">
+            <a href="mailto:contact@al-metallerie.fr" class="mobile-contact-page-card scroll-fade scroll-delay-2">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -66,10 +63,7 @@ wp_enqueue_script('jquery');
             </a>
 
             <!-- Adresse -->
-            <a href="https://www.google.com/maps/dir/?api=1&destination=14+route+de+Maringues,+Peschadoires,+63920" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="mobile-contact-page-card scroll-fade scroll-delay-3">
+            <a href="https://maps.google.com/?q=Thiers" target="_blank" rel="noopener" class="mobile-contact-page-card scroll-fade scroll-delay-3">
                 <div class="mobile-contact-page-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -78,7 +72,7 @@ wp_enqueue_script('jquery');
                 </div>
                 <div class="mobile-contact-page-content">
                     <h3><?php esc_html_e('Adresse', 'almetal'); ?></h3>
-                    <p>14 route de Maringues<br>63920 Peschadoires</p>
+                    <p>Thiers, France</p>
                 </div>
             </a>
 
@@ -92,219 +86,90 @@ wp_enqueue_script('jquery');
                 </div>
                 <div class="mobile-contact-page-content">
                     <h3><?php esc_html_e('Horaires', 'almetal'); ?></h3>
-                    <p>Lun - Ven : 8h00 - 18h00<br>Sam : Sur rendez-vous</p>
+                    <p><?php esc_html_e('Lun - Sam : 8h - 18h', 'almetal'); ?></p>
+                    <p><?php esc_html_e('Sam : sur RDV', 'almetal'); ?></p>
                 </div>
             </div>
         </div>
 
-        <!-- Formulaire de devis - IDENTIQUE AU DESKTOP -->
+        <!-- Formulaire de contact -->
         <div class="mobile-contact-form-section scroll-fade">
-            <div class="mobile-contact-form-header">
-                <h2 class="mobile-contact-form-title">
-                    <?php esc_html_e('Demande de devis', 'almetal'); ?>
-                </h2>
-            </div>
-            <p class="mobile-contact-form-subtitle">
-                <?php esc_html_e('Décrivez-nous votre projet', 'almetal'); ?>
+            <h2 class="mobile-contact-form-title scroll-fade scroll-delay-1">
+                <?php esc_html_e('Envoyez-nous un message', 'almetal'); ?>
+            </h2>
+            <p class="mobile-contact-form-subtitle scroll-fade scroll-delay-2">
+                <?php esc_html_e('Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais', 'almetal'); ?>
             </p>
             
-            <!-- Formulaire identique au desktop avec action vers admin-post.php -->
-            <form id="contact-form" class="mobile-contact-form contact-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                <?php wp_nonce_field('almetal_contact_form', 'contact_nonce'); ?>
-                <input type="hidden" name="action" value="almetal_contact_form">
-                <input type="hidden" name="form_source" value="mobile_contact">
-
-                <div class="form-row mobile-form-row">
-                    <div class="form-group mobile-form-group">
-                        <label for="contact-name"><?php _e('Nom complet', 'almetal'); ?> *</label>
-                        <input type="text" id="contact-name" name="contact_name" required>
+            <?php
+            // Formulaire personnalisé avec AJAX pour mobile (pas de CF7)
+            ?>
+            <form class="mobile-contact-form scroll-fade scroll-delay-3" method="post" id="mobile-contact-form">
+                    <input type="hidden" name="action" value="almetal_contact_form">
+                    <?php wp_nonce_field('almetal_contact_form', 'contact_nonce'); ?>
+                    
+                    <div class="mobile-form-group">
+                        <label for="contact-name"><?php esc_html_e('Nom complet', 'almetal'); ?> *</label>
+                        <input type="text" id="contact-name" name="contact_name" placeholder="Votre nom" required>
                     </div>
-
-                    <div class="form-group mobile-form-group">
-                        <label for="contact-phone"><?php _e('Téléphone', 'almetal'); ?> *</label>
-                        <input type="tel" id="contact-phone" name="contact_phone" required>
+                    
+                    <div class="mobile-form-group">
+                        <label for="contact-phone"><?php esc_html_e('Téléphone', 'almetal'); ?> *</label>
+                        <input type="tel" id="contact-phone" name="contact_phone" placeholder="06 XX XX XX XX" required>
                     </div>
-                </div>
-
-                <div class="form-group mobile-form-group">
-                    <label for="contact-email"><?php _e('Email', 'almetal'); ?> *</label>
-                    <input type="email" id="contact-email" name="contact_email" required>
-                </div>
-
-                <div class="form-group mobile-form-group">
-                    <label for="contact-project"><?php _e('Type de projet', 'almetal'); ?> *</label>
-                    <select id="contact-project" name="contact_project" required>
-                        <option value=""><?php _e('Sélectionnez un type', 'almetal'); ?></option>
-                        <option value="portail"><?php _e('Portail', 'almetal'); ?></option>
-                        <option value="garde-corps"><?php _e('Garde-corps', 'almetal'); ?></option>
-                        <option value="escalier"><?php _e('Escalier', 'almetal'); ?></option>
-                        <option value="pergola"><?php _e('Pergola', 'almetal'); ?></option>
-                        <option value="verriere"><?php _e('Verrière', 'almetal'); ?></option>
-                        <option value="mobilier"><?php _e('Mobilier métallique', 'almetal'); ?></option>
-                        <option value="reparation"><?php _e('Réparation', 'almetal'); ?></option>
-                        <option value="formation"><?php _e('Formation', 'almetal'); ?></option>
-                        <option value="autre"><?php _e('Autre', 'almetal'); ?></option>
-                    </select>
-                </div>
-
-                <div class="form-group mobile-form-group">
-                    <label for="contact-message"><?php _e('Votre message', 'almetal'); ?> *</label>
-                    <textarea id="contact-message" name="contact_message" rows="5" required></textarea>
-                </div>
-
-                <input type="hidden" name="contact_consent" value="1">
-
-                <button type="submit" class="contact-submit-btn mobile-contact-submit-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"/>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                    </svg>
-                    <?php _e('Envoyer ma demande', 'almetal'); ?>
-                </button>
-                
-                <p class="form-consent-text mobile-form-consent-text">
-                    <?php _e('En cliquant sur "Envoyer ma demande", vous acceptez que vos données soient utilisées pour vous recontacter.', 'almetal'); ?>
-                    <a href="<?php echo esc_url(home_url('/politique-confidentialite')); ?>"><?php _e('Politique de confidentialité', 'almetal'); ?></a>
-                </p>
-
-                <div class="form-message mobile-form-message" style="display: none;"></div>
-                
-                <!-- Message de succès amélioré -->
-                <div id="mobile-success-message" class="mobile-success-overlay" style="display: none;">
-                    <div class="mobile-success-content">
-                        <div class="mobile-success-icon">
-                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                                <polyline points="22 4 12 14.01 9 11.01"/>
-                            </svg>
-                        </div>
-                        <h3>Message envoyé !</h3>
-                        <p>Nous vous recontacterons dans les plus brefs délais.</p>
+                    
+                    <div class="mobile-form-group">
+                        <label for="contact-email"><?php esc_html_e('Email', 'almetal'); ?> *</label>
+                        <input type="email" id="contact-email" name="contact_email" placeholder="votre@email.com" required>
                     </div>
-                </div>
+                    
+                    <div class="mobile-form-group">
+                        <label for="contact-project"><?php esc_html_e('Type de projet', 'almetal'); ?> *</label>
+                        <select id="contact-project" name="contact_project" required>
+                            <option value=""><?php esc_html_e('Sélectionnez un type de projet', 'almetal'); ?></option>
+                            <option value="Portail / Clôture"><?php esc_html_e('Portail / Clôture', 'almetal'); ?></option>
+                            <option value="Garde-corps / Rampe"><?php esc_html_e('Garde-corps / Rampe', 'almetal'); ?></option>
+                            <option value="Escalier métallique"><?php esc_html_e('Escalier métallique', 'almetal'); ?></option>
+                            <option value="Pergola / Auvent"><?php esc_html_e('Pergola / Auvent', 'almetal'); ?></option>
+                            <option value="Mobilier métallique"><?php esc_html_e('Mobilier métallique', 'almetal'); ?></option>
+                            <option value="Réparation / Soudure"><?php esc_html_e('Réparation / Soudure', 'almetal'); ?></option>
+                            <option value="Formation soudure"><?php esc_html_e('Formation soudure', 'almetal'); ?></option>
+                            <option value="Autre projet"><?php esc_html_e('Autre projet', 'almetal'); ?></option>
+                        </select>
+                    </div>
+                    
+                    <div class="mobile-form-group">
+                        <label for="contact-message"><?php esc_html_e('Message', 'almetal'); ?> *</label>
+                        <textarea id="contact-message" name="contact_message" rows="5" placeholder="Décrivez votre projet..." required></textarea>
+                    </div>
+                    
+                    <div class="mobile-form-group mobile-form-consent">
+                        <label class="mobile-checkbox-label">
+                            <input type="checkbox" name="contact_consent" id="contact-consent" required>
+                            <span class="mobile-checkbox-text">
+                                <?php esc_html_e('J\'accepte que mes données soient utilisées pour traiter ma demande', 'almetal'); ?> *
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="mobile-btn-cta mobile-btn-cta--large scroll-zoom">
+                        <?php esc_html_e('Envoyer le message', 'almetal'); ?>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
             </form>
         </div>
 
     </div>
 </main>
 
-<!-- Script AJAX identique au desktop -->
+<!-- Chargement direct du CSS et JS pour le formulaire AJAX -->
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/mobile-contact-page.css?v=<?php echo time(); ?>">
 <script>
-(function($) {
-    'use strict';
-    
-    $(document).ready(function() {
-        var form = $('#contact-form');
-        var messageDiv = $('.form-message');
-        
-        if (!form.length) {
-            return;
-        }
-        
-        form.on('submit', function(e) {
-            e.preventDefault();
-            
-            // Désactiver le bouton de soumission
-            var submitBtn = form.find('button[type="submit"]');
-            var originalText = submitBtn.html();
-            submitBtn.prop('disabled', true).html('<span>Envoi en cours...</span>');
-            
-            // Récupérer les données du formulaire
-            var formData = new FormData(this);
-            
-            // Envoyer via AJAX vers admin-ajax.php
-            $.ajax({
-                url: '<?php echo admin_url('admin-ajax.php'); ?>',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        // Afficher le message de succès amélioré
-                        $('#mobile-success-message').fadeIn(300);
-                        
-                        // Masquer après 5 secondes
-                        setTimeout(function() {
-                            $('#mobile-success-message').fadeOut(300);
-                        }, 5000);
-                        
-                        // Réinitialiser le formulaire
-                        form[0].reset();
-                        
-                        // Aussi afficher le message inline
-                        messageDiv
-                            .removeClass('error mobile-form-error')
-                            .addClass('success mobile-form-success')
-                            .html('✓ Votre message a été envoyé avec succès !')
-                            .fadeIn();
-                    } else {
-                        // Afficher le message d'erreur
-                        messageDiv
-                            .removeClass('success mobile-form-success')
-                            .addClass('error mobile-form-error')
-                            .html('✗ ' + (response.data?.message || 'Une erreur est survenue.'))
-                            .fadeIn();
-                    }
-                    
-                    // Faire défiler vers le message
-                    $('html, body').animate({
-                        scrollTop: messageDiv.offset().top - 100
-                    }, 500);
-                },
-                error: function(xhr, status, error) {
-                    // Afficher le message d'erreur
-                    messageDiv
-                        .removeClass('success mobile-form-success')
-                        .addClass('error mobile-form-error')
-                        .html('✗ Une erreur est survenue. Veuillez réessayer ou nous contacter directement par téléphone.')
-                        .fadeIn();
-                },
-                complete: function() {
-                    // Réactiver le bouton
-                    submitBtn.prop('disabled', false).html(originalText);
-                    
-                    // Masquer le message après 8 secondes
-                    setTimeout(function() {
-                        messageDiv.fadeOut();
-                    }, 8000);
-                }
-            });
-        });
-        
-        // Validation en temps réel
-        form.find('input[required], textarea[required], select[required]').on('blur', function() {
-            var field = $(this);
-            if (!field.val()) {
-                field.css('border-color', '#f44336');
-            } else {
-                field.css('border-color', 'rgba(255, 255, 255, 0.1)');
-            }
-        });
-        
-        // Validation de l'email
-        form.find('input[type="email"]').on('blur', function() {
-            var email = $(this).val();
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (email && !emailRegex.test(email)) {
-                $(this).css('border-color', '#f44336');
-            } else {
-                $(this).css('border-color', 'rgba(255, 255, 255, 0.1)');
-            }
-        });
-        
-        // Validation du téléphone
-        form.find('input[type="tel"]').on('blur', function() {
-            var phone = $(this).val();
-            var phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
-            if (phone && !phoneRegex.test(phone)) {
-                $(this).css('border-color', '#f44336');
-            } else {
-                $(this).css('border-color', 'rgba(255, 255, 255, 0.1)');
-            }
-        });
-    });
-})(jQuery);
+var almetal_mobile_ajax = { ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>' };
 </script>
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/mobile-contact-form.js?v=<?php echo time(); ?>"></script>
 
 <?php get_footer(); ?>
