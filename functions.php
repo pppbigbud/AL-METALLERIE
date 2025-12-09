@@ -688,9 +688,17 @@ function almetal_force_mobile_templates($template) {
         return $template;
     }
     
-    // Archive des réalisations ET pages de catégories (taxonomies)
-    if (is_post_type_archive('realisation') || is_tax('type_realisation')) {
+    // Archive des réalisations
+    if (is_post_type_archive('realisation')) {
         $mobile_template = locate_template('archive-realisation-mobile.php');
+        if ($mobile_template) {
+            return $mobile_template;
+        }
+    }
+    
+    // Pages de catégories (taxonomies) - Template dédié avec contenu SEO
+    if (is_tax('type_realisation')) {
+        $mobile_template = locate_template('taxonomy-type_realisation-mobile.php');
         if ($mobile_template) {
             return $mobile_template;
         }

@@ -2115,7 +2115,206 @@ background: #262626;
     line-height: 1.6;
 }
 
-/* Lien retour (pages catégories) */
+/* ============================================
+   PAGE TAXONOMIE (CATÉGORIES) MOBILE
+   ============================================ */
+
+.mobile-taxonomy-page {
+    background: #1a1a1a;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+}
+
+.mobile-taxonomy-container {
+    max-width: 100%;
+    padding: 0 1.5rem;
+}
+
+/* Tag avec icône */
+.mobile-taxonomy-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(240, 139, 24, 0.1);
+    border: 1px solid #F08B18;
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #F08B18;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mobile-taxonomy-icon {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-taxonomy-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Titre H1 */
+.mobile-taxonomy-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: 1px;
+}
+
+/* Introduction SEO */
+.mobile-taxonomy-intro {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+/* Bloc SEO détaillé */
+.mobile-taxonomy-seo-block {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.mobile-seo-subtitle {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #F08B18;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.mobile-seo-text {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.mobile-seo-cta {
+    color: white;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+}
+
+.mobile-seo-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mobile-seo-actions .mobile-btn-cta,
+.mobile-seo-actions .mobile-btn-phone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.mobile-seo-actions .mobile-btn-cta {
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.3);
+}
+
+.mobile-seo-actions .mobile-btn-phone {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.mobile-seo-actions .mobile-btn-cta:active,
+.mobile-seo-actions .mobile-btn-phone:active {
+    transform: scale(0.97);
+}
+
+/* Compteur de réalisations */
+.mobile-taxonomy-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: rgba(240, 139, 24, 0.1);
+    border-radius: 10px;
+}
+
+.mobile-taxonomy-count .count-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #F08B18;
+}
+
+.mobile-taxonomy-count .count-text {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Lien retour vers toutes les réalisations */
+.mobile-taxonomy-back {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.mobile-back-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #F08B18;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.mobile-back-all-link:active {
+    background: rgba(240, 139, 24, 0.1);
+    transform: translateX(-3px);
+}
+
+/* Location badge sur les cartes */
+.mobile-realisation-location {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.mobile-realisation-location svg {
+    color: #F08B18;
+}
+
+/* Lien retour (pages catégories) - ANCIEN, gardé pour compatibilité */
 .mobile-back-to-all {
     display: flex;
     align-items: center;
