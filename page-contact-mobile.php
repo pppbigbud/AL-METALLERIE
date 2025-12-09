@@ -102,39 +102,54 @@ get_header();
             </p>
             
             <?php
-            // Afficher le formulaire Contact Form 7 si disponible
-            if (function_exists('wpcf7_contact_form')) {
-                echo do_shortcode('[contact-form-7 id="1" title="Contact form 1"]');
-            } else {
-                // Formulaire HTML de secours
-                ?>
-                <form class="mobile-contact-form scroll-fade scroll-delay-3" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                    <input type="hidden" name="action" value="submit_contact_form">
-                    <?php wp_nonce_field('contact_form_nonce', 'contact_nonce'); ?>
+            // Formulaire personnalisé avec AJAX pour mobile (pas de CF7)
+            ?>
+            <form class="mobile-contact-form scroll-fade scroll-delay-3" method="post" id="mobile-contact-form">
+                    <input type="hidden" name="action" value="almetal_contact_form">
+                    <?php wp_nonce_field('almetal_contact_form', 'contact_nonce'); ?>
                     
                     <div class="mobile-form-group">
                         <label for="contact-name"><?php esc_html_e('Nom complet', 'almetal'); ?> *</label>
-                        <input type="text" id="contact-name" name="contact_name" required>
+                        <input type="text" id="contact-name" name="contact_name" placeholder="Votre nom" required>
+                    </div>
+                    
+                    <div class="mobile-form-group">
+                        <label for="contact-phone"><?php esc_html_e('Téléphone', 'almetal'); ?> *</label>
+                        <input type="tel" id="contact-phone" name="contact_phone" placeholder="06 XX XX XX XX" required>
                     </div>
                     
                     <div class="mobile-form-group">
                         <label for="contact-email"><?php esc_html_e('Email', 'almetal'); ?> *</label>
-                        <input type="email" id="contact-email" name="contact_email" required>
+                        <input type="email" id="contact-email" name="contact_email" placeholder="votre@email.com" required>
                     </div>
                     
                     <div class="mobile-form-group">
-                        <label for="contact-phone"><?php esc_html_e('Téléphone', 'almetal'); ?></label>
-                        <input type="tel" id="contact-phone" name="contact_phone">
-                    </div>
-                    
-                    <div class="mobile-form-group">
-                        <label for="contact-subject"><?php esc_html_e('Sujet', 'almetal'); ?> *</label>
-                        <input type="text" id="contact-subject" name="contact_subject" required>
+                        <label for="contact-project"><?php esc_html_e('Type de projet', 'almetal'); ?> *</label>
+                        <select id="contact-project" name="contact_project" required>
+                            <option value=""><?php esc_html_e('Sélectionnez un type de projet', 'almetal'); ?></option>
+                            <option value="Portail / Clôture"><?php esc_html_e('Portail / Clôture', 'almetal'); ?></option>
+                            <option value="Garde-corps / Rampe"><?php esc_html_e('Garde-corps / Rampe', 'almetal'); ?></option>
+                            <option value="Escalier métallique"><?php esc_html_e('Escalier métallique', 'almetal'); ?></option>
+                            <option value="Pergola / Auvent"><?php esc_html_e('Pergola / Auvent', 'almetal'); ?></option>
+                            <option value="Mobilier métallique"><?php esc_html_e('Mobilier métallique', 'almetal'); ?></option>
+                            <option value="Réparation / Soudure"><?php esc_html_e('Réparation / Soudure', 'almetal'); ?></option>
+                            <option value="Formation soudure"><?php esc_html_e('Formation soudure', 'almetal'); ?></option>
+                            <option value="Autre projet"><?php esc_html_e('Autre projet', 'almetal'); ?></option>
+                        </select>
                     </div>
                     
                     <div class="mobile-form-group">
                         <label for="contact-message"><?php esc_html_e('Message', 'almetal'); ?> *</label>
-                        <textarea id="contact-message" name="contact_message" rows="6" required></textarea>
+                        <textarea id="contact-message" name="contact_message" rows="5" placeholder="Décrivez votre projet..." required></textarea>
+                    </div>
+                    
+                    <div class="mobile-form-group mobile-form-consent">
+                        <label class="mobile-checkbox-label">
+                            <input type="checkbox" name="contact_consent" id="contact-consent" required>
+                            <span class="mobile-checkbox-text">
+                                <?php esc_html_e('J\'accepte que mes données soient utilisées pour traiter ma demande', 'almetal'); ?> *
+                            </span>
+                        </label>
                     </div>
                     
                     <button type="submit" class="mobile-btn-cta mobile-btn-cta--large scroll-zoom">
@@ -144,13 +159,17 @@ get_header();
                             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                         </svg>
                     </button>
-                </form>
-                <?php
-            }
-            ?>
+            </form>
         </div>
 
     </div>
 </main>
+
+<!-- Chargement direct du CSS et JS pour le formulaire AJAX -->
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/mobile-contact-page.css?v=<?php echo time(); ?>">
+<script>
+var almetal_mobile_ajax = { ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>' };
+</script>
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/mobile-contact-form.js?v=<?php echo time(); ?>"></script>
 
 <?php get_footer(); ?>
