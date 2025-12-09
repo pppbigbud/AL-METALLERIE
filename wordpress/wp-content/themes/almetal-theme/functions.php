@@ -168,48 +168,45 @@ function almetal_enqueue_scripts() {
     - debug-images.css
     */
     
-    // Style et script de la page contact (seulement sur la page contact)
-    if (is_page_template('page-contact.php') || is_page('contact')) {
+    // Style et script du formulaire contact MOBILE (page contact ET page d'accueil)
+    if (almetal_is_mobile() && (is_front_page() || is_page_template('page-contact.php') || is_page('contact'))) {
+        wp_enqueue_style(
+            'almetal-mobile-contact-page',
+            get_template_directory_uri() . '/assets/css/mobile-contact-page.css',
+            array('almetal-style', 'almetal-components'),
+            wp_get_theme()->get('Version')
+        );
         
-        // Version MOBILE
-        if (almetal_is_mobile()) {
-            wp_enqueue_style(
-                'almetal-mobile-contact-page',
-                get_template_directory_uri() . '/assets/css/mobile-contact-page.css',
-                array('almetal-style', 'almetal-components'),
-                wp_get_theme()->get('Version')
-            );
-            
-            wp_enqueue_script(
-                'almetal-mobile-contact-form',
-                get_template_directory_uri() . '/assets/js/mobile-contact-form.js',
-                array(),
-                wp_get_theme()->get('Version'),
-                true
-            );
-            
-            // Variables AJAX pour le formulaire mobile
-            wp_localize_script('almetal-mobile-contact-form', 'almetal_mobile_ajax', array(
-                'ajax_url' => admin_url('admin-ajax.php'),
-            ));
-        } 
-        // Version DESKTOP
-        else {
-            wp_enqueue_style(
-                'almetal-contact',
-                get_template_directory_uri() . '/assets/css/contact.css',
-                array('almetal-style', 'almetal-components'),
-                wp_get_theme()->get('Version')
-            );
-            
-            wp_enqueue_script(
-                'almetal-contact',
-                get_template_directory_uri() . '/assets/js/contact.js',
-                array('jquery'),
-                wp_get_theme()->get('Version'),
-                true
-            );
-        }
+        wp_enqueue_script(
+            'almetal-mobile-contact-form',
+            get_template_directory_uri() . '/assets/js/mobile-contact-form.js',
+            array(),
+            wp_get_theme()->get('Version'),
+            true
+        );
+        
+        // Variables AJAX pour le formulaire mobile
+        wp_localize_script('almetal-mobile-contact-form', 'almetal_mobile_ajax', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+        ));
+    }
+    
+    // Style et script de la page contact DESKTOP
+    if (!almetal_is_mobile() && (is_page_template('page-contact.php') || is_page('contact'))) {
+        wp_enqueue_style(
+            'almetal-contact',
+            get_template_directory_uri() . '/assets/css/contact.css',
+            array('almetal-style', 'almetal-components'),
+            wp_get_theme()->get('Version')
+        );
+        
+        wp_enqueue_script(
+            'almetal-contact',
+            get_template_directory_uri() . '/assets/js/contact.js',
+            array('jquery'),
+            wp_get_theme()->get('Version'),
+            true
+        );
     }
     
     // Style des pages formations (seulement sur les pages formations)

@@ -276,11 +276,68 @@ if (!empty($mobile_cards)) :
             </a>
         </div>
 
-        <!-- Bouton vers page contact -->
-        <div class="mobile-contact-cta scroll-zoom scroll-delay-4">
-            <a href="<?php echo esc_url(home_url('/contact')); ?>" class="mobile-btn-cta">
-                <?php esc_html_e('Formulaire de contact', 'almetal'); ?>
-            </a>
+        <!-- Formulaire de contact intégré -->
+        <div class="mobile-contact-form-section scroll-fade scroll-delay-4">
+            <h3 class="mobile-contact-form-title">
+                <?php esc_html_e('Envoyez-nous un message', 'almetal'); ?>
+            </h3>
+            
+            <form class="mobile-contact-form" method="post" id="mobile-home-contact-form">
+                <input type="hidden" name="action" value="almetal_contact_form">
+                <?php wp_nonce_field('almetal_contact_form', 'contact_nonce'); ?>
+                
+                <div class="mobile-form-group">
+                    <label for="home-contact-name"><?php esc_html_e('Nom complet', 'almetal'); ?> *</label>
+                    <input type="text" id="home-contact-name" name="contact_name" placeholder="Votre nom" required>
+                </div>
+                
+                <div class="mobile-form-group">
+                    <label for="home-contact-phone"><?php esc_html_e('Téléphone', 'almetal'); ?> *</label>
+                    <input type="tel" id="home-contact-phone" name="contact_phone" placeholder="06 XX XX XX XX" required>
+                </div>
+                
+                <div class="mobile-form-group">
+                    <label for="home-contact-email"><?php esc_html_e('Email', 'almetal'); ?> *</label>
+                    <input type="email" id="home-contact-email" name="contact_email" placeholder="votre@email.com" required>
+                </div>
+                
+                <div class="mobile-form-group">
+                    <label for="home-contact-project"><?php esc_html_e('Type de projet', 'almetal'); ?> *</label>
+                    <select id="home-contact-project" name="contact_project" required>
+                        <option value=""><?php esc_html_e('Sélectionnez un type de projet', 'almetal'); ?></option>
+                        <option value="Portail / Clôture"><?php esc_html_e('Portail / Clôture', 'almetal'); ?></option>
+                        <option value="Garde-corps / Rampe"><?php esc_html_e('Garde-corps / Rampe', 'almetal'); ?></option>
+                        <option value="Escalier métallique"><?php esc_html_e('Escalier métallique', 'almetal'); ?></option>
+                        <option value="Pergola / Auvent"><?php esc_html_e('Pergola / Auvent', 'almetal'); ?></option>
+                        <option value="Mobilier métallique"><?php esc_html_e('Mobilier métallique', 'almetal'); ?></option>
+                        <option value="Réparation / Soudure"><?php esc_html_e('Réparation / Soudure', 'almetal'); ?></option>
+                        <option value="Formation soudure"><?php esc_html_e('Formation soudure', 'almetal'); ?></option>
+                        <option value="Autre projet"><?php esc_html_e('Autre projet', 'almetal'); ?></option>
+                    </select>
+                </div>
+                
+                <div class="mobile-form-group">
+                    <label for="home-contact-message"><?php esc_html_e('Message', 'almetal'); ?> *</label>
+                    <textarea id="home-contact-message" name="contact_message" rows="4" placeholder="Décrivez votre projet..." required></textarea>
+                </div>
+                
+                <div class="mobile-form-group mobile-form-consent">
+                    <label class="mobile-checkbox-label">
+                        <input type="checkbox" name="contact_consent" id="home-contact-consent" required>
+                        <span class="mobile-checkbox-text">
+                            <?php esc_html_e('J\'accepte que mes données soient utilisées pour traiter ma demande', 'almetal'); ?> *
+                        </span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="mobile-btn-cta mobile-btn-cta--large">
+                    <?php esc_html_e('Envoyer le message', 'almetal'); ?>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 </section>
