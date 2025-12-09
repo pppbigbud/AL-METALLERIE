@@ -109,7 +109,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 2.5px;
     padding: 0;
     z-index: 999999;
     margin-left: auto;
@@ -141,7 +141,7 @@ body {
 
 /* Animation burger → X avec effet rebond */
 .mobile-burger-btn.active .mobile-burger-line:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(5.5px) rotate(45deg);
     width: 26px;
 }
 
@@ -151,7 +151,7 @@ body {
 }
 
 .mobile-burger-btn.active .mobile-burger-line:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-5.5px) rotate(-45deg);
     width: 26px;
 }
 
