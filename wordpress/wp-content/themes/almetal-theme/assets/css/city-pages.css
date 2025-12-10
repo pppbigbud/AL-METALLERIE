@@ -13,6 +13,7 @@
     align-items: center;
     overflow: hidden;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    margin-top:5vh;
 }
 
 .city-hero__background {
@@ -194,11 +195,11 @@
 }
 
 /* ============================================
-   CONTENU PRINCIPAL
+   CONTENU PRINCIPAL - THEME SOMBRE
    ============================================ */
 .city-content {
     padding: 60px 0;
-    background: #f8f9fa;
+    background: #1a1a1a;
 }
 
 .city-content__grid {
@@ -209,21 +210,46 @@
 }
 
 .city-content__main {
-    background: #fff;
+    background: #2a2a2a;
     border-radius: 12px;
     padding: 40px;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    border: 1px solid #333;
 }
 
 .city-content__text {
     font-size: 1.05rem;
     line-height: 1.8;
-    color: #333;
+    color: #e0e0e0;
+}
+
+.city-content__text p {
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.city-content__text h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 25px 0 10px 0;
+}
+
+.city-content__text strong {
+    color: #fff;
+}
+
+.city-content__text a {
+    color: #F08B18;
+    text-decoration: none;
+}
+
+.city-content__text a:hover {
+    text-decoration: underline;
 }
 
 .city-content__text h2 {
     font-size: 1.6rem;
-    color: #222;
+    color: #fff;
     margin: 30px 0 15px 0;
     padding-bottom: 10px;
     border-bottom: 2px solid #F08B18;
@@ -259,7 +285,7 @@
 .city-realisations {
     margin-top: 40px;
     padding-top: 40px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #444;
 }
 
 .city-section-title {
@@ -267,7 +293,7 @@
     align-items: center;
     gap: 12px;
     font-size: 1.5rem;
-    color: #222;
+    color: #fff;
     margin: 0 0 25px 0;
 }
 
@@ -277,7 +303,7 @@
     justify-content: center;
     width: 45px;
     height: 45px;
-    background: rgba(240, 139, 24, 0.1);
+    background: rgba(240, 139, 24, 0.2);
     border-radius: 10px;
     color: #F08B18;
 }
@@ -292,13 +318,15 @@
 .city-realisation-card {
     border-radius: 10px;
     overflow: hidden;
-    background: #f8f9fa;
+    background: #333;
     transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #444;
 }
 
 .city-realisation-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    border-color: #F08B18;
 }
 
 .city-realisation-card__link {
@@ -339,7 +367,7 @@
 .city-realisation-card__title {
     font-size: 0.95rem;
     font-weight: 600;
-    color: #222;
+    color: #fff;
     margin: 0;
     line-height: 1.3;
 }
@@ -361,10 +389,11 @@
 .city-map-card,
 .city-contact-card,
 .city-services-card {
-    background: #fff;
+    background: #2a2a2a;
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    border: 1px solid #333;
 }
 
 .city-map-card__title,
@@ -374,10 +403,10 @@
     align-items: center;
     gap: 10px;
     font-size: 1.1rem;
-    color: #222;
+    color: #fff;
     margin: 0 0 20px 0;
     padding-bottom: 15px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 2px solid #444;
 }
 
 .city-map-card__map {
@@ -392,7 +421,7 @@
 
 .city-map-card__info {
     font-size: 0.9rem;
-    color: #666;
+    color: #aaa;
     margin: 0;
     line-height: 1.5;
 }
@@ -410,16 +439,18 @@
     align-items: center;
     gap: 12px;
     padding: 12px 15px;
-    background: #f8f9fa;
+    background: #333;
     border-radius: 8px;
     text-decoration: none;
-    color: #333;
+    color: #e0e0e0;
     transition: all 0.2s;
+    border: 1px solid #444;
 }
 
 .city-contact-card__item:hover {
-    background: rgba(240, 139, 24, 0.1);
+    background: rgba(240, 139, 24, 0.15);
     color: #F08B18;
+    border-color: #F08B18;
 }
 
 .city-contact-card__item svg {
@@ -435,7 +466,7 @@
 }
 
 .city-services-card__list li {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #444;
 }
 
 .city-services-card__list li:last-child {
@@ -446,7 +477,7 @@
     display: flex;
     align-items: center;
     padding: 12px 0;
-    color: #333;
+    color: #e0e0e0;
     text-decoration: none;
     transition: color 0.2s;
 }
