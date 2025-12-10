@@ -21,18 +21,24 @@ define('CPG_PLUGIN_URL', plugin_dir_url(__FILE__));
 // Charger les fichiers
 add_action('plugins_loaded', 'cpg_load_files');
 function cpg_load_files() {
-    $content_file = CPG_PLUGIN_DIR . 'includes/functions-content.php';
-    $seo_file = CPG_PLUGIN_DIR . 'includes/functions-seo.php';
-    $admin_file = CPG_PLUGIN_DIR . 'includes/functions-admin.php';
+    $files = array(
+        'includes/functions-content.php',
+        'includes/functions-seo.php',
+        'includes/functions-realisation-integration.php',
+    );
     
-    if (file_exists($content_file)) {
-        require_once $content_file;
+    foreach ($files as $file) {
+        $path = CPG_PLUGIN_DIR . $file;
+        if (file_exists($path)) {
+            require_once $path;
+        }
     }
-    if (file_exists($seo_file)) {
-        require_once $seo_file;
-    }
-    if (is_admin() && file_exists($admin_file)) {
-        require_once $admin_file;
+    
+    if (is_admin()) {
+        $admin_file = CPG_PLUGIN_DIR . 'includes/functions-admin.php';
+        if (file_exists($admin_file)) {
+            require_once $admin_file;
+        }
     }
 }
 

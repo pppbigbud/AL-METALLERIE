@@ -132,14 +132,22 @@ $icons = array(
                                 </div>
                             <?php endif; ?>
                             
-                            <?php if ($lieu) : ?>
-                                <div class="info-bar-item">
+                            <?php if ($lieu) : 
+                                $city_url = function_exists('cpg_get_city_page_url') ? cpg_get_city_page_url($lieu) : null;
+                            ?>
+                                <div class="info-bar-item<?php echo $city_url ? ' info-bar-item--linked' : ''; ?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                                         <circle cx="12" cy="10" r="3"/>
                                     </svg>
                                     <span class="info-label"><?php _e('Lieu', 'almetal'); ?></span>
-                                    <span class="info-value"><?php echo esc_html($lieu); ?></span>
+                                    <?php if ($city_url) : ?>
+                                        <a href="<?php echo esc_url($city_url); ?>" class="info-value info-value--link" title="<?php printf(__('Voir nos réalisations à %s', 'almetal'), esc_attr($lieu)); ?>">
+                                            <?php echo esc_html($lieu); ?>
+                                        </a>
+                                    <?php else : ?>
+                                        <span class="info-value"><?php echo esc_html($lieu); ?></span>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                             
