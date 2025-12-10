@@ -342,6 +342,7 @@ $has_more = $total_realisations > $per_page;
     display: flex;
     justify-content: center;
     margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .btn-load-more {
