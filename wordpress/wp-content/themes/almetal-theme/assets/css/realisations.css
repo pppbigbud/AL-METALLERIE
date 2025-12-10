@@ -124,7 +124,7 @@
 .page-header-separator {
     width: 80px;
     height: 3px;
-    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    background: var(--color-primary);
     margin: var(--spacing-lg) auto;
     border-radius: 2px;
 }
