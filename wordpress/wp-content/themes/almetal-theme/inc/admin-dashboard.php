@@ -229,33 +229,70 @@ function almetal_slideshow_widget_content() {
 }
 
 /**
- * Contenu du widget Contact
+ * Contenu du widget Contact - Affiche les derniers messages reçus
  */
 function almetal_contact_widget_content() {
-    // Vérifier si Contact Form 7 ou WPForms est actif
-    $cf7_active = class_exists('WPCF7');
-    $wpforms_active = class_exists('WPForms');
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'almetal_contacts';
     
     echo '<div class="almetal-widget">';
     
-    if ($cf7_active) {
-        // Lien vers Contact Form 7
-        echo '<p>Gérez vos formulaires de contact avec Contact Form 7.</p>';
-        echo '<p><a href="' . admin_url('admin.php?page=wpcf7') . '" class="button">Formulaires CF7</a></p>';
-    } elseif ($wpforms_active) {
-        // Lien vers WPForms
-        echo '<p>Gérez vos formulaires de contact avec WPForms.</p>';
-        echo '<p><a href="' . admin_url('admin.php?page=wpforms-overview') . '" class="button">Formulaires WPForms</a></p>';
-    } else {
-        echo '<p>Aucun plugin de formulaire détecté.</p>';
-    }
+    // Vérifier si la table existe
+    $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
     
-    // Lien vers la page contact
-    $contact_page = get_page_by_path('contact');
-    if ($contact_page) {
-        echo '<p style="margin-top:10px;">';
-        echo '<a href="' . get_edit_post_link($contact_page->ID) . '" class="button">Modifier la page Contact</a>';
+    if ($table_exists) {
+        // Compter les messages
+        $total_messages = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+        $unread_messages = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE status = 'new' OR status IS NULL");
+        
+        // Statistiques
+        echo '<div style="display:flex;gap:20px;margin-bottom:15px;">';
+        echo '<div style="text-align:center;">';
+        echo '<div style="font-size:24px;font-weight:bold;color:#2271b1;">' . intval($total_messages) . '</div>';
+        echo '<div style="font-size:11px;color:#666;">Total</div>';
+        echo '</div>';
+        if ($unread_messages > 0) {
+            echo '<div style="text-align:center;">';
+            echo '<div style="font-size:24px;font-weight:bold;color:#d63638;">' . intval($unread_messages) . '</div>';
+            echo '<div style="font-size:11px;color:#666;">Non lus</div>';
+            echo '</div>';
+        }
+        echo '</div>';
+        
+        // Derniers messages
+        $recent_messages = $wpdb->get_results(
+            "SELECT * FROM $table_name ORDER BY created_at DESC LIMIT 5"
+        );
+        
+        if (!empty($recent_messages)) {
+            echo '<h4>Derniers messages :</h4>';
+            echo '<div class="contact-messages-list">';
+            foreach ($recent_messages as $msg) {
+                $is_new = empty($msg->status) || $msg->status === 'new';
+                $date = date_i18n('d/m H:i', strtotime($msg->created_at));
+                $name = esc_html($msg->name);
+                $project = esc_html($msg->project_type);
+                
+                echo '<div class="contact-message-item" style="padding:8px 0;border-bottom:1px solid #f0f0f0;">';
+                if ($is_new) {
+                    echo '<span style="display:inline-block;width:8px;height:8px;background:#d63638;border-radius:50%;margin-right:6px;" title="Non lu"></span>';
+                }
+                echo '<strong>' . $name . '</strong>';
+                echo ' <span style="color:#666;font-size:11px;">(' . $date . ')</span>';
+                echo '<br><span style="color:#666;font-size:12px;">' . $project . '</span>';
+                echo '</div>';
+            }
+            echo '</div>';
+        } else {
+            echo '<p style="color:#666;font-style:italic;">Aucun message reçu</p>';
+        }
+        
+        echo '<p style="margin-top:15px;">';
+        echo '<a href="' . admin_url('admin.php?page=almetal-contacts') . '" class="button button-primary">Voir tous les messages</a>';
         echo '</p>';
+    } else {
+        echo '<p style="color:#666;">La table des contacts n\'existe pas encore.</p>';
+        echo '<p><a href="' . admin_url('admin.php?page=almetal-contacts') . '" class="button">Configurer</a></p>';
     }
     
     echo '</div>';
@@ -311,21 +348,110 @@ function almetal_city_pages_widget_content() {
 }
 
 /**
- * Contenu du widget Analytics
+ * Contenu du widget Analytics - Graphiques et statistiques détaillées
  */
 function almetal_analytics_widget_content() {
-    echo '<div class="almetal-widget">';
+    echo '<div class="almetal-widget almetal-analytics-widget">';
     
-    // Vérifier si notre système d'analytics est actif
-    if (class_exists('Almetal_Analytics') || function_exists('almetal_get_analytics_stats')) {
-        echo '<p>Statistiques de visites du site.</p>';
-        echo '<p><a href="' . admin_url('admin.php?page=almetal-analytics') . '" class="button button-primary">Voir les statistiques</a></p>';
+    // Vérifier si le plugin analytics est actif et la classe Database existe
+    if (class_exists('Almetal_Analytics_Database')) {
+        // Récupérer les statistiques
+        $stats = Almetal_Analytics_Database::get_stats('7days');
+        $visits_by_day = Almetal_Analytics_Database::get_visits_by_day('7days');
+        $top_pages = Almetal_Analytics_Database::get_top_pages('7days', 5);
+        $devices = Almetal_Analytics_Database::get_devices('7days');
+        
+        // KPIs principaux
+        echo '<div class="analytics-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:15px;">';
+        
+        echo '<div style="text-align:center;padding:10px;background:#f8f9fa;border-radius:6px;">';
+        echo '<div style="font-size:20px;font-weight:bold;color:#2271b1;">' . number_format($stats['unique_visitors'] ?? 0) . '</div>';
+        echo '<div style="font-size:10px;color:#666;">Visiteurs</div>';
+        echo '</div>';
+        
+        echo '<div style="text-align:center;padding:10px;background:#f8f9fa;border-radius:6px;">';
+        echo '<div style="font-size:20px;font-weight:bold;color:#00a32a;">' . number_format($stats['page_views'] ?? 0) . '</div>';
+        echo '<div style="font-size:10px;color:#666;">Pages vues</div>';
+        echo '</div>';
+        
+        echo '<div style="text-align:center;padding:10px;background:#f8f9fa;border-radius:6px;">';
+        echo '<div style="font-size:20px;font-weight:bold;color:#dba617;">' . ($stats['bounce_rate'] ?? 0) . '%</div>';
+        echo '<div style="font-size:10px;color:#666;">Rebond</div>';
+        echo '</div>';
+        
+        $avg_duration = isset($stats['avg_duration']) ? gmdate('i:s', $stats['avg_duration']) : '0:00';
+        echo '<div style="text-align:center;padding:10px;background:#f8f9fa;border-radius:6px;">';
+        echo '<div style="font-size:20px;font-weight:bold;color:#8c5383;">' . $avg_duration . '</div>';
+        echo '<div style="font-size:10px;color:#666;">Durée moy.</div>';
+        echo '</div>';
+        
+        echo '</div>';
+        
+        // Mini graphique des 7 derniers jours
+        if (!empty($visits_by_day)) {
+            echo '<div class="analytics-chart" style="margin-bottom:15px;">';
+            echo '<h4 style="margin:0 0 10px;font-size:12px;">Visites (7 derniers jours)</h4>';
+            echo '<div style="display:flex;align-items:flex-end;height:60px;gap:4px;">';
+            
+            $max_visits = max(array_column($visits_by_day, 'visits'));
+            $max_visits = $max_visits > 0 ? $max_visits : 1;
+            
+            foreach ($visits_by_day as $day) {
+                $height = ($day['visits'] / $max_visits) * 100;
+                $date_label = date_i18n('D', strtotime($day['date']));
+                echo '<div style="flex:1;display:flex;flex-direction:column;align-items:center;">';
+                echo '<div style="width:100%;background:linear-gradient(to top,#2271b1,#72aee6);border-radius:3px 3px 0 0;height:' . $height . '%;min-height:4px;" title="' . $day['visits'] . ' visites"></div>';
+                echo '<div style="font-size:9px;color:#666;margin-top:4px;">' . $date_label . '</div>';
+                echo '</div>';
+            }
+            echo '</div>';
+            echo '</div>';
+        }
+        
+        // Top pages d'entrée
+        if (!empty($top_pages)) {
+            echo '<h4 style="margin:15px 0 8px;font-size:12px;">Pages les plus visitées</h4>';
+            echo '<div class="top-pages-list">';
+            foreach (array_slice($top_pages, 0, 5) as $page) {
+                $title = !empty($page['page_title']) ? $page['page_title'] : parse_url($page['page_url'], PHP_URL_PATH);
+                $title = strlen($title) > 35 ? substr($title, 0, 32) . '...' : $title;
+                echo '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;font-size:12px;">';
+                echo '<span style="color:#1d2327;">' . esc_html($title) . '</span>';
+                echo '<span style="color:#666;font-weight:500;">' . number_format($page['views']) . '</span>';
+                echo '</div>';
+            }
+            echo '</div>';
+        }
+        
+        // Répartition devices (mini)
+        if (!empty($devices)) {
+            $total_devices = array_sum(array_column($devices, 'count'));
+            if ($total_devices > 0) {
+                echo '<div style="display:flex;gap:15px;margin-top:12px;font-size:11px;">';
+                foreach ($devices as $device) {
+                    $pct = round(($device['count'] / $total_devices) * 100);
+                    $icon = $device['device_type'] === 'mobile' ? '📱' : ($device['device_type'] === 'tablet' ? '📱' : '💻');
+                    echo '<span>' . $icon . ' ' . ucfirst($device['device_type']) . ' ' . $pct . '%</span>';
+                }
+                echo '</div>';
+            }
+        }
+        
+        echo '<p style="margin-top:15px;">';
+        echo '<a href="' . admin_url('admin.php?page=almetal-analytics') . '" class="button button-primary">Dashboard complet</a>';
+        echo '</p>';
+        
     } else {
-        // Lien vers Google Analytics ou alternative
-        echo '<p>Consultez vos statistiques de trafic.</p>';
+        // Fallback si le plugin n'est pas actif
+        echo '<p style="color:#666;">Le plugin AL Métallerie Analytics n\'est pas activé.</p>';
         echo '<p>';
-        echo '<a href="https://analytics.google.com/" target="_blank" class="button">Google Analytics ↗</a> ';
-        echo '<a href="https://search.google.com/search-console" target="_blank" class="button">Search Console ↗</a>';
+        echo '<a href="' . admin_url('plugins.php') . '" class="button">Activer le plugin</a> ';
+        echo '</p>';
+        echo '<hr style="margin:15px 0;">';
+        echo '<p style="font-size:12px;">Liens externes :</p>';
+        echo '<p>';
+        echo '<a href="https://analytics.google.com/" target="_blank" class="button button-small">Google Analytics ↗</a> ';
+        echo '<a href="https://search.google.com/search-console" target="_blank" class="button button-small">Search Console ↗</a>';
         echo '</p>';
     }
     
