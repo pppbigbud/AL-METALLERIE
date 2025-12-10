@@ -3,7 +3,7 @@
  * Plugin Name: City Pages Generator
  * Plugin URI: https://al-metallerie.fr
  * Description: Générateur de pages ville optimisées SEO local pour AL Métallerie
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: AL Métallerie
  * Author URI: https://al-metallerie.fr
  * License: GPL-2.0+
@@ -14,31 +14,17 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CPG_VERSION', '1.0.0');
+define('CPG_VERSION', '1.1.0');
 define('CPG_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CPG_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-// Charger les fichiers au bon moment
-add_action('plugins_loaded', 'cpg_load_plugin_files');
-function cpg_load_plugin_files() {
-    $files = array(
-        'includes/class-post-type.php',
-        'includes/class-taxonomy.php',
-        'includes/class-content-generator.php',
-    );
-    
-    foreach ($files as $file) {
-        $path = CPG_PLUGIN_DIR . $file;
-        if (file_exists($path)) {
-            require_once $path;
-        }
-    }
-    
+// Charger les fichiers
+add_action('plugins_loaded', 'cpg_load_files');
+function cpg_load_files() {
+    require_once CPG_PLUGIN_DIR . 'includes/functions-content.php';
+    require_once CPG_PLUGIN_DIR . 'includes/functions-seo.php';
     if (is_admin()) {
-        $admin_file = CPG_PLUGIN_DIR . 'admin/class-admin-simple.php';
-        if (file_exists($admin_file)) {
-            require_once $admin_file;
-        }
+        require_once CPG_PLUGIN_DIR . 'includes/functions-admin.php';
     }
 }
 
