@@ -20,7 +20,7 @@ class CPG_Template_Loader {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         add_filter('single_template', [$this, 'load_single_template']);
         add_filter('archive_template', [$this, 'load_archive_template']);
         add_filter('the_content', [$this, 'wrap_content'], 20);

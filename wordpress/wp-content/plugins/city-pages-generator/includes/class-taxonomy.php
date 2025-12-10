@@ -20,9 +20,9 @@ class CPG_Taxonomy {
         return self::$instance;
     }
 
-    private function __construct() {
-        add_action('init', [$this, 'register_taxonomy']);
-        add_action('init', [$this, 'register_realisation_taxonomy']);
+    public function __construct() {
+        add_action('init', array($this, 'register_taxonomy'), 5);
+        add_action('init', array($this, 'register_realisation_taxonomy'), 6);
     }
 
     /**

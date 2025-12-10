@@ -20,7 +20,7 @@ class CPG_SEO_Handler {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         // Meta tags
         add_action('wp_head', [$this, 'output_meta_tags'], 1);
         add_action('wp_head', [$this, 'output_schema_markup'], 2);

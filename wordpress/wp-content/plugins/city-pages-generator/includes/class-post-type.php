@@ -20,8 +20,8 @@ class CPG_Post_Type {
         return self::$instance;
     }
 
-    private function __construct() {
-        add_action('init', [$this, 'register_post_type']);
+    public function __construct() {
+        add_action('init', array($this, 'register_post_type'), 5);
     }
 
     /**

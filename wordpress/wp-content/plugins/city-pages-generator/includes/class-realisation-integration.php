@@ -20,7 +20,7 @@ class CPG_Realisation_Integration {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         // Shortcodes
         add_shortcode('cpg_city_realisations', [$this, 'render_city_realisations']);
         add_shortcode('cpg_city_map', [$this, 'render_city_map']);

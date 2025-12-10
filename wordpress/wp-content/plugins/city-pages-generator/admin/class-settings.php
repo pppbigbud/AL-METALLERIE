@@ -20,7 +20,7 @@ class CPG_Settings {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         add_action('admin_init', [$this, 'register_settings']);
     }
 

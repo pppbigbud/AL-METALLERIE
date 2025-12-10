@@ -20,9 +20,9 @@ class CPG_Metaboxes {
         return self::$instance;
     }
 
-    private function __construct() {
-        add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
-        add_action('save_post_city_page', [$this, 'save_meta_boxes'], 10, 2);
+    public function __construct() {
+        add_action('add_meta_boxes', array($this, 'add_meta_boxes'));
+        add_action('save_post_city_page', array($this, 'save_meta_boxes'), 10, 2);
     }
 
     /**

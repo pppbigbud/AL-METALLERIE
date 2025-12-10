@@ -20,7 +20,7 @@ class CPG_Public {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('admin_post_cpg_submit_contact', [$this, 'handle_contact_form']);
         add_action('admin_post_nopriv_cpg_submit_contact', [$this, 'handle_contact_form']);

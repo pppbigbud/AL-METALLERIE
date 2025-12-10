@@ -20,7 +20,7 @@ class CPG_Admin {
         return self::$instance;
     }
 
-    private function __construct() {
+    public function __construct() {
         add_action('admin_menu', [$this, 'add_admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('wp_ajax_cpg_create_city', [$this, 'ajax_create_city']);
