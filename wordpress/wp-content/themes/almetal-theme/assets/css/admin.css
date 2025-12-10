@@ -1,0 +1,24 @@
+/**
+ * CSS Admin personnalisé pour AL Métallerie
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* Fix thumbnails trop grandes dans la liste admin */
+.wp-list-table .column-image img,
+.wp-list-table .column-thumbnail img,
+.wp-list-table td.column-image img,
+.wp-list-table td img {
+    max-width: 80px !important;
+    max-height: 80px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: cover;
+}
+
+/* Améliorer l'affichage des colonnes dans les listes */
+.wp-list-table .column-image,
+.wp-list-table .column-thumbnail {
+    width: 100px;
+}

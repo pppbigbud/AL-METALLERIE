@@ -1711,3 +1711,16 @@ function almetal_ajax_load_mobile_realisations() {
 }
 add_action('wp_ajax_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
 add_action('wp_ajax_nopriv_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
+
+/**
+ * Charger le CSS admin personnalisé
+ */
+function almetal_admin_styles() {
+    wp_enqueue_style(
+        'almetal-admin',
+        get_template_directory_uri() . '/assets/css/admin.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('admin_enqueue_scripts', 'almetal_admin_styles');
