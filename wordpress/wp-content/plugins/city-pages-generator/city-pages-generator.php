@@ -55,7 +55,7 @@ final class City_Pages_Generator {
     /**
      * Charger les dépendances
      */
-    private function load_dependencies() {
+    public function load_dependencies() {
         // Classes principales
         require_once CPG_PLUGIN_DIR . 'includes/class-post-type.php';
         require_once CPG_PLUGIN_DIR . 'includes/class-taxonomy.php';
@@ -69,7 +69,7 @@ final class City_Pages_Generator {
         if (is_admin()) {
             require_once CPG_PLUGIN_DIR . 'admin/class-admin.php';
             require_once CPG_PLUGIN_DIR . 'admin/class-settings.php';
-            require_once CPG_PLUGIN_DIR . 'admin/class-city-list-table.php';
+            // Note: class-city-list-table.php est chargé à la demande dans render_all_cities_page()
         }
         
         // Public

@@ -392,6 +392,11 @@ class CPG_Admin {
         if (!class_exists('WP_List_Table')) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
         }
+        
+        // Inclure notre classe de liste
+        if (!class_exists('CPG_City_List_Table')) {
+            require_once CPG_PLUGIN_DIR . 'admin/class-city-list-table.php';
+        }
 
         $list_table = new CPG_City_List_Table();
         $list_table->prepare_items();
