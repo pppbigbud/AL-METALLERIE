@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) exit;
  * Quand une réalisation est sauvegardée, vérifier si la ville existe
  * et créer une page ville automatiquement si nécessaire
  */
-add_action('save_post_realisation', 'cpg_auto_create_city_page_from_realisation', 20, 3);
+add_action('save_post_realisation', 'cpg_auto_create_city_page_from_realisation', 99, 3);
 function cpg_auto_create_city_page_from_realisation($post_id, $post, $update) {
     // Éviter les auto-saves et révisions
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;

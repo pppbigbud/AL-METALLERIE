@@ -1,0 +1,570 @@
+/**
+ * Styles pour les pages ville (CPT city_page)
+ * Cohérent avec le style des pages réalisations et formations
+ */
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.city-hero {
+    position: relative;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.city-hero__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.city-hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+}
+
+.city-hero__gradient {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 50%, #1a1a1a 100%);
+}
+
+.city-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+}
+
+.city-hero .container {
+    position: relative;
+    z-index: 2;
+    padding: 80px 20px;
+}
+
+.city-hero__content {
+    max-width: 800px;
+}
+
+/* Breadcrumb */
+.city-breadcrumb {
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.city-breadcrumb a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.city-breadcrumb a:hover {
+    color: #F08B18;
+}
+
+.city-breadcrumb .separator {
+    margin: 0 10px;
+    color: rgba(255,255,255,0.4);
+}
+
+.city-breadcrumb .current {
+    color: #F08B18;
+}
+
+/* Tag */
+.city-tag {
+    margin-bottom: 20px;
+}
+
+.city-tag span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(240, 139, 24, 0.15);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 30px;
+    color: #F08B18;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Titre */
+.city-hero__title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.city-hero__title .highlight {
+    color: #F08B18;
+}
+
+/* Sous-titre */
+.city-hero__subtitle {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 30px 0;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/* CTA */
+.city-hero__cta {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   BOUTONS
+   ============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #F08B18 0%, #e07a0a 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e07a0a 0%, #c96a00 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 139, 24, 0.4);
+    color: #fff;
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #F08B18;
+    border: 2px solid #F08B18;
+}
+
+.btn-outline:hover {
+    background: #F08B18;
+    color: #fff;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-lg {
+    padding: 18px 36px;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   CONTENU PRINCIPAL
+   ============================================ */
+.city-content {
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.city-content__grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+    align-items: start;
+}
+
+.city-content__main {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+}
+
+.city-content__text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.city-content__text h2 {
+    font-size: 1.6rem;
+    color: #222;
+    margin: 30px 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #F08B18;
+}
+
+.city-content__text h2:first-child {
+    margin-top: 0;
+}
+
+.city-content__text ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.city-content__text ul li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+}
+
+.city-content__text ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #F08B18;
+    font-weight: bold;
+}
+
+/* ============================================
+   SECTION RÉALISATIONS
+   ============================================ */
+.city-realisations {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #eee;
+}
+
+.city-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    color: #222;
+    margin: 0 0 25px 0;
+}
+
+.city-section-title .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(240, 139, 24, 0.1);
+    border-radius: 10px;
+    color: #F08B18;
+}
+
+.city-realisations__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.city-realisation-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f9fa;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.city-realisation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.city-realisation-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.city-realisation-card__image {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.city-realisation-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.city-realisation-card:hover .city-realisation-card__image img {
+    transform: scale(1.05);
+}
+
+.city-realisation-card__content {
+    padding: 15px;
+}
+
+.city-realisation-card__type {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: #F08B18;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.city-realisation-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.city-realisations__more {
+    text-align: center;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.city-content__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Carte */
+.city-map-card,
+.city-contact-card,
+.city-services-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+}
+
+.city-map-card__title,
+.city-contact-card__title,
+.city-services-card__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: #222;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.city-map-card__map {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.city-map-card__map iframe {
+    display: block;
+}
+
+.city-map-card__info {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Contact */
+.city-contact-card__items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.city-contact-card__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.city-contact-card__item:hover {
+    background: rgba(240, 139, 24, 0.1);
+    color: #F08B18;
+}
+
+.city-contact-card__item svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+/* Services */
+.city-services-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.city-services-card__list li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.city-services-card__list li:last-child {
+    border-bottom: none;
+}
+
+.city-services-card__list a {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.city-services-card__list a::before {
+    content: "→";
+    margin-right: 10px;
+    color: #F08B18;
+    transition: transform 0.2s;
+}
+
+.city-services-card__list a:hover {
+    color: #F08B18;
+}
+
+.city-services-card__list a:hover::before {
+    transform: translateX(5px);
+}
+
+/* ============================================
+   CTA FINAL
+   ============================================ */
+.city-cta {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    text-align: center;
+}
+
+.city-cta__content h2 {
+    font-size: 2.2rem;
+    color: #fff;
+    margin: 0 0 15px 0;
+}
+
+.city-cta__content p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 30px 0;
+}
+
+.city-cta__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+    .city-content__grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .city-content__sidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .city-map-card,
+    .city-contact-card,
+    .city-services-card {
+        flex: 1 1 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .city-hero {
+        min-height: 400px;
+    }
+    
+    .city-hero .container {
+        padding: 60px 20px;
+    }
+    
+    .city-hero__title {
+        font-size: 2rem;
+    }
+    
+    .city-hero__subtitle {
+        font-size: 1rem;
+    }
+    
+    .city-hero__cta {
+        flex-direction: column;
+    }
+    
+    .city-content__main {
+        padding: 25px;
+    }
+    
+    .city-realisations__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .city-cta__content h2 {
+        font-size: 1.6rem;
+    }
+    
+    .city-cta__buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .city-realisations__grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .city-content__sidebar {
+        flex-direction: column;
+    }
+    
+    .city-map-card,
+    .city-contact-card,
+    .city-services-card {
+        flex: 1 1 100%;
+    }
+}

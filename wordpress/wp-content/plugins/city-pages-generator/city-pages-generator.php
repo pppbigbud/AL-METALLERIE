@@ -63,8 +63,8 @@ function cpg_register_cpt() {
         'menu_position' => 26,
         'menu_icon'     => 'dashicons-location-alt',
         'supports'      => array('title', 'editor', 'thumbnail', 'excerpt'),
-        'has_archive'   => 'metallier-auvergne',
-        'rewrite'       => array('slug' => 'metallier', 'with_front' => false),
+        'has_archive'   => 'soudure-auvergne',
+        'rewrite'       => array('slug' => 'soudure', 'with_front' => false),
         'show_in_rest'  => true,
     ));
 }

@@ -166,6 +166,11 @@ get_header();
                                         </span>
                                     <?php endif; ?>
                                     <?php if ($lieu) : ?>
+                                        <?php 
+                                        if (function_exists('cpg_render_city_badge')) {
+                                            echo cpg_render_city_badge($lieu, true);
+                                        } else {
+                                        ?>
                                         <span class="meta-item meta-lieu">
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -173,6 +178,7 @@ get_header();
                                             </svg>
                                             <?php echo esc_html($lieu); ?>
                                         </span>
+                                        <?php } ?>
                                     <?php endif; ?>
                                     <?php if ($duree) : ?>
                                         <span class="meta-item meta-duree">
