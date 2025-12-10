@@ -4,6 +4,15 @@
  */
 
 /* ============================================
+   PAGE VILLE - FOND GLOBAL
+   ============================================ */
+.single-city_page,
+.single-city_page body,
+.city-page-main {
+    background: #1a1a1a;
+}
+
+/* ============================================
    HERO SECTION
    ============================================ */
 .city-hero {
@@ -12,8 +21,9 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    margin-top:5vh;
+    background: #1a1a1a;
+    margin-top: 0;
+    padding-top: 100px; /* Espace pour le header fixe */
 }
 
 .city-hero__background {
