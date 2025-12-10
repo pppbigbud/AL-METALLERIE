@@ -114,7 +114,7 @@ class Admin {
         add_menu_page(
             __('Formations', 'training-manager'),
             __('Formations', 'training-manager'),
-            'manage_training_sessions',
+            'edit_posts',
             'tm-dashboard',
             [$this, 'render_dashboard_page'],
             'dashicons-welcome-learn-more',
@@ -126,27 +126,9 @@ class Admin {
             'tm-dashboard',
             __('Tableau de bord', 'training-manager'),
             __('Tableau de bord', 'training-manager'),
-            'manage_training_sessions',
+            'edit_posts',
             'tm-dashboard',
             [$this, 'render_dashboard_page']
-        );
-
-        // Sous-menu Toutes les sessions
-        add_submenu_page(
-            'tm-dashboard',
-            __('Toutes les sessions', 'training-manager'),
-            __('Toutes les sessions', 'training-manager'),
-            'edit_training_sessions',
-            'edit.php?post_type=training_session'
-        );
-
-        // Sous-menu Ajouter
-        add_submenu_page(
-            'tm-dashboard',
-            __('Ajouter une session', 'training-manager'),
-            __('Ajouter', 'training-manager'),
-            'edit_training_sessions',
-            'post-new.php?post_type=training_session'
         );
 
         // Sous-menu Demandes/Réservations
@@ -154,7 +136,7 @@ class Admin {
             'tm-dashboard',
             __('Demandes', 'training-manager'),
             __('Demandes', 'training-manager'),
-            'manage_training_sessions',
+            'edit_posts',
             'tm-bookings',
             [$this, 'render_bookings_page']
         );
@@ -164,7 +146,7 @@ class Admin {
             'tm-dashboard',
             __('Rapports', 'training-manager'),
             __('Rapports', 'training-manager'),
-            'view_training_reports',
+            'edit_posts',
             'tm-reports',
             [$this, 'render_reports_page']
         );

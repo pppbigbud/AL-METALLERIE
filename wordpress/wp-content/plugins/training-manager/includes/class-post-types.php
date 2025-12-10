@@ -69,9 +69,7 @@ class PostTypes {
             'hierarchical'        => false,
             'public'              => true,
             'show_ui'             => true,
-            'show_in_menu'        => true,
-            'menu_position'       => 25,
-            'menu_icon'           => 'dashicons-welcome-learn-more',
+            'show_in_menu'        => 'tm-dashboard', // Afficher dans le menu personnalisé
             'show_in_admin_bar'   => true,
             'show_in_nav_menus'   => true,
             'can_export'          => true,
