@@ -243,43 +243,37 @@ function almetal_contact_widget_content() {
     if ($table_exists) {
         // Compter les messages
         $total_messages = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
-        $unread_messages = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE status = 'new' OR status IS NULL");
         
         // Statistiques
         echo '<div style="display:flex;gap:20px;margin-bottom:15px;">';
         echo '<div style="text-align:center;">';
         echo '<div style="font-size:24px;font-weight:bold;color:#2271b1;">' . intval($total_messages) . '</div>';
-        echo '<div style="font-size:11px;color:#666;">Total</div>';
+        echo '<div style="font-size:11px;color:#666;">Messages reçus</div>';
         echo '</div>';
-        if ($unread_messages > 0) {
-            echo '<div style="text-align:center;">';
-            echo '<div style="font-size:24px;font-weight:bold;color:#d63638;">' . intval($unread_messages) . '</div>';
-            echo '<div style="font-size:11px;color:#666;">Non lus</div>';
-            echo '</div>';
-        }
         echo '</div>';
         
-        // Derniers messages
+        // Derniers messages (compatible avec submitted_at ou created_at)
         $recent_messages = $wpdb->get_results(
-            "SELECT * FROM $table_name ORDER BY created_at DESC LIMIT 5"
+            "SELECT * FROM $table_name ORDER BY submitted_at DESC LIMIT 5"
         );
         
         if (!empty($recent_messages)) {
             echo '<h4>Derniers messages :</h4>';
             echo '<div class="contact-messages-list">';
             foreach ($recent_messages as $msg) {
-                $is_new = empty($msg->status) || $msg->status === 'new';
-                $date = date_i18n('d/m H:i', strtotime($msg->created_at));
-                $name = esc_html($msg->name);
-                $project = esc_html($msg->project_type);
+                // Utiliser submitted_at ou created_at selon ce qui existe
+                $date_field = isset($msg->submitted_at) ? $msg->submitted_at : (isset($msg->created_at) ? $msg->created_at : '');
+                $date = $date_field ? date_i18n('d/m H:i', strtotime($date_field)) : '';
+                $name = esc_html($msg->name ?? '');
+                $project = esc_html($msg->project_type ?? '');
+                $email = esc_html($msg->email ?? '');
                 
                 echo '<div class="contact-message-item" style="padding:8px 0;border-bottom:1px solid #f0f0f0;">';
-                if ($is_new) {
-                    echo '<span style="display:inline-block;width:8px;height:8px;background:#d63638;border-radius:50%;margin-right:6px;" title="Non lu"></span>';
-                }
                 echo '<strong>' . $name . '</strong>';
-                echo ' <span style="color:#666;font-size:11px;">(' . $date . ')</span>';
-                echo '<br><span style="color:#666;font-size:12px;">' . $project . '</span>';
+                if ($date) {
+                    echo ' <span style="color:#666;font-size:11px;">(' . $date . ')</span>';
+                }
+                echo '<br><span style="color:#666;font-size:12px;">' . ($project ?: $email) . '</span>';
                 echo '</div>';
             }
             echo '</div>';
