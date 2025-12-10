@@ -550,6 +550,15 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version')
         );
     }
+    
+    // Google Analytics 4 - Events Tracking
+    wp_enqueue_script(
+        'almetal-ga4-events',
+        get_template_directory_uri() . '/assets/js/ga4-events.js',
+        array(),
+        wp_get_theme()->get('Version'),
+        true
+    );
 }
 add_action('wp_enqueue_scripts', 'almetal_enqueue_scripts');
 

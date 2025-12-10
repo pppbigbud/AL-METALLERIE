@@ -19,6 +19,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Constantes Google Analytics 4
+if (!defined('ALMETAL_GA4_MEASUREMENT_ID')) {
+    define('ALMETAL_GA4_MEASUREMENT_ID', 'G-LQXQ5E0NE3');
+}
+if (!defined('ALMETAL_GA4_PROPERTY_ID')) {
+    define('ALMETAL_GA4_PROPERTY_ID', ''); // À remplir avec l'ID de propriété si disponible
+}
+
 /**
  * Supprimer les widgets par défaut inutiles
  */
@@ -431,23 +439,27 @@ function almetal_analytics_widget_content() {
             }
         }
         
-        echo '<p style="margin-top:15px;">';
-        echo '<a href="' . admin_url('admin.php?page=almetal-analytics') . '" class="button button-primary">Dashboard complet</a>';
-        echo '</p>';
+        echo '<div style="margin-top:15px;display:flex;gap:8px;flex-wrap:wrap;">';
+        echo '<a href="' . admin_url('admin.php?page=almetal-analytics') . '" class="button button-primary">Dashboard local</a>';
+        echo '</div>';
         
     } else {
         // Fallback si le plugin n'est pas actif
-        echo '<p style="color:#666;">Le plugin AL Métallerie Analytics n\'est pas activé.</p>';
-        echo '<p>';
-        echo '<a href="' . admin_url('plugins.php') . '" class="button">Activer le plugin</a> ';
-        echo '</p>';
-        echo '<hr style="margin:15px 0;">';
-        echo '<p style="font-size:12px;">Liens externes :</p>';
-        echo '<p>';
-        echo '<a href="https://analytics.google.com/" target="_blank" class="button button-small">Google Analytics ↗</a> ';
-        echo '<a href="https://search.google.com/search-console" target="_blank" class="button button-small">Search Console ↗</a>';
-        echo '</p>';
+        echo '<p style="margin-bottom:10px;color:#666;font-size:12px;">Activez le plugin Analytics pour les données locales.</p>';
     }
+    
+    // Toujours afficher les liens Google Analytics 4
+    echo '<div style="margin-top:15px;padding-top:15px;border-top:1px solid #f0f0f0;">';
+    echo '<h4 style="margin:0 0 8px;font-size:12px;display:flex;align-items:center;gap:6px;">';
+    echo '<img src="https://www.gstatic.com/analytics-suite/header/suite/v2/ic_analytics.svg" width="18" height="18" alt="GA4">';
+    echo 'Google Analytics 4</h4>';
+    echo '<p style="font-size:11px;color:#666;margin-bottom:10px;">ID: ' . ALMETAL_GA4_MEASUREMENT_ID . '</p>';
+    echo '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+    echo '<a href="https://analytics.google.com/" target="_blank" class="button button-small">📈 Rapports</a>';
+    echo '<a href="https://analytics.google.com/" target="_blank" class="button button-small">⚡ Temps réel</a>';
+    echo '<a href="https://search.google.com/search-console" target="_blank" class="button button-small">🔍 Search Console</a>';
+    echo '</div>';
+    echo '</div>';
     
     echo '</div>';
 }
