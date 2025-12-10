@@ -16,10 +16,10 @@
         <div class="presentation-images">
             <div class="presentation-image-wrapper presentation-image-top">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-optimized.webp'); ?>"
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108%201.webp'); ?>"
                             sizes="(max-width: 768px) 300px, 400px"
                             type="image/webp">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" 
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108%201.webp'); ?>" 
                          alt="Soudeur professionnel AL-Metallerie Soudure en action à Thiers"
                          class="presentation-img"
                          fetchpriority="high"
@@ -30,10 +30,10 @@
             </div>
             <div class="presentation-image-wrapper presentation-image-bottom">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-optimized.webp'); ?>"
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248%202.webp'); ?>"
                             sizes="(max-width: 768px) 250px, 400px"
                             type="image/webp">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?>" 
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248%202.webp'); ?>" 
                          alt="Travaux de métallerie de précision à Thiers, Puy-de-Dôme"
                          class="presentation-img"
                          loading="lazy"
