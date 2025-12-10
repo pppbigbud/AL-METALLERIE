@@ -11,7 +11,7 @@
 
     // Variables globales
     let currentPage = 1;
-    let currentCategory = '*';
+    let currentCategory = ''; // Vide = toutes les catégories
     let isLoading = false;
     let hasMore = true;
     let perPage = 6;
