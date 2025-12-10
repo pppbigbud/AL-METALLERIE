@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/cache/
+Disallow: /?s=
+
+Allow: /wp-content/themes/
+Allow: /wp-content/uploads/
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://www.al-metallerie.fr/wp-sitemap.xml
