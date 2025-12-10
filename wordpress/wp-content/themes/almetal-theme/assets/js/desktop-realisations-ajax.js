@@ -128,12 +128,17 @@
                     loadMoreBtn.classList.remove('loading');
                 }
 
+                console.log('📦 Réponse AJAX:', data);
+                
                 if (data.success) {
                     const html = data.data.html;
                     hasMore = data.data.has_more;
                     const remaining = data.data.remaining;
+                    
+                    console.log('📄 HTML reçu:', html ? html.substring(0, 200) + '...' : 'VIDE');
+                    console.log('📊 Has more:', hasMore, '| Remaining:', remaining);
 
-                    if (html) {
+                    if (html && html.trim() !== '') {
                         if (replace) {
                             // Remplacer le contenu
                             grid.innerHTML = html;
