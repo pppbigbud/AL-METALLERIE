@@ -13,13 +13,16 @@ $categories = get_terms(array(
     'hide_empty' => true,
 ));
 
-// Récupérer plus de réalisations pour le filtrage (on n'affichera que 3 à la fois)
+// Récupérer les réalisations (6 au départ, le reste via AJAX)
+$per_page = 6;
 $realisations_query = new WP_Query(array(
     'post_type' => 'realisation',
-    'posts_per_page' => 12, // Charger 12 réalisations pour avoir du contenu à filtrer
+    'posts_per_page' => $per_page,
     'orderby' => 'date',
     'order' => 'DESC',
 ));
+$total_realisations = wp_count_posts('realisation')->publish;
+$has_more = $total_realisations > $per_page;
 ?>
 
 <section class="actualites-section" id="actualites">
@@ -103,7 +106,7 @@ $realisations_query = new WP_Query(array(
         <?php endif; ?>
 
         <!-- Grille d'actualités (réalisations dynamiques) -->
-        <div class="actualites-grid">
+        <div class="actualites-grid" id="desktop-realisations-grid" data-page="1" data-per-page="<?php echo $per_page; ?>" data-total="<?php echo $total_realisations; ?>">
             <?php if ($realisations_query->have_posts()) : ?>
                 <?php while ($realisations_query->have_posts()) : $realisations_query->the_post(); ?>
                     <?php
@@ -237,6 +240,27 @@ $realisations_query = new WP_Query(array(
                 <p><?php esc_html_e('Aucune réalisation pour le moment.', 'almetal'); ?></p>
             <?php endif; ?>
         </div>
+        
+        <!-- Loader -->
+        <div id="desktop-realisations-loader" class="realisations-loader" style="display: none;">
+            <div class="loader-spinner"></div>
+            <span>Chargement...</span>
+        </div>
+        
+        <!-- Bouton Voir Plus -->
+        <?php if ($has_more) : ?>
+        <div id="desktop-loadmore-wrapper" class="realisations-loadmore-wrapper">
+            <button id="btn-desktop-load-more" class="btn-load-more" data-ajax-url="<?php echo admin_url('admin-ajax.php'); ?>">
+                <span class="btn-load-more__text">Voir plus de réalisations</span>
+                <span class="btn-load-more__icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </span>
+                <span class="btn-load-more__count"><?php echo ($total_realisations - $per_page); ?> restantes</span>
+            </button>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -287,5 +311,98 @@ $realisations_query = new WP_Query(array(
     .hp-section-subtitle {
         font-size: 1rem;
     }
+}
+
+/* Loader */
+.realisations-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(240, 139, 24, 0.2);
+    border-top-color: #F08B18;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Bouton Voir Plus */
+.realisations-loadmore-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+.btn-load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #F08B18 0%, #d97a0f 100%);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.3);
+}
+
+.btn-load-more:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 139, 24, 0.4);
+}
+
+.btn-load-more:active {
+    transform: translateY(0);
+}
+
+.btn-load-more__icon {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.btn-load-more:hover .btn-load-more__icon {
+    transform: translateY(3px);
+}
+
+.btn-load-more__count {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    padding-left: 8px;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-load-more.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-load-more.loading .btn-load-more__icon svg {
+    animation: spin 0.8s linear infinite;
+}
+
+/* Animation des nouvelles cards */
+.realisation-card.loading-new {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.realisation-card.loaded {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.4s ease;
 }
 </style>

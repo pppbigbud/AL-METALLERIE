@@ -394,6 +394,17 @@ function almetal_enqueue_scripts() {
         ); */
     }
     
+    // Script AJAX réalisations Desktop (front-page uniquement, hors mobile)
+    if (is_front_page() && !almetal_is_mobile()) {
+        wp_enqueue_script(
+            'almetal-desktop-realisations-ajax',
+            get_template_directory_uri() . '/assets/js/desktop-realisations-ajax.js',
+            array(),
+            wp_get_theme()->get('Version'),
+            true
+        );
+    }
+    
     // Script carrousel mobile (sur les pages de réalisations)
     if (is_singular('realisation')) {
         wp_enqueue_script(
@@ -1711,6 +1722,119 @@ function almetal_ajax_load_mobile_realisations() {
 }
 add_action('wp_ajax_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
 add_action('wp_ajax_nopriv_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
+
+/**
+ * ============================================================================
+ * AJAX : CHARGEMENT DES RÉALISATIONS DESKTOP AVEC FILTRAGE ET PAGINATION
+ * ============================================================================
+ */
+function almetal_ajax_load_desktop_realisations() {
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : '';
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    $per_page = isset($_POST['per_page']) ? intval($_POST['per_page']) : 6;
+    
+    $args = array(
+        'post_type' => 'realisation',
+        'posts_per_page' => $per_page,
+        'paged' => $page,
+        'orderby' => 'date',
+        'order' => 'DESC',
+    );
+    
+    // Filtrer par catégorie si spécifiée
+    if (!empty($category)) {
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => 'type_realisation',
+                'field' => 'slug',
+                'terms' => $category,
+            ),
+        );
+    }
+    
+    $query = new WP_Query($args);
+    $html = '';
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            
+            $terms = get_the_terms(get_the_ID(), 'type_realisation');
+            $term_classes = '';
+            if ($terms && !is_wp_error($terms)) {
+                $term_slugs = array_map(function($term) {
+                    return $term->slug;
+                }, $terms);
+                $term_classes = implode(' ', $term_slugs);
+            }
+            
+            $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'realisation-card');
+            if (!$thumbnail_url) {
+                $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+            }
+            if (!$thumbnail_url) {
+                $thumbnail_url = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
+            }
+            
+            // Alt SEO
+            $type_name = ($terms && !is_wp_error($terms)) ? $terms[0]->name : 'Réalisation';
+            $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true) ?: 'Puy-de-Dôme';
+            $alt_seo = $type_name . ' à ' . $lieu . ' - ' . get_the_title() . ' | AL Métallerie';
+            
+            $date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
+            $duree = get_post_meta(get_the_ID(), '_almetal_duree', true);
+            
+            $html .= '<article class="realisation-card ' . esc_attr($term_classes) . '" data-categories="' . esc_attr($term_classes) . '">';
+            $html .= '<div class="realisation-image-wrapper">';
+            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" class="realisation-image" width="400" height="300" loading="lazy" decoding="async">';
+            $html .= '</div>';
+            $html .= '<div class="realisation-content">';
+            $html .= '<h3 class="realisation-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
+            
+            if ($date_realisation || $lieu || $duree) {
+                $html .= '<div class="realisation-meta">';
+                if ($date_realisation) {
+                    $html .= '<span class="meta-item meta-date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' . esc_html($date_realisation) . '</span>';
+                }
+                if ($lieu) {
+                    if (function_exists('cpg_render_city_badge')) {
+                        $html .= cpg_render_city_badge($lieu, true);
+                    } else {
+                        $html .= '<span class="meta-item meta-lieu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . esc_html($lieu) . '</span>';
+                    }
+                }
+                if ($duree) {
+                    $html .= '<span class="meta-item meta-duree"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' . esc_html($duree) . '</span>';
+                }
+                $html .= '</div>';
+            }
+            
+            $html .= '<a href="' . get_permalink() . '" class="btn-view-project">';
+            $html .= '<span class="circle" aria-hidden="true"><svg class="icon arrow" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+            $html .= '<span class="button-text">Voir le projet</span>';
+            $html .= '</a>';
+            $html .= '</div>';
+            $html .= '</article>';
+        }
+        wp_reset_postdata();
+    }
+    
+    // Calculer le total et les restantes
+    $total = $query->found_posts;
+    $loaded = $page * $per_page;
+    $remaining = max(0, $total - $loaded);
+    $has_more = $loaded < $total;
+    
+    wp_send_json_success(array(
+        'html' => $html,
+        'has_more' => $has_more,
+        'total' => $total,
+        'remaining' => $remaining,
+        'current_page' => $page,
+    ));
+}
+add_action('wp_ajax_load_desktop_realisations', 'almetal_ajax_load_desktop_realisations');
+add_action('wp_ajax_nopriv_load_desktop_realisations', 'almetal_ajax_load_desktop_realisations');
 
 /**
  * Charger le CSS admin personnalisé
