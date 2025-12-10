@@ -49,7 +49,6 @@ final class City_Pages_Generator {
      * Constructeur privé
      */
     private function __construct() {
-        $this->load_dependencies();
         $this->init_hooks();
     }
 
@@ -81,19 +80,23 @@ final class City_Pages_Generator {
      * Initialiser les hooks
      */
     private function init_hooks() {
-        // Activation/Désactivation
-        register_activation_hook(__FILE__, [$this, 'activate']);
-        register_deactivation_hook(__FILE__, [$this, 'deactivate']);
-
+        // Charger les dépendances après plugins_loaded
+        add_action('plugins_loaded', [$this, 'load_dependencies'], 5);
+        add_action('plugins_loaded', [$this, 'load_textdomain'], 10);
+        
         // Initialisation
-        add_action('init', [$this, 'init']);
-        add_action('plugins_loaded', [$this, 'load_textdomain']);
+        add_action('init', [$this, 'init'], 5);
     }
 
     /**
      * Initialisation du plugin
      */
     public function init() {
+        // Vérifier que les classes existent
+        if (!class_exists('CPG_Post_Type')) {
+            return;
+        }
+        
         // Enregistrer le CPT et la taxonomie
         CPG_Post_Type::get_instance();
         CPG_Taxonomy::get_instance();
@@ -122,109 +125,6 @@ final class City_Pages_Generator {
             dirname(CPG_PLUGIN_BASENAME) . '/languages/'
         );
     }
-
-    /**
-     * Activation du plugin
-     */
-    public function activate() {
-        // Créer les options par défaut
-        $this->create_default_options();
-        
-        // Enregistrer le CPT pour flush les rewrite rules
-        CPG_Post_Type::get_instance()->register_post_type();
-        CPG_Taxonomy::get_instance()->register_taxonomy();
-        
-        // Flush rewrite rules
-        flush_rewrite_rules();
-    }
-
-    /**
-     * Désactivation du plugin
-     */
-    public function deactivate() {
-        flush_rewrite_rules();
-    }
-
-    /**
-     * Créer les options par défaut
-     */
-    private function create_default_options() {
-        $defaults = [
-            'company_name' => 'AL Métallerie & Soudure',
-            'workshop_city' => 'Peschadoires',
-            'workshop_address' => '14 route de Maringues, 63920 Peschadoires',
-            'phone' => '06 73 33 35 32',
-            'phone_international' => '+33673333532',
-            'email' => 'contact@al-metallerie.fr',
-            'company_description' => 'Artisan métallier ferronnier depuis plus de 15 ans, AL Métallerie & Soudure réalise tous vos projets de métallerie sur mesure. Fabrication artisanale dans notre atelier de Peschadoires, intervention dans tout le Puy-de-Dôme et l\'Auvergne.',
-            'services' => [
-                'portails' => [
-                    'enabled' => true,
-                    'name' => 'Portails sur mesure',
-                    'icon' => 'gate',
-                    'description' => 'Portails coulissants et battants en acier, aluminium ou fer forgé.'
-                ],
-                'garde_corps' => [
-                    'enabled' => true,
-                    'name' => 'Garde-corps et rambardes',
-                    'icon' => 'railing',
-                    'description' => 'Garde-corps intérieurs et extérieurs, rambardes d\'escalier.'
-                ],
-                'escaliers' => [
-                    'enabled' => true,
-                    'name' => 'Escaliers métalliques',
-                    'icon' => 'stairs',
-                    'description' => 'Escaliers droits, quart tournant, hélicoïdaux en métal.'
-                ],
-                'grilles' => [
-                    'enabled' => true,
-                    'name' => 'Grilles de sécurité',
-                    'icon' => 'grid',
-                    'description' => 'Grilles de défense, grilles de fenêtre, protection anti-intrusion.'
-                ],
-                'pergolas' => [
-                    'enabled' => true,
-                    'name' => 'Pergolas et structures',
-                    'icon' => 'pergola',
-                    'description' => 'Pergolas bioclimatiques, auvents, structures métalliques extérieures.'
-                ],
-                'verrieres' => [
-                    'enabled' => true,
-                    'name' => 'Verrières d\'intérieur',
-                    'icon' => 'window',
-                    'description' => 'Verrières atelier, cloisons vitrées, séparations design.'
-                ],
-                'ferronnerie' => [
-                    'enabled' => true,
-                    'name' => 'Ferronnerie d\'art',
-                    'icon' => 'art',
-                    'description' => 'Créations artistiques, pièces décoratives, restauration.'
-                ],
-                'mobilier' => [
-                    'enabled' => true,
-                    'name' => 'Mobilier métallique',
-                    'icon' => 'furniture',
-                    'description' => 'Tables, étagères, consoles, mobilier sur mesure en métal.'
-                ],
-            ],
-            'google_maps_api_key' => '',
-            'default_radius_km' => 20,
-            'sections_order' => ['intro', 'services', 'realisations', 'why_us', 'zone', 'contact', 'faq'],
-            'sections_enabled' => [
-                'intro' => true,
-                'services' => true,
-                'realisations' => true,
-                'why_us' => true,
-                'zone' => true,
-                'contact' => true,
-                'faq' => true,
-            ],
-        ];
-
-        if (!get_option('cpg_settings')) {
-            add_option('cpg_settings', $defaults);
-        }
-    }
 }
 
 /**
@@ -233,6 +133,48 @@ final class City_Pages_Generator {
 function cpg_init() {
     return City_Pages_Generator::get_instance();
 }
+
+/**
+ * Activation du plugin
+ */
+function cpg_activate() {
+    // Charger les classes nécessaires
+    require_once CPG_PLUGIN_DIR . 'includes/class-post-type.php';
+    require_once CPG_PLUGIN_DIR . 'includes/class-taxonomy.php';
+    
+    // Enregistrer le CPT et taxonomies
+    CPG_Post_Type::get_instance()->register_post_type();
+    CPG_Taxonomy::get_instance()->register_taxonomy();
+    
+    // Créer les options par défaut
+    $defaults = [
+        'company_name' => 'AL Métallerie & Soudure',
+        'workshop_city' => 'Peschadoires',
+        'workshop_address' => '14 route de Maringues, 63920 Peschadoires',
+        'phone' => '06 73 33 35 32',
+        'phone_international' => '+33673333532',
+        'email' => 'contact@al-metallerie.fr',
+        'company_description' => 'Artisan métallier ferronnier depuis plus de 15 ans.',
+        'google_maps_api_key' => '',
+        'default_radius_km' => 20,
+    ];
+
+    if (!get_option('cpg_settings')) {
+        add_option('cpg_settings', $defaults);
+    }
+    
+    // Flush rewrite rules
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'cpg_activate');
+
+/**
+ * Désactivation du plugin
+ */
+function cpg_deactivate() {
+    flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'cpg_deactivate');
 
 // Démarrer le plugin
 cpg_init();
