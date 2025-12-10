@@ -28,6 +28,18 @@
     <link rel="manifest" href="<?php echo esc_url(get_template_directory_uri()); ?>/site.webmanifest">
     <meta name="msapplication-config" content="<?php echo esc_url(get_template_directory_uri()); ?>/browserconfig.xml">
     
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQXQ5E0NE3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LQXQ5E0NE3', {
+            'anonymize_ip': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+    </script>
+    
     <?php wp_head(); ?>
 </head>
 
