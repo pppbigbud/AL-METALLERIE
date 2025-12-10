@@ -24,6 +24,7 @@ function cpg_load_files() {
     $files = array(
         'includes/functions-content.php',
         'includes/functions-seo.php',
+        'includes/functions-content-generator.php',
         'includes/functions-realisation-integration.php',
     );
     

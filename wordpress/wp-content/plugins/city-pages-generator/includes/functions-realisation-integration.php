@@ -181,9 +181,16 @@ function cpg_guess_department($city_name) {
 }
 
 /**
- * Générer un contenu simple pour la page ville
+ * Générer un contenu SEO unique pour la page ville
+ * Utilise le générateur avancé si disponible, sinon fallback simple
  */
 function cpg_generate_simple_content($city, $dept) {
+    // Utiliser le générateur SEO avancé si disponible
+    if (function_exists('cpg_generate_seo_content')) {
+        return cpg_generate_seo_content($city, $dept);
+    }
+    
+    // Fallback simple
     $company = 'AL Métallerie & Soudure';
     
     return "<h2>Votre artisan métallier à {$city}</h2>
