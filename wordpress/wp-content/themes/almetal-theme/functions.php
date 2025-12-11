@@ -1769,6 +1769,20 @@ function almetal_ajax_load_desktop_realisations() {
             $html .= '<div class="realisation-content">';
             $html .= '<h3 class="realisation-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
             
+            // Badges de catégories avec icônes
+            if ($terms && !is_wp_error($terms)) {
+                $html .= '<div class="realisation-badges">';
+                foreach (array_slice($terms, 0, 2) as $term) {
+                    $term_link = get_term_link($term);
+                    $term_icon = almetal_get_category_icon($term->slug, 16);
+                    $html .= '<a href="' . esc_url($term_link) . '" class="category-badge">';
+                    $html .= '<span class="category-badge__icon">' . $term_icon . '</span>';
+                    $html .= '<span class="category-badge__text">' . esc_html($term->name) . '</span>';
+                    $html .= '</a>';
+                }
+                $html .= '</div>';
+            }
+            
             if ($date_realisation || $lieu || $duree) {
                 $html .= '<div class="realisation-meta">';
                 if ($date_realisation) {

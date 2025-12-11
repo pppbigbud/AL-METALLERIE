@@ -174,6 +174,21 @@ $has_more = $total_realisations > $per_page;
                                 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                             </h3>
 
+                            <?php 
+                            // Badges de catégories avec icônes
+                            if ($terms && !is_wp_error($terms)) : ?>
+                            <div class="realisation-badges">
+                                <?php foreach (array_slice($terms, 0, 2) as $term) : ?>
+                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="category-badge">
+                                        <span class="category-badge__icon">
+                                            <?php echo almetal_get_category_icon($term->slug, 16); ?>
+                                        </span>
+                                        <span class="category-badge__text"><?php echo esc_html($term->name); ?></span>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                            <?php endif; ?>
+
                             <?php
                             $date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
                             $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
