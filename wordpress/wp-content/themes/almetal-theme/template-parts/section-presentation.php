@@ -52,7 +52,7 @@
 
             <!-- H1 unique pour le SEO - Titre principal de la page -->
             <h1 class="presentation-h1">
-                <?php esc_html_e('Métallier Ferronnier à Thiers', 'almetal'); ?>
+                <?php esc_html_e('Métallier Soudeur à Thiers', 'almetal'); ?>
             </h1>
 
             <!-- Sous-titre -->
@@ -64,7 +64,7 @@
             <!-- Description -->
             <div class="presentation-description">
                 <p>
-                    <?php esc_html_e('AL-Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme), accompagne entreprises et particuliers depuis de nombreuses années. Spécialisés dans la fabrication sur mesure, la rénovation et l\'installation de structures métalliques, nous mettons notre savoir-faire au service de vos projets les plus exigeants. De la conception à la réalisation, notre équipe qualifiée garantit des travaux de qualité supérieure, allégeant coûts et délais. Nous proposons également des formations professionnelles pour transmettre notre expertise. Faites confiance à AL-Metallerie Soudure pour donner vie à vos idées avec créativité et professionnalisme.', 'almetal'); ?>
+                    <?php esc_html_e('AL Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme), accompagne entreprises et particuliers depuis de nombreuses années. Spécialisés dans la fabrication sur mesure, la rénovation et l\'installation de structures métalliques, nous mettons notre savoir-faire au service de vos projets les plus exigeants. De la conception à la réalisation, notre équipe qualifiée garantit des travaux de qualité supérieure, allégeant coûts et délais. Nous proposons également des formations professionnelles pour transmettre notre expertise. Faites confiance à AL-Metallerie Soudure pour donner vie à vos idées avec créativité et professionnalisme.', 'almetal'); ?>
                 </p>
             </div>
 
