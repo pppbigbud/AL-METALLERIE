@@ -161,18 +161,52 @@ class CPG_Settings {
                         </thead>
                         <tbody>
                             <?php
-                            $default_services = [
-                                'portails' => ['name' => 'Portails sur mesure', 'description' => 'Portails coulissants et battants en acier, aluminium ou fer forgé.'],
-                                'garde_corps' => ['name' => 'Garde-corps et rambardes', 'description' => 'Garde-corps intérieurs et extérieurs, rambardes d\'escalier.'],
-                                'escaliers' => ['name' => 'Escaliers métalliques', 'description' => 'Escaliers droits, quart tournant, hélicoïdaux en métal.'],
-                                'grilles' => ['name' => 'Grilles de sécurité', 'description' => 'Grilles de défense, grilles de fenêtre, protection anti-intrusion.'],
-                                'pergolas' => ['name' => 'Pergolas et structures', 'description' => 'Pergolas bioclimatiques, auvents, structures métalliques extérieures.'],
-                                'verrieres' => ['name' => 'Verrières d\'intérieur', 'description' => 'Verrières atelier, cloisons vitrées, séparations design.'],
-                                'ferronnerie' => ['name' => 'Ferronnerie d\'art', 'description' => 'Créations artistiques, pièces décoratives, restauration.'],
-                                'mobilier' => ['name' => 'Mobilier métallique', 'description' => 'Tables, étagères, consoles, mobilier sur mesure en métal.'],
+                            // Recuperer dynamiquement les categories de la taxonomie type_realisation
+                            $type_realisation_terms = get_terms(array(
+                                'taxonomy' => 'type_realisation',
+                                'hide_empty' => false,
+                            ));
+                            
+                            // Descriptions par defaut pour chaque categorie
+                            $default_descriptions = [
+                                'portails' => 'Portails coulissants et battants en acier, aluminium ou fer forge.',
+                                'garde-corps' => 'Garde-corps interieurs et exterieurs, rambardes d\'escalier.',
+                                'escaliers' => 'Escaliers droits, quart tournant, helicoidaux en metal.',
+                                'grilles' => 'Grilles de defense, grilles de fenetre, protection anti-intrusion.',
+                                'pergolas' => 'Pergolas bioclimatiques, auvents, structures metalliques exterieures.',
+                                'verrieres' => 'Verrieres atelier, cloisons vitrees, separations design.',
+                                'ferronnerie-dart' => 'Creations artistiques, pieces decoratives, restauration.',
+                                'mobilier-metallique' => 'Tables, etageres, consoles, mobilier sur mesure en metal.',
+                                'vehicules' => 'Amenagements vehicules, hard-tops, galeries, protections.',
+                                'serrurerie' => 'Serrurerie, blindage de portes, systemes de securite.',
+                                'industrie' => 'Ouvrages industriels, structures metalliques, equipements.',
+                                'autres' => 'Autres realisations metalliques sur mesure.',
                             ];
+                            
+                            // Construire la liste des services depuis la taxonomie
+                            $default_services = [];
+                            if (!empty($type_realisation_terms) && !is_wp_error($type_realisation_terms)) {
+                                foreach ($type_realisation_terms as $term) {
+                                    $slug = $term->slug;
+                                    $default_services[$slug] = [
+                                        'name' => $term->name,
+                                        'description' => isset($default_descriptions[$slug]) ? $default_descriptions[$slug] : 'Fabrication sur mesure de ' . strtolower($term->name) . '.',
+                                        'term_id' => $term->term_id,
+                                    ];
+                                }
+                            }
+                            
+                            // Fallback si pas de termes
+                            if (empty($default_services)) {
+                                $default_services = [
+                                    'portails' => ['name' => 'Portails sur mesure', 'description' => 'Portails coulissants et battants en acier, aluminium ou fer forge.'],
+                                    'garde-corps' => ['name' => 'Garde-corps', 'description' => 'Garde-corps interieurs et exterieurs, rambardes d\'escalier.'],
+                                    'escaliers' => ['name' => 'Escaliers metalliques', 'description' => 'Escaliers droits, quart tournant, helicoidaux en metal.'],
+                                    'ferronnerie-dart' => ['name' => 'Ferronnerie d\'art', 'description' => 'Creations artistiques, pieces decoratives, restauration.'],
+                                ];
+                            }
 
-                            $services = isset($settings['services']) ? $settings['services'] : $default_services;
+                            $services = isset($settings['services']) ? $settings['services'] : [];
 
                             foreach ($default_services as $key => $default) :
                                 $service = isset($services[$key]) ? $services[$key] : $default;

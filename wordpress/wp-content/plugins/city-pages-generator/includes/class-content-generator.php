@@ -150,56 +150,81 @@ class CPG_Content_Generator {
 
     /**
      * Descriptions de services avec variations
+     * Utilise les slugs de la taxonomie type_realisation
      */
     private function get_service_descriptions() {
         return [
             'portails' => [
-                1 => 'Fabrication et pose de portails sur mesure à %s. Portails coulissants, battants, motorisés. Acier, aluminium ou fer forgé selon vos envies.',
-                2 => 'Votre portail sur mesure à %s : coulissant ou battant, nous créons le portail qui s\'intègre parfaitement à votre propriété.',
-                3 => 'Spécialiste du portail métallique à %s. Conception personnalisée, fabrication artisanale et pose professionnelle incluse.',
-                4 => 'Portails d\'entrée sur mesure pour les habitants de %s. Large choix de styles et finitions, motorisation possible.',
+                1 => 'Fabrication et pose de portails sur mesure a %s. Portails coulissants, battants, motorises. Acier, aluminium ou fer forge selon vos envies.',
+                2 => 'Votre portail sur mesure a %s : coulissant ou battant, nous creons le portail qui s\'integre parfaitement a votre propriete.',
+                3 => 'Specialiste du portail metallique a %s. Conception personnalisee, fabrication artisanale et pose professionnelle incluse.',
+                4 => 'Portails d\'entree sur mesure pour les habitants de %s. Large choix de styles et finitions, motorisation possible.',
             ],
-            'garde_corps' => [
-                1 => 'Garde-corps et rambardes sur mesure à %s. Sécurisez vos escaliers, balcons et terrasses avec style.',
-                2 => 'Installation de garde-corps à %s : intérieurs ou extérieurs, nous concevons des rambardes alliant sécurité et esthétique.',
-                3 => 'Garde-corps métalliques pour %s et environs. Designs contemporains ou classiques, conformes aux normes de sécurité.',
-                4 => 'Rambardes et garde-corps personnalisés à %s. Acier, inox ou fer forgé, avec ou sans verre.',
+            'garde-corps' => [
+                1 => 'Garde-corps et rambardes sur mesure a %s. Securisez vos escaliers, balcons et terrasses avec style.',
+                2 => 'Installation de garde-corps a %s : interieurs ou exterieurs, nous concevons des rambardes alliant securite et esthetique.',
+                3 => 'Garde-corps metalliques pour %s et environs. Designs contemporains ou classiques, conformes aux normes de securite.',
+                4 => 'Rambardes et garde-corps personnalises a %s. Acier, inox ou fer forge, avec ou sans verre.',
             ],
             'escaliers' => [
-                1 => 'Escaliers métalliques sur mesure à %s. Droits, quart tournant ou hélicoïdaux, nous réalisons l\'escalier de vos rêves.',
-                2 => 'Création d\'escaliers en métal à %s. Structure acier avec marches bois, verre ou métal selon vos préférences.',
-                3 => 'Votre escalier sur mesure à %s : design industriel, contemporain ou classique. Fabrication et pose par nos soins.',
-                4 => 'Escaliers intérieurs et extérieurs à %s. Conception 3D, fabrication artisanale, installation professionnelle.',
+                1 => 'Escaliers metalliques sur mesure a %s. Droits, quart tournant ou helicoidaux, nous realisons l\'escalier de vos reves.',
+                2 => 'Creation d\'escaliers en metal a %s. Structure acier avec marches bois, verre ou metal selon vos preferences.',
+                3 => 'Votre escalier sur mesure a %s : design industriel, contemporain ou classique. Fabrication et pose par nos soins.',
+                4 => 'Escaliers interieurs et exterieurs a %s. Conception 3D, fabrication artisanale, installation professionnelle.',
             ],
             'grilles' => [
-                1 => 'Grilles de sécurité et de défense à %s. Protégez efficacement vos fenêtres et ouvertures.',
-                2 => 'Installation de grilles de protection à %s. Solutions anti-intrusion esthétiques et robustes.',
-                3 => 'Grilles de fenêtre sur mesure pour %s. Sécurité renforcée sans compromettre l\'esthétique de votre façade.',
-                4 => 'Sécurisez votre habitation à %s avec nos grilles de défense sur mesure. Devis gratuit.',
+                1 => 'Grilles de securite et de defense a %s. Protegez efficacement vos fenetres et ouvertures.',
+                2 => 'Installation de grilles de protection a %s. Solutions anti-intrusion esthetiques et robustes.',
+                3 => 'Grilles de fenetre sur mesure pour %s. Securite renforcee sans compromettre l\'esthetique de votre facade.',
+                4 => 'Securisez votre habitation a %s avec nos grilles de defense sur mesure. Devis gratuit.',
             ],
             'pergolas' => [
-                1 => 'Pergolas et structures métalliques à %s. Créez un espace extérieur agréable et protégé.',
-                2 => 'Pergola sur mesure à %s : bioclimatique, adossée ou autoportée. Profitez de votre terrasse toute l\'année.',
-                3 => 'Aménagez votre extérieur à %s avec une pergola métallique design. Fabrication et pose incluses.',
-                4 => 'Pergolas, auvents et carports à %s. Structures robustes et élégantes pour votre jardin.',
+                1 => 'Pergolas et structures metalliques a %s. Creez un espace exterieur agreable et protege.',
+                2 => 'Pergola sur mesure a %s : bioclimatique, adossee ou autoportee. Profitez de votre terrasse toute l\'annee.',
+                3 => 'Amenagez votre exterieur a %s avec une pergola metallique design. Fabrication et pose incluses.',
+                4 => 'Pergolas, auvents et carports a %s. Structures robustes et elegantes pour votre jardin.',
             ],
             'verrieres' => [
-                1 => 'Verrières d\'intérieur style atelier à %s. Apportez lumière et caractère à votre intérieur.',
-                2 => 'Création de verrières sur mesure à %s. Cloisons vitrées, séparations design, style industriel.',
-                3 => 'Verrière atelier pour votre maison à %s. Fabrication artisanale, pose soignée.',
-                4 => 'Transformez votre intérieur à %s avec une verrière sur mesure. Devis gratuit.',
+                1 => 'Verrieres d\'interieur style atelier a %s. Apportez lumiere et caractere a votre interieur.',
+                2 => 'Creation de verrieres sur mesure a %s. Cloisons vitrees, separations design, style industriel.',
+                3 => 'Verriere atelier pour votre maison a %s. Fabrication artisanale, pose soignee.',
+                4 => 'Transformez votre interieur a %s avec une verriere sur mesure. Devis gratuit.',
             ],
-            'ferronnerie' => [
-                1 => 'Ferronnerie d\'art à %s. Créations uniques, pièces décoratives, restauration de ferronnerie ancienne.',
-                2 => 'Artisan ferronnier à %s : portillons, grilles décoratives, éléments de décoration sur mesure.',
-                3 => 'Ferronnerie traditionnelle et contemporaine à %s. Savoir-faire artisanal pour des pièces uniques.',
-                4 => 'Créations en fer forgé à %s. Mobilier, décoration, restauration. L\'art du métal au service de vos envies.',
+            'ferronnerie-dart' => [
+                1 => 'Ferronnerie d\'art a %s. Creations uniques, pieces decoratives, restauration de ferronnerie ancienne.',
+                2 => 'Artisan ferronnier a %s : portillons, grilles decoratives, elements de decoration sur mesure.',
+                3 => 'Ferronnerie traditionnelle et contemporaine a %s. Savoir-faire artisanal pour des pieces uniques.',
+                4 => 'Creations en fer forge a %s. Mobilier, decoration, restauration. L\'art du metal au service de vos envies.',
             ],
-            'mobilier' => [
-                1 => 'Mobilier métallique sur mesure à %s. Tables, étagères, consoles, créations personnalisées.',
-                2 => 'Création de mobilier en métal à %s. Design industriel ou contemporain, pièces uniques.',
-                3 => 'Mobilier sur mesure pour %s : tables, bibliothèques, rangements. Métal et bois, métal et verre.',
-                4 => 'Votre mobilier personnalisé à %s. Nous créons les meubles qui correspondent à votre intérieur.',
+            'mobilier-metallique' => [
+                1 => 'Mobilier metallique sur mesure a %s. Tables, etageres, consoles, creations personnalisees.',
+                2 => 'Creation de mobilier en metal a %s. Design industriel ou contemporain, pieces uniques.',
+                3 => 'Mobilier sur mesure pour %s : tables, bibliotheques, rangements. Metal et bois, metal et verre.',
+                4 => 'Votre mobilier personnalise a %s. Nous creons les meubles qui correspondent a votre interieur.',
+            ],
+            'vehicules' => [
+                1 => 'Amenagements vehicules a %s. Hard-tops, galeries de toit, protections de benne pour pick-up et utilitaires.',
+                2 => 'Equipements metalliques pour vehicules a %s. Racks, protections, amenagements sur mesure.',
+                3 => 'Specialiste amenagement vehicule a %s. Solutions robustes pour professionnels et particuliers.',
+                4 => 'Accessoires metalliques pour votre vehicule a %s. Fabrication sur mesure, qualite professionnelle.',
+            ],
+            'serrurerie' => [
+                1 => 'Serrurerie metallique a %s. Blindage de portes, grilles de securite, systemes de fermeture.',
+                2 => 'Services de serrurerie a %s. Protection de vos acces, portes blindees, serrures haute securite.',
+                3 => 'Serrurerie et securite a %s. Solutions sur mesure pour proteger votre habitation ou local.',
+                4 => 'Artisan serrurier metallier a %s. Portes, grilles, systemes de securite personnalises.',
+            ],
+            'industrie' => [
+                1 => 'Ouvrages metalliques industriels a %s. Structures, equipements, pieces techniques sur mesure.',
+                2 => 'Metallerie industrielle a %s. Fabrication de pieces, structures et equipements pour professionnels.',
+                3 => 'Solutions metalliques pour l\'industrie a %s. Conception et realisation sur cahier des charges.',
+                4 => 'Metallerie professionnelle a %s. Equipements industriels, structures metalliques, maintenance.',
+            ],
+            'autres' => [
+                1 => 'Realisations metalliques diverses a %s. Projets sur mesure, pieces uniques, creations personnalisees.',
+                2 => 'Metallerie sur mesure a %s. Tous types de projets, du plus simple au plus complexe.',
+                3 => 'Creations metalliques a %s. Nous realisons vos projets les plus originaux.',
+                4 => 'Projets metalliques personnalises a %s. Contactez-nous pour etudier votre demande.',
             ],
         ];
     }

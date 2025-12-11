@@ -181,47 +181,60 @@ function cpg_generate_intro_section($city, $dept, $company, $variation, $city_da
 }
 
 /**
- * Section Services - 4 variations de présentation
+ * Section Services - 4 variations de presentation
+ * Recupere dynamiquement les categories de la taxonomie type_realisation
  */
 function cpg_generate_services_section($city, $variation) {
-    $services_data = array(
-        array(
-            'title' => 'Portails sur mesure',
-            'desc' => 'Portails battants ou coulissants, motorisés ou manuels. Acier, fer forgé ou aluminium selon vos préférences.',
-            'keywords' => 'portail sur mesure, portail coulissant, portail battant',
-        ),
-        array(
-            'title' => 'Garde-corps et rambardes',
-            'desc' => 'Sécurisation de vos escaliers, balcons et terrasses. Design moderne ou classique, conformes aux normes.',
-            'keywords' => 'garde-corps, rambarde, balustrade',
-        ),
-        array(
-            'title' => 'Escaliers métalliques',
-            'desc' => 'Escaliers droits, quart tournant ou hélicoïdaux. Structure acier avec marches métal, bois ou verre.',
-            'keywords' => 'escalier métallique, escalier acier, escalier design',
-        ),
-        array(
-            'title' => 'Pergolas et auvents',
-            'desc' => 'Structures extérieures pour profiter de votre jardin. Pergolas bioclimatiques ou traditionnelles.',
-            'keywords' => 'pergola, auvent, abri terrasse',
-        ),
-        array(
-            'title' => 'Verrières d\'intérieur',
-            'desc' => 'Verrières style atelier pour séparer vos espaces tout en conservant la luminosité.',
-            'keywords' => 'verrière, verrière atelier, cloison vitrée',
-        ),
-        array(
-            'title' => 'Ferronnerie d\'art',
-            'desc' => 'Créations décoratives uniques : grilles, luminaires, mobilier d\'art, pièces sur commande.',
-            'keywords' => 'ferronnerie art, fer forgé, création artistique',
-        ),
+    // Recuperer les categories depuis la taxonomie type_realisation
+    $terms = get_terms(array(
+        'taxonomy' => 'type_realisation',
+        'hide_empty' => false,
+    ));
+    
+    // Descriptions par defaut pour chaque categorie
+    $default_descriptions = array(
+        'portails' => 'Portails battants ou coulissants, motorises ou manuels. Acier, fer forge ou aluminium.',
+        'garde-corps' => 'Securisation de vos escaliers, balcons et terrasses. Design moderne ou classique.',
+        'escaliers' => 'Escaliers droits, quart tournant ou helicoidaux. Structure acier avec marches metal, bois ou verre.',
+        'pergolas' => 'Structures exterieures pour profiter de votre jardin. Pergolas bioclimatiques ou traditionnelles.',
+        'grilles' => 'Grilles de defense et de securite pour fenetres et ouvertures. Protection anti-intrusion.',
+        'ferronnerie-dart' => 'Creations decoratives uniques : grilles, luminaires, mobilier d\'art, pieces sur commande.',
+        'mobilier-metallique' => 'Tables, etageres, consoles et mobilier sur mesure en metal. Design industriel ou contemporain.',
+        'vehicules' => 'Amenagements vehicules : hard-tops, galeries de toit, protections de benne.',
+        'serrurerie' => 'Serrurerie metallique, blindage de portes, systemes de securite.',
+        'industrie' => 'Ouvrages metalliques industriels, structures et equipements pour professionnels.',
+        'autres' => 'Realisations metalliques diverses et projets sur mesure.',
     );
     
+    // Construire la liste des services
+    $services_data = array();
+    if (!empty($terms) && !is_wp_error($terms)) {
+        foreach ($terms as $term) {
+            $slug = $term->slug;
+            $services_data[] = array(
+                'title' => $term->name,
+                'desc' => isset($default_descriptions[$slug]) ? $default_descriptions[$slug] : 'Fabrication sur mesure de ' . strtolower($term->name) . '.',
+                'slug' => $slug,
+                'link' => get_term_link($term),
+            );
+        }
+    }
+    
+    // Fallback si pas de termes
+    if (empty($services_data)) {
+        $services_data = array(
+            array('title' => 'Portails sur mesure', 'desc' => 'Portails battants ou coulissants, motorises ou manuels.'),
+            array('title' => 'Garde-corps', 'desc' => 'Securisation de vos escaliers, balcons et terrasses.'),
+            array('title' => 'Escaliers metalliques', 'desc' => 'Escaliers droits, quart tournant ou helicoidaux.'),
+            array('title' => 'Ferronnerie d\'art', 'desc' => 'Creations decoratives uniques.'),
+        );
+    }
+    
     $titles = array(
-        "Nos prestations de métallerie à {$city}",
-        "Services de métallerie disponibles à {$city}",
-        "Ce que nous réalisons à {$city}",
-        "Métallerie à {$city} : nos spécialités",
+        "Nos prestations de metallerie a {$city}",
+        "Services de metallerie disponibles a {$city}",
+        "Ce que nous realisons a {$city}",
+        "Metallerie a {$city} : nos specialites",
     );
     
     $content = "<h2>{$titles[$variation]}</h2>\n";
@@ -231,18 +244,22 @@ function cpg_generate_services_section($city, $variation) {
     shuffle($order);
     
     if ($variation % 2 == 0) {
-        // Présentation en liste
+        // Presentation en liste
         $content .= "<ul class=\"services-list\">\n";
         foreach ($order as $i) {
             $s = $services_data[$i];
-            $content .= "<li><strong>{$s['title']}</strong> : {$s['desc']}</li>\n";
+            $link_start = isset($s['link']) && !is_wp_error($s['link']) ? '<a href="' . esc_url($s['link']) . '">' : '';
+            $link_end = isset($s['link']) && !is_wp_error($s['link']) ? '</a>' : '';
+            $content .= "<li>{$link_start}<strong>{$s['title']}</strong>{$link_end} : {$s['desc']}</li>\n";
         }
         $content .= "</ul>\n";
     } else {
-        // Présentation en paragraphes
+        // Presentation en paragraphes
         foreach ($order as $i) {
             $s = $services_data[$i];
-            $content .= "<h3>{$s['title']}</h3>\n<p>{$s['desc']}</p>\n";
+            $link_start = isset($s['link']) && !is_wp_error($s['link']) ? '<a href="' . esc_url($s['link']) . '">' : '';
+            $link_end = isset($s['link']) && !is_wp_error($s['link']) ? '</a>' : '';
+            $content .= "<h3>{$link_start}{$s['title']}{$link_end}</h3>\n<p>{$s['desc']}</p>\n";
         }
     }
     
