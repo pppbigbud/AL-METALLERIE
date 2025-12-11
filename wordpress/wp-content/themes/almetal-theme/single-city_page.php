@@ -6,6 +6,27 @@
 
 get_header();
 
+// Détection mobile - Charger le header mobile si nécessaire
+if (almetal_is_mobile()) {
+    // Récupérer les données de la page ville
+    $city_name = get_post_meta(get_the_ID(), '_cpg_city_name', true) ?: get_the_title();
+    $city_display = str_replace('Métallier Ferronnier à ', '', get_the_title());
+    if (empty($city_display)) {
+        $city_display = $city_name;
+    }
+    ?>
+    <!-- Header Mobile avec menu burger -->
+    <?php get_template_part('template-parts/header', 'mobile'); ?>
+    
+    <main class="mobile-page-city">
+        <?php get_template_part('template-parts/single-city_page', 'mobile'); ?>
+    </main>
+    
+    <?php
+    get_footer();
+    return;
+}
+
 // Récupérer les données de la page ville
 $city_name = get_post_meta(get_the_ID(), '_cpg_city_name', true) ?: get_the_title();
 $department = get_post_meta(get_the_ID(), '_cpg_department', true) ?: 'Puy-de-Dôme';
