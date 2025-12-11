@@ -1275,6 +1275,18 @@ body {
     flex-shrink: 0;
 }
 
+/* Lien lieu cliquable */
+.mobile-realisation-meta a.meta-lieu-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mobile-realisation-meta a.meta-lieu-link:hover,
+.mobile-realisation-meta a.meta-lieu-link:active {
+    color: #F08B18;
+}
+
 /* Bouton Voir le projet */
 .mobile-btn-view-project {
     display: inline-flex;

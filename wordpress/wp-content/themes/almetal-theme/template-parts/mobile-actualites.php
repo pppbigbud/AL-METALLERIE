@@ -41,9 +41,9 @@ $realisations_query = new WP_Query(array(
                         <?php if ($terms && !is_wp_error($terms)) : ?>
                             <div class="mobile-actualite-badges">
                                 <?php foreach (array_slice($terms, 0, 2) as $term) : ?>
-                                    <span class="mobile-actualite-badge">
+                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="mobile-actualite-badge" title="<?php printf(__('Voir toutes les %s', 'almetal'), esc_attr($term->name)); ?>">
                                         <?php echo esc_html($term->name); ?>
-                                    </span>
+                                    </a>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>

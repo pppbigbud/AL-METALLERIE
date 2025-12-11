@@ -68,11 +68,13 @@ $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : 
 <article class="mobile-single-realisation">
     <div class="mobile-single-container">
         
-        <!-- Tag -->
+        <!-- Tag (cliquable vers la page categorie) -->
         <?php if ($types && !is_wp_error($types)) : ?>
             <div class="mobile-single-tags scroll-zoom">
                 <?php foreach ($types as $type) : ?>
-                    <span class="mobile-single-tag"><?php echo esc_html($type->name); ?></span>
+                    <a href="<?php echo esc_url(get_term_link($type)); ?>" class="mobile-single-tag" title="<?php printf(__('Voir toutes les %s', 'almetal'), esc_attr($type->name)); ?>">
+                        <?php echo esc_html($type->name); ?>
+                    </a>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
