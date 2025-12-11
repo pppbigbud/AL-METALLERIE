@@ -67,30 +67,27 @@ function almetal_format_features($features_text) {
     <!-- Hero Carousel MOBILE (Swiper) - Contenu dynamique -->
     <div class="mobile-hero-swiper swiper">
         <div class="swiper-wrapper">
-            <?php foreach ($active_slides as $index => $slide) : 
+            <?php 
+            $slide_index = 0;
+            foreach ($active_slides as $slide) : 
                 $is_promo = isset($slide['is_promo']) && $slide['is_promo'];
                 $slide_class = $is_promo ? 'mobile-hero-slide slide-promo' : 'mobile-hero-slide';
-                $is_first_slide = ($index === 0);
-                // Utiliser l'image optimisée si disponible
+                $is_first_slide = ($slide_index === 0);
+                // Utiliser l'image optimisee si disponible
                 $image_url = function_exists('almetal_get_optimized_image') 
-                    ? almetal_get_optimized_image($slide['image'], 'slideshow', $index)
+                    ? almetal_get_optimized_image($slide['image'], 'slideshow', $slide_index)
                     : $slide['image'];
             ?>
-                <!-- Slide <?php echo ($index + 1); ?> -->
+                <!-- Slide <?php echo ($slide_index + 1); ?> -->
                 <div class="swiper-slide <?php echo $slide_class; ?>">
-                    <?php if ($is_first_slide) : ?>
-                        <!-- Première slide: IMG tag pour LCP optimal -->
-                        <img src="<?php echo esc_url($image_url); ?>" 
-                             alt="<?php echo esc_attr($slide['title'] ?? 'AL Métallerie'); ?>"
-                             class="mobile-hero-image-img"
-                             width="480"
-                             height="640"
-                             fetchpriority="high"
-                             decoding="async">
-                    <?php else : ?>
-                        <!-- Autres slides: background-image avec lazy loading -->
-                        <div class="mobile-hero-image" style="background-image: url('<?php echo esc_url($slide['image']); ?>');"></div>
-                    <?php endif; ?>
+                    <!-- Toutes les slides utilisent IMG pour un meilleur LCP -->
+                    <img src="<?php echo esc_url($image_url); ?>" 
+                         alt="<?php echo esc_attr($slide['title'] ?? 'AL Metallerie'); ?>"
+                         class="mobile-hero-image-img"
+                         width="480"
+                         height="640"
+                         <?php if ($is_first_slide) : ?>fetchpriority="high"<?php else : ?>loading="lazy"<?php endif; ?>
+                         decoding="async">
                     <div class="mobile-hero-overlay<?php echo $is_promo ? ' promo-overlay' : ''; ?>"></div>
                     
                     <?php if ($is_promo) : ?>
@@ -149,7 +146,9 @@ function almetal_format_features($features_text) {
                         <?php endif; ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php 
+            $slide_index++;
+            endforeach; ?>
         </div>
         
         <!-- Pagination -->
