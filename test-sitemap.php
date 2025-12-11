@@ -4,8 +4,14 @@
  * Accédez à : https://www.al-metallerie.fr/test-sitemap.php
  */
 
-// Charger WordPress
-require_once dirname(__FILE__) . '/wp-load.php';
+// Charger WordPress - essayer plusieurs chemins possibles
+if (file_exists(dirname(__FILE__) . '/wp-load.php')) {
+    require_once dirname(__FILE__) . '/wp-load.php';
+} elseif (file_exists(dirname(__FILE__) . '/wordpress/wp-load.php')) {
+    require_once dirname(__FILE__) . '/wordpress/wp-load.php';
+} else {
+    die('Impossible de trouver wp-load.php');
+}
 
 // Activer l'affichage des erreurs pour le debug
 error_reporting(E_ALL);
