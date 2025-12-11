@@ -177,7 +177,7 @@ function almetal_sitemap_url($loc, $lastmod, $changefreq, $priority, $image_url 
 }
 
 /**
- * Servir le sitemap dynamique - Méthode très précoce via init
+ * Servir le sitemap dynamique via wp_loaded (apres chargement complet des rewrite rules)
  */
 function almetal_serve_sitemap_init() {
     $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
@@ -186,20 +186,28 @@ function almetal_serve_sitemap_init() {
     $clean_uri = strtok($request_uri, '?');
     $clean_uri = rtrim($clean_uri, '/');
     
-    // Détecter sitemap.xml
+    // Detecter sitemap.xml
     if ($clean_uri === '/sitemap.xml' || basename($clean_uri) === 'sitemap.xml') {
-        // Empêcher WordPress de continuer
+        // Forcer le chargement des rewrite rules
+        global $wp_rewrite;
+        if ($wp_rewrite) {
+            $wp_rewrite->flush_rules(false);
+        }
+        
+        // Empecher WordPress de continuer
         status_header(200);
         header('Content-Type: application/xml; charset=utf-8');
         header('X-Robots-Tag: noindex, follow');
-        header('Cache-Control: max-age=3600');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
         
         echo almetal_generate_sitemap();
         exit;
     }
 }
-// Exécuter très tôt dans init
-add_action('init', 'almetal_serve_sitemap_init', 1);
+// Executer apres le chargement complet de WordPress (rewrite rules chargees)
+add_action('wp_loaded', 'almetal_serve_sitemap_init', 1);
 
 /**
  * Servir le sitemap dynamique - Méthode directe (sans rewrite rules)
