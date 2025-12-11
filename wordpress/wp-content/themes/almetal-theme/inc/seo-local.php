@@ -113,7 +113,8 @@ function almetal_seo_meta_head() {
     // Taxonomie type de réalisation (adapté dynamiquement)
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
-        $description = ucfirst($term->name) . ' sur mesure à Thiers (63) par AL Métallerie & Soudure. Fabrication artisanale, fer forgé et métal. Devis gratuit !';
+        $count = $term->count;
+        $description = ucfirst($term->name) . ' sur mesure à Thiers (63) par AL Métallerie & Soudure. ' . $count . ' réalisations. Fabrication artisanale, devis gratuit ☎ 06 73 33 35 32';
     }
     
     // Single réalisation - géré par almetal_seo_meta_tags() dans functions.php
@@ -404,6 +405,167 @@ function almetal_schema_service() {
     echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
 }
 add_action('wp_head', 'almetal_schema_service', 7);
+
+/**
+ * Schema ItemList pour les pages de taxonomie (liste des realisations)
+ * Ameliore le SEO en montrant a Google la structure des realisations
+ */
+function almetal_schema_itemlist_taxonomy() {
+    if (!is_tax('type_realisation')) {
+        return;
+    }
+    
+    $term = get_queried_object();
+    
+    // Recuperer les realisations de cette categorie
+    $realisations = new WP_Query(array(
+        'post_type' => 'realisation',
+        'posts_per_page' => 10,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'type_realisation',
+                'field' => 'term_id',
+                'terms' => $term->term_id,
+            ),
+        ),
+    ));
+    
+    if (!$realisations->have_posts()) {
+        return;
+    }
+    
+    $items = array();
+    $position = 1;
+    
+    while ($realisations->have_posts()) {
+        $realisations->the_post();
+        $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+        
+        $items[] = array(
+            '@type' => 'ListItem',
+            'position' => $position,
+            'item' => array(
+                '@type' => 'CreativeWork',
+                'name' => get_the_title(),
+                'url' => get_permalink(),
+                'image' => get_the_post_thumbnail_url(get_the_ID(), 'large'),
+                'description' => wp_trim_words(get_the_excerpt(), 20),
+                'author' => array(
+                    '@type' => 'Organization',
+                    'name' => 'AL Metallerie & Soudure'
+                ),
+                'locationCreated' => $lieu ? array(
+                    '@type' => 'Place',
+                    'name' => $lieu,
+                    'address' => array(
+                        '@type' => 'PostalAddress',
+                        'addressRegion' => 'Puy-de-Dome',
+                        'addressCountry' => 'FR'
+                    )
+                ) : null
+            )
+        );
+        $position++;
+    }
+    wp_reset_postdata();
+    
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'name' => ucfirst($term->name) . ' - Realisations AL Metallerie',
+        'description' => 'Decouvrez nos ' . strtolower($term->name) . ' sur mesure realises par AL Metallerie & Soudure a Thiers (63)',
+        'numberOfItems' => $term->count,
+        'itemListElement' => $items
+    );
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'almetal_schema_itemlist_taxonomy', 8);
+
+/**
+ * Schema FAQPage pour les pages de taxonomie
+ * Genere automatiquement des FAQ pertinentes pour chaque categorie
+ */
+function almetal_schema_faq_taxonomy() {
+    if (!is_tax('type_realisation')) {
+        return;
+    }
+    
+    $term = get_queried_object();
+    $term_name = $term->name;
+    $term_name_lower = strtolower($term_name);
+    
+    // FAQ generiques adaptees a chaque categorie
+    $faqs = array(
+        array(
+            'question' => 'Quel est le prix d\'un ' . $term_name_lower . ' sur mesure ?',
+            'answer' => 'Le prix d\'un ' . $term_name_lower . ' sur mesure depend de plusieurs facteurs : dimensions, materiaux (acier, inox, aluminium), finitions et complexite du design. Chez AL Metallerie & Soudure, nous etablissons un devis gratuit et personnalise apres etude de votre projet. Contactez-nous au 06 73 33 35 32 pour obtenir une estimation.'
+        ),
+        array(
+            'question' => 'Quel est le delai de fabrication pour un ' . $term_name_lower . ' ?',
+            'answer' => 'Le delai de fabrication varie selon la complexite du projet. En general, comptez 2 a 4 semaines pour un ' . $term_name_lower . ' standard, et jusqu\'a 6 semaines pour des realisations plus elaborees. Nous vous communiquons un planning precis lors de la validation du devis.'
+        ),
+        array(
+            'question' => 'Intervenez-vous pour la pose des ' . $term_name_lower . ' ?',
+            'answer' => 'Oui, AL Metallerie & Soudure assure la fabrication ET la pose de tous nos ouvrages. Nous intervenons dans tout le Puy-de-Dome (63) et les departements limitrophes : Clermont-Ferrand, Thiers, Riom, Issoire, Ambert et leurs environs.'
+        ),
+        array(
+            'question' => 'Quels materiaux utilisez-vous pour les ' . $term_name_lower . ' ?',
+            'answer' => 'Nous travaillons principalement l\'acier (brut, galvanise ou thermolaque), l\'inox (304 ou 316 pour l\'exterieur) et l\'aluminium. Le choix du materiau depend de l\'usage, de l\'esthetique souhaitee et du budget. Nous vous conseillons sur la meilleure option pour votre projet.'
+        ),
+        array(
+            'question' => 'Proposez-vous une garantie sur vos ' . $term_name_lower . ' ?',
+            'answer' => 'Tous nos ouvrages beneficient d\'une garantie decennale pour les elements structurels et d\'une garantie de 2 ans sur les finitions. Nous utilisons des materiaux de qualite professionnelle et des techniques de soudure certifiees pour assurer la durabilite de nos realisations.'
+        )
+    );
+    
+    $faq_items = array();
+    foreach ($faqs as $faq) {
+        $faq_items[] = array(
+            '@type' => 'Question',
+            'name' => $faq['question'],
+            'acceptedAnswer' => array(
+                '@type' => 'Answer',
+                'text' => $faq['answer']
+            )
+        );
+    }
+    
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => $faq_items
+    );
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'almetal_schema_faq_taxonomy', 9);
+
+/**
+ * Generer du contenu SEO dynamique pour les nouvelles categories
+ * Utilise quand une categorie n'a pas de contenu predefini
+ */
+function almetal_get_dynamic_seo_content($term_slug, $term_name) {
+    // Contenus predefinis
+    $predefined = array(
+        'portails', 'garde-corps', 'escaliers', 'ferronnerie-dart', 
+        'grilles', 'serrurerie', 'mobilier-metallique', 'vehicules', 'autres'
+    );
+    
+    // Si la categorie a un contenu predefini, retourner null
+    if (in_array($term_slug, $predefined)) {
+        return null;
+    }
+    
+    // Generer du contenu dynamique pour les nouvelles categories
+    $term_name_lower = strtolower($term_name);
+    
+    return array(
+        'intro' => 'Specialiste de la fabrication de ' . $term_name_lower . ' sur mesure dans le Puy-de-Dome, AL Metallerie & Soudure concoit des ouvrages adaptes a vos besoins et a votre environnement.',
+        'details' => 'Nos ' . $term_name_lower . ' sont fabriques dans notre atelier a Peschadoires, pres de Thiers. Nous utilisons des materiaux de qualite (acier, inox, aluminium) et des techniques de soudure professionnelles (MIG, TIG, ARC) pour garantir la solidite et la durabilite de chaque realisation. Chaque projet est etudie sur place pour une adaptation parfaite. Intervention dans tout le Puy-de-Dome : Thiers, Clermont-Ferrand, Riom, Issoire et leurs environs.',
+        'cta' => 'Demandez votre devis gratuit pour vos ' . $term_name_lower . ' sur mesure.'
+    );
+}
 
 /**
  * Schema BreadcrumbList pour le fil d'Ariane

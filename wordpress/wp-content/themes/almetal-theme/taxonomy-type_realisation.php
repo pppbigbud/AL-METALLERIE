@@ -28,7 +28,9 @@ $category_icons = array(
     'autres' => '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
 );
 
-$current_icon = isset($category_icons[$current_term->slug]) ? $category_icons[$current_term->slug] : $category_icons['autres'];
+// Icone par defaut pour les nouvelles categories
+$default_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+$current_icon = isset($category_icons[$current_term->slug]) ? $category_icons[$current_term->slug] : $default_icon;
 
 // Contenus SEO par catégorie (150-200 mots pour améliorer le ratio texte)
 $seo_contents = array(
@@ -79,7 +81,16 @@ $seo_contents = array(
     ),
 );
 
-$current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$current_term->slug] : $seo_contents['autres'];
+// Utiliser le contenu predefini ou generer dynamiquement
+if (isset($seo_contents[$current_term->slug])) {
+    $current_seo = $seo_contents[$current_term->slug];
+} else {
+    // Generer du contenu dynamique pour les nouvelles categories
+    $dynamic_seo = function_exists('almetal_get_dynamic_seo_content') 
+        ? almetal_get_dynamic_seo_content($current_term->slug, $current_term->name) 
+        : null;
+    $current_seo = $dynamic_seo ? $dynamic_seo : $seo_contents['autres'];
+}
 ?>
 
 <div class="archive-page taxonomy-type-realisation">
@@ -243,7 +254,104 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             </div>
         </div>
     </div>
+    
+    <!-- Section FAQ SEO -->
+    <div class="taxonomy-faq-section">
+        <div class="container">
+            <h2 class="faq-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Questions frequentes sur nos <?php echo esc_html(strtolower($current_term->name)); ?>
+            </h2>
+            
+            <?php
+            $term_name_lower = strtolower($current_term->name);
+            $faqs = array(
+                array(
+                    'question' => 'Quel est le prix d\'un ' . $term_name_lower . ' sur mesure ?',
+                    'answer' => 'Le prix depend des dimensions, materiaux et finitions. Nous etablissons un <strong>devis gratuit et personnalise</strong> apres etude de votre projet. Contactez-nous au <a href="tel:+33673333532">06 73 33 35 32</a>.'
+                ),
+                array(
+                    'question' => 'Quel est le delai de fabrication ?',
+                    'answer' => 'Comptez <strong>2 a 4 semaines</strong> pour un ' . $term_name_lower . ' standard, jusqu\'a 6 semaines pour des realisations complexes. Planning precis fourni a la validation du devis.'
+                ),
+                array(
+                    'question' => 'Assurez-vous la pose ?',
+                    'answer' => 'Oui, nous assurons la <strong>fabrication ET la pose</strong> dans tout le Puy-de-Dome (63) : Thiers, Clermont-Ferrand, Riom, Issoire et environs.'
+                ),
+                array(
+                    'question' => 'Quels materiaux utilisez-vous ?',
+                    'answer' => 'Nous travaillons l\'<strong>acier</strong> (brut, galvanise, thermolaque), l\'<strong>inox</strong> (304/316) et l\'<strong>aluminium</strong>. Conseil personnalise selon votre projet.'
+                ),
+                array(
+                    'question' => 'Quelle garantie proposez-vous ?',
+                    'answer' => '<strong>Garantie decennale</strong> sur les elements structurels et 2 ans sur les finitions. Materiaux professionnels et soudure certifiee.'
+                )
+            );
+            ?>
+            
+            <div class="faq-accordion">
+                <?php foreach ($faqs as $index => $faq) : ?>
+                <div class="faq-item<?php echo $index === 0 ? ' active' : ''; ?>">
+                    <button class="faq-question" aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>">
+                        <span><?php echo esc_html($faq['question']); ?></span>
+                        <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                    <div class="faq-answer"<?php echo $index === 0 ? ' style="display: block;"' : ''; ?>>
+                        <p><?php echo $faq['answer']; ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- CTA final -->
+            <div class="taxonomy-cta">
+                <p>Vous avez un projet de <?php echo esc_html($term_name_lower); ?> ?</p>
+                <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    Demander un devis gratuit
+                </a>
+                <span class="cta-phone">ou appelez le <a href="tel:+33673333532">06 73 33 35 32</a></span>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+// FAQ Accordion
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(function(item) {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        
+        question.addEventListener('click', function() {
+            const isActive = item.classList.contains('active');
+            
+            // Fermer tous les autres
+            faqItems.forEach(function(otherItem) {
+                otherItem.classList.remove('active');
+                otherItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                otherItem.querySelector('.faq-answer').style.display = 'none';
+            });
+            
+            // Ouvrir celui-ci si pas deja actif
+            if (!isActive) {
+                item.classList.add('active');
+                question.setAttribute('aria-expanded', 'true');
+                answer.style.display = 'block';
+            }
+        });
+    });
+});
+</script>
 
 <?php
 get_footer();
