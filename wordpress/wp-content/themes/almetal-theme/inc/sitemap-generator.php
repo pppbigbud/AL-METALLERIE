@@ -137,6 +137,21 @@ function almetal_generate_sitemap() {
 }
 
 /**
+ * Nettoyer une chaîne pour XML (convertir les entités HTML en caractères puis échapper pour XML)
+ */
+function almetal_xml_escape($string) {
+    // Décoder les entités HTML (comme &rsquo; -> ')
+    $string = html_entity_decode($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // Remplacer les apostrophes typographiques par des apostrophes simples
+    $string = str_replace(array(''', ''', '‚', '‛'), "'", $string);
+    // Remplacer les guillemets typographiques
+    $string = str_replace(array('"', '"', '„', '‟'), '"', $string);
+    // Échapper pour XML (uniquement les 5 entités XML valides)
+    $string = htmlspecialchars($string, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+    return $string;
+}
+
+/**
  * Formater une URL pour le sitemap
  */
 function almetal_sitemap_url($loc, $lastmod, $changefreq, $priority, $image_url = '', $image_title = '') {
@@ -151,7 +166,7 @@ function almetal_sitemap_url($loc, $lastmod, $changefreq, $priority, $image_url 
         $url .= "        <image:image>\n";
         $url .= "            <image:loc>" . esc_url($image_url) . "</image:loc>\n";
         if ($image_title) {
-            $url .= "            <image:title>" . esc_html($image_title) . "</image:title>\n";
+            $url .= "            <image:title>" . almetal_xml_escape($image_title) . "</image:title>\n";
         }
         $url .= "        </image:image>\n";
     }
@@ -206,6 +221,18 @@ function almetal_serve_sitemap_early($wp) {
         
         echo almetal_generate_sitemap();
         exit;
+    }
+    
+    // Détecter sitemap.xsl dans l'URL
+    if ($request === 'sitemap.xsl' || preg_match('/^sitemap\.xsl$/i', $request) || preg_match('/\/sitemap\.xsl$/i', $request_uri)) {
+        $xsl_file = get_template_directory() . '/sitemap.xsl';
+        if (file_exists($xsl_file)) {
+            status_header(200);
+            header('Content-Type: application/xml; charset=utf-8');
+            header('Cache-Control: max-age=86400');
+            readfile($xsl_file);
+            exit;
+        }
     }
 }
 // Exécuter au moment du parsing de la requête (avant 404)
