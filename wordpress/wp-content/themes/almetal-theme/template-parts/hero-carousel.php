@@ -73,15 +73,29 @@ function almetal_format_features($features_text) {
                 $is_promo = isset($slide['is_promo']) && $slide['is_promo'];
                 $slide_class = $is_promo ? 'mobile-hero-slide slide-promo' : 'mobile-hero-slide';
                 $is_first_slide = ($slide_index === 0);
-                // Utiliser l'image optimisee si disponible
-                $image_url = function_exists('almetal_get_optimized_image') 
-                    ? almetal_get_optimized_image($slide['image'], 'slideshow', $slide_index)
-                    : $slide['image'];
+                
+                // Recuperer l'ID de l'image pour generer des tailles responsives
+                $image_id = isset($slide['image_id']) ? $slide['image_id'] : attachment_url_to_postid($slide['image']);
+                
+                // Utiliser une taille optimisee pour mobile (medium = 300px, large = 1024px)
+                if ($image_id) {
+                    $image_medium = wp_get_attachment_image_src($image_id, 'medium');
+                    $image_large = wp_get_attachment_image_src($image_id, 'large');
+                    $image_url = $image_medium ? $image_medium[0] : $slide['image'];
+                    $image_srcset = '';
+                    if ($image_medium && $image_large) {
+                        $image_srcset = $image_medium[0] . ' 300w, ' . $image_large[0] . ' 1024w';
+                    }
+                } else {
+                    $image_url = $slide['image'];
+                    $image_srcset = '';
+                }
             ?>
                 <!-- Slide <?php echo ($slide_index + 1); ?> -->
                 <div class="swiper-slide <?php echo $slide_class; ?>">
-                    <!-- Toutes les slides utilisent IMG pour un meilleur LCP -->
+                    <!-- Image responsive pour mobile -->
                     <img src="<?php echo esc_url($image_url); ?>" 
+                         <?php if (!empty($image_srcset)) : ?>srcset="<?php echo esc_attr($image_srcset); ?>" sizes="100vw"<?php endif; ?>
                          alt="<?php echo esc_attr($slide['title'] ?? 'AL Metallerie'); ?>"
                          class="mobile-hero-image-img"
                          width="480"
