@@ -3228,3 +3228,58 @@ input[type="button"]:hover {
     color: var(--color-primary);
     flex-shrink: 0;
 }
+
+/* ============================================
+   BADGES DE CATÉGORIES DANS LES CARTES RÉALISATIONS
+   ============================================ */
+
+.realisation-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.realisation-badges .category-badge,
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background: transparent;
+    border: 1px solid #F08B18;
+    border-radius: 20px;
+    color: #F08B18;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.realisation-badges .category-badge:hover,
+.category-badge:hover {
+    background: rgba(240, 139, 24, 0.15);
+    transform: translateY(-2px);
+}
+
+.realisation-badges .category-badge__icon,
+.category-badge__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.realisation-badges .category-badge__icon svg,
+.category-badge__icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+}
+
+.realisation-badges .category-badge__text,
+.category-badge__text {
+    white-space: nowrap;
+}
