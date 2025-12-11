@@ -877,35 +877,40 @@ function almetal_get_section_id($post_id = null) {
 
 /**
  * Enqueue Google Fonts - Optimisé pour performance
- * Charge uniquement les poids utilisés
+ * Charge de manière non-bloquante avec preload
  */
 function almetal_enqueue_fonts() {
-    // Version optimisée : seulement les poids réellement utilisés
-    wp_enqueue_style(
-        'almetal-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap',
-        array(),
-        null
-    );
+    // Ne pas utiliser wp_enqueue_style pour éviter le blocage du rendu
+    // Les fonts sont chargées via almetal_preload_fonts()
 }
 add_action('wp_enqueue_scripts', 'almetal_enqueue_fonts');
 
 /**
- * Préconnexion aux serveurs de polices pour améliorer le LCP
+ * Préconnexion et preload des polices Google Fonts (non-bloquant)
  */
-function almetal_preconnect_fonts() {
-    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+function almetal_preload_fonts() {
+    ?>
+    <!-- Préconnect pour accélérer le chargement des fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload Google Fonts de manière non-bloquante -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
+    <?php
 }
-add_action('wp_head', 'almetal_preconnect_fonts', 1);
+add_action('wp_head', 'almetal_preload_fonts', 1);
 
 /**
  * Ajouter fetchpriority et preload pour l'image LCP
  */
 function almetal_add_lcp_hints() {
-    if (is_front_page()) {
-        // Précharger l'image LCP (hero ou première image visible)
-        $hero_image = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
-        echo '<link rel="preload" as="image" href="' . esc_url($hero_image) . '" type="image/webp">' . "\n";
+    if (is_front_page() && almetal_is_mobile()) {
+        // Précharger l'image LCP du slider mobile
+        $slides = almetal_get_hero_slides();
+        if (!empty($slides) && isset($slides[0]['image'])) {
+            $lcp_image = $slides[0]['image'];
+            echo '<link rel="preload" as="image" href="' . esc_url($lcp_image) . '" fetchpriority="high">' . "\n";
+        }
     }
 }
 add_action('wp_head', 'almetal_add_lcp_hints', 2);
