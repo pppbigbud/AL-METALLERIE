@@ -876,44 +876,13 @@ function almetal_get_section_id($post_id = null) {
 }
 
 /**
- * Enqueue Google Fonts - Optimisé pour performance
- * Charge de manière non-bloquante avec preload
+ * Enqueue Google Fonts - Desactive car gere par performance-optimizer.php
  */
 function almetal_enqueue_fonts() {
-    // Ne pas utiliser wp_enqueue_style pour éviter le blocage du rendu
-    // Les fonts sont chargées via almetal_preload_fonts()
+    // Ne pas utiliser wp_enqueue_style pour eviter le blocage du rendu
+    // Les fonts sont chargees via almetal_preload_fonts() dans performance-optimizer.php
 }
 add_action('wp_enqueue_scripts', 'almetal_enqueue_fonts');
-
-/**
- * Préconnexion et preload des polices Google Fonts (non-bloquant)
- */
-function almetal_preload_fonts() {
-    ?>
-    <!-- Préconnect pour accélérer le chargement des fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Preload Google Fonts de manière non-bloquante -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
-    <?php
-}
-add_action('wp_head', 'almetal_preload_fonts', 1);
-
-/**
- * Ajouter fetchpriority et preload pour l'image LCP
- */
-function almetal_add_lcp_hints() {
-    if (is_front_page() && almetal_is_mobile()) {
-        // Précharger l'image LCP du slider mobile
-        $slides = almetal_get_hero_slides();
-        if (!empty($slides) && isset($slides[0]['image'])) {
-            $lcp_image = $slides[0]['image'];
-            echo '<link rel="preload" as="image" href="' . esc_url($lcp_image) . '" fetchpriority="high">' . "\n";
-        }
-    }
-}
-add_action('wp_head', 'almetal_add_lcp_hints', 2);
 
 /**
  * Walker personnalisé pour les menus avec dropdown et icônes
