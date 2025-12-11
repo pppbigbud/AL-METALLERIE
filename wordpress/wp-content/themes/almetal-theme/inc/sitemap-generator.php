@@ -162,6 +162,31 @@ function almetal_sitemap_url($loc, $lastmod, $changefreq, $priority, $image_url 
 }
 
 /**
+ * Servir le sitemap dynamique - Méthode très précoce via init
+ */
+function almetal_serve_sitemap_init() {
+    $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+    
+    // Nettoyer l'URI (enlever query string et trailing slash)
+    $clean_uri = strtok($request_uri, '?');
+    $clean_uri = rtrim($clean_uri, '/');
+    
+    // Détecter sitemap.xml
+    if ($clean_uri === '/sitemap.xml' || basename($clean_uri) === 'sitemap.xml') {
+        // Empêcher WordPress de continuer
+        status_header(200);
+        header('Content-Type: application/xml; charset=utf-8');
+        header('X-Robots-Tag: noindex, follow');
+        header('Cache-Control: max-age=3600');
+        
+        echo almetal_generate_sitemap();
+        exit;
+    }
+}
+// Exécuter très tôt dans init
+add_action('init', 'almetal_serve_sitemap_init', 1);
+
+/**
  * Servir le sitemap dynamique - Méthode directe (sans rewrite rules)
  * Utilise le hook 'parse_request' qui s'exécute avant la résolution 404
  */

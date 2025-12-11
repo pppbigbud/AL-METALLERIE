@@ -128,8 +128,10 @@ $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : 
                 </div>
             <?php endif; ?>
 
-            <?php if ($lieu) : ?>
-                <div class="mobile-single-info-card">
+            <?php if ($lieu) : 
+                $city_url = function_exists('cpg_get_city_page_url') ? cpg_get_city_page_url($lieu) : null;
+            ?>
+                <div class="mobile-single-info-card<?php echo $city_url ? ' mobile-single-info-card--linked' : ''; ?>">
                     <div class="mobile-single-info-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -138,7 +140,11 @@ $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : 
                     </div>
                     <div class="mobile-single-info-content">
                         <h3><?php esc_html_e('Lieu', 'almetal'); ?></h3>
-                        <p><?php echo esc_html($lieu); ?></p>
+                        <?php if ($city_url) : ?>
+                            <p><a href="<?php echo esc_url($city_url); ?>" class="mobile-info-link" title="<?php printf(__('Voir nos réalisations à %s', 'almetal'), esc_attr($lieu)); ?>"><?php echo esc_html($lieu); ?></a></p>
+                        <?php else : ?>
+                            <p><?php echo esc_html($lieu); ?></p>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endif; ?>
