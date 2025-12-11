@@ -179,7 +179,7 @@ class Almetal_Analytics_SEO {
     }
     
     /**
-     * Vérifier les balises H1
+     * Verifier les balises H1
      */
     private static function check_h1($html) {
         $result = array(
@@ -189,18 +189,21 @@ class Almetal_Analytics_SEO {
             'issues' => array()
         );
         
-        // Compter les H1
-        if (preg_match_all('/<h1[^>]*>([^<]+)<\/h1>/i', $html, $matches)) {
+        // Compter les H1 - regex amelioree pour capturer le contenu meme avec des balises internes (SVG, span, etc.)
+        if (preg_match_all('/<h1[^>]*>(.*?)<\/h1>/is', $html, $matches)) {
             $result['count'] = count($matches[1]);
-            $result['h1_tags'] = array_map('trim', $matches[1]);
+            // Nettoyer le contenu des H1 (enlever les balises HTML internes)
+            $result['h1_tags'] = array_map(function($h1) {
+                return trim(wp_strip_all_tags($h1));
+            }, $matches[1]);
         }
         
         if ($result['count'] === 0) {
             $result['status'] = 'error';
-            $result['issues'][] = 'Aucune balise H1 trouvée';
+            $result['issues'][] = 'Aucune balise H1 trouvee';
         } elseif ($result['count'] > 1) {
             $result['status'] = 'warning';
-            $result['issues'][] = 'Plusieurs balises H1 trouvées (' . $result['count'] . '). Idéalement, une seule H1 par page.';
+            $result['issues'][] = 'Plusieurs balises H1 trouvees (' . $result['count'] . '). Idealement, une seule H1 par page.';
         }
         
         return $result;

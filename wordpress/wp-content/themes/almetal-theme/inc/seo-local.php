@@ -33,13 +33,54 @@ function almetal_seo_title($title) {
     
     // Page contact
     if (is_page('contact')) {
-        return 'Contact | AL Métallerie & Soudure à Peschadoires près de Thiers (63)';
+        return 'Contact | Devis Gratuit | AL Metallerie Thiers (63)';
     }
     
-    // Taxonomie type de réalisation
+    // Page mentions legales
+    if (is_page('mentions-legales')) {
+        return 'Mentions Legales | AL Metallerie & Soudure Thiers (63)';
+    }
+    
+    // Page politique de confidentialite
+    if (is_page('politique-confidentialite') || is_page('politique-de-confidentialite')) {
+        return 'Politique de Confidentialite | AL Metallerie Thiers';
+    }
+    
+    // Page formations professionnelles
+    if (is_page('formations-professionnelles')) {
+        return 'Formations Soudure Pro | CAP, Perfectionnement | Thiers (63)';
+    }
+    
+    // Page formations particuliers
+    if (is_page('formations-particuliers')) {
+        return 'Formations Soudure Particuliers | Initiation | Thiers (63)';
+    }
+    
+    // Taxonomie type de realisation - titres optimises par categorie
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
-        return ucfirst($term->name) . ' sur mesure | AL Métallerie & Soudure Thiers, Puy-de-Dôme';
+        $slug = $term->slug;
+        
+        // Titres personnalises par categorie (max 60 caracteres)
+        $custom_titles = array(
+            'portails' => 'Portails sur Mesure | Metallerie Thiers (63)',
+            'garde-corps' => 'Garde-corps & Rambardes | AL Metallerie Thiers',
+            'escaliers' => 'Escaliers Metalliques sur Mesure | Thiers (63)',
+            'pergolas' => 'Pergolas Metal sur Mesure | AL Metallerie Thiers',
+            'grilles' => 'Grilles de Securite | Metallerie Thiers (63)',
+            'ferronnerie-dart' => 'Ferronnerie d\'Art | Creations Uniques | Thiers',
+            'mobilier-metallique' => 'Mobilier Metallique sur Mesure | Thiers (63)',
+            'vehicules' => 'Amenagements Vehicules Metal | Thiers (63)',
+            'serrurerie' => 'Serrurerie Metallique | AL Metallerie Thiers',
+            'industrie' => 'Metallerie Industrielle | AL Metallerie Thiers',
+            'autres' => 'Realisations Metalliques | AL Metallerie Thiers',
+        );
+        
+        if (isset($custom_titles[$slug])) {
+            return $custom_titles[$slug];
+        }
+        
+        return ucfirst($term->name) . ' sur Mesure | AL Metallerie Thiers';
     }
     
     // Réalisations individuelles - Title optimisé (max 60 caractères)
@@ -105,12 +146,32 @@ function almetal_seo_meta_head() {
         $description = 'Formations soudure MIG, TIG, ARC à Thiers (63). Stages pour particuliers et pros. Apprenez avec un artisan métallier expérimenté. Inscrivez-vous maintenant !';
     }
     
-    // Page contact (155 caractères)
+    // Page contact (155 caracteres)
     if (is_page('contact')) {
-        $description = 'Contactez AL Métallerie & Soudure à Thiers (63) pour votre projet sur mesure. Devis gratuit sous 48h. ☎ 06 73 33 35 32 ou formulaire. Réponse rapide !';
+        $description = 'Contactez AL Metallerie & Soudure a Thiers (63) pour votre projet sur mesure. Devis gratuit sous 48h. Tel 06 73 33 35 32 ou formulaire.';
     }
     
-    // Taxonomie type de réalisation (adapté dynamiquement)
+    // Page mentions legales
+    if (is_page('mentions-legales')) {
+        $description = 'Mentions legales du site AL Metallerie & Soudure. Informations sur l\'editeur, l\'hebergeur et les conditions d\'utilisation du site.';
+    }
+    
+    // Page politique de confidentialite
+    if (is_page('politique-confidentialite') || is_page('politique-de-confidentialite')) {
+        $description = 'Politique de confidentialite et protection des donnees personnelles d\'AL Metallerie & Soudure. RGPD, cookies et droits des utilisateurs.';
+    }
+    
+    // Page formations professionnelles
+    if (is_page('formations-professionnelles')) {
+        $description = 'Formations soudure professionnelles a Thiers (63). CAP, perfectionnement MIG TIG ARC. Formateur experimente, petits groupes. Devis sur demande.';
+    }
+    
+    // Page formations particuliers
+    if (is_page('formations-particuliers')) {
+        $description = 'Formations soudure pour particuliers a Thiers (63). Initiation, decouverte, stages pratiques. Apprenez a souder avec un artisan experimente.';
+    }
+    
+    // Taxonomie type de realisation (adapte dynamiquement)
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
         $count = $term->count;
