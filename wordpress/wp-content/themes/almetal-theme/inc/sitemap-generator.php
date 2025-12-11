@@ -137,16 +137,16 @@ function almetal_generate_sitemap() {
 }
 
 /**
- * Nettoyer une chaîne pour XML (convertir les entités HTML en caractères puis échapper pour XML)
+ * Nettoyer une chaine pour XML (convertir les entites HTML en caracteres puis echapper pour XML)
  */
 function almetal_xml_escape($string) {
-    // Décoder les entités HTML (comme &rsquo; -> ')
+    // Decoder les entites HTML (comme &rsquo; -> ')
     $string = html_entity_decode($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     // Remplacer les apostrophes typographiques par des apostrophes simples
-    $string = str_replace(array(''', ''', '‚', '‛'), "'", $string);
+    $string = str_replace(array("\xE2\x80\x98", "\xE2\x80\x99", "\xE2\x80\x9A", "\xE2\x80\x9B"), "'", $string);
     // Remplacer les guillemets typographiques
-    $string = str_replace(array('"', '"', '„', '‟'), '"', $string);
-    // Échapper pour XML (uniquement les 5 entités XML valides)
+    $string = str_replace(array("\xE2\x80\x9C", "\xE2\x80\x9D", "\xE2\x80\x9E", "\xE2\x80\x9F"), '"', $string);
+    // Echapper pour XML (uniquement les 5 entites XML valides)
     $string = htmlspecialchars($string, ENT_XML1 | ENT_QUOTES, 'UTF-8');
     return $string;
 }
