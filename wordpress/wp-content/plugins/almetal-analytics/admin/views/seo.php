@@ -23,6 +23,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'analyze_page' && isset($_GET[
     $single_analysis = Almetal_Analytics_SEO::analyze_page(intval($_GET['post_id']));
 }
 
+// Analyse d'une page de taxonomie
+if (isset($_GET['action']) && $_GET['action'] === 'analyze_term' && isset($_GET['term_id'])) {
+    $term = get_term(intval($_GET['term_id']), 'type_realisation');
+    if ($term && !is_wp_error($term)) {
+        $single_analysis = Almetal_Analytics_SEO::analyze_taxonomy_term($term);
+    }
+}
+
 if (isset($_GET['action']) && $_GET['action'] === 'check_technical') {
     $robots_check = Almetal_Analytics_SEO::check_robots_txt();
     $sitemap_check = Almetal_Analytics_SEO::check_sitemap();
@@ -146,7 +154,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_technical') {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($seo_summary['pages'] as $page) : ?>
+                        <?php foreach ($seo_summary['pages'] as $page) : 
+                            // Determiner si c'est une page de taxonomie
+                            $is_taxonomy = isset($page['type']) && $page['type'] === 'taxonomy';
+                            $type_badge = $is_taxonomy ? '<span style="background:#9C27B0;color:white;padding:2px 6px;border-radius:3px;font-size:10px;margin-left:5px;">Categorie</span>' : '';
+                        ?>
                         <tr>
                             <td>
                                 <span class="almetal-score-badge" style="display: inline-block; padding: 4px 10px; border-radius: 4px; font-weight: bold; color: white;
@@ -162,33 +174,41 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_technical') {
                                 <a href="<?php echo esc_url($page['url']); ?>" target="_blank" style="text-decoration: none;">
                                     <?php echo esc_html($page['title']); ?>
                                 </a>
+                                <?php echo $type_badge; ?>
                                 <br>
                                 <small style="color: #666;"><?php echo esc_html($page['url']); ?></small>
                             </td>
                             <td>
-                                <?php echo self::render_status_icon($page['checks']['title']['status']); ?>
+                                <?php echo render_status_icon($page['checks']['title']['status']); ?>
                                 <small><?php echo $page['checks']['title']['length']; ?> car.</small>
                             </td>
                             <td>
-                                <?php echo self::render_status_icon($page['checks']['meta_description']['status']); ?>
+                                <?php echo render_status_icon($page['checks']['meta_description']['status']); ?>
                                 <small><?php echo $page['checks']['meta_description']['length']; ?> car.</small>
                             </td>
                             <td>
-                                <?php echo self::render_status_icon($page['checks']['h1']['status']); ?>
+                                <?php echo render_status_icon($page['checks']['h1']['status']); ?>
                                 <small><?php echo $page['checks']['h1']['count']; ?> H1</small>
                             </td>
                             <td>
                                 <?php 
                                 $img_status = $page['checks']['images']['without_alt'] > 0 ? 'warning' : 'good';
-                                echo self::render_status_icon($img_status); 
+                                echo render_status_icon($img_status); 
                                 ?>
                                 <small><?php echo $page['checks']['images']['with_alt']; ?>/<?php echo $page['checks']['images']['total']; ?></small>
                             </td>
                             <td>
+                                <?php if ($is_taxonomy) : ?>
+                                <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_term&term_id=' . $page['term_id']); ?>" 
+                                   class="button button-small">
+                                    <?php _e('Details', 'almetal-analytics'); ?>
+                                </a>
+                                <?php else : ?>
                                 <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_page&post_id=' . $page['post_id']); ?>" 
                                    class="button button-small">
-                                    <?php _e('Détails', 'almetal-analytics'); ?>
+                                    <?php _e('Details', 'almetal-analytics'); ?>
                                 </a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

@@ -470,9 +470,9 @@ class Almetal_Analytics_SEO {
     public static function analyze_all_pages() {
         $results = array();
         
-        // Récupérer tous les posts et pages publiés
+        // Recuperer tous les posts et pages publies
         $posts = get_posts(array(
-            'post_type' => array('post', 'page', 'realisation'),
+            'post_type' => array('post', 'page', 'realisation', 'city_page'),
             'post_status' => 'publish',
             'numberposts' => -1,
         ));
@@ -481,12 +481,215 @@ class Almetal_Analytics_SEO {
             $results[] = self::analyze_page($post->ID);
         }
         
+        // Analyser les pages de taxonomie type_realisation
+        $taxonomy_results = self::analyze_taxonomy_pages();
+        $results = array_merge($results, $taxonomy_results);
+        
         // Trier par score (du plus bas au plus haut)
         usort($results, function($a, $b) {
             return $a['score'] - $b['score'];
         });
         
         return $results;
+    }
+    
+    /**
+     * Analyser les pages de taxonomie type_realisation
+     */
+    public static function analyze_taxonomy_pages() {
+        $results = array();
+        
+        // Recuperer tous les termes de la taxonomie type_realisation
+        $terms = get_terms(array(
+            'taxonomy' => 'type_realisation',
+            'hide_empty' => false,
+        ));
+        
+        if (empty($terms) || is_wp_error($terms)) {
+            return $results;
+        }
+        
+        foreach ($terms as $term) {
+            $results[] = self::analyze_taxonomy_term($term);
+        }
+        
+        return $results;
+    }
+    
+    /**
+     * Analyser une page de taxonomie
+     */
+    public static function analyze_taxonomy_term($term) {
+        $url = get_term_link($term);
+        
+        if (is_wp_error($url)) {
+            return array(
+                'error' => 'Term link error',
+                'term_id' => $term->term_id,
+                'score' => 0
+            );
+        }
+        
+        // Recuperer le HTML complet de la page
+        $response = wp_remote_get($url, array(
+            'timeout' => 30,
+            'sslverify' => false
+        ));
+        
+        $html = '';
+        if (!is_wp_error($response)) {
+            $html = wp_remote_retrieve_body($response);
+        }
+        
+        $results = array(
+            'post_id' => 'term_' . $term->term_id,
+            'term_id' => $term->term_id,
+            'type' => 'taxonomy',
+            'taxonomy' => 'type_realisation',
+            'url' => $url,
+            'title' => $term->name . ' - Categorie',
+            'score' => 0,
+            'checks' => array(),
+            'recommendations' => array(),
+        );
+        
+        // 1. Analyse du titre
+        $results['checks']['title'] = self::check_title_from_html($html);
+        
+        // 2. Analyse de la meta description
+        $results['checks']['meta_description'] = self::check_meta_description_from_html($html);
+        
+        // 3. Analyse des balises H1
+        $results['checks']['h1'] = self::check_h1($html);
+        
+        // 4. Analyse des images
+        $results['checks']['images'] = self::check_images($html, '');
+        
+        // 5. Analyse des liens
+        $results['checks']['links'] = self::check_links($html, $url);
+        
+        // 6. Analyse du contenu (depuis le HTML)
+        $results['checks']['content'] = self::check_content_from_html($html);
+        
+        // 7. Verifications techniques
+        $results['checks']['technical'] = self::check_technical($url, $html);
+        
+        // Calculer le score global
+        $results['score'] = self::calculate_score($results['checks']);
+        
+        // Generer les recommandations
+        $results['recommendations'] = self::generate_recommendations($results['checks']);
+        
+        return $results;
+    }
+    
+    /**
+     * Verifier le titre depuis le HTML
+     */
+    private static function check_title_from_html($html) {
+        $result = array(
+            'status' => 'good',
+            'title' => '',
+            'length' => 0,
+            'issues' => array()
+        );
+        
+        // Extraire le titre de la balise <title>
+        if (preg_match('/<title[^>]*>([^<]+)<\/title>/i', $html, $matches)) {
+            $result['title'] = trim($matches[1]);
+            $result['length'] = mb_strlen($result['title']);
+        }
+        
+        // Verifier la longueur (ideal: 50-60 caracteres)
+        if ($result['length'] < 30) {
+            $result['status'] = 'warning';
+            $result['issues'][] = 'Titre trop court (< 30 caracteres)';
+        } elseif ($result['length'] > 60) {
+            $result['status'] = 'warning';
+            $result['issues'][] = 'Titre trop long (> 60 caracteres), risque de troncature dans Google';
+        }
+        
+        if (empty($result['title'])) {
+            $result['status'] = 'error';
+            $result['issues'][] = 'Aucun titre trouve';
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * Verifier la meta description depuis le HTML
+     */
+    private static function check_meta_description_from_html($html) {
+        $result = array(
+            'status' => 'good',
+            'description' => '',
+            'length' => 0,
+            'issues' => array()
+        );
+        
+        // Extraire la meta description
+        if (preg_match('/<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)["\'][^>]*>/i', $html, $matches)) {
+            $result['description'] = trim($matches[1]);
+        } elseif (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']description["\'][^>]*>/i', $html, $matches)) {
+            $result['description'] = trim($matches[1]);
+        }
+        
+        $result['length'] = mb_strlen($result['description']);
+        
+        if (empty($result['description'])) {
+            $result['status'] = 'error';
+            $result['issues'][] = 'Aucune meta description trouvee';
+        } elseif ($result['length'] < 120) {
+            $result['status'] = 'warning';
+            $result['issues'][] = 'Meta description trop courte (< 120 caracteres)';
+        } elseif ($result['length'] > 160) {
+            $result['status'] = 'warning';
+            $result['issues'][] = 'Meta description trop longue (> 160 caracteres)';
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * Verifier le contenu depuis le HTML
+     */
+    private static function check_content_from_html($html) {
+        $result = array(
+            'status' => 'good',
+            'word_count' => 0,
+            'paragraph_count' => 0,
+            'issues' => array()
+        );
+        
+        // Extraire le contenu principal (entre <main> ou <article> ou <body>)
+        $content = '';
+        if (preg_match('/<main[^>]*>(.*?)<\/main>/is', $html, $matches)) {
+            $content = $matches[1];
+        } elseif (preg_match('/<article[^>]*>(.*?)<\/article>/is', $html, $matches)) {
+            $content = $matches[1];
+        } else {
+            $content = $html;
+        }
+        
+        // Nettoyer le contenu
+        $text = wp_strip_all_tags($content);
+        $text = preg_replace('/\s+/', ' ', $text);
+        
+        // Compter les mots
+        $result['word_count'] = str_word_count($text);
+        
+        // Compter les paragraphes
+        $result['paragraph_count'] = substr_count($content, '</p>');
+        
+        if ($result['word_count'] < 300) {
+            $result['status'] = 'warning';
+            $result['issues'][] = 'Contenu court (< 300 mots). Google prefere les contenus plus longs et detailles.';
+        } elseif ($result['word_count'] < 600) {
+            $result['issues'][] = 'Contenu moyen. Visez 600+ mots pour un meilleur referencement.';
+        }
+        
+        return $result;
     }
     
     /**
