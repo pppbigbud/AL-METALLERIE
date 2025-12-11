@@ -613,6 +613,33 @@ function almetal_is_mobile() {
 }
 
 /**
+ * Obtenir l'icône SVG pour une catégorie de réalisation
+ * 
+ * @param string $slug Le slug de la catégorie
+ * @param int $size La taille de l'icône (défaut 14)
+ * @return string Le SVG correspondant
+ */
+function almetal_get_category_icon($slug, $size = 14) {
+    $icons = array(
+        'portails' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>',
+        'garde-corps' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg>',
+        'escaliers' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h4v-4h4v-4h4V8h4"/></svg>',
+        'pergolas' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18h16M5 15h14M6 12h12M7 9h10M8 6h8M9 3h6"/></svg>',
+        'grilles' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+        'ferronnerie-dart' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
+        'serrurerie' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+        'mobilier' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8h8"/><path d="M20 10v12"/><path d="M4 10v12"/></svg>',
+        'industrie' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V8l5 4V8l5 4V4l5 4v12"/></svg>',
+        'clotures' => '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v16M12 4v16M20 4v16M4 8h8M12 8h8M4 16h8M12 16h8"/></svg>',
+    );
+    
+    // Icône par défaut si catégorie non trouvée
+    $default_icon = '<svg width="' . $size . '" height="' . $size . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>';
+    
+    return isset($icons[$slug]) ? $icons[$slug] : $default_icon;
+}
+
+/**
  * CSS CRITIQUE MOBILE - Inline dans le <head>
  * Garantit que le burger est toujours visible et fonctionnel
  */
@@ -1648,8 +1675,9 @@ function almetal_ajax_load_mobile_realisations() {
                 $html .= '<div class="mobile-realisation-badges" onclick="event.stopPropagation();">';
                 foreach (array_slice($terms, 0, 2) as $term) {
                     $term_link = get_term_link($term);
+                    $term_icon = almetal_get_category_icon($term->slug, 14);
                     $html .= '<a href="' . esc_url($term_link) . '" class="mobile-realisation-badge" onclick="event.stopPropagation();">';
-                    $html .= '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+                    $html .= $term_icon;
                     $html .= esc_html($term->name);
                     $html .= '</a>';
                 }
