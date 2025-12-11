@@ -1213,8 +1213,9 @@ body {
 }
 
 .mobile-realisation-badge {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.35rem;
     background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
     color: white;
@@ -1223,12 +1224,15 @@ body {
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 .mobile-realisation-badge svg {
     width: 14px;
     height: 14px;
     stroke-width: 2.5;
+    flex-shrink: 0;
+    vertical-align: middle;
 }
 
 .mobile-realisation-content {
@@ -2751,6 +2755,10 @@ background: #262626;
 }
 
 .mobile-realisation-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
     background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
     color: white;
     padding: 0.4rem 0.8rem;
@@ -2762,6 +2770,12 @@ background: #262626;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.mobile-realisation-badge svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
 }
 
 .mobile-realisation-badge:active {
