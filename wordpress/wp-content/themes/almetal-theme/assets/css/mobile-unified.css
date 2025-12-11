@@ -276,6 +276,17 @@ body {
     background-color: #000;
 }
 
+/* Image LCP optimisee (premiere slide) */
+.mobile-hero-image-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* Overlay gradient désactivé */
 /* .mobile-hero-slide::before {
     content: '';

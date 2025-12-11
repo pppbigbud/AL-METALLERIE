@@ -120,6 +120,21 @@ function almetal_remove_block_library_css() {
 add_action('wp_enqueue_scripts', 'almetal_remove_block_library_css', 100);
 
 /**
+ * Charger Swiper CSS de maniere non-bloquante sur mobile (front-page)
+ */
+function almetal_load_swiper_css_async() {
+    if (!wp_is_mobile() || !is_front_page()) {
+        return;
+    }
+    ?>
+    <!-- Swiper CSS charge de maniere non-bloquante -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
+    <?php
+}
+add_action('wp_head', 'almetal_load_swiper_css_async', 5);
+
+/**
  * Ajouter defer aux scripts non critiques
  */
 function almetal_defer_scripts($tag, $handle, $src) {

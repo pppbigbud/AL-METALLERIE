@@ -277,12 +277,8 @@ function almetal_enqueue_scripts() {
         
         // Swiper slideshow (front-page uniquement)
         if (is_front_page()) {
-            wp_enqueue_style(
-                'swiper-css',
-                'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
-                array(),
-                '11.0.0'
-            );
+            // Note: Swiper CSS est charge de maniere non-bloquante via performance-optimizer.php
+            // pour eviter le blocage du rendu (880ms economises)
             
             wp_enqueue_script(
                 'swiper-js',
