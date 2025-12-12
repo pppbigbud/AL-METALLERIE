@@ -85,8 +85,14 @@ add_filter('pre_get_document_title', 'almetal_seo_title', 10);
 
 /**
  * Ajouter les meta tags SEO dans le head
+ * Ne pas interférer avec les pages ville (géré par le plugin city-pages-generator)
  */
 function almetal_seo_meta_head() {
+    // Ne pas ajouter de meta tags sur les pages ville (géré par le plugin CPG)
+    if (is_singular('city_page')) {
+        return;
+    }
+    
     // Informations de l'entreprise
     $business = array(
         'name' => 'AL Métallerie & Soudure',
@@ -206,6 +212,11 @@ add_action('wp_head', 'almetal_seo_meta_head', 1);
 function almetal_schema_local_business() {
     // Ne pas ajouter sur les single realisation (déjà géré)
     if (is_singular('realisation')) {
+        return;
+    }
+    
+    // Ne pas ajouter sur les pages ville (géré par le plugin CPG)
+    if (is_singular('city_page')) {
         return;
     }
     
