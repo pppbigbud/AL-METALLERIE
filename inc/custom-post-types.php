@@ -530,7 +530,9 @@ function almetal_realisation_custom_column($column, $post_id) {
     switch ($column) {
         case 'thumbnail':
             if (has_post_thumbnail($post_id)) {
-                echo get_the_post_thumbnail($post_id, array(80, 80));
+                echo '<div style="width:60px;height:60px;overflow:hidden;">';
+                echo get_the_post_thumbnail($post_id, 'thumbnail', array('style' => 'width:60px;height:60px;object-fit:cover;'));
+                echo '</div>';
             } else {
                 echo '—';
             }
