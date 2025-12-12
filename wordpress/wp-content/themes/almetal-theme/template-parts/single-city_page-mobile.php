@@ -11,9 +11,11 @@ $city_name = get_post_meta(get_the_ID(), '_cpg_city_name', true) ?: get_the_titl
 $department = get_post_meta(get_the_ID(), '_cpg_department', true) ?: 'Puy-de-Dôme';
 $postal_code = get_post_meta(get_the_ID(), '_cpg_postal_code', true);
 
-// Nettoyer le nom de la ville pour l'affichage
-$city_display = str_replace('Métallier Serrurier à ', '', get_the_title());
-if (empty($city_display)) {
+// Nettoyer le nom de la ville pour l'affichage (gérer les anciens et nouveaux titres)
+$city_display = get_the_title();
+$city_display = str_replace('Métallier Serrurier à ', '', $city_display);
+$city_display = str_replace('Métallier Ferronnier à ', '', $city_display);
+if (empty($city_display) || $city_display === get_the_title()) {
     $city_display = $city_name;
 }
 ?>
