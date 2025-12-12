@@ -6,12 +6,8 @@
 # Index.php racine (WordPress core, pas le thème)
 /index.php
 
-# WordPress
-wordpress/wp-config.php
-wordpress/wp-content/uploads/
-wordpress/wp-content/upgrade/
-wordpress/wp-content/cache/
-wordpress/.htaccess
+# WordPress - Dossier complet (installation locale de dev)
+wordpress/
 
 # Base de données
 *.sql
