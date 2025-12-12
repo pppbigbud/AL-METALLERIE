@@ -128,11 +128,63 @@ if (empty($city_display)) {
         <div class="mobile-city-services scroll-fade">
             <h2 class="mobile-section-subtitle">Nos services</h2>
             <ul class="mobile-city-services-list">
-                <li><a href="<?php echo home_url('/type_realisation/portails/'); ?>">Portails sur mesure</a></li>
-                <li><a href="<?php echo home_url('/type_realisation/garde-corps/'); ?>">Garde-corps</a></li>
-                <li><a href="<?php echo home_url('/type_realisation/escaliers/'); ?>">Escaliers métalliques</a></li>
-                <li><a href="<?php echo home_url('/type_realisation/pergolas/'); ?>">Pergolas</a></li>
-                <li><a href="<?php echo home_url('/type_realisation/ferronnerie-dart/'); ?>">Ferronnerie d'art</a></li>
+                <li>
+                    <a href="<?php echo home_url('/type-realisation/portails/'); ?>">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="18" rx="1"/>
+                            <rect x="14" y="3" width="7" height="18" rx="1"/>
+                            <line x1="6.5" y1="10" x2="6.5" y2="14"/>
+                            <line x1="17.5" y1="10" x2="17.5" y2="14"/>
+                        </svg>
+                        <span>Portails sur mesure</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo home_url('/type-realisation/garde-corps/'); ?>">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="6" x2="3" y2="20"/>
+                            <line x1="21" y1="6" x2="21" y2="20"/>
+                            <line x1="8" y1="6" x2="8" y2="20"/>
+                            <line x1="16" y1="6" x2="16" y2="20"/>
+                            <line x1="12" y1="6" x2="12" y2="20"/>
+                        </svg>
+                        <span>Garde-corps</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo home_url('/type-realisation/escaliers/'); ?>">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 22H2V12h6v-4h6V4h8v18z"/>
+                            <line x1="2" y1="22" x2="22" y2="22"/>
+                        </svg>
+                        <span>Escaliers métalliques</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo home_url('/type-realisation/pergolas/'); ?>">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="8" x2="21" y2="8"/>
+                            <line x1="3" y1="8" x2="3" y2="21"/>
+                            <line x1="21" y1="8" x2="21" y2="21"/>
+                            <line x1="6" y1="4" x2="6" y2="8"/>
+                            <line x1="12" y1="4" x2="12" y2="8"/>
+                            <line x1="18" y1="4" x2="18" y2="8"/>
+                        </svg>
+                        <span>Pergolas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo home_url('/type-realisation/ferronnerie-dart/'); ?>">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.82-.13 2.68-.37"/>
+                            <path d="M12 6v6l4 2"/>
+                            <path d="M19 14c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
+                            <path d="M15 18l-2 2"/>
+                        </svg>
+                        <span>Ferronnerie d'art</span>
+                    </a>
+                </li>
             </ul>
         </div>
 
