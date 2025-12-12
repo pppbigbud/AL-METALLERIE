@@ -149,7 +149,7 @@ $realisations_query = new WP_Query(array(
                             ?>
                                 <img src="<?php echo esc_url($thumbnail_url); ?>" 
                                      alt="<?php echo esc_attr($alt_seo); ?>" 
-                                     class="realisation-image"
+                                     class="realisation-image<?php echo $is_first ? ' no-lazyload' : ''; ?>"
                                      width="400"
                                      height="300"
                                      <?php if ($srcset) : ?>
@@ -159,6 +159,7 @@ $realisations_query = new WP_Query(array(
                                      <?php if ($is_first) : ?>
                                      fetchpriority="high"
                                      decoding="sync"
+                                     data-no-lazy="1"
                                      <?php else : ?>
                                      loading="lazy"
                                      decoding="async"

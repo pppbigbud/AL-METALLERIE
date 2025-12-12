@@ -21,11 +21,12 @@
                             type="image/webp">
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" 
                          alt="Soudeur professionnel AL-Metallerie Soudure en action à Thiers"
-                         class="presentation-img"
+                         class="presentation-img no-lazyload"
                          fetchpriority="high"
                          decoding="async"
                          width="400"
-                         height="498">
+                         height="498"
+                         data-no-lazy="1">
                 </picture>
             </div>
             <div class="presentation-image-wrapper presentation-image-bottom">
