@@ -49,7 +49,7 @@
 
             <!-- H1 unique pour le SEO - Titre principal de la page -->
             <h1 class="presentation-h1 scroll-fade scroll-delay-2">
-                <?php esc_html_e('Métallier Ferronnier à Thiers', 'almetal'); ?>
+                Métallier Serrurier à Thiers
             </h1>
 
             <!-- Sous-titre - animation au scroll -->
@@ -61,7 +61,7 @@
             <!-- Description - animation au scroll -->
             <div class="presentation-description scroll-fade scroll-delay-3">
                 <p>
-                    <?php esc_html_e('AL-Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme), accompagne entreprises et particuliers depuis de nombreuses années. Spécialisés dans la fabrication sur mesure, la rénovation et l\'installation de structures métalliques, nous mettons notre savoir-faire au service de vos projets les plus exigeants. De la conception à la réalisation, notre équipe qualifiée garantit des travaux de qualité supérieure, allégeant coûts et délais. Nous proposons également des formations professionnelles pour transmettre notre expertise. Faites confiance à AL-Metallerie Soudure pour donner vie à vos idées avec créativité et professionnalisme.', 'almetal'); ?>
+                    <strong>AL-Metallerie Soudure</strong>, votre <em>expert en métallerie</em> à <strong>Thiers</strong> (Puy-de-Dôme), accompagne <em>entreprises et particuliers</em> depuis de nombreuses années. Spécialisés dans la <strong>fabrication sur mesure</strong>, la <em>rénovation</em> et l'<em>installation de structures métalliques</em>, nous mettons notre <strong>savoir-faire</strong> au service de vos projets les plus exigeants. De la <em>conception</em> à la <em>réalisation</em>, notre équipe qualifiée garantit des <strong>travaux de qualité supérieure</strong>, allégeant coûts et délais. Nous proposons également des <strong>formations professionnelles</strong> pour transmettre notre expertise. Faites confiance à <strong>AL-Metallerie Soudure</strong> pour donner vie à vos idées avec <em>créativité</em> et <em>professionnalisme</em>.
                 </p>
             </div>
 

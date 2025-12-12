@@ -16,10 +16,10 @@
         <div class="presentation-images">
             <div class="presentation-image-wrapper presentation-image-top">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108%201.webp'); ?>"
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-optimized.webp'); ?>"
                             sizes="(max-width: 768px) 300px, 400px"
                             type="image/webp">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108%201.webp'); ?>" 
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" 
                          alt="Soudeur professionnel AL-Metallerie Soudure en action à Thiers"
                          class="presentation-img"
                          fetchpriority="high"
@@ -30,10 +30,10 @@
             </div>
             <div class="presentation-image-wrapper presentation-image-bottom">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248%202.webp'); ?>"
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-optimized.webp'); ?>"
                             sizes="(max-width: 768px) 250px, 400px"
                             type="image/webp">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248%202.webp'); ?>" 
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?>" 
                          alt="Travaux de métallerie de précision à Thiers, Puy-de-Dôme"
                          class="presentation-img"
                          loading="lazy"
@@ -52,7 +52,7 @@
 
             <!-- H1 unique pour le SEO - Titre principal de la page -->
             <h1 class="presentation-h1">
-                <?php esc_html_e('Métallier Soudeur à Thiers', 'almetal'); ?>
+                Métallier Serrurier à Thiers
             </h1>
 
             <!-- Sous-titre -->
@@ -64,7 +64,7 @@
             <!-- Description -->
             <div class="presentation-description">
                 <p>
-                    <?php esc_html_e('AL Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme), accompagne entreprises et particuliers depuis de nombreuses années. Spécialisés dans la fabrication sur mesure, la rénovation et l\'installation de structures métalliques, nous mettons notre savoir-faire au service de vos projets les plus exigeants. De la conception à la réalisation, notre équipe qualifiée garantit des travaux de qualité supérieure, allégeant coûts et délais. Nous proposons également des formations professionnelles pour transmettre notre expertise. Faites confiance à AL-Metallerie Soudure pour donner vie à vos idées avec créativité et professionnalisme.', 'almetal'); ?>
+                    <strong>AL-Metallerie Soudure</strong>, votre <em>expert en métallerie</em> à <strong>Thiers</strong> (Puy-de-Dôme), accompagne <em>entreprises et particuliers</em> depuis de nombreuses années. Spécialisés dans la <strong>fabrication sur mesure</strong>, la <em>rénovation</em> et l'<em>installation de structures métalliques</em>, nous mettons notre <strong>savoir-faire</strong> au service de vos projets les plus exigeants. De la <em>conception</em> à la <em>réalisation</em>, notre équipe qualifiée garantit des <strong>travaux de qualité supérieure</strong>, allégeant coûts et délais. Nous proposons également des <strong>formations professionnelles</strong> pour transmettre notre expertise. Faites confiance à <strong>AL-Metallerie Soudure</strong> pour donner vie à vos idées avec <em>créativité</em> et <em>professionnalisme</em>.
                 </p>
             </div>
 
