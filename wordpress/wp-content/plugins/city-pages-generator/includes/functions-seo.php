@@ -19,7 +19,7 @@ function cpg_meta_tags() {
     
     $s = get_option('cpg_settings', []);
     $company = $s['company_name'] ?? 'AL Métallerie & Soudure';
-    $desc = "Métallier ferronnier à {$city} ({$postal}). {$company} : portails, garde-corps, escaliers sur mesure. Devis gratuit, intervention {$dept}.";
+    $desc = "Métallier serrurier à {$city} ({$postal}). {$company} : portails, garde-corps, escaliers sur mesure. Devis gratuit, intervention {$dept}.";
     
     echo "\n<!-- CPG SEO -->\n";
     echo '<meta name="description" content="'.esc_attr($desc).'">'."\n";
@@ -38,7 +38,7 @@ function cpg_title($title) {
     if (!is_singular('city_page')) return $title;
     $city = get_post_meta(get_the_ID(), '_cpg_city_name', true);
     $postal = get_post_meta(get_the_ID(), '_cpg_postal_code', true);
-    return $city ? "Métallier Ferronnier à {$city} ({$postal}) | AL Métallerie" : $title;
+    return $city ? "Métallier Serrurier à {$city} ({$postal}) | AL Métallerie" : $title;
 }
 
 // Schema.org
@@ -59,7 +59,7 @@ function cpg_schema() {
         '@context' => 'https://schema.org',
         '@type' => 'LocalBusiness',
         'name' => $s['company_name'] ?? 'AL Métallerie & Soudure',
-        'description' => "Artisan métallier ferronnier à {$city}, {$dept}",
+        'description' => "Artisan métallier serrurier à {$city}, {$dept}",
         'url' => get_permalink(),
         'telephone' => $s['phone'] ?? '06 73 33 35 32',
         'email' => $s['email'] ?? 'contact@al-metallerie.fr',

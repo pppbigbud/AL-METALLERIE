@@ -32,7 +32,7 @@ function cpg_create_city_page($data) {
     $content = cpg_generate_content($city, $postal, $dept, $variation, $specifics, $nearby, $distance, $travel);
     
     $post_id = wp_insert_post([
-        'post_title'   => 'Métallier Ferronnier à ' . $city,
+        'post_title'   => 'Métallier Serrurier à ' . $city,
         'post_name'    => sanitize_title($city),
         'post_content' => $content,
         'post_status'  => $status,
@@ -66,7 +66,7 @@ function cpg_generate_content($city, $postal, $dept, $var = 1, $specifics = '', 
     
     // Variations intro
     $intros = [
-        1 => "<p><strong>{$company}</strong>, artisan métallier ferronnier basé à {$workshop}, intervient à <strong>{$city} ({$postal})</strong> et dans tout le <strong>{$dept}</strong> pour tous vos projets de métallerie sur mesure.</p>",
+        1 => "<p><strong>{$company}</strong>, artisan métallier serrurier basé à {$workshop}, intervient à <strong>{$city} ({$postal})</strong> et dans tout le <strong>{$dept}</strong> pour tous vos projets de métallerie sur mesure.</p>",
         2 => "<p>Vous recherchez un <strong>métallier qualifié à {$city}</strong> ? {$company}, installé à {$workshop}, se déplace dans tout le {$dept} pour réaliser vos projets. Du portail sur mesure à l'escalier design, nous donnons vie à vos idées.</p>",
         3 => "<p>Spécialiste de la métallerie artisanale, <strong>{$company}</strong> accompagne les habitants de <strong>{$city}</strong> dans tous leurs projets. Depuis notre atelier de {$workshop}, nous concevons des ouvrages métalliques sur mesure.</p>",
         4 => "<p>Pour vos travaux de métallerie à <strong>{$city} ({$postal})</strong>, faites confiance à <strong>{$company}</strong>. Artisan passionné basé à {$workshop}, nous créons des pièces uniques : portails, garde-corps, escaliers.</p>",

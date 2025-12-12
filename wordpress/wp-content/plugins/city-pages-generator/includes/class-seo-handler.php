@@ -101,7 +101,7 @@ class CPG_SEO_Handler {
             '@type' => 'LocalBusiness',
             '@id' => get_permalink($post_id) . '#localbusiness',
             'name' => $settings['company_name'] ?? 'AL Métallerie & Soudure',
-            'description' => sprintf('Artisan métallier ferronnier à %s', $city_name),
+            'description' => sprintf('Artisan métallier serrurier à %s', $city_name),
             'url' => home_url(),
             'telephone' => $settings['phone_international'] ?? '+33673333532',
             'email' => $settings['email'] ?? 'contact@al-metallerie.fr',
@@ -241,7 +241,7 @@ class CPG_SEO_Handler {
         $city_name = get_post_meta($post_id, '_cpg_city_name', true);
         $postal_code = get_post_meta($post_id, '_cpg_postal_code', true);
 
-        return sprintf('Métallier Ferronnier à %s (%s) | AL Métallerie', $city_name, $postal_code);
+        return sprintf('Métallier Serrurier à %s (%s) | AL Métallerie', $city_name, $postal_code);
     }
 
     /**

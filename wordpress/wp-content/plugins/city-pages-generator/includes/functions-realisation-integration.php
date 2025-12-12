@@ -95,7 +95,7 @@ function cpg_get_city_page_by_name($city_name) {
     $pages = get_posts(array(
         'post_type'      => 'city_page',
         'post_status'    => array('publish', 'draft'),
-        'title'          => 'Métallier Ferronnier à ' . $city_name,
+        'title'          => 'Métallier Serrurier à ' . $city_name,
         'posts_per_page' => 1,
     ));
     
@@ -135,7 +135,7 @@ function cpg_auto_generate_city_page($city_name) {
     
     // Fallback : création simple
     $post_id = wp_insert_post(array(
-        'post_title'   => 'Métallier Ferronnier à ' . $city_name,
+        'post_title'   => 'Métallier Serrurier à ' . $city_name,
         'post_name'    => sanitize_title($city_name),
         'post_content' => cpg_generate_simple_content($city_name, $department),
         'post_status'  => 'draft',
@@ -194,7 +194,7 @@ function cpg_generate_simple_content($city, $dept) {
     $company = 'AL Métallerie & Soudure';
     
     return "<h2>Votre artisan métallier à {$city}</h2>
-<p><strong>{$company}</strong>, artisan métallier ferronnier basé à Peschadoires, intervient à <strong>{$city}</strong> et dans tout le <strong>{$dept}</strong> pour tous vos projets de métallerie sur mesure.</p>
+<p><strong>{$company}</strong>, artisan métallier serrurier basé à Peschadoires, intervient à <strong>{$city}</strong> et dans tout le <strong>{$dept}</strong> pour tous vos projets de métallerie sur mesure.</p>
 
 <h2>Nos services à {$city}</h2>
 <ul>

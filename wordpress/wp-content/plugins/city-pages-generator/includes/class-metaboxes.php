@@ -193,7 +193,7 @@ class CPG_Metaboxes {
 
         // Valeurs par défaut
         if (empty($meta_title) && $city_name) {
-            $meta_title = sprintf('Métallier Ferronnier à %s (%s) | AL Métallerie', $city_name, $postal_code);
+            $meta_title = sprintf('Métallier Serrurier à %s (%s) | AL Métallerie', $city_name, $postal_code);
         }
         if (empty($meta_description) && $city_name) {
             $meta_description = sprintf('Artisan métallier à %s. Fabrication sur mesure de portails, garde-corps, escaliers. Devis gratuit. ☎ 06 73 33 35 32', $city_name);

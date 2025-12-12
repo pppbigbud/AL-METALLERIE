@@ -38,7 +38,7 @@ while (have_posts()) :
                 <?php echo do_shortcode('[cpg_breadcrumb]'); ?>
                 
                 <h1 class="cpg-hero-title">
-                    <?php printf(__('Métallier Ferronnier à %s', 'city-pages-generator'), esc_html($city_name)); ?>
+                    <?php printf(__('Métallier Serrurier à %s', 'city-pages-generator'), esc_html($city_name)); ?>
                     <span class="cpg-hero-subtitle"><?php printf(__('Intervention %s', 'city-pages-generator'), esc_html($department)); ?></span>
                 </h1>
                 

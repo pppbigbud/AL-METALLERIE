@@ -63,7 +63,7 @@ class CPG_Content_Generator {
         // Variations d'introduction pour éviter le contenu dupliqué
         $intros = [
             1 => sprintf(
-                '<p><strong>%s</strong>, votre artisan métallier ferronnier à <strong>%s</strong> (%s), vous accompagne dans tous vos projets de métallerie sur mesure. Basé à %s, à seulement %s km de %s, nous intervenons rapidement pour la fabrication et la pose de vos ouvrages métalliques.</p>',
+                '<p><strong>%s</strong>, votre artisan métallier serrurier à <strong>%s</strong> (%s), vous accompagne dans tous vos projets de métallerie sur mesure. Basé à %s, à seulement %s km de %s, nous intervenons rapidement pour la fabrication et la pose de vos ouvrages métalliques.</p>',
                 $company, $city, $postal_code, $workshop, $distance, $city
             ),
             2 => sprintf(
@@ -75,7 +75,7 @@ class CPG_Content_Generator {
                 $city, $company, $workshop, $city, $department
             ),
             4 => sprintf(
-                '<p><strong>Artisan métallier ferronnier</strong> intervenant à %s (%s), %s réalise tous vos ouvrages métalliques sur mesure. Notre proximité avec %s (à %s) nous permet une grande réactivité pour vos projets.</p>',
+                '<p><strong>Artisan métallier serrurier</strong> intervenant à %s (%s), %s réalise tous vos ouvrages métalliques sur mesure. Notre proximité avec %s (à %s) nous permet une grande réactivité pour vos projets.</p>',
                 $city, $postal_code, $company, $city, $travel_time
             ),
         ];

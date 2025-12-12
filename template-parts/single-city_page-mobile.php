@@ -12,7 +12,7 @@ $department = get_post_meta(get_the_ID(), '_cpg_department', true) ?: 'Puy-de-D�
 $postal_code = get_post_meta(get_the_ID(), '_cpg_postal_code', true);
 
 // Nettoyer le nom de la ville pour l'affichage
-$city_display = str_replace('Métallier Ferronnier à ', '', get_the_title());
+$city_display = str_replace('Métallier Serrurier à ', '', get_the_title());
 if (empty($city_display)) {
     $city_display = $city_name;
 }
@@ -48,7 +48,7 @@ if (empty($city_display)) {
 
         <!-- Description -->
         <div class="mobile-single-excerpt scroll-fade scroll-delay-3">
-            <p><?php echo get_the_excerpt() ?: "Artisan métallier ferronnier intervenant à {$city_display} et ses environs. Portails, garde-corps, escaliers sur mesure."; ?></p>
+            <p><?php echo get_the_excerpt() ?: "Artisan métallier serrurier intervenant à {$city_display} et ses environs. Portails, garde-corps, escaliers sur mesure."; ?></p>
         </div>
 
         <!-- CTA Contact -->

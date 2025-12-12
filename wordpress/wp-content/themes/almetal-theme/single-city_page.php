@@ -10,7 +10,7 @@ get_header();
 if (almetal_is_mobile()) {
     // Récupérer les données de la page ville
     $city_name = get_post_meta(get_the_ID(), '_cpg_city_name', true) ?: get_the_title();
-    $city_display = str_replace('Métallier Ferronnier à ', '', get_the_title());
+    $city_display = str_replace('Métallier Serrurier à ', '', get_the_title());
     if (empty($city_display)) {
         $city_display = $city_name;
     }
@@ -33,7 +33,7 @@ $department = get_post_meta(get_the_ID(), '_cpg_department', true) ?: 'Puy-de-D�
 $postal_code = get_post_meta(get_the_ID(), '_cpg_postal_code', true);
 
 // Nettoyer le nom de la ville pour l'affichage
-$city_display = str_replace('Métallier Ferronnier à ', '', get_the_title());
+$city_display = str_replace('Métallier Serrurier à ', '', get_the_title());
 if (empty($city_display)) {
     $city_display = $city_name;
 }
@@ -86,7 +86,7 @@ $lng = get_post_meta(get_the_ID(), '_cpg_longitude', true);
                 
                 <!-- Sous-titre -->
                 <p class="city-hero__subtitle">
-                    <?php echo get_the_excerpt() ?: "Artisan métallier ferronnier intervenant à {$city_display} et ses environs. Portails, garde-corps, escaliers sur mesure."; ?>
+                    <?php echo get_the_excerpt() ?: "Artisan métallier serrurier intervenant à {$city_display} et ses environs. Portails, garde-corps, escaliers sur mesure."; ?>
                 </p>
                 
                 <!-- CTA -->

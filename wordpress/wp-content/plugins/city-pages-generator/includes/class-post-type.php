@@ -107,7 +107,7 @@ class CPG_Post_Type {
 
         // Créer le post
         $post_data = [
-            'post_title'   => sprintf('Métallier Ferronnier à %s', $data['city_name']),
+            'post_title'   => sprintf('Métallier Serrurier à %s', $data['city_name']),
             'post_name'    => $slug,
             'post_content' => $content,
             'post_status'  => isset($data['post_status']) ? $data['post_status'] : 'draft',
