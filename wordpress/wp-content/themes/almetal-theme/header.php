@@ -18,6 +18,9 @@
     <meta name="msapplication-TileColor" content="#F08B18">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
+    <!-- Identification CMS -->
+    <meta name="generator" content="WordPress <?php echo get_bloginfo('version'); ?>">
+    
     <!-- Favicons - Priorité à la racine pour Google -->
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" href="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/favicons/favicon.svg" type="image/svg+xml">

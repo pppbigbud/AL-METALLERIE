@@ -1799,7 +1799,54 @@ input[type="button"]:hover {
     transform: scale(1.1) rotate(5deg);
 }
 
-/* Bouton CTA .footer-cta-btn déplacé vers components.css */
+/* Avis Google dans le footer */
+.footer-google-reviews {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-google-reviews:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.footer-reviews-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-reviews-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.footer-reviews-stars svg {
+    filter: drop-shadow(0 0 2px rgba(251, 188, 4, 0.3));
+}
+
+.footer-reviews-rating {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.footer-reviews-text {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-reviews-google {
+    margin-left: 4px;
+}
 
 /* Bas du footer */
 .footer-bottom {
