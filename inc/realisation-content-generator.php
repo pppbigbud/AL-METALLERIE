@@ -12,6 +12,447 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * ============================================================================
+ * METABOX ADMIN - Générateur de contenu SEO
+ * ============================================================================
+ */
+
+/**
+ * Ajouter la metabox dans l'éditeur de réalisation
+ */
+function almetal_add_content_generator_metabox() {
+    add_meta_box(
+        'almetal_content_generator',
+        '🚀 Générateur de Contenu SEO',
+        'almetal_content_generator_metabox_callback',
+        'realisation',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'almetal_add_content_generator_metabox');
+
+/**
+ * Callback de la metabox
+ */
+function almetal_content_generator_metabox_callback($post) {
+    wp_nonce_field('almetal_content_generator_nonce', 'almetal_content_generator_nonce_field');
+    
+    // Vérifier si le contenu a déjà été généré
+    $content_generated = get_post_meta($post->ID, '_almetal_content_generated', true);
+    ?>
+    <div class="almetal-content-generator-box">
+        <style>
+            .almetal-content-generator-box {
+                padding: 15px;
+                background: #f9f9f9;
+                border-radius: 8px;
+            }
+            .almetal-generator-info {
+                display: flex;
+                align-items: flex-start;
+                gap: 15px;
+                margin-bottom: 20px;
+                padding: 15px;
+                background: #fff;
+                border-left: 4px solid #F08B18;
+                border-radius: 4px;
+            }
+            .almetal-generator-info svg {
+                flex-shrink: 0;
+                color: #F08B18;
+            }
+            .almetal-generator-info h4 {
+                margin: 0 0 8px 0;
+                color: #1d2327;
+            }
+            .almetal-generator-info p {
+                margin: 0;
+                color: #646970;
+                font-size: 13px;
+            }
+            .almetal-generator-actions {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-bottom: 15px;
+            }
+            .almetal-btn-generate {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 20px;
+                background: #F08B18;
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .almetal-btn-generate:hover {
+                background: #d97a14;
+                transform: translateY(-1px);
+            }
+            .almetal-btn-generate:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+                transform: none;
+            }
+            .almetal-btn-preview {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px 20px;
+                background: #fff;
+                color: #1d2327;
+                border: 1px solid #c3c4c7;
+                border-radius: 6px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .almetal-btn-preview:hover {
+                border-color: #F08B18;
+                color: #F08B18;
+            }
+            .almetal-generator-options {
+                display: flex;
+                gap: 20px;
+                flex-wrap: wrap;
+                margin-bottom: 15px;
+                padding: 15px;
+                background: #fff;
+                border-radius: 6px;
+            }
+            .almetal-generator-options label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+            }
+            .almetal-preview-container {
+                display: none;
+                margin-top: 20px;
+                padding: 20px;
+                background: #191919;
+                border-radius: 8px;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            .almetal-preview-container.active {
+                display: block;
+            }
+            .almetal-preview-container h3 {
+                color: #F08B18;
+                margin-top: 0;
+            }
+            .almetal-status-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            .almetal-status-badge.generated {
+                background: #d4edda;
+                color: #155724;
+            }
+            .almetal-status-badge.not-generated {
+                background: #fff3cd;
+                color: #856404;
+            }
+            .almetal-loading {
+                display: none;
+                align-items: center;
+                gap: 10px;
+                color: #646970;
+            }
+            .almetal-loading.active {
+                display: flex;
+            }
+            .almetal-spinner {
+                width: 20px;
+                height: 20px;
+                border: 2px solid #f3f3f3;
+                border-top: 2px solid #F08B18;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            .almetal-success-message {
+                display: none;
+                padding: 10px 15px;
+                background: #d4edda;
+                color: #155724;
+                border-radius: 6px;
+                margin-top: 15px;
+            }
+            .almetal-success-message.active {
+                display: block;
+            }
+        </style>
+        
+        <div class="almetal-generator-info">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 16v-4M12 8h.01"/>
+            </svg>
+            <div>
+                <h4>Générez automatiquement du contenu SEO optimisé</h4>
+                <p>Ce générateur crée des sections enrichies (Le Projet, Notre Réalisation, Détails Techniques, etc.) 
+                basées sur les métadonnées de la réalisation. <strong>Remplissez d'abord les champs ci-dessous</strong> 
+                (lieu, matière, finition, durée) pour un meilleur résultat.</p>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 15px;">
+            <strong>Statut :</strong>
+            <?php if ($content_generated) : ?>
+                <span class="almetal-status-badge generated">✓ Contenu enrichi généré</span>
+            <?php else : ?>
+                <span class="almetal-status-badge not-generated">⚠ Contenu non enrichi</span>
+            <?php endif; ?>
+        </div>
+        
+        <div class="almetal-generator-options">
+            <label>
+                <input type="checkbox" name="almetal_gen_projet" value="1" checked>
+                Section "Le Projet"
+            </label>
+            <label>
+                <input type="checkbox" name="almetal_gen_realisation" value="1" checked>
+                Section "Notre Réalisation"
+            </label>
+            <label>
+                <input type="checkbox" name="almetal_gen_details" value="1" checked>
+                Détails Techniques
+            </label>
+            <label>
+                <input type="checkbox" name="almetal_gen_resultat" value="1" checked>
+                Section "Résultat"
+            </label>
+            <label>
+                <input type="checkbox" name="almetal_gen_similaires" value="1" checked>
+                Projets Similaires
+            </label>
+            <label>
+                <input type="checkbox" name="almetal_gen_cta" value="1" checked>
+                CTA Final
+            </label>
+        </div>
+        
+        <div class="almetal-generator-actions">
+            <button type="button" id="almetal-preview-content" class="almetal-btn-preview">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                Prévisualiser
+            </button>
+            <button type="button" id="almetal-generate-content" class="almetal-btn-generate">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+                Générer et insérer le contenu
+            </button>
+        </div>
+        
+        <div class="almetal-loading" id="almetal-loading">
+            <div class="almetal-spinner"></div>
+            <span>Génération en cours...</span>
+        </div>
+        
+        <div class="almetal-success-message" id="almetal-success">
+            ✓ Contenu généré avec succès ! Il a été ajouté à la fin du contenu existant.
+        </div>
+        
+        <div class="almetal-preview-container" id="almetal-preview-container">
+            <h3>Prévisualisation du contenu</h3>
+            <div id="almetal-preview-content"></div>
+        </div>
+        
+        <input type="hidden" name="almetal_generated_content" id="almetal_generated_content" value="">
+        <input type="hidden" name="almetal_do_generate" id="almetal_do_generate" value="0">
+    </div>
+    
+    <script>
+    jQuery(document).ready(function($) {
+        // Prévisualiser le contenu
+        $('#almetal-preview-content').on('click', function() {
+            var $btn = $(this);
+            var $preview = $('#almetal-preview-container');
+            var $previewContent = $('#almetal-preview-content');
+            var $loading = $('#almetal-loading');
+            
+            $loading.addClass('active');
+            
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'almetal_preview_content',
+                    post_id: <?php echo $post->ID; ?>,
+                    nonce: '<?php echo wp_create_nonce('almetal_preview_nonce'); ?>',
+                    sections: {
+                        projet: $('input[name="almetal_gen_projet"]').is(':checked'),
+                        realisation: $('input[name="almetal_gen_realisation"]').is(':checked'),
+                        details: $('input[name="almetal_gen_details"]').is(':checked'),
+                        resultat: $('input[name="almetal_gen_resultat"]').is(':checked'),
+                        similaires: $('input[name="almetal_gen_similaires"]').is(':checked'),
+                        cta: $('input[name="almetal_gen_cta"]').is(':checked')
+                    }
+                },
+                success: function(response) {
+                    $loading.removeClass('active');
+                    if (response.success) {
+                        $previewContent.html(response.data.html);
+                        $preview.addClass('active');
+                    } else {
+                        alert('Erreur : ' + response.data.message);
+                    }
+                },
+                error: function() {
+                    $loading.removeClass('active');
+                    alert('Erreur de connexion');
+                }
+            });
+        });
+        
+        // Générer et insérer le contenu
+        $('#almetal-generate-content').on('click', function() {
+            if (!confirm('Voulez-vous générer le contenu SEO enrichi ? Il sera ajouté à la fin du contenu existant.')) {
+                return;
+            }
+            
+            var $btn = $(this);
+            var $loading = $('#almetal-loading');
+            var $success = $('#almetal-success');
+            
+            $btn.prop('disabled', true);
+            $loading.addClass('active');
+            
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'almetal_generate_and_save_content',
+                    post_id: <?php echo $post->ID; ?>,
+                    nonce: '<?php echo wp_create_nonce('almetal_generate_nonce'); ?>',
+                    sections: {
+                        projet: $('input[name="almetal_gen_projet"]').is(':checked'),
+                        realisation: $('input[name="almetal_gen_realisation"]').is(':checked'),
+                        details: $('input[name="almetal_gen_details"]').is(':checked'),
+                        resultat: $('input[name="almetal_gen_resultat"]').is(':checked'),
+                        similaires: $('input[name="almetal_gen_similaires"]').is(':checked'),
+                        cta: $('input[name="almetal_gen_cta"]').is(':checked')
+                    }
+                },
+                success: function(response) {
+                    $loading.removeClass('active');
+                    $btn.prop('disabled', false);
+                    
+                    if (response.success) {
+                        $success.addClass('active');
+                        // Mettre à jour le badge de statut
+                        $('.almetal-status-badge').removeClass('not-generated').addClass('generated').html('✓ Contenu enrichi généré');
+                        
+                        // Recharger la page après 1.5s pour voir le contenu
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        alert('Erreur : ' + response.data.message);
+                    }
+                },
+                error: function() {
+                    $loading.removeClass('active');
+                    $btn.prop('disabled', false);
+                    alert('Erreur de connexion');
+                }
+            });
+        });
+    });
+    </script>
+    <?php
+}
+
+/**
+ * AJAX - Prévisualiser le contenu
+ */
+function almetal_ajax_preview_content() {
+    check_ajax_referer('almetal_preview_nonce', 'nonce');
+    
+    $post_id = intval($_POST['post_id']);
+    
+    if (!$post_id || !current_user_can('edit_post', $post_id)) {
+        wp_send_json_error(array('message' => 'Permissions insuffisantes'));
+    }
+    
+    $html = almetal_generate_realisation_content($post_id);
+    
+    if (empty($html)) {
+        wp_send_json_error(array('message' => 'Impossible de générer le contenu. Vérifiez que les métadonnées sont remplies.'));
+    }
+    
+    wp_send_json_success(array('html' => $html));
+}
+add_action('wp_ajax_almetal_preview_content', 'almetal_ajax_preview_content');
+
+/**
+ * AJAX - Générer et sauvegarder le contenu
+ */
+function almetal_ajax_generate_and_save_content() {
+    check_ajax_referer('almetal_generate_nonce', 'nonce');
+    
+    $post_id = intval($_POST['post_id']);
+    
+    if (!$post_id || !current_user_can('edit_post', $post_id)) {
+        wp_send_json_error(array('message' => 'Permissions insuffisantes'));
+    }
+    
+    // Générer le contenu
+    $generated_content = almetal_generate_realisation_content($post_id);
+    
+    if (empty($generated_content)) {
+        wp_send_json_error(array('message' => 'Impossible de générer le contenu. Vérifiez que les métadonnées sont remplies.'));
+    }
+    
+    // Récupérer le contenu existant
+    $post = get_post($post_id);
+    $existing_content = $post->post_content;
+    
+    // Ajouter un séparateur si contenu existant
+    $separator = '';
+    if (!empty(trim($existing_content))) {
+        $separator = "\n\n<!-- CONTENU SEO ENRICHI GÉNÉRÉ AUTOMATIQUEMENT -->\n\n";
+    }
+    
+    // Mettre à jour le post
+    $updated = wp_update_post(array(
+        'ID' => $post_id,
+        'post_content' => $existing_content . $separator . $generated_content
+    ));
+    
+    if (is_wp_error($updated)) {
+        wp_send_json_error(array('message' => 'Erreur lors de la sauvegarde'));
+    }
+    
+    // Marquer comme généré
+    update_post_meta($post_id, '_almetal_content_generated', 1);
+    update_post_meta($post_id, '_almetal_content_generated_date', current_time('mysql'));
+    
+    wp_send_json_success(array('message' => 'Contenu généré avec succès'));
+}
+add_action('wp_ajax_almetal_generate_and_save_content', 'almetal_ajax_generate_and_save_content');
+
+/**
  * Génère le contenu enrichi complet pour une réalisation
  * 
  * @param int $post_id ID de la réalisation
