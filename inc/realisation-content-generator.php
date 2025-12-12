@@ -148,6 +148,50 @@ function almetal_content_generator_metabox_callback($post) {
                 color: #F08B18;
                 margin-top: 0;
             }
+            .almetal-preview-container img {
+                max-width: 150px !important;
+                height: auto !important;
+                border-radius: 4px;
+            }
+            .almetal-preview-container .similaires-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            .almetal-preview-container .similaire-card {
+                background: rgba(255,255,255,0.1);
+                border-radius: 6px;
+                overflow: hidden;
+            }
+            .almetal-preview-container .similaire-image {
+                height: 80px;
+            }
+            .almetal-preview-container .details-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+            .almetal-preview-container .detail-item {
+                padding: 8px;
+                font-size: 12px;
+            }
+            .almetal-preview-container .realisation-section {
+                padding: 15px 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .almetal-preview-container .realisation-section h2 {
+                font-size: 14px;
+                color: #F08B18;
+                margin-bottom: 10px;
+            }
+            .almetal-preview-container .section-content {
+                font-size: 13px;
+                color: rgba(255,255,255,0.8);
+            }
+            .almetal-preview-container .realisation-cta {
+                padding: 15px !important;
+                margin: 10px 0;
+            }
             .almetal-status-badge {
                 display: inline-flex;
                 align-items: center;
