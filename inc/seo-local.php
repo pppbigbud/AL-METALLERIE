@@ -301,19 +301,24 @@ function almetal_schema_local_business() {
         'additionalType' => 'https://schema.org/Locksmith',
         '@id' => home_url('/#localbusiness'),
         'name' => 'AL Métallerie & Soudure',
-        'alternateName' => 'AL Métallerie & Soudure Thiers',
-        'description' => 'Artisan métallier serrurier à Thiers (63). Fabrication sur mesure de portails, garde-corps, escaliers, pergolas, ferronnerie d\'art. Formations soudure. Devis gratuit.',
-        'url' => home_url('/'),
+        'alternateName' => array('AL Métallerie', 'AL Métallerie Thiers', 'AL Métallerie Soudure'),
+        'description' => 'Artisan métallier serrurier à Peschadoires près de Thiers (63). Fabrication sur mesure de portails, garde-corps, escaliers, verrières, pergolas, ferronnerie d\'art. Formations soudure MIG/TIG/ARC. Intervention dans tout le Puy-de-Dôme (50km). Devis gratuit sous 48h.',
+        'url' => 'https://www.al-metallerie.fr',
         'telephone' => '+33673333532',
-        'email' => 'aurelien@al-metallerie.fr',
+        'email' => 'contact@al-metallerie.fr',
         'image' => array(
-            get_template_directory_uri() . '/assets/images/logo.png',
-            get_template_directory_uri() . '/assets/images/og-image.jpg'
+            'https://www.al-metallerie.fr/wp-content/themes/almetal-theme/assets/images/logo.png',
+            'https://www.al-metallerie.fr/wp-content/themes/almetal-theme/assets/images/og-image.jpg'
         ),
-        'logo' => get_template_directory_uri() . '/assets/images/logo.png',
+        'logo' => array(
+            '@type' => 'ImageObject',
+            'url' => 'https://www.al-metallerie.fr/wp-content/themes/almetal-theme/assets/images/logo.png',
+            'width' => 200,
+            'height' => 200
+        ),
         'priceRange' => '€€',
         'currenciesAccepted' => 'EUR',
-        'paymentAccepted' => 'Espèces, Chèque, Virement bancaire',
+        'paymentAccepted' => array('Espèces', 'Chèque', 'Virement bancaire', 'Carte bancaire'),
         'address' => array(
             '@type' => 'PostalAddress',
             'streetAddress' => '14 route de Maringues',
@@ -324,8 +329,8 @@ function almetal_schema_local_business() {
         ),
         'geo' => array(
             '@type' => 'GeoCoordinates',
-            'latitude' => 45.8344,
-            'longitude' => 3.1636
+            'latitude' => 45.9052,
+            'longitude' => 3.4688
         ),
         'openingHoursSpecification' => array(
             array(
@@ -350,11 +355,12 @@ function almetal_schema_local_business() {
                 'latitude' => 45.8556,
                 'longitude' => 3.5478
             ),
-            'geoRadius' => '30000'
+            'geoRadius' => '50000'
         ),
         'sameAs' => array(
-            'https://www.facebook.com/almetallerie',
-            'https://www.instagram.com/almetallerie'
+            'https://www.facebook.com/al.metallerie.soudure',
+            'https://www.instagram.com/al.metallerie.soudure/',
+            'https://www.linkedin.com/in/aur%C3%A9lien-lasteyras-184596202/'
         ),
         'hasOfferCatalog' => array(
             '@type' => 'OfferCatalog',
@@ -369,20 +375,163 @@ function almetal_schema_local_business() {
             'Soudure TIG',
             'Soudure ARC',
             'Travail du fer forgé',
-            'Fabrication sur mesure'
+            'Fabrication sur mesure',
+            'Portails sur mesure',
+            'Garde-corps',
+            'Escaliers métalliques',
+            'Verrières',
+            'Pergolas',
+            'Formations soudure'
         ),
-        'slogan' => 'Votre artisan métallier serrurier & soudeur à Thiers',
+        'slogan' => 'Votre artisan métallier serrurier à Thiers - Fabrication sur mesure',
         'foundingDate' => '2020',
         'founder' => array(
             '@type' => 'Person',
-            'name' => 'Aurélien',
-            'jobTitle' => 'Artisan métallier ferronnier'
+            'name' => 'Aurélien Lasteyras',
+            'jobTitle' => 'Artisan métallier serrurier'
+        ),
+        'aggregateRating' => array(
+            '@type' => 'AggregateRating',
+            'ratingValue' => '5',
+            'reviewCount' => '15',
+            'bestRating' => '5',
+            'worstRating' => '1'
+        ),
+        'contactPoint' => array(
+            '@type' => 'ContactPoint',
+            'telephone' => '+33673333532',
+            'contactType' => 'customer service',
+            'availableLanguage' => 'French',
+            'areaServed' => 'FR'
         )
     );
     
     echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
 }
 add_action('wp_head', 'almetal_schema_local_business', 5);
+
+/**
+ * Schema JSON-LD Organization pour la page d'accueil
+ */
+function almetal_schema_organization() {
+    if (!is_front_page() && !is_home()) {
+        return;
+    }
+    
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'Organization',
+        '@id' => 'https://www.al-metallerie.fr/#organization',
+        'name' => 'AL Métallerie & Soudure',
+        'url' => 'https://www.al-metallerie.fr',
+        'logo' => array(
+            '@type' => 'ImageObject',
+            'url' => 'https://www.al-metallerie.fr/wp-content/themes/almetal-theme/assets/images/logo.png',
+            'width' => 200,
+            'height' => 200
+        ),
+        'description' => 'Entreprise artisanale de métallerie et soudure basée à Peschadoires (63). Spécialiste de la fabrication sur mesure : portails, garde-corps, escaliers, verrières, pergolas. Formations soudure.',
+        'foundingDate' => '2020',
+        'founder' => array(
+            '@type' => 'Person',
+            'name' => 'Aurélien Lasteyras',
+            'jobTitle' => 'Gérant - Artisan métallier serrurier'
+        ),
+        'address' => array(
+            '@type' => 'PostalAddress',
+            'streetAddress' => '14 route de Maringues',
+            'addressLocality' => 'Peschadoires',
+            'postalCode' => '63920',
+            'addressRegion' => 'Auvergne-Rhône-Alpes',
+            'addressCountry' => 'FR'
+        ),
+        'contactPoint' => array(
+            '@type' => 'ContactPoint',
+            'telephone' => '+33673333532',
+            'contactType' => 'customer service',
+            'email' => 'contact@al-metallerie.fr',
+            'availableLanguage' => 'French'
+        ),
+        'sameAs' => array(
+            'https://www.facebook.com/al.metallerie.soudure',
+            'https://www.instagram.com/al.metallerie.soudure/',
+            'https://www.linkedin.com/in/aur%C3%A9lien-lasteyras-184596202/'
+        ),
+        'knowsAbout' => array(
+            'Métallerie',
+            'Ferronnerie',
+            'Serrurerie',
+            'Soudure MIG/TIG/ARC',
+            'Fabrication sur mesure'
+        ),
+        'hasCredential' => array(
+            '@type' => 'EducationalOccupationalCredential',
+            'credentialCategory' => 'Artisan qualifié',
+            'name' => 'Artisan métallier'
+        )
+    );
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'almetal_schema_organization', 6);
+
+/**
+ * Schema JSON-LD FAQPage pour la page d'accueil
+ * Questions fréquentes sur les services de métallerie
+ */
+function almetal_schema_faq_homepage() {
+    if (!is_front_page() && !is_home()) {
+        return;
+    }
+    
+    $faqs = array(
+        array(
+            'question' => 'Quel est le prix d\'un garde-corps sur mesure ?',
+            'answer' => 'Le prix d\'un garde-corps sur mesure dépend de plusieurs facteurs : matériau (acier, inox, aluminium), dimensions, design et finition. Comptez en moyenne entre 150€ et 400€ par mètre linéaire pose comprise. Contactez-nous pour un devis gratuit personnalisé.'
+        ),
+        array(
+            'question' => 'Quels sont les délais de fabrication ?',
+            'answer' => 'Les délais de fabrication varient selon la complexité du projet. Pour un portail standard, comptez 2 à 3 semaines. Pour des réalisations plus complexes (escaliers, verrières), prévoyez 4 à 6 semaines. Nous vous communiquons un délai précis lors du devis.'
+        ),
+        array(
+            'question' => 'Quelle est votre zone d\'intervention ?',
+            'answer' => 'Nous intervenons dans un rayon de 50 km autour de Thiers (63), couvrant tout le Puy-de-Dôme : Clermont-Ferrand, Riom, Vichy, Ambert, Issoire, et les communes environnantes. Pour des projets plus éloignés, contactez-nous pour étudier la faisabilité.'
+        ),
+        array(
+            'question' => 'Le devis est-il gratuit ?',
+            'answer' => 'Oui, le devis est entièrement gratuit et sans engagement. Nous nous déplaçons chez vous pour prendre les mesures et comprendre vos besoins. Vous recevez un devis détaillé sous 48h avec le prix ferme et définitif.'
+        ),
+        array(
+            'question' => 'Proposez-vous des formations en soudure ?',
+            'answer' => 'Oui, AL Métallerie propose des formations soudure pour particuliers et professionnels dans notre atelier à Peschadoires. Nous enseignons les techniques MIG, TIG et ARC. Stages découverte, perfectionnement et préparation CAP disponibles.'
+        ),
+        array(
+            'question' => 'Quels matériaux travaillez-vous ?',
+            'answer' => 'Nous travaillons principalement l\'acier, l\'inox et l\'aluminium. Nous réalisons également des ouvrages en fer forgé pour la ferronnerie d\'art. Chaque matériau est choisi en fonction de votre projet et de son environnement (intérieur/extérieur).'
+        )
+    );
+    
+    $faq_items = array();
+    foreach ($faqs as $faq) {
+        $faq_items[] = array(
+            '@type' => 'Question',
+            'name' => $faq['question'],
+            'acceptedAnswer' => array(
+                '@type' => 'Answer',
+                'text' => $faq['answer']
+            )
+        );
+    }
+    
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => $faq_items
+    );
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'almetal_schema_faq_homepage', 7);
 
 /**
  * Schema JSON-LD Service pour chaque catégorie de réalisation
