@@ -644,21 +644,27 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
     
     /**
      * Template de description SEO (fallback) - AVEC VARIATIONS ALÉATOIRES
+     * Structure optimisée SEO : 300-500 mots avec sections enrichies
      */
     private function generate_seo_description_template($data) {
         $title = $data['title'] ?? 'Réalisation métallerie';
         $type_primary = $data['type_primary'] ?? 'métallerie';
         $type_list = $data['type_list'] ?? 'métallerie';
-        $lieu = $data['lieu'] ?? 'Clermont-Ferrand';
+        $lieu = $data['lieu'] ?? 'Thiers';
         $departement = $data['departement'] ?? 'Puy-de-Dôme';
         $date = !empty($data['date']) ? date_i18n('F Y', strtotime($data['date'])) : '';
-        $duree = $data['duree'] ?? '';
-        $matiere = $data['matiere'] ?? '';
-        $peinture = $data['peinture'] ?? '';
+        $annee = !empty($data['date']) ? date('Y', strtotime($data['date'])) : date('Y');
+        $duree = $data['duree'] ?? '2 à 3 semaines';
+        $matiere = $data['matiere'] ?? 'acier';
+        $peinture = $data['peinture'] ?? 'thermolaquage';
         $pose = (!empty($data['pose']) && ($data['pose'] === '1' || $data['pose'] == 1));
-        $client_type = $data['client_type'] ?? '';
+        $client_type = $data['client_type'] ?? 'particulier';
         $client_nom = $data['client_nom'] ?? '';
         $client_url = $data['client_url'] ?? '';
+        
+        // Labels lisibles
+        $matiere_label = $this->get_matiere_label($matiere);
+        $client_label = ($client_type === 'professionnel') ? 'un professionnel' : 'un particulier';
         
         // ========================================
         // VARIATIONS POUR CHAQUE SECTION
@@ -781,77 +787,125 @@ Génère uniquement le HTML, sans commentaires. [/INST]";
         );
         
         // ========================================
-        // CONSTRUCTION DU HTML AVEC VARIATIONS
+        // CONSTRUCTION DU HTML ENRICHI (300-500 mots)
         // ========================================
         
         $html = '';
         
-        // H2 - Titre principal (aléatoire)
-        $html .= "<h2>" . $titres_h2[array_rand($titres_h2)] . "</h2>\n\n";
+        // ----------------------------------------
+        // 1. TITRE H2 PRINCIPAL
+        // ----------------------------------------
+        $html .= "<h2>{$type_primary} en {$matiere_label} à {$lieu} - {$annee}</h2>\n\n";
         
-        // Introduction (aléatoire)
-        $html .= "<p>" . $intros[array_rand($intros)] . "</p>\n\n";
+        // ----------------------------------------
+        // 2. CHAPEAU INTRODUCTIF (50 mots)
+        // ----------------------------------------
+        $chapeaux = array(
+            "Découvrez cette <strong>réalisation de {$type_list}</strong> en {$matiere_label}, conçue et fabriquée sur mesure pour {$client_label} de {$lieu}. Ce projet de <strong>métallerie sur mesure</strong> illustre parfaitement le savoir-faire artisanal d'AL Métallerie & Soudure, votre artisan métallier dans le {$departement}.",
+            "AL Métallerie & Soudure vous présente ce magnifique projet de <strong>{$type_list} sur mesure</strong> réalisé à {$lieu} pour {$client_label}. Cette <strong>fabrication artisanale</strong> en {$matiere_label} témoigne de notre expertise en métallerie dans le {$departement}.",
+            "Voici notre dernière création : un{$this->get_article($type_primary)} <strong>{$type_list}</strong> en {$matiere_label}, fabriqué{$this->get_accord($type_primary)} avec passion pour {$client_label} de {$lieu}. Un projet de <strong>métallerie sur mesure</strong> qui allie qualité et esthétique.",
+        );
+        $html .= "<p>" . $chapeaux[array_rand($chapeaux)] . "</p>\n\n";
         
-        // Section expertise
-        $html .= "<h3>" . $titres_expertise[array_rand($titres_expertise)] . "</h3>\n";
-        $html .= "<p>" . $expertises[array_rand($expertises)] . "</p>\n\n";
+        // ----------------------------------------
+        // 3. SECTION "LE PROJET" (H3)
+        // ----------------------------------------
+        $html .= "<h3>Le Projet</h3>\n";
         
-        // Section caractéristiques techniques (si données disponibles)
-        if ($matiere || $peinture || $pose) {
-            $html .= "<h3>" . $titres_carac[array_rand($titres_carac)] . "</h3>\n";
-            $html .= "<p>";
-            $specs = array();
-            if ($matiere) {
-                $specs[] = $phrases_matiere[array_rand($phrases_matiere)];
-            }
-            if ($peinture) {
-                $specs[] = $phrases_peinture[array_rand($phrases_peinture)];
-            }
-            if ($pose) {
-                $specs[] = $phrases_pose[array_rand($phrases_pose)];
-            }
-            $html .= implode('. ', $specs) . ".</p>\n\n";
+        $demandes_initiales = array(
+            'portail' => "Notre client souhaitait une entrée de propriété à la fois élégante et sécurisée. La demande initiale portait sur un portail robuste, design moderne, s'intégrant parfaitement à l'architecture existante.",
+            'garde-corps' => "Le client recherchait une solution de sécurisation pour son escalier/terrasse, alliant conformité aux normes et esthétique contemporaine. L'objectif était de créer un garde-corps design sans compromettre la luminosité.",
+            'escalier' => "Ce projet répondait au besoin de créer un accès fonctionnel et esthétique entre deux niveaux. Le client souhaitait un escalier métallique moderne, optimisant l'espace disponible.",
+            'default' => "Ce projet de {$type_primary} a été initié suite à la demande de {$client_label} de {$lieu}, souhaitant un ouvrage sur mesure répondant à des critères précis de qualité et d'esthétique."
+        );
+        
+        $type_key = 'default';
+        if (stripos($type_primary, 'portail') !== false) $type_key = 'portail';
+        elseif (stripos($type_primary, 'garde-corps') !== false || stripos($type_primary, 'rambarde') !== false) $type_key = 'garde-corps';
+        elseif (stripos($type_primary, 'escalier') !== false) $type_key = 'escalier';
+        
+        $html .= "<p>" . $demandes_initiales[$type_key] . "</p>\n";
+        
+        $contraintes = array(
+            "Les contraintes du projet incluaient l'adaptation aux dimensions exactes de l'espace, le respect du budget défini, et une finition résistante aux conditions climatiques du {$departement}.",
+            "Plusieurs contraintes techniques ont guidé notre travail : intégration architecturale, respect des normes en vigueur, et durabilité face aux intempéries.",
+            "Le cahier des charges imposait des exigences précises : dimensions sur mesure, choix esthétiques spécifiques, et garantie de qualité professionnelle.",
+        );
+        $html .= "<p>" . $contraintes[array_rand($contraintes)] . "</p>\n\n";
+        
+        // ----------------------------------------
+        // 4. SECTION "NOTRE RÉALISATION" (H3)
+        // ----------------------------------------
+        $html .= "<h3>Notre Réalisation</h3>\n";
+        
+        // Matériaux et techniques
+        $techniques_soudure = array(
+            'acier' => 'soudure MIG/MAG',
+            'inox' => 'soudure TIG pour des cordons parfaits',
+            'aluminium' => 'soudure TIG spécifique aluminium',
+            'fer-forge' => 'techniques traditionnelles de forge à chaud',
+        );
+        $technique = isset($techniques_soudure[$matiere]) ? $techniques_soudure[$matiere] : 'soudure professionnelle';
+        
+        $html .= "<p>Pour cette réalisation, nous avons sélectionné le <strong>{$matiere_label}</strong>, un matériau reconnu pour sa robustesse et son rendu esthétique. ";
+        $html .= "La fabrication a été réalisée dans notre atelier de Peschadoires, près de Thiers, en utilisant nos techniques de <strong>{$technique}</strong>.</p>\n";
+        
+        // Finition
+        $finitions_desc = array(
+            'thermolaquage' => "Le <strong>thermolaquage</strong> appliqué garantit une protection durable (garantie 10 ans) dans la teinte RAL choisie par le client. Ce traitement offre une excellente résistance aux UV et aux intempéries.",
+            'galvanisation' => "La <strong>galvanisation à chaud</strong> assure une protection anticorrosion exceptionnelle, idéale pour les installations extérieures soumises aux conditions climatiques du {$departement}.",
+            'peinture-epoxy' => "La finition <strong>peinture époxy</strong> bi-composant offre une résistance optimale aux rayures et aux intempéries, tout en sublimant l'aspect de l'ouvrage.",
+            'brut' => "L'aspect <strong>brut ciré</strong> met en valeur la beauté naturelle du métal, créant un style industriel authentique très recherché.",
+        );
+        $finition_desc = isset($finitions_desc[$peinture]) ? $finitions_desc[$peinture] : "La finition <strong>{$peinture}</strong> apporte protection et esthétique à l'ouvrage.";
+        $html .= "<p>{$finition_desc}</p>\n";
+        
+        // Durée et pose
+        $html .= "<p>La <strong>fabrication artisanale</strong> s'est étalée sur {$duree}, un délai optimisé grâce à notre organisation et notre expertise. ";
+        if ($pose) {
+            $html .= "La <strong>pose a été réalisée par nos équipes</strong> à {$lieu}, garantissant une installation professionnelle conforme aux normes en vigueur (NF P01-012 pour les garde-corps, etc.).</p>\n\n";
+        } else {
+            $html .= "Le client a assuré lui-même l'installation, avec nos conseils techniques pour une mise en œuvre optimale.</p>\n\n";
         }
         
-        // Section client professionnel (si applicable)
-        if ($client_type === 'professionnel' && $client_nom) {
-            $titres_client = array(
-                "Un projet pour {$client_nom}",
-                "Collaboration avec {$client_nom}",
-                "Réalisation pour {$client_nom}",
-            );
-            $html .= "<h3>" . $titres_client[array_rand($titres_client)] . "</h3>\n";
-            
-            $phrases_client = array(
-                "Ce projet a été réalisé pour <strong>{$client_nom}</strong>",
-                "Nous avons eu le plaisir de collaborer avec <strong>{$client_nom}</strong> pour ce projet",
-                "<strong>{$client_nom}</strong> nous a fait confiance pour cette réalisation",
-            );
-            $html .= "<p>" . $phrases_client[array_rand($phrases_client)];
-            if ($client_url) {
-                $html .= " (<a href=\"{$client_url}\" target=\"_blank\" rel=\"noopener\">voir leur site</a>)";
-            }
-            $html .= ". Nous sommes fiers de cette collaboration qui témoigne de la confiance que nous accordent les professionnels de la région.</p>\n\n";
-        }
+        // ----------------------------------------
+        // 5. SECTION "DÉTAILS TECHNIQUES" (H3) - Liste
+        // ----------------------------------------
+        $html .= "<h3>Détails Techniques</h3>\n";
+        $html .= "<ul>\n";
+        $html .= "<li><strong>Matériau principal :</strong> {$matiere_label}</li>\n";
+        $html .= "<li><strong>Finition :</strong> " . ucfirst(str_replace('-', ' ', $peinture)) . "</li>\n";
+        $html .= "<li><strong>Lieu d'installation :</strong> {$lieu} ({$departement})</li>\n";
+        $html .= "<li><strong>Durée de fabrication :</strong> {$duree}</li>\n";
+        $html .= "<li><strong>Pose incluse :</strong> " . ($pose ? 'Oui, par nos équipes' : 'Non') . "</li>\n";
+        $html .= "<li><strong>Garantie structure :</strong> 10 ans</li>\n";
+        $html .= "<li><strong>Garantie finition :</strong> 10 ans (thermolaquage)</li>\n";
+        $html .= "</ul>\n\n";
         
-        // Section à propos du projet
-        $html .= "<h3>" . $titres_apropos[array_rand($titres_apropos)] . "</h3>\n";
-        $html .= "<p>" . $conclusions[array_rand($conclusions)] . " ";
-        if ($duree) {
-            $html .= $phrases_duree[array_rand($phrases_duree)] . " ";
-        }
-        if ($date) {
-            $phrases_date = array(
-                "Projet finalisé en {$date}.",
-                "Réalisation achevée en {$date}.",
-                "Livraison effectuée en {$date}.",
-            );
-            $html .= $phrases_date[array_rand($phrases_date)] . " ";
-        }
-        $html .= "</p>\n\n";
+        // ----------------------------------------
+        // 6. SECTION "RÉSULTAT" (H3)
+        // ----------------------------------------
+        $html .= "<h3>Résultat et Satisfaction Client</h3>\n";
         
-        // Appel à l'action (aléatoire)
-        $html .= "<p>" . $ctas[array_rand($ctas)] . "</p>";
+        $resultats = array(
+            'portail' => "Le portail terminé répond parfaitement aux attentes : une entrée élégante et sécurisée qui valorise la propriété. La qualité de <strong>fabrication artisanale</strong> et la finition soignée garantissent une durabilité exceptionnelle.",
+            'garde-corps' => "Le garde-corps installé allie parfaitement sécurité et esthétique. Conforme aux normes NF P01-012, il apporte une touche design moderne tout en assurant une protection optimale.",
+            'escalier' => "L'escalier réalisé s'intègre harmonieusement dans l'espace. Sa conception sur mesure optimise la circulation tout en créant un véritable élément architectural qui sublime l'intérieur.",
+            'default' => "Cette réalisation illustre notre savoir-faire en <strong>métallerie sur mesure</strong>. La qualité des finitions et l'attention portée aux détails témoignent de notre engagement pour l'excellence."
+        );
+        $html .= "<p>" . $resultats[$type_key] . "</p>\n\n";
+        
+        // ----------------------------------------
+        // 7. CALL-TO-ACTION FINAL
+        // ----------------------------------------
+        $html .= "<h3>Un projet similaire ?</h3>\n";
+        $html .= "<p><strong>Vous souhaitez un{$this->get_article($type_primary)} {$type_primary} sur mesure</strong> pour votre propriété à {$lieu} ou dans le {$departement} ? ";
+        $html .= "Contactez AL Métallerie & Soudure pour un <strong>devis gratuit</strong> et personnalisé.</p>\n";
+        $html .= "<p>✅ <strong>Devis gratuit sous 48h</strong><br>\n";
+        $html .= "✅ <strong>Fabrication artisanale</strong> dans notre atelier près de Thiers<br>\n";
+        $html .= "✅ <strong>Pose professionnelle</strong> incluse sur demande<br>\n";
+        $html .= "✅ <strong>Garantie 10 ans</strong> sur la structure et les finitions</p>\n";
+        $html .= "<p>📞 <strong>06 73 33 35 32</strong> | 📧 contact@al-metallerie.fr</p>";
         
         return $html;
     }
