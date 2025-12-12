@@ -1,8 +1,8 @@
 <?php
 /**
  * Template Name: Formations
- * Description: Page parente des formations en ferronnerie
- * Design inspiré des pages légales
+ * Description: Page parente des formations en ferronnerie - Intégration Training Manager
+ * Design cohérent avec archive-pages
  * 
  * @package ALMetallerie
  * @since 1.0.0
@@ -17,8 +17,8 @@ get_header();
         <div class="container">
             <h1 class="archive-title">
                 <svg class="archive-icon" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
                 </svg>
                 <?php _e('Nos Formations en Ferronnerie', 'almetal'); ?>
             </h1>
@@ -33,182 +33,232 @@ get_header();
     <!-- Contenu principal -->
     <div class="archive-content">
         <div class="container">
-            <!-- Grille des formations -->
-            <div class="archive-grid formations-grid">
-        <!-- Carte Particuliers -->
-        <a href="<?php echo esc_url(home_url('/formations-particuliers')); ?>" class="formation-card card card-primary hover-lift">
-            <div class="formation-card-icon mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-            </div>
-            <h2 class="formation-card-title" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem;">
-                Formations Particuliers
-            </h2>
-            <p class="formation-card-description" style="font-size: 1.1rem; color: var(--color-text-light); line-height: 1.6; margin-bottom: 1.5rem;">
-                Initiez-vous à la ferronnerie d'art lors de stages découverte ou perfectionnez vos compétences 
-                avec nos ateliers pratiques. Idéal pour les passionnés et les créatifs.
-            </p>
-            <div class="formation-card-features mb-3">
-                <div class="badge badge--small mb-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
+            
+            <!-- Section Prochaines Formations -->
+            <section class="formations-upcoming-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
                     </svg>
-                    Stages de 1 à 5 jours
+                    Prochaines sessions disponibles
+                </h2>
+                <div class="formations-upcoming-wrapper">
+                    <?php 
+                    // Shortcode du plugin Training Manager
+                    if (shortcode_exists('training_upcoming')) {
+                        echo do_shortcode('[training_upcoming count="4"]');
+                    } else {
+                        echo '<p class="no-formations">Aucune formation programmée pour le moment. Contactez-nous pour connaître les prochaines dates.</p>';
+                    }
+                    ?>
                 </div>
-                <div class="badge badge--small mb-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                    Petits groupes (max 6)
-                </div>
-                <div class="badge badge--small">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Tous niveaux acceptés
-                </div>
-            </div>
-        </a>
+            </section>
 
-        <!-- Carte Professionnels - Bientôt disponible -->
-        <div class="formation-card formation-card--coming-soon card card-primary">
-            <div class="formation-card-icon mb-2" style="opacity: 0.5;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
-            </div>
-            <h2 class="formation-card-title" style="font-size: 2rem; color: rgba(240, 139, 24, 0.5); margin-bottom: 1rem;">
-                Formations Professionnels
-            </h2>
-            <p class="formation-card-description" style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.5); line-height: 1.6; margin-bottom: 1.5rem;">
-                Nos formations certifiantes et qualifiantes pour les professionnels du bâtiment arrivent prochainement. 
-                Inscrivez-vous à notre newsletter pour être informé du lancement.
-            </p>
-            <div class="formation-card-features mb-3" style="opacity: 0.5;">
-                <div class="badge badge--small mb-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            <!-- Grille des catégories de formations -->
+            <section class="formations-categories-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
                     </svg>
-                    Certification professionnelle
+                    Nos types de formations
+                </h2>
+                
+                <div class="formations-categories-grid">
+                    <!-- Carte Particuliers -->
+                    <a href="<?php echo esc_url(home_url('/formations-particuliers')); ?>" class="formation-category-card">
+                        <div class="formation-category-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="formation-category-content">
+                            <h3>Formations Particuliers</h3>
+                            <p>Stages découverte et perfectionnement pour les passionnés. Initiez-vous à la ferronnerie d'art dans notre atelier.</p>
+                            <ul class="formation-category-features">
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Stages de 1 à 5 jours
+                                </li>
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Petits groupes (max 6)
+                                </li>
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Tous niveaux acceptés
+                                </li>
+                            </ul>
+                            <span class="formation-category-cta">
+                                Voir les formations
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- Carte Professionnels -->
+                    <a href="<?php echo esc_url(home_url('/formations-professionnels')); ?>" class="formation-category-card">
+                        <div class="formation-category-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                            </svg>
+                        </div>
+                        <div class="formation-category-content">
+                            <h3>Formations Professionnels</h3>
+                            <p>Formations certifiantes et qualifiantes pour les professionnels du bâtiment et artisans en reconversion.</p>
+                            <ul class="formation-category-features">
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Certification professionnelle
+                                </li>
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Formation de 3 à 12 mois
+                                </li>
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Financement CPF/Pôle Emploi
+                                </li>
+                            </ul>
+                            <span class="formation-category-cta">
+                                Voir les formations
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </span>
+                        </div>
+                    </a>
                 </div>
-                <div class="badge badge--small mb-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v6l4 2"></path>
+            </section>
+
+            <!-- Calendrier des formations -->
+            <section class="formations-calendar-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
                     </svg>
-                    Formation de 3 à 12 mois
+                    Calendrier des formations
+                </h2>
+                <div class="formations-calendar-wrapper">
+                    <?php 
+                    // Calendrier du plugin Training Manager
+                    if (shortcode_exists('training_calendar')) {
+                        echo do_shortcode('[training_calendar]');
+                    } else {
+                        echo '<p class="no-calendar">Le calendrier des formations sera bientôt disponible.</p>';
+                    }
+                    ?>
                 </div>
-                <div class="badge badge--small">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                    </svg>
-                    Financement CPF/Pôle Emploi
-                </div>
-            </div>
-            <div class="coming-soon-notice">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>Lancement prévu courant 2026</span>
-            </div>
-        </div>
-            </div>
+            </section>
 
             <!-- Section avantages -->
-            <div class="formations-advantages">
-                <h2><?php _e('Pourquoi choisir nos formations ?', 'almetal'); ?></h2>
+            <section class="formations-advantages-section">
+                <h2 class="section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    Pourquoi choisir nos formations ?
+                </h2>
                 <div class="formations-advantages-grid">
-                    <div class="card">
-                        <div class="card-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 20h9"></path>
-                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
                             </svg>
                         </div>
-                        <h3><?php _e('Atelier équipé', 'almetal'); ?></h3>
-                        <p><?php _e('Accès à un atelier professionnel avec tout le matériel nécessaire : forge, enclume, outils de découpe et de soudure.', 'almetal'); ?></p>
+                        <h3>Atelier équipé</h3>
+                        <p>Accès à un atelier professionnel avec tout le matériel nécessaire : forge, enclume, outils de découpe et de soudure.</p>
                     </div>
 
-                    <div class="card">
-                        <div class="card-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                             </svg>
                         </div>
-                        <h3><?php _e('Formateurs experts', 'almetal'); ?></h3>
-                        <p><?php _e('Apprenez auprès d\'artisans ferronniers expérimentés, passionnés par la transmission de leur savoir-faire.', 'almetal'); ?></p>
+                        <h3>Formateurs experts</h3>
+                        <p>Apprenez auprès d'artisans ferronniers expérimentés, passionnés par la transmission de leur savoir-faire.</p>
                     </div>
 
-                    <div class="card">
-                        <div class="card-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                             </svg>
                         </div>
-                        <h3><?php _e('Pratique intensive', 'almetal'); ?></h3>
-                        <p><?php _e('80% de pratique pour maîtriser rapidement les gestes techniques et créer vos propres réalisations.', 'almetal'); ?></p>
+                        <h3>Pratique intensive</h3>
+                        <p>80% de pratique pour maîtriser rapidement les gestes techniques et créer vos propres réalisations.</p>
                     </div>
 
-                    <div class="card">
-                        <div class="card-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
                             </svg>
                         </div>
-                        <h3><?php _e('Suivi personnalisé', 'almetal'); ?></h3>
-                        <p><?php _e('Groupes restreints pour un accompagnement individualisé et adapté à votre niveau et vos objectifs.', 'almetal'); ?></p>
+                        <h3>Suivi personnalisé</h3>
+                        <p>Groupes restreints pour un accompagnement individualisé et adapté à votre niveau et vos objectifs.</p>
                     </div>
 
-                    <div class="card">
-                        <div class="card-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
                             </svg>
                         </div>
-                        <h3><?php _e('Repartez avec votre création', 'almetal'); ?></h3>
-                        <p><?php _e('À la fin de chaque stage, repartez avec l\'objet que vous avez fabriqué : un souvenir unique de votre apprentissage.', 'almetal'); ?></p>
+                        <h3>Repartez avec votre création</h3>
+                        <p>À la fin de chaque stage, repartez avec l'objet que vous avez fabriqué : un souvenir unique.</p>
                     </div>
 
-                    <div class="card">
-                        <div class="card-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M12 6v6l4 2"></path>
+                    <div class="advantage-card">
+                        <div class="advantage-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
                             </svg>
                         </div>
-                        <h3><?php _e('Horaires flexibles', 'almetal'); ?></h3>
-                        <p><?php _e('Des créneaux adaptés à vos disponibilités : stages en semaine, week-end ou pendant les vacances scolaires.', 'almetal'); ?></p>
+                        <h3>Horaires flexibles</h3>
+                        <p>Des créneaux adaptés à vos disponibilités : stages en semaine, week-end ou vacances scolaires.</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- CTA Contact -->
-            <div class="formations-cta">
-                <h2><?php _e('Une question sur nos formations ?', 'almetal'); ?></h2>
-                <p><?php _e('Contactez-nous pour obtenir plus d\'informations ou pour réserver votre place.', 'almetal'); ?></p>
-                <a href="<?php echo esc_url(home_url('/contact')); ?>" class="btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <?php _e('Nous contacter', 'almetal'); ?>
-                </a>
-            </div>
+            <section class="formations-cta-section">
+                <div class="formations-cta-content">
+                    <h2>Une question sur nos formations ?</h2>
+                    <p>Contactez-nous pour obtenir plus d'informations ou pour réserver votre place.</p>
+                    <div class="formations-cta-buttons">
+                        <a href="<?php echo esc_url(home_url('/contact')); ?>" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            Nous contacter
+                        </a>
+                        <a href="tel:+33673333532" class="btn-secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            06 73 33 35 32
+                        </a>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 </div>

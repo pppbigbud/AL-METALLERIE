@@ -1,102 +1,351 @@
 /**
  * Styles spécifiques aux pages Formations
- * Réutilise au maximum les styles existants du thème (style.css, components.css)
+ * Design cohérent avec archive-pages.css
+ * Intégration du plugin Training Manager
  * 
  * @package ALMetallerie
  * @since 1.0.0
  */
 
 /* ============================================
-   SECTION FORMATIONS - PAGE D'ACCUEIL
+   VARIABLES
    ============================================ */
-
-.formations-section {
-    padding: 80px 0;
-    background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
-    position: relative;
-    overflow: hidden;
+:root {
+    --color-primary: #F08B18;
+    --color-primary-hover: #ff9f3a;
+    --color-bg-dark: #1a1a1a;
+    --color-bg-card: rgba(255, 255, 255, 0.03);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-text: rgba(255, 255, 255, 0.9);
+    --color-text-muted: rgba(255, 255, 255, 0.7);
 }
 
-/* Image de fond */
-.formations-section.has-background {
-    background: transparent;
-}
-
-.formations-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.formations-background img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-}
-
-.formations-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(10, 10, 10, var(--bg-overlay, 0.7));
-    mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 100%);
-}
-
-.formations-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    position: relative;
-    z-index: 1;
-}
-
-/* Tag */
-.formations-tag {
+/* ============================================
+   TITRES DE SECTION
+   ============================================ */
+.formations-archive .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2rem;
     text-align: center;
+}
+
+.formations-archive .section-title svg {
+    color: var(--color-primary);
+    stroke: var(--color-primary);
+    flex-shrink: 0;
+}
+
+/* ============================================
+   SECTION PROCHAINES FORMATIONS
+   ============================================ */
+.formations-upcoming-section {
     margin-bottom: 4rem;
 }
 
-.formations-tag span {
-    display: inline-block;
-    padding: 8px 20px;
-    background: rgba(240, 139, 24, 0.1);
-    border: 1px solid rgba(240, 139, 24, 0.3);
-    border-radius: 30px;
-    color: #F08B18;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.formations-upcoming-wrapper {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
 }
 
-/* Titre principal */
-.formations-title {
+.no-formations,
+.no-calendar {
     text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-/* Sous-titre */
-.formations-subtitle {
-    text-align: center;
+    color: var(--color-text-muted);
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.7);
-    max-width: 600px;
-    margin: 0 auto 3rem;
+    padding: 2rem;
+}
+
+/* ============================================
+   GRILLE DES CATÉGORIES
+   ============================================ */
+.formations-categories-section {
+    margin-bottom: 4rem;
+}
+
+.formations-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+/* Carte catégorie */
+.formation-category-card {
+    display: flex;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.formation-category-card:hover {
+    border-color: rgba(240, 139, 24, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(240, 139, 24, 0.15);
+}
+
+.formation-category-icon {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary), #e67e0f);
+    border-radius: 16px;
+    margin-right: 1.5rem;
+}
+
+.formation-category-icon svg {
+    color: #fff;
+    stroke: #fff;
+}
+
+.formation-category-content {
+    flex: 1;
+}
+
+.formation-category-content h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+}
+
+.formation-category-content p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
     line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.formation-category-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem 0;
+}
+
+.formation-category-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+}
+
+.formation-category-features li svg {
+    color: var(--color-primary);
+    stroke: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.formation-category-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: gap 0.3s ease;
+}
+
+.formation-category-card:hover .formation-category-cta {
+    gap: 0.75rem;
+}
+
+.formation-category-cta svg {
+    stroke: var(--color-primary);
+    transition: transform 0.3s ease;
+}
+
+.formation-category-card:hover .formation-category-cta svg {
+    transform: translateX(4px);
+}
+
+/* ============================================
+   SECTION CALENDRIER
+   ============================================ */
+.formations-calendar-section {
+    margin-bottom: 4rem;
+}
+
+.formations-calendar-wrapper {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+/* Override styles du plugin FullCalendar */
+.formations-calendar-wrapper .fc {
+    background: transparent;
+}
+
+.formations-calendar-wrapper .fc-toolbar-title {
+    color: #fff !important;
+}
+
+.formations-calendar-wrapper .fc-button {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+}
+
+.formations-calendar-wrapper .fc-button:hover {
+    background: var(--color-primary-hover) !important;
+}
+
+.formations-calendar-wrapper .fc-daygrid-day {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.formations-calendar-wrapper .fc-daygrid-day:hover {
+    background: rgba(240, 139, 24, 0.1);
+}
+
+/* ============================================
+   SECTION AVANTAGES
+   ============================================ */
+.formations-advantages-section {
+    margin-bottom: 4rem;
+}
+
+.formations-advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.advantage-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.advantage-card:hover {
+    border-color: rgba(240, 139, 24, 0.3);
+    transform: translateY(-2px);
+}
+
+.advantage-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240, 139, 24, 0.1);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.advantage-icon svg {
+    color: var(--color-primary);
+    stroke: var(--color-primary);
+}
+
+.advantage-card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.advantage-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ============================================
+   SECTION CTA
+   ============================================ */
+.formations-cta-section {
+    margin-bottom: 2rem;
+}
+
+.formations-cta-content {
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.15), rgba(240, 139, 24, 0.05));
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.formations-cta-content h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+
+.formations-cta-content p {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.formations-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.formations-cta-buttons .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: var(--color-primary);
+    color: #000;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.formations-cta-buttons .btn-primary:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(240, 139, 24, 0.4);
+}
+
+.formations-cta-buttons .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-weight: 500;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.formations-cta-buttons .btn-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.formations-cta-buttons .btn-secondary svg {
+    stroke: currentColor;
 }
 
 /* ============================================
@@ -487,6 +736,27 @@
         gap: 1.5rem;
     }
     
+    .formations-categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .formation-category-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .formation-category-icon {
+        margin: 0 auto 1.5rem;
+    }
+    
+    .formation-category-features {
+        justify-content: center;
+    }
+    
+    .formation-category-features li {
+        justify-content: center;
+    }
+    
     .formations-advantages-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -511,13 +781,18 @@
         padding: 0 1rem;
     }
     
-    .formations-cta {
+    .formations-cta-content {
         padding: 2rem 1.5rem;
-        margin: 2rem 0;
     }
     
-    .formations-cta h2 {
+    .formations-cta-content h2 {
         font-size: 1.5rem;
+    }
+    
+    .formations-archive .section-title {
+        font-size: 1.4rem;
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
 
@@ -530,7 +805,299 @@
         font-size: 1.5rem !important;
     }
     
-    .formations-cta {
+    .formations-cta-content {
         padding: 1.5rem 1rem;
+    }
+    
+    .formations-cta-buttons {
+        flex-direction: column;
+    }
+    
+    .formations-cta-buttons .btn-primary,
+    .formations-cta-buttons .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   INTÉGRATION PLUGIN TRAINING MANAGER
+   ============================================ */
+
+/* Wrapper des sessions */
+.formations-sessions-section {
+    margin-bottom: 4rem;
+}
+
+.formations-sessions-wrapper {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+/* Override styles du plugin Training Manager */
+.training-list,
+.training-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.training-item,
+.training-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.training-item:hover,
+.training-card:hover {
+    border-color: rgba(240, 139, 24, 0.4);
+    transform: translateY(-2px);
+}
+
+.training-item h3,
+.training-card h3,
+.training-title {
+    color: #F08B18 !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.training-item p,
+.training-card p,
+.training-description {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.training-date,
+.training-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.training-price {
+    color: #F08B18 !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.training-btn,
+.training-button,
+.training-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #F08B18;
+    color: #000 !important;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.training-btn:hover,
+.training-button:hover,
+.training-cta:hover {
+    background: #ff9f3a;
+    transform: translateY(-2px);
+}
+
+/* Calendrier Training Manager */
+.training-calendar {
+    background: transparent !important;
+}
+
+.training-calendar .fc-toolbar-title {
+    color: #fff !important;
+    font-size: 1.25rem;
+}
+
+.training-calendar .fc-button {
+    background: #F08B18 !important;
+    border-color: #F08B18 !important;
+    color: #000 !important;
+}
+
+.training-calendar .fc-button:hover {
+    background: #ff9f3a !important;
+}
+
+.training-calendar .fc-daygrid-day-number {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.training-calendar .fc-col-header-cell-cushion {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.training-calendar .fc-event {
+    background: rgba(240, 139, 24, 0.2) !important;
+    border-color: #F08B18 !important;
+    color: #fff !important;
+}
+
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #F08B18;
+}
+
+.back-link svg {
+    stroke: currentColor;
+}
+
+/* Types de formations grid */
+.formations-types-section {
+    margin-bottom: 4rem;
+}
+
+.formations-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.formation-type-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.formation-type-card:hover {
+    border-color: rgba(240, 139, 24, 0.3);
+    transform: translateY(-2px);
+}
+
+.formation-type-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.formation-type-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(240, 139, 24, 0.1);
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.formation-type-icon svg {
+    color: #F08B18;
+    stroke: #F08B18;
+}
+
+.formation-type-header h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #F08B18;
+    margin-bottom: 0.25rem;
+}
+
+.formation-duration {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(240, 139, 24, 0.1);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+.formation-type-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.formation-type-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.formation-type-card ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    position: relative;
+}
+
+.formation-type-card ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #F08B18;
+}
+
+.formation-type-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #F08B18;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.formation-type-price small {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.25rem;
+}
+
+/* Responsive pour plugin */
+@media (max-width: 768px) {
+    .training-list,
+    .training-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .formations-types-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .formation-type-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .formation-type-icon {
+        margin: 0 auto;
     }
 }
