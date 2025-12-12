@@ -129,12 +129,19 @@ class CPG_Content_Generator {
                 ? sprintf($service_descriptions[$key][$this->variation], $city)
                 : sprintf($service['description'] . ' Installation à %s et environs.', $city);
 
+            // Récupérer le lien vers la catégorie de réalisation correspondante
+            $term = get_term_by('slug', $key, 'type_realisation');
+            $term_link = $term ? get_term_link($term) : home_url('/realisations/');
+            
             $output .= sprintf(
                 '<div class="cpg-service-item">
-                    <div class="cpg-service-icon"><span class="cpg-icon cpg-icon-%s"></span></div>
-                    <h3>%s</h3>
-                    <p>%s</p>
+                    <a href="%s" class="cpg-service-link">
+                        <div class="cpg-service-icon"><span class="cpg-icon cpg-icon-%s"></span></div>
+                        <h3>%s</h3>
+                        <p>%s</p>
+                    </a>
                 </div>',
+                esc_url($term_link),
                 esc_attr($key),
                 esc_html($name),
                 esc_html($description)

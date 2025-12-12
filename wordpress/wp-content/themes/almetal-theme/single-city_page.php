@@ -234,12 +234,21 @@ $lng = get_post_meta(get_the_ID(), '_cpg_longitude', true);
                     <div class="city-services-card">
                         <h3 class="city-services-card__title">Nos services</h3>
                         <ul class="city-services-card__list">
-                            <li><a href="<?php echo home_url('/realisations/?type=portails'); ?>">Portails sur mesure</a></li>
-                            <li><a href="<?php echo home_url('/realisations/?type=garde-corps'); ?>">Garde-corps</a></li>
-                            <li><a href="<?php echo home_url('/realisations/?type=escaliers'); ?>">Escaliers métalliques</a></li>
-                            <li><a href="<?php echo home_url('/realisations/?type=pergolas'); ?>">Pergolas</a></li>
-                            <li><a href="<?php echo home_url('/realisations/?type=ferronnerie-dart'); ?>">Ferronnerie d'art</a></li>
-                            <li><a href="<?php echo home_url('/realisations/?type=serrurerie'); ?>">Serrurerie</a></li>
+                            <?php
+                            $service_terms = get_terms(array(
+                                'taxonomy' => 'type_realisation',
+                                'hide_empty' => false,
+                                'orderby' => 'name',
+                                'order' => 'ASC',
+                            ));
+                            if (!empty($service_terms) && !is_wp_error($service_terms)) :
+                                foreach ($service_terms as $term) :
+                            ?>
+                            <li><a href="<?php echo esc_url(get_term_link($term)); ?>"><?php echo esc_html($term->name); ?></a></li>
+                            <?php 
+                                endforeach;
+                            endif;
+                            ?>
                         </ul>
                     </div>
                 </aside>
