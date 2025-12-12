@@ -562,3 +562,296 @@
         justify-content: center;
     }
 }
+
+/* ============================================
+   SECTIONS CONTENU ENRICHI SEO
+   ============================================ */
+
+.realisation-section {
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.realisation-section:last-of-type {
+    border-bottom: none;
+}
+
+.realisation-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.realisation-section h2 svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.realisation-section .section-content {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+.realisation-section .section-content p {
+    margin-bottom: 1rem;
+}
+
+.realisation-section .section-content strong {
+    color: #F08B18;
+}
+
+/* Détails Techniques - Grille */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.detail-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Témoignage Client */
+.client-testimonial {
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.1), rgba(240, 139, 24, 0.05));
+    border-left: 4px solid #F08B18;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+}
+
+.client-testimonial p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.75rem !important;
+}
+
+.client-testimonial cite {
+    font-size: 0.9rem;
+    color: #F08B18;
+    font-style: normal;
+}
+
+/* Projets Similaires */
+.similaires-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.similaire-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.similaire-card:hover {
+    transform: translateY(-5px);
+    border-color: #F08B18;
+    box-shadow: 0 10px 30px rgba(240, 139, 24, 0.2);
+}
+
+.similaire-image {
+    height: 150px;
+    overflow: hidden;
+}
+
+.similaire-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.similaire-card:hover .similaire-image img {
+    transform: scale(1.05);
+}
+
+.similaire-content {
+    padding: 1rem;
+}
+
+.similaire-content h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+}
+
+.similaire-lieu {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.voir-tous {
+    text-align: center;
+}
+
+.voir-tous a {
+    color: #F08B18;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.voir-tous a:hover {
+    color: #ff9f3a;
+}
+
+/* CTA Final */
+.realisation-cta {
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.15), rgba(240, 139, 24, 0.05));
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 16px;
+    padding: 2.5rem !important;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.realisation-cta h2 {
+    justify-content: center;
+    font-size: 1.75rem;
+}
+
+.realisation-cta p {
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+}
+
+.cta-features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.cta-features span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.cta-features svg {
+    color: #F08B18;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cta-buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cta-buttons .btn-primary {
+    background: #F08B18;
+    color: #fff;
+}
+
+.cta-buttons .btn-primary:hover {
+    background: #ff9f3a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(240, 139, 24, 0.4);
+}
+
+.cta-buttons .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cta-buttons .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Sections */
+@media (max-width: 768px) {
+    .realisation-section {
+        padding: 2rem 0;
+    }
+    
+    .realisation-section h2 {
+        font-size: 1.25rem;
+    }
+    
+    .details-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .similaires-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .realisation-cta {
+        padding: 1.5rem !important;
+    }
+    
+    .cta-features {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .similaires-grid {
+        grid-template-columns: 1fr;
+    }
+}
