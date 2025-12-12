@@ -89,8 +89,8 @@ add_filter('pre_get_document_title', 'almetal_seo_title', 10);
  */
 function almetal_seo_meta_head() {
     // Ne pas ajouter de meta tags sur les pages ville (géré par le plugin CPG)
-    global $post;
-    if (is_singular('city_page') || (isset($post) && $post->post_type === 'city_page')) {
+    $queried_object = get_queried_object();
+    if (is_singular('city_page') || ($queried_object instanceof WP_Post && $queried_object->post_type === 'city_page')) {
         return;
     }
     
@@ -211,15 +211,15 @@ add_action('wp_head', 'almetal_seo_meta_head', 1);
  * Optimisé pour le SEO local avec zones d'intervention complètes
  */
 function almetal_schema_local_business() {
-    global $post;
+    $queried_object = get_queried_object();
     
     // Ne pas ajouter sur les single realisation (déjà géré)
-    if (is_singular('realisation') || (isset($post) && $post->post_type === 'realisation')) {
+    if (is_singular('realisation') || ($queried_object instanceof WP_Post && $queried_object->post_type === 'realisation')) {
         return;
     }
     
     // Ne pas ajouter sur les pages ville (géré par le plugin CPG)
-    if (is_singular('city_page') || (isset($post) && $post->post_type === 'city_page')) {
+    if (is_singular('city_page') || ($queried_object instanceof WP_Post && $queried_object->post_type === 'city_page')) {
         return;
     }
     
