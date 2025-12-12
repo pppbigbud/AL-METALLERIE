@@ -124,67 +124,53 @@ if (empty($city_display)) {
         </div>
         <?php endif; ?>
 
-        <!-- Services -->
+        <!-- Services - Liste dynamique des types de réalisations -->
         <div class="mobile-city-services scroll-fade">
             <h2 class="mobile-section-subtitle">Nos services</h2>
             <ul class="mobile-city-services-list">
+                <?php
+                // Récupérer dynamiquement tous les types de réalisations
+                $types_realisation = get_terms(array(
+                    'taxonomy' => 'type_realisation',
+                    'hide_empty' => false,
+                    'orderby' => 'name',
+                    'order' => 'ASC'
+                ));
+                
+                // Icônes SVG par type de réalisation
+                $icons = array(
+                    'portails' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/><line x1="6.5" y1="10" x2="6.5" y2="14"/><line x1="17.5" y1="10" x2="17.5" y2="14"/></svg>',
+                    'garde-corps' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="6" x2="3" y2="20"/><line x1="21" y1="6" x2="21" y2="20"/><line x1="8" y1="6" x2="8" y2="20"/><line x1="16" y1="6" x2="16" y2="20"/><line x1="12" y1="6" x2="12" y2="20"/></svg>',
+                    'escaliers' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 22H2V12h6v-4h6V4h8v18z"/></svg>',
+                    'pergolas' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="8" x2="3" y2="21"/><line x1="21" y1="8" x2="21" y2="21"/><line x1="6" y1="4" x2="6" y2="8"/><line x1="12" y1="4" x2="12" y2="8"/><line x1="18" y1="4" x2="18" y2="8"/></svg>',
+                    'ferronnerie-dart' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg>',
+                    'grilles' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>',
+                    'verrieres' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/></svg>',
+                    'mobilier-metallique' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="6" rx="1"/><line x1="6" y1="10" x2="6" y2="20"/><line x1="18" y1="10" x2="18" y2="20"/><line x1="4" y1="14" x2="20" y2="14"/></svg>',
+                    'serrurerie' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+                    'industrie' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V8l5 4V8l5 4V4h5v16"/><circle cx="7" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="17" cy="10" r="1"/></svg>',
+                    'vehicules' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5H5z"/><path d="M19 12l-2-5H7l-2 5"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+                    'autres' => '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>',
+                );
+                
+                // Icône par défaut
+                $default_icon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+                
+                if (!empty($types_realisation) && !is_wp_error($types_realisation)) :
+                    foreach ($types_realisation as $type) :
+                        $slug = $type->slug;
+                        $icon = isset($icons[$slug]) ? $icons[$slug] : $default_icon;
+                ?>
                 <li>
-                    <a href="<?php echo home_url('/type-realisation/portails/'); ?>">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="18" rx="1"/>
-                            <rect x="14" y="3" width="7" height="18" rx="1"/>
-                            <line x1="6.5" y1="10" x2="6.5" y2="14"/>
-                            <line x1="17.5" y1="10" x2="17.5" y2="14"/>
-                        </svg>
-                        <span>Portails sur mesure</span>
+                    <a href="<?php echo esc_url(get_term_link($type)); ?>">
+                        <?php echo $icon; ?>
+                        <span><?php echo esc_html($type->name); ?></span>
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo home_url('/type-realisation/garde-corps/'); ?>">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="3" y1="6" x2="21" y2="6"/>
-                            <line x1="3" y1="6" x2="3" y2="20"/>
-                            <line x1="21" y1="6" x2="21" y2="20"/>
-                            <line x1="8" y1="6" x2="8" y2="20"/>
-                            <line x1="16" y1="6" x2="16" y2="20"/>
-                            <line x1="12" y1="6" x2="12" y2="20"/>
-                        </svg>
-                        <span>Garde-corps</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo home_url('/type-realisation/escaliers/'); ?>">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 22H2V12h6v-4h6V4h8v18z"/>
-                            <line x1="2" y1="22" x2="22" y2="22"/>
-                        </svg>
-                        <span>Escaliers métalliques</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo home_url('/type-realisation/pergolas/'); ?>">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="3" y1="8" x2="21" y2="8"/>
-                            <line x1="3" y1="8" x2="3" y2="21"/>
-                            <line x1="21" y1="8" x2="21" y2="21"/>
-                            <line x1="6" y1="4" x2="6" y2="8"/>
-                            <line x1="12" y1="4" x2="12" y2="8"/>
-                            <line x1="18" y1="4" x2="18" y2="8"/>
-                        </svg>
-                        <span>Pergolas</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo home_url('/type-realisation/ferronnerie-dart/'); ?>">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.82-.13 2.68-.37"/>
-                            <path d="M12 6v6l4 2"/>
-                            <path d="M19 14c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z"/>
-                            <path d="M15 18l-2 2"/>
-                        </svg>
-                        <span>Ferronnerie d'art</span>
-                    </a>
-                </li>
+                <?php 
+                    endforeach;
+                endif;
+                ?>
             </ul>
         </div>
 
