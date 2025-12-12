@@ -454,6 +454,16 @@ function almetal_enqueue_scripts() {
         );
     }
     
+    // CSS pour les pages ville (city_page)
+    if (is_singular('city_page')) {
+        wp_enqueue_style(
+            'almetal-city-pages',
+            get_template_directory_uri() . '/assets/css/city-pages.css',
+            array('almetal-style'),
+            wp_get_theme()->get('Version')
+        );
+    }
+    
     // Script de lazy loading pour la page archive des réalisations
     if (is_post_type_archive('realisation') || is_page('realisations')) {
         wp_enqueue_script(
