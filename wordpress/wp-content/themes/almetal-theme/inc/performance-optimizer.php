@@ -43,61 +43,53 @@ function almetal_preconnect_resources() {
 add_action('wp_head', 'almetal_preconnect_resources', 1);
 
 /**
- * Précharger l'image LCP (Largest Contentful Paint) - DESKTOP UNIQUEMENT
- * Note: Le mobile a son propre preload dans mobile-performance.php
+ * Précharger l'image LCP (Largest Contentful Paint)
  */
 function almetal_preload_lcp_image() {
-    // Ne pas exécuter sur mobile (géré par mobile-performance.php)
-    if (wp_is_mobile()) {
-        return;
-    }
-    
-    // Page d'accueil uniquement
-    if (!is_front_page() && !is_home()) {
-        return;
-    }
-    
-    // Précharger la première image du slideshow depuis les options
-    $slides = get_option('almetal_slideshow_slides', array());
-    if (!empty($slides) && isset($slides[0]['image_id'])) {
-        $image_id = $slides[0]['image_id'];
-        $image_src = wp_get_attachment_image_src($image_id, 'large');
-        if ($image_src) {
-            echo '<link rel="preload" as="image" href="' . esc_url($image_src[0]) . '" fetchpriority="high">' . "\n";
+    // Page d'accueil - précharger l'image LCP du slideshow
+    if (is_front_page() || is_home()) {
+        // Précharger la première image du slideshow (LCP)
+        $args = array(
+            'post_type' => 'realisation',
+            'posts_per_page' => 1,
+            'orderby' => 'date',
+            'order' => 'DESC',
+        );
+        $query = new WP_Query($args);
+        if ($query->have_posts()) {
+            $query->the_post();
+            $image_id = get_post_thumbnail_id();
+            if ($image_id) {
+                // Obtenir l'URL de l'image en taille medium_large (optimale pour LCP)
+                $image_src = wp_get_attachment_image_src($image_id, 'medium_large');
+                if ($image_src) {
+                    echo '<link rel="preload" as="image" href="' . esc_url($image_src[0]) . '" fetchpriority="high" type="image/webp">' . "\n";
+                }
+            }
+            wp_reset_postdata();
         }
+        
+        // Précharger aussi le logo
+        $logo_url = get_template_directory_uri() . '/assets/images/logo.webp';
+        echo '<link rel="preload" as="image" href="' . esc_url($logo_url) . '">' . "\n";
     }
-    
-    // Logo desktop
-    $logo_url = get_template_directory_uri() . '/assets/images/logo.webp';
-    echo '<link rel="preload" as="image" href="' . esc_url($logo_url) . '">' . "\n";
 }
 add_action('wp_head', 'almetal_preload_lcp_image', 2);
 
 /**
- * Charger les CSS non critiques de maniere asynchrone
+ * Charger les CSS non critiques de manière asynchrone
  */
 function almetal_defer_non_critical_css($html, $handle, $href, $media) {
-    // CSS a differer (non critiques) - MOBILE
-    $defer_handles_mobile = array(
-        'almetal-cookie-banner',
-        'almetal-formations',
-        'almetal-mobile-contact-page',
-        'almetal-mobile-animations-css',
-        'wp-block-library', // CSS WordPress inutile
-    );
-    
-    // CSS a differer - DESKTOP
-    $defer_handles_desktop = array(
+    // CSS à différer (non critiques)
+    $defer_handles = array(
         'almetal-cookie-banner',
         'almetal-footer-mountains',
         'almetal-realisations',
         'almetal-archive-pages',
     );
     
-    $defer_handles = wp_is_mobile() ? $defer_handles_mobile : $defer_handles_desktop;
-    
     if (in_array($handle, $defer_handles)) {
-        // Charger de maniere asynchrone
+        // Charger de manière asynchrone
         $html = '<link rel="preload" href="' . esc_url($href) . '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">';
         $html .= '<noscript><link rel="stylesheet" href="' . esc_url($href) . '"></noscript>';
     }
@@ -107,61 +99,18 @@ function almetal_defer_non_critical_css($html, $handle, $href, $media) {
 add_filter('style_loader_tag', 'almetal_defer_non_critical_css', 10, 4);
 
 /**
- * Supprimer le CSS WordPress block-library sur le frontend (inutile si pas de blocs Gutenberg)
- */
-function almetal_remove_block_library_css() {
-    if (!is_admin()) {
-        wp_dequeue_style('wp-block-library');
-        wp_dequeue_style('wp-block-library-theme');
-        wp_dequeue_style('wc-blocks-style'); // WooCommerce blocks
-        wp_dequeue_style('global-styles'); // Styles globaux Gutenberg
-    }
-}
-add_action('wp_enqueue_scripts', 'almetal_remove_block_library_css', 100);
-
-/**
- * Charger Swiper CSS de maniere non-bloquante sur mobile (front-page)
- */
-function almetal_load_swiper_css_async() {
-    if (!wp_is_mobile() || !is_front_page()) {
-        return;
-    }
-    ?>
-    <!-- Swiper CSS charge de maniere non-bloquante -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
-    <?php
-}
-add_action('wp_head', 'almetal_load_swiper_css_async', 5);
-
-/**
  * Ajouter defer aux scripts non critiques
  */
 function almetal_defer_scripts($tag, $handle, $src) {
-    // Scripts a differer (non critiques pour le rendu initial)
+    // Scripts à différer
     $defer_handles = array(
+        'almetal-cookie-consent',
         'almetal-actualites-filter',
         'jquery-migrate',
-        'almetal-cookie-banner',
-        'almetal-heatmap',
-        'almetal-ga4-events',
-        'almetal-mobile-animations',
-        'almetal-mobile-scroll-to-top',
-        'almetal-promo-countdown',
-    );
-    
-    // Scripts a charger en async (independants)
-    $async_handles = array(
-        'google-analytics',
-        'gtag',
     );
     
     if (in_array($handle, $defer_handles)) {
         return str_replace(' src', ' defer src', $tag);
-    }
-    
-    if (in_array($handle, $async_handles)) {
-        return str_replace(' src', ' async src', $tag);
     }
     
     return $tag;
@@ -407,9 +356,13 @@ function almetal_move_jquery_to_footer() {
 add_action('wp_enqueue_scripts', 'almetal_move_jquery_to_footer', 1);
 
 /**
- * Précharger les polices critiques
+ * Précharger les polices critiques (uniquement sur la page d'accueil)
  */
 function almetal_preload_fonts() {
+    // Ne précharger que sur la page d'accueil où la police est utilisée immédiatement
+    if (!is_front_page() && !is_home()) {
+        return;
+    }
     ?>
     <!-- Préchargement des polices critiques -->
     <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin>
@@ -422,58 +375,17 @@ add_action('wp_head', 'almetal_preload_fonts', 1);
  */
 function almetal_inline_critical_css() {
     if (is_front_page() || is_home()) {
-        if (wp_is_mobile()) {
-            // CSS critique MOBILE
-            ?>
-            <style id="critical-css-mobile">
-            *{box-sizing:border-box;margin:0;padding:0}
-            body{font-family:Poppins,sans-serif;background:#191919;color:#fff;padding-top:70px}
-            .mobile-header{position:fixed;top:0;left:0;right:0;height:70px;background:#191919;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 1rem}
-            .mobile-logo img{height:50px;width:auto}
-            .mobile-hero-swiper{width:100%;height:60vh;min-height:300px}
-            .swiper-slide{width:100%;height:100%}
-            .mobile-hero-image{width:100%;height:100%;background-size:cover;background-position:center}
-            .mobile-hero-content{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(transparent,rgba(0,0,0,0.8))}
-            .mobile-hero-title{font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:0.5rem}
-            </style>
-            <?php
-        } else {
-            // CSS critique DESKTOP
-            ?>
-            <style id="critical-css-desktop">
-            *{box-sizing:border-box}body{margin:0;font-family:Poppins,sans-serif;background:#191919;color:#fff}
-            .site-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:#191919}
-            .header-mega{display:flex;justify-content:center;align-items:center;padding:1rem 2rem}
-            .header-mega__list{display:flex;list-style:none;margin:0;padding:0;gap:2rem}
-            .header-mega__item a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.5rem}
-            .site-logo img{max-height:140px;width:auto}
-            </style>
-            <?php
-        }
+        ?>
+        <style id="critical-css">
+        /* CSS critique pour le rendu initial */
+        *{box-sizing:border-box}body{margin:0;font-family:Poppins,sans-serif;background:#191919;color:#fff}
+        .site-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:#191919}
+        .header-mega{display:flex;justify-content:center;align-items:center;padding:1rem 2rem}
+        .header-mega__list{display:flex;list-style:none;margin:0;padding:0;gap:2rem}
+        .header-mega__item a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:0.5rem}
+        .site-logo img{max-height:80px;width:auto}
+        </style>
+        <?php
     }
 }
 add_action('wp_head', 'almetal_inline_critical_css', 3);
-
-/**
- * Preload de l'image LCP mobile (premiere image du slider)
- */
-function almetal_preload_mobile_lcp() {
-    if (!wp_is_mobile() || !is_front_page()) {
-        return;
-    }
-    
-    // Recuperer les slides depuis les options
-    $slides = get_option('almetal_slideshow_slides', array());
-    if (!empty($slides) && isset($slides[0]['image_id'])) {
-        $image_id = $slides[0]['image_id'];
-        // Utiliser la taille mobile optimisee
-        $image_src = wp_get_attachment_image_src($image_id, 'slideshow-mobile');
-        if (!$image_src) {
-            $image_src = wp_get_attachment_image_src($image_id, 'large');
-        }
-        if ($image_src) {
-            echo '<link rel="preload" as="image" href="' . esc_url($image_src[0]) . '" fetchpriority="high">' . "\n";
-        }
-    }
-}
-add_action('wp_head', 'almetal_preload_mobile_lcp', 2);
