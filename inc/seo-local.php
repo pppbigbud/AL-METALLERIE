@@ -722,3 +722,183 @@ function almetal_schema_faq_city_pages() {
     echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
 }
 add_action('wp_head', 'almetal_schema_faq_city_pages', 8);
+
+/**
+ * Générer un attribut ALT SEO optimisé pour les images de réalisations
+ * 
+ * @param int $post_id ID du post réalisation
+ * @param int $image_index Index de l'image dans la galerie (optionnel)
+ * @return string Attribut ALT optimisé
+ */
+function almetal_generate_image_alt($post_id, $image_index = 0) {
+    $post = get_post($post_id);
+    if (!$post || $post->post_type !== 'realisation') {
+        return get_the_title($post_id) . ' - AL Métallerie Thiers';
+    }
+    
+    // Récupérer le type de réalisation
+    $types = get_the_terms($post_id, 'type_realisation');
+    $type_name = $types && !is_wp_error($types) ? $types[0]->name : 'Réalisation métallerie';
+    
+    // Récupérer le lieu
+    $lieu = get_post_meta($post_id, '_realisation_lieu', true) ?: 'Thiers';
+    
+    // Récupérer le matériau
+    $materiaux = get_post_meta($post_id, '_realisation_materiaux', true) ?: 'acier';
+    
+    // Construire l'ALT selon l'index de l'image
+    $alt_variations = array(
+        0 => sprintf('%s en %s à %s - Fabrication sur mesure AL Métallerie', $type_name, $materiaux, $lieu),
+        1 => sprintf('%s %s - Création artisanale AL Métallerie Thiers', $type_name, $lieu),
+        2 => sprintf('Détail %s en %s - AL Métallerie Puy-de-Dôme', strtolower($type_name), $materiaux),
+        3 => sprintf('%s sur mesure à %s - Artisan métallier AL Métallerie', $type_name, $lieu),
+    );
+    
+    $index = $image_index % count($alt_variations);
+    return $alt_variations[$index];
+}
+
+/**
+ * Générer une balise img optimisée SEO avec srcset responsive
+ * 
+ * @param int $attachment_id ID de l'image
+ * @param string $size Taille de l'image
+ * @param array $args Arguments supplémentaires (alt, class, loading, etc.)
+ * @return string HTML de la balise img
+ */
+function almetal_optimized_image($attachment_id, $size = 'large', $args = array()) {
+    $defaults = array(
+        'alt' => '',
+        'class' => '',
+        'loading' => 'lazy',
+        'decoding' => 'async',
+        'fetchpriority' => '',
+        'post_id' => 0,
+        'image_index' => 0,
+    );
+    $args = wp_parse_args($args, $defaults);
+    
+    // Récupérer les données de l'image
+    $image_src = wp_get_attachment_image_src($attachment_id, $size);
+    if (!$image_src) {
+        return '';
+    }
+    
+    $src = $image_src[0];
+    $width = $image_src[1];
+    $height = $image_src[2];
+    
+    // Générer l'ALT si non fourni
+    if (empty($args['alt'])) {
+        if ($args['post_id']) {
+            $args['alt'] = almetal_generate_image_alt($args['post_id'], $args['image_index']);
+        } else {
+            $args['alt'] = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+            if (empty($args['alt'])) {
+                $args['alt'] = get_the_title($attachment_id) . ' - AL Métallerie Thiers';
+            }
+        }
+    }
+    
+    // Générer le srcset
+    $srcset = wp_get_attachment_image_srcset($attachment_id, $size);
+    $sizes = wp_get_attachment_image_sizes($attachment_id, $size);
+    
+    // Construire la balise img
+    $html = '<img';
+    $html .= ' src="' . esc_url($src) . '"';
+    $html .= ' alt="' . esc_attr($args['alt']) . '"';
+    $html .= ' width="' . esc_attr($width) . '"';
+    $html .= ' height="' . esc_attr($height) . '"';
+    
+    if ($srcset) {
+        $html .= ' srcset="' . esc_attr($srcset) . '"';
+    }
+    if ($sizes) {
+        $html .= ' sizes="' . esc_attr($sizes) . '"';
+    }
+    if (!empty($args['class'])) {
+        $html .= ' class="' . esc_attr($args['class']) . '"';
+    }
+    if (!empty($args['loading'])) {
+        $html .= ' loading="' . esc_attr($args['loading']) . '"';
+    }
+    if (!empty($args['decoding'])) {
+        $html .= ' decoding="' . esc_attr($args['decoding']) . '"';
+    }
+    if (!empty($args['fetchpriority'])) {
+        $html .= ' fetchpriority="' . esc_attr($args['fetchpriority']) . '"';
+    }
+    
+    $html .= '>';
+    
+    return $html;
+}
+
+/**
+ * Filtrer les attributs ALT des images de réalisations automatiquement
+ */
+function almetal_filter_realisation_image_alt($attr, $attachment, $size) {
+    global $post;
+    
+    // Seulement pour les réalisations
+    if (!$post || $post->post_type !== 'realisation') {
+        return $attr;
+    }
+    
+    // Si l'ALT est vide ou générique, le remplacer
+    if (empty($attr['alt']) || $attr['alt'] === get_the_title($attachment->ID)) {
+        $attr['alt'] = almetal_generate_image_alt($post->ID);
+    }
+    
+    return $attr;
+}
+add_filter('wp_get_attachment_image_attributes', 'almetal_filter_realisation_image_alt', 10, 3);
+
+/**
+ * Ajouter automatiquement width et height aux images pour éviter CLS
+ */
+function almetal_add_image_dimensions($content) {
+    if (is_admin()) {
+        return $content;
+    }
+    
+    // Regex pour trouver les images sans width/height
+    $pattern = '/<img([^>]+)src=["\']([^"\']+)["\']([^>]*)>/i';
+    
+    $content = preg_replace_callback($pattern, function($matches) {
+        $before = $matches[1];
+        $src = $matches[2];
+        $after = $matches[3];
+        
+        // Vérifier si width et height sont déjà présents
+        if (strpos($before . $after, 'width=') !== false && strpos($before . $after, 'height=') !== false) {
+            return $matches[0];
+        }
+        
+        // Essayer de récupérer les dimensions
+        $attachment_id = attachment_url_to_postid($src);
+        if ($attachment_id) {
+            $image_data = wp_get_attachment_image_src($attachment_id, 'full');
+            if ($image_data) {
+                $width = $image_data[1];
+                $height = $image_data[2];
+                
+                $dimensions = '';
+                if (strpos($before . $after, 'width=') === false) {
+                    $dimensions .= ' width="' . $width . '"';
+                }
+                if (strpos($before . $after, 'height=') === false) {
+                    $dimensions .= ' height="' . $height . '"';
+                }
+                
+                return '<img' . $before . 'src="' . $src . '"' . $after . $dimensions . '>';
+            }
+        }
+        
+        return $matches[0];
+    }, $content);
+    
+    return $content;
+}
+add_filter('the_content', 'almetal_add_image_dimensions', 20);

@@ -42,12 +42,13 @@ $header_class = $is_home ? 'mobile-header--burger' : 'mobile-header--back';
                     <picture>
                         <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp">
                         <img src="<?php echo esc_url($logo_png); ?>" 
-                             alt="<?php bloginfo('name'); ?> - Métallier Ferronnier Thiers" 
-                             class="mobile-logo-img"
+                             alt="AL Métallerie Soudure - Métallier Serrurier à Thiers Puy-de-Dôme (63)" 
+                             class="mobile-logo-img no-lazyload"
                              width="120"
                              height="40"
                              fetchpriority="high"
-                             decoding="async">
+                             decoding="async"
+                             data-no-lazy="1">
                     </picture>
                     <?php
                 }
