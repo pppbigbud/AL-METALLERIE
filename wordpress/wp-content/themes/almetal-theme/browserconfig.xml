@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<browserconfig>
-    <msapplication>
-        <tile>
-            <square150x150logo src="/wp-content/themes/almetal-theme/assets/images/favicons/mstile-150x150.png"/>
-            <TileColor>#F08B18</TileColor>
-        </tile>
-    </msapplication>
-</browserconfig>
