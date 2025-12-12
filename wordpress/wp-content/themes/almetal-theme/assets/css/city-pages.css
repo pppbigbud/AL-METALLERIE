@@ -282,12 +282,21 @@
     margin-bottom: 12px;
 }
 
-.city-content__text ul li::before {
+.city-content__text ul:not(.cpg-why-us-list) li::before {
     content: "✓";
     position: absolute;
     left: 0;
     color: #F08B18;
     font-weight: bold;
+}
+
+/* Pas de doublon de coche pour la liste "Pourquoi nous choisir" */
+.city-content__text ul.cpg-why-us-list li {
+    padding-left: 0;
+}
+
+.city-content__text ul.cpg-why-us-list li::before {
+    content: none;
 }
 
 /* ============================================
