@@ -873,6 +873,97 @@ function almetal_schema_faq_city_pages() {
 add_action('wp_head', 'almetal_schema_faq_city_pages', 8);
 
 /**
+ * Afficher la FAQ visuelle pour les pages taxonomie type_realisation
+ */
+function almetal_display_taxonomy_faq() {
+    if (!is_tax('type_realisation')) {
+        return;
+    }
+    
+    $term = get_queried_object();
+    if (!$term) {
+        return;
+    }
+    
+    // FAQ par type de réalisation
+    $faqs_by_type = array(
+        'portails' => array(
+            array('question' => 'Quel est le prix d\'un portail sur mesure ?', 'answer' => 'Le prix d\'un portail sur mesure varie entre 1 500€ et 5 000€ selon les dimensions, le matériau (acier, inox, aluminium) et la motorisation. Contactez-nous pour un devis gratuit personnalisé.'),
+            array('question' => 'Quel est le délai de fabrication ?', 'answer' => 'Comptez en moyenne 3 à 4 semaines pour la fabrication d\'un portail sur mesure, selon la complexité du design et les finitions choisies.'),
+            array('question' => 'Assurez-vous la pose ?', 'answer' => 'Oui, nous assurons la pose complète de votre portail, incluant la préparation du terrain, l\'installation et les réglages. Garantie décennale incluse.'),
+            array('question' => 'Quels matériaux utilisez-vous ?', 'answer' => 'Nous travaillons l\'acier, l\'inox et l\'aluminium. Chaque matériau a ses avantages : l\'acier pour la robustesse, l\'inox pour la durabilité, l\'aluminium pour la légèreté.'),
+            array('question' => 'Quelle garantie proposez-vous ?', 'answer' => 'Garantie décennale sur les éléments structurels et 10 ans sur les finitions thermolaquées. Matériaux professionnels et soudure certifiée.')
+        ),
+        'garde-corps' => array(
+            array('question' => 'Quel est le prix d\'un garde-corps au mètre linéaire ?', 'answer' => 'Le prix d\'un garde-corps sur mesure varie entre 150€ et 400€ par mètre linéaire pose comprise, selon le matériau et le design choisi.'),
+            array('question' => 'Les garde-corps sont-ils conformes aux normes ?', 'answer' => 'Oui, tous nos garde-corps respectent la norme NF P01-012 : hauteur minimale de 1m, espacement des barreaux inférieur à 11cm, résistance aux charges.'),
+            array('question' => 'Quel délai pour un garde-corps ?', 'answer' => 'Comptez 2 à 3 semaines pour la fabrication et la pose d\'un garde-corps standard. Les projets complexes peuvent nécessiter un délai supplémentaire.'),
+            array('question' => 'Quels styles proposez-vous ?', 'answer' => 'Nous réalisons tous les styles : contemporain avec câbles inox, classique à barreaux, design avec verre, ou traditionnel en fer forgé.'),
+            array('question' => 'Quel entretien pour un garde-corps ?', 'answer' => 'Un garde-corps thermolaqué nécessite peu d\'entretien : un nettoyage à l\'eau savonneuse 2 fois par an suffit. Garantie anticorrosion de 10 ans.')
+        ),
+        'escaliers' => array(
+            array('question' => 'Quel est le prix d\'un escalier métallique ?', 'answer' => 'Le prix d\'un escalier métallique sur mesure varie entre 3 000€ et 15 000€ selon le type (droit, quart tournant, hélicoïdal), les dimensions et les finitions.'),
+            array('question' => 'Quels types de marches proposez-vous ?', 'answer' => 'Nous proposons des marches en tôle larmée, caillebotis, bois massif ou verre selon vos préférences et l\'usage prévu (intérieur/extérieur).'),
+            array('question' => 'L\'escalier inclut-il la rampe ?', 'answer' => 'Oui, nos escaliers sont livrés complets avec rampe et garde-corps assortis, fabriqués dans le même matériau pour une harmonie parfaite.'),
+            array('question' => 'Quel délai de fabrication ?', 'answer' => 'Un escalier sur mesure nécessite 4 à 6 semaines de fabrication, incluant la prise de mesures, la conception et la réalisation en atelier.'),
+            array('question' => 'Quelle garantie sur les escaliers ?', 'answer' => 'Garantie décennale sur la structure métallique et 10 ans sur les finitions. Tous nos escaliers sont conformes aux normes de sécurité.')
+        ),
+        'default' => array(
+            array('question' => 'Proposez-vous des devis gratuits ?', 'answer' => 'Oui, nous nous déplaçons gratuitement pour étudier votre projet et vous remettre un devis détaillé sous 48h, sans engagement.'),
+            array('question' => 'Quelle est votre zone d\'intervention ?', 'answer' => 'Nous intervenons dans un rayon de 50km autour de Thiers, couvrant tout le Puy-de-Dôme : Clermont-Ferrand, Riom, Vichy, Ambert, Issoire...'),
+            array('question' => 'Assurez-vous la pose ?', 'answer' => 'Oui, nous assurons la fabrication ET la pose de tous nos ouvrages. Installation professionnelle avec garantie décennale.'),
+            array('question' => 'Quels matériaux utilisez-vous ?', 'answer' => 'Nous travaillons l\'acier, l\'inox, l\'aluminium et le fer forgé. Chaque projet est réalisé avec des matériaux de qualité professionnelle.'),
+            array('question' => 'Quelle garantie proposez-vous ?', 'answer' => 'Garantie décennale sur les éléments structurels et 2 ans sur les finitions. Matériaux professionnels et soudure certifiée.')
+        )
+    );
+    
+    $type_key = isset($faqs_by_type[$term->slug]) ? $term->slug : 'default';
+    $faqs = $faqs_by_type[$type_key];
+    
+    ?>
+    <div class="taxonomy-faq-section">
+        <div class="container">
+            <h2>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Questions fréquentes sur nos <?php echo esc_html(strtolower($term->name)); ?>
+            </h2>
+            
+            <div class="faq-list">
+                <?php foreach ($faqs as $index => $faq) : ?>
+                    <div class="faq-item<?php echo $index === 0 ? ' active' : ''; ?>">
+                        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                            <span><?php echo esc_html($faq['question']); ?></span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p><?php echo esc_html($faq['answer']); ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <div class="taxonomy-faq-cta">
+                <p><strong>Vous avez un projet de <?php echo esc_html(strtolower($term->name)); ?> ?</strong></p>
+                <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    Demander un devis gratuit
+                </a>
+                <span class="phone-link">ou appelez le <a href="tel:+33673333532">06 73 33 35 32</a></span>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+/**
  * Générer un attribut ALT SEO optimisé pour les images de réalisations
  * 
  * @param int $post_id ID du post réalisation

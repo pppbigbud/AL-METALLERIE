@@ -237,6 +237,13 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             </div>
         </div>
     </div>
+    
+    <?php 
+    // Afficher la FAQ stylisée
+    if (function_exists('almetal_display_taxonomy_faq')) {
+        almetal_display_taxonomy_faq();
+    }
+    ?>
 </div>
 
 <?php

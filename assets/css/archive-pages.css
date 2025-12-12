@@ -973,3 +973,175 @@
   color: #fff;
   text-decoration: underline;
 }
+
+/* ============================================
+   FAQ SECTION - Pages Taxonomie
+   ============================================ */
+
+.taxonomy-faq-section {
+  padding: 4rem 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.taxonomy-faq-section .container {
+  max-width: 900px;
+}
+
+.taxonomy-faq-section h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.taxonomy-faq-section h2 svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: rgba(240, 139, 24, 0.3);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+  color: var(--color-primary);
+}
+
+.faq-question svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question svg {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 1.5rem 1.25rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+.faq-answer p {
+  margin: 0;
+}
+
+/* CTA après FAQ */
+.taxonomy-faq-cta {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(240, 139, 24, 0.1), rgba(240, 139, 24, 0.05));
+  border: 1px solid rgba(240, 139, 24, 0.2);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.taxonomy-faq-cta p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.taxonomy-faq-cta .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--color-primary);
+  color: #000;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.taxonomy-faq-cta .btn-primary:hover {
+  background: #ff9f3a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(240, 139, 24, 0.4);
+}
+
+.taxonomy-faq-cta .phone-link {
+  display: block;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.taxonomy-faq-cta .phone-link a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.taxonomy-faq-cta .phone-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive FAQ */
+@media (max-width: 768px) {
+  .taxonomy-faq-section {
+    padding: 3rem 0;
+  }
+  
+  .taxonomy-faq-section h2 {
+    font-size: 1.4rem;
+  }
+  
+  .faq-question {
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
+  .faq-answer {
+    padding: 0 1.25rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .taxonomy-faq-cta {
+    padding: 1.5rem;
+  }
+}

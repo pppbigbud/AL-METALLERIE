@@ -116,9 +116,11 @@
 
     .header-mega__logo-center .site-logo-img,
     .header-mega__logo-center .custom-logo,
-    .header-mega__logo-center .custom-logo img {
-        height: 110px; /* Taille fixe - dépasse de la barre de 70px */
-        width: auto;
+    .header-mega__logo-center .custom-logo img,
+    .header-mega__logo-center picture img {
+        height: 110px !important; /* Taille fixe - dépasse de la barre de 70px */
+        width: auto !important;
+        max-width: none !important;
         display: block;
         transition: height 0.25s ease;
     }
@@ -268,8 +270,9 @@
 
     .site-header.scrolled .header-mega__logo-center .site-logo-img,
     .site-header.scrolled .header-mega__logo-center .custom-logo,
-    .site-header.scrolled .header-mega__logo-center .custom-logo img {
-        height: 80px; /* Logo réduit au scroll mais dépasse toujours */
+    .site-header.scrolled .header-mega__logo-center .custom-logo img,
+    .site-header.scrolled .header-mega__logo-center picture img {
+        height: 80px !important; /* Logo réduit au scroll mais dépasse toujours */
     }
 
     /* ========== MASQUER ÉLÉMENTS MOBILES ========== */
