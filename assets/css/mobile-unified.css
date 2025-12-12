@@ -276,6 +276,17 @@ body {
     background-color: #000;
 }
 
+/* Image LCP optimisee (premiere slide) */
+.mobile-hero-image-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* Overlay gradient désactivé */
 /* .mobile-hero-slide::before {
     content: '';
@@ -1202,22 +1213,26 @@ body {
 }
 
 .mobile-realisation-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
     background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
     color: white;
-    padding: 0.4rem 0.8rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 .mobile-realisation-badge svg {
     width: 14px;
     height: 14px;
     stroke-width: 2.5;
+    flex-shrink: 0;
+    margin-right: 0.15rem;
 }
 
 .mobile-realisation-content {
@@ -1262,6 +1277,18 @@ body {
     height: 16px;
     color: #F08B18;
     flex-shrink: 0;
+}
+
+/* Lien lieu cliquable */
+.mobile-realisation-meta a.meta-lieu-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mobile-realisation-meta a.meta-lieu-link:hover,
+.mobile-realisation-meta a.meta-lieu-link:active {
+    color: #F08B18;
 }
 
 /* Bouton Voir le projet */
@@ -1358,6 +1385,272 @@ body {
 .mobile-realisations-empty p {
     margin: 0;
     font-size: 1rem;
+}
+
+/* ============================================
+   PAGES VILLE MOBILE
+   ============================================ */
+
+.mobile-page-city {
+    padding-top: 70px;
+    background: #191919;
+    min-height: 100vh;
+}
+
+.mobile-single-city {
+    padding-bottom: 2rem;
+}
+
+.mobile-single-hero {
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mobile-single-hero-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.mobile-single-excerpt {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.mobile-city-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.mobile-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.4);
+}
+
+.mobile-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-secondary:active {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #F08B18;
+}
+
+.mobile-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: 1px solid rgba(240, 139, 24, 0.5);
+    color: #F08B18;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-outline:active {
+    background: rgba(240, 139, 24, 0.1);
+}
+
+.mobile-btn-full {
+    width: 100%;
+}
+
+.mobile-section-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.mobile-section-subtitle svg {
+    color: #F08B18;
+}
+
+/* Réalisations ville */
+.mobile-city-realisations {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+}
+
+.mobile-city-realisations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.mobile-city-realisation-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mobile-city-realisation-card a {
+    text-decoration: none;
+    color: white;
+}
+
+.mobile-city-realisation-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.mobile-city-realisation-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-city-realisation-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.mobile-city-realisation-title {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.mobile-city-realisations-more {
+    text-align: center;
+}
+
+/* Services ville */
+.mobile-city-services {
+    margin: 2rem 0;
+}
+
+.mobile-city-services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobile-city-services-list li a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.mobile-city-services-list li a svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    stroke: #F08B18;
+    transition: all 0.3s ease;
+}
+
+.mobile-city-services-list li a span {
+    flex: 1;
+}
+
+.mobile-city-services-list li a:active svg {
+    stroke: #fff;
+    transform: scale(1.1);
+}
+
+.mobile-city-services-list li a:active {
+    background: rgba(240, 139, 24, 0.1);
+}
+
+/* Carte ville */
+.mobile-city-map {
+    margin: 2rem 0;
+}
+
+.mobile-city-map-container {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mobile-city-map-info {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.mobile-city-map-info strong {
+    color: #F08B18;
+}
+
+/* Contact final */
+.mobile-city-contact-final {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.1) 0%, rgba(240, 139, 24, 0.05) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(240, 139, 24, 0.2);
+}
+
+.mobile-city-contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 /* Bouton Voir plus */
@@ -2471,9 +2764,13 @@ background: #262626;
 }
 
 .mobile-realisation-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
     background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
     color: white;
-    padding: 0.4rem 0.8rem;
+    padding: 0.45rem 0.9rem;
     text-decoration: none;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -2482,6 +2779,13 @@ background: #262626;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.mobile-realisation-badge svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-right: 0.15rem;
 }
 
 .mobile-realisation-badge:active {
@@ -3153,4 +3457,270 @@ background: #262626;
 .mobile-realisations-empty p {
     margin: 0;
     font-size: 1rem;
+}
+
+/* ============================================
+   PAGES VILLE MOBILE
+   ============================================ */
+
+.mobile-page-city {
+    padding-top: 70px;
+    background: #191919;
+    min-height: 100vh;
+}
+
+.mobile-single-city {
+    padding-bottom: 2rem;
+}
+
+.mobile-single-hero {
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mobile-single-hero-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.mobile-single-excerpt {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.mobile-city-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.mobile-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.4);
+}
+
+.mobile-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-secondary:active {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #F08B18;
+}
+
+.mobile-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: 1px solid rgba(240, 139, 24, 0.5);
+    color: #F08B18;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-outline:active {
+    background: rgba(240, 139, 24, 0.1);
+}
+
+.mobile-btn-full {
+    width: 100%;
+}
+
+.mobile-section-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.mobile-section-subtitle svg {
+    color: #F08B18;
+}
+
+/* Réalisations ville */
+.mobile-city-realisations {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+}
+
+.mobile-city-realisations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.mobile-city-realisation-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mobile-city-realisation-card a {
+    text-decoration: none;
+    color: white;
+}
+
+.mobile-city-realisation-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.mobile-city-realisation-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-city-realisation-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.mobile-city-realisation-title {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.mobile-city-realisations-more {
+    text-align: center;
+}
+
+/* Services ville */
+.mobile-city-services {
+    margin: 2rem 0;
+}
+
+.mobile-city-services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobile-city-services-list li a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.mobile-city-services-list li a svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    stroke: #F08B18;
+    transition: all 0.3s ease;
+}
+
+.mobile-city-services-list li a span {
+    flex: 1;
+}
+
+.mobile-city-services-list li a:active svg {
+    stroke: #fff;
+    transform: scale(1.1);
+}
+
+.mobile-city-services-list li a:active {
+    background: rgba(240, 139, 24, 0.1);
+}
+
+/* Carte ville */
+.mobile-city-map {
+    margin: 2rem 0;
+}
+
+.mobile-city-map-container {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mobile-city-map-info {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.mobile-city-map-info strong {
+    color: #F08B18;
+}
+
+/* Contact final */
+.mobile-city-contact-final {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.1) 0%, rgba(240, 139, 24, 0.05) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(240, 139, 24, 0.2);
+}
+
+.mobile-city-contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
