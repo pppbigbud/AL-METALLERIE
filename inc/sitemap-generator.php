@@ -83,6 +83,33 @@ function almetal_generate_sitemap() {
         );
     }
 
+    // Pages ville (city_page) - SEO Local
+    $city_pages = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+    ));
+
+    foreach ($city_pages as $city_page) {
+        $sitemap .= almetal_sitemap_url(
+            get_permalink($city_page),
+            get_the_modified_date('Y-m-d', $city_page),
+            'monthly',
+            '0.8'
+        );
+    }
+
+    // Archive des pages ville
+    $city_archive = get_post_type_archive_link('city_page');
+    if ($city_archive) {
+        $sitemap .= almetal_sitemap_url(
+            $city_archive,
+            date('Y-m-d'),
+            'weekly',
+            '0.7'
+        );
+    }
+
     // Articles de blog (si présents)
     $posts = get_posts(array(
         'post_type' => 'post',

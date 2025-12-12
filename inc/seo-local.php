@@ -14,26 +14,37 @@ if (!defined('ABSPATH')) {
 
 /**
  * Modifier le titre des pages pour le SEO local
+ * Optimisé selon audit SEO - Décembre 2024
  */
 function almetal_seo_title($title) {
-    // Page d'accueil
-    if (is_front_page() || is_home()) {
-        return 'AL Métallerie & Soudure | Métallier Ferronnier à Thiers, Puy-de-Dôme (63)';
+    // Ne pas interférer avec les pages ville (géré par le plugin city-pages-generator)
+    if (is_singular('city_page')) {
+        return $title;
     }
     
-    // Page réalisations
+    // Page d'accueil - Optimisé avec mots-clés services
+    if (is_front_page() || is_home()) {
+        return 'AL Métallerie | Portails, Garde-corps, Escaliers sur Mesure | Thiers (63)';
+    }
+    
+    // Page réalisations - Optimisé avec nombre de projets
     if (is_post_type_archive('realisation') || is_page('realisations')) {
-        return 'Nos Réalisations | Portails, Garde-corps, Escaliers | AL Métallerie & Soudure Thiers';
+        return 'Réalisations Métallerie Thiers | Portails & Garde-corps sur Mesure | Photos';
     }
     
     // Page formations
     if (is_page('formations')) {
-        return 'Formations Soudure & Métallerie | AL Métallerie & Soudure Thiers (63)';
+        return 'Formations Soudure MIG TIG ARC | Thiers (63) | AL Métallerie';
     }
     
-    // Page contact
+    // Page formations particuliers
+    if (is_page('formations-particuliers')) {
+        return 'Formations Soudure Particuliers | Stages Découverte | AL Métallerie Thiers';
+    }
+    
+    // Page contact - Optimisé avec CTA et téléphone
     if (is_page('contact')) {
-        return 'Contact | AL Métallerie & Soudure à Peschadoires près de Thiers (63)';
+        return 'Contact & Devis Gratuit | Métallier Thiers | Réponse 24h | AL Métallerie';
     }
     
     // Taxonomie type de réalisation
@@ -87,27 +98,32 @@ function almetal_seo_meta_head() {
         'lon' => '3.1636',
     );
     
-    // Meta description par défaut (160 caractères max)
-    $description = 'AL Métallerie & Soudure, artisan métallier ferronnier à Thiers (63). Portails, garde-corps, escaliers sur mesure. Devis gratuit ☎ 06 73 33 35 32';
+    // Meta description par défaut (160 caractères max) - Optimisé audit SEO
+    $description = 'Artisan métallier à Thiers (63). Fabrication et pose de portails, garde-corps, escaliers, pergolas sur mesure. Devis gratuit sous 24h. ☎ 06 73 33 35 32';
     
-    // Page d'accueil (158 caractères)
+    // Page d'accueil - 158 caractères avec CTA fort
     if (is_front_page() || is_home()) {
-        $description = 'AL Métallerie & Soudure, artisan métallier ferronnier à Thiers (63). Fabrication sur mesure : portails, garde-corps, escaliers. Devis gratuit ☎ 06 73 33 35 32';
+        $description = 'Artisan métallier à Thiers (63). Fabrication et pose de portails, garde-corps, escaliers, pergolas sur mesure. Devis gratuit sous 24h. ☎ 06 73 33 35 32';
     }
     
-    // Page réalisations (156 caractères)
+    // Page réalisations - 156 caractères avec incitation
     if (is_post_type_archive('realisation') || is_page('realisations')) {
-        $description = 'Découvrez nos réalisations en métallerie à Thiers (63) : portails, garde-corps, escaliers, pergolas. Artisanat de qualité. Inspirez-vous pour votre projet !';
+        $description = 'Découvrez nos réalisations en métallerie : portails, garde-corps, escaliers dans le Puy-de-Dôme. Photos avant/après. Inspirez-vous pour votre projet !';
     }
     
-    // Page formations (159 caractères)
+    // Page formations - 159 caractères
     if (is_page('formations')) {
-        $description = 'Formations soudure MIG, TIG, ARC à Thiers (63). Stages pour particuliers et pros. Apprenez avec un artisan métallier expérimenté. Inscrivez-vous maintenant !';
+        $description = 'Formations soudure MIG, TIG, ARC à Thiers (63). Stages pour particuliers et professionnels. Apprenez avec un artisan expérimenté. Inscrivez-vous !';
     }
     
-    // Page contact (155 caractères)
+    // Page formations particuliers
+    if (is_page('formations-particuliers')) {
+        $description = 'Stages soudure pour particuliers à Thiers (63). Découverte ou perfectionnement. Apprenez à souder avec un artisan métallier. Places limitées !';
+    }
+    
+    // Page contact - 155 caractères avec CTA
     if (is_page('contact')) {
-        $description = 'Contactez AL Métallerie & Soudure à Thiers (63) pour votre projet sur mesure. Devis gratuit sous 48h. ☎ 06 73 33 35 32 ou formulaire. Réponse rapide !';
+        $description = 'Contactez AL Métallerie pour un devis gratuit. Réponse sous 24h. Déplacement gratuit dans le Puy-de-Dôme. ☎ 06 73 33 35 32';
     }
     
     // Taxonomie type de réalisation (adapté dynamiquement)
@@ -545,3 +561,150 @@ function almetal_seo_footer_text() {
     <?php
 }
 add_action('wp_footer', 'almetal_seo_footer_text', 5);
+
+/**
+ * Générer automatiquement les attributs ALT des images
+ * Optimisé pour le SEO - Audit Décembre 2024
+ */
+function almetal_auto_image_alt($attr, $attachment, $size) {
+    // Si l'alt est déjà défini et non vide, ne pas le modifier
+    if (!empty($attr['alt'])) {
+        return $attr;
+    }
+    
+    // Récupérer le titre de l'image
+    $alt = get_the_title($attachment->ID);
+    
+    // Si on est sur une réalisation, enrichir l'alt
+    if (is_singular('realisation')) {
+        global $post;
+        $lieu = get_post_meta($post->ID, '_almetal_lieu', true);
+        $terms = get_the_terms($post->ID, 'type_realisation');
+        $type = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : '';
+        
+        if ($type && $lieu) {
+            $attr['alt'] = ucfirst($type) . ' - ' . $alt . ' à ' . $lieu . ' - AL Métallerie';
+        } elseif ($type) {
+            $attr['alt'] = ucfirst($type) . ' - ' . $alt . ' - AL Métallerie Thiers';
+        } elseif ($lieu) {
+            $attr['alt'] = $alt . ' à ' . $lieu . ' - AL Métallerie';
+        } else {
+            $attr['alt'] = $alt . ' - AL Métallerie Thiers';
+        }
+    }
+    // Sur les pages ville
+    elseif (is_singular('city_page')) {
+        $city_name = get_post_meta(get_the_ID(), '_cpg_city_name', true);
+        if ($city_name) {
+            $attr['alt'] = $alt . ' - Métallier à ' . $city_name . ' - AL Métallerie';
+        } else {
+            $attr['alt'] = $alt . ' - AL Métallerie';
+        }
+    }
+    // Sur les archives de réalisations
+    elseif (is_post_type_archive('realisation') || is_tax('type_realisation')) {
+        $attr['alt'] = $alt . ' - Réalisation métallerie - AL Métallerie Thiers';
+    }
+    // Autres pages
+    else {
+        $attr['alt'] = $alt . ' - AL Métallerie Thiers (63)';
+    }
+    
+    return $attr;
+}
+add_filter('wp_get_attachment_image_attributes', 'almetal_auto_image_alt', 10, 3);
+
+/**
+ * Ajouter alt automatique aux images dans le contenu
+ */
+function almetal_content_image_alt($content) {
+    if (empty($content)) {
+        return $content;
+    }
+    
+    // Pattern pour trouver les images sans alt ou avec alt vide
+    $pattern = '/<img([^>]*?)alt=["\'][\s]*["\']([^>]*?)>/i';
+    
+    // Contexte pour l'alt
+    $context = 'AL Métallerie Thiers';
+    if (is_singular('realisation')) {
+        $terms = get_the_terms(get_the_ID(), 'type_realisation');
+        $type = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Réalisation';
+        $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+        $context = $type . ($lieu ? ' à ' . $lieu : '') . ' - AL Métallerie';
+    } elseif (is_singular('city_page')) {
+        $city = get_post_meta(get_the_ID(), '_cpg_city_name', true);
+        $context = 'Métallier à ' . ($city ?: 'Thiers') . ' - AL Métallerie';
+    }
+    
+    // Remplacer les alt vides
+    $content = preg_replace_callback($pattern, function($matches) use ($context) {
+        return '<img' . $matches[1] . 'alt="' . esc_attr($context) . '"' . $matches[2] . '>';
+    }, $content);
+    
+    return $content;
+}
+add_filter('the_content', 'almetal_content_image_alt', 20);
+
+/**
+ * Schema FAQPage pour les pages ville
+ * Améliore le SEO avec des Rich Snippets FAQ
+ */
+function almetal_schema_faq_city_pages() {
+    if (!is_singular('city_page')) {
+        return;
+    }
+    
+    $post_id = get_the_ID();
+    $city_name = get_post_meta($post_id, '_cpg_city_name', true);
+    $postal_code = get_post_meta($post_id, '_cpg_postal_code', true);
+    
+    if (empty($city_name)) {
+        return;
+    }
+    
+    // FAQ contextualisée pour la ville
+    $faqs = array(
+        array(
+            'question' => 'Quel est le prix moyen d\'un portail sur mesure à ' . $city_name . ' ?',
+            'answer' => 'Le prix d\'un portail sur mesure à ' . $city_name . ' varie selon les dimensions, le matériau (acier, inox, aluminium) et la finition. Comptez entre 1 500€ et 5 000€ pour un portail de qualité. AL Métallerie propose des devis gratuits et personnalisés sous 24h.'
+        ),
+        array(
+            'question' => 'Quels sont les délais de fabrication pour un garde-corps à ' . $city_name . ' ?',
+            'answer' => 'Les délais de fabrication d\'un garde-corps sur mesure sont généralement de 2 à 4 semaines après validation du devis. AL Métallerie intervient à ' . $city_name . ' et dans tout le Puy-de-Dôme pour la pose.'
+        ),
+        array(
+            'question' => 'AL Métallerie intervient-il à ' . $city_name . ' (' . $postal_code . ') ?',
+            'answer' => 'Oui, AL Métallerie intervient à ' . $city_name . ' et dans toutes les communes du Puy-de-Dôme dans un rayon de 50 km autour de Thiers. Le déplacement pour devis est gratuit.'
+        ),
+        array(
+            'question' => 'Quels types de soudure utilisez-vous pour vos réalisations ?',
+            'answer' => 'Notre atelier maîtrise les techniques de soudure MIG, TIG et ARC, permettant de travailler l\'acier, l\'inox 316L et l\'aluminium avec précision. Chaque technique est choisie selon le projet et le matériau.'
+        ),
+        array(
+            'question' => 'Proposez-vous des formations soudure près de ' . $city_name . ' ?',
+            'answer' => 'Oui, AL Métallerie propose des formations soudure pour particuliers et professionnels dans notre atelier à Peschadoires, à proximité de ' . $city_name . '. Stages découverte et perfectionnement disponibles.'
+        )
+    );
+    
+    $faq_items = array();
+    foreach ($faqs as $faq) {
+        $faq_items[] = array(
+            '@type' => 'Question',
+            'name' => $faq['question'],
+            'acceptedAnswer' => array(
+                '@type' => 'Answer',
+                'text' => $faq['answer']
+            )
+        );
+    }
+    
+    $schema = array(
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => $faq_items
+    );
+    
+    echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'almetal_schema_faq_city_pages', 8);
