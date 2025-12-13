@@ -9,8 +9,8 @@
  */
 
 // SEO Meta Tags pour la page Formations
-add_action('wp_head', 'almetal_formations_seo_meta', 1);
-function almetal_formations_seo_meta() {
+if (!function_exists('almetal_formations_seo_meta')) {
+    function almetal_formations_seo_meta() {
     ?>
     <title>Formations Soudure et Ferronnerie | Stages Particuliers &amp; Professionnels | Thiers (63)</title>
     <meta name="description" content="Formations en soudure et ferronnerie d'art à Thiers (63). Stages découverte pour particuliers, formations certifiantes pour professionnels. Atelier équipé, formateurs experts. Devis gratuit.">
@@ -80,6 +80,8 @@ function almetal_formations_seo_meta() {
     }
     </script>
     <?php
+    }
+    add_action('wp_head', 'almetal_formations_seo_meta', 1);
 }
 
 // Désactiver le titre WordPress par défaut pour cette page
