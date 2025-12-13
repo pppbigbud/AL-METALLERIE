@@ -26,11 +26,11 @@ function almetal_security_headers() {
     // Content-Security-Policy - Politique de sécurité du contenu
     // Autorise les ressources du même domaine + Google Fonts/Maps + YouTube + CDNs courants
     $csp = "default-src 'self'; ";
-    $csp .= "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.youtube.com; ";
-    $csp .= "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; ";
+    $csp .= "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.youtube.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; ";
+    $csp .= "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; ";
     $csp .= "img-src 'self' data: https: blob:; ";
     $csp .= "font-src 'self' https://fonts.gstatic.com data:; ";
-    $csp .= "frame-src 'self' https://www.google.com https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com; ";
+    $csp .= "frame-src 'self' https://www.google.com https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com https://maps.googleapis.com; ";
     $csp .= "connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://fonts.googleapis.com; ";
     $csp .= "object-src 'none'; ";
     $csp .= "base-uri 'self'; ";
