@@ -1263,6 +1263,7 @@ add_action('wp_update_nav_menu_item', 'almetal_update_menu_item_icon', 10, 3);
 /**
  * Inclure les fichiers personnalisés
  */
+require_once get_template_directory() . '/inc/city-hero-helper.php';
 require_once get_template_directory() . '/inc/theme-icons.php';
 require_once get_template_directory() . '/inc/custom-post-types.php';
 require_once get_template_directory() . '/inc/facebook-importer.php';
