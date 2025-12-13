@@ -503,8 +503,87 @@ function almetal_save_realisation_meta($post_id) {
     // Sauvegarder la checkbox pose
     $pose_value = isset($_POST['almetal_pose']) ? '1' : '0';
     update_post_meta($post_id, '_almetal_pose', $pose_value);
+    
+    // Créer automatiquement une page ville si le lieu n'existe pas
+    if (isset($_POST['almetal_lieu']) && !empty($_POST['almetal_lieu'])) {
+        $lieu = sanitize_text_field($_POST['almetal_lieu']);
+        almetal_maybe_create_city_page($lieu);
+    }
 }
 add_action('save_post_realisation', 'almetal_save_realisation_meta');
+
+/**
+ * Créer automatiquement une page ville si elle n'existe pas
+ * 
+ * @param string $city_name Nom de la ville
+ * @return int|false ID de la page créée ou false si déjà existante
+ */
+function almetal_maybe_create_city_page($city_name) {
+    $city_name = trim($city_name);
+    if (empty($city_name)) {
+        return false;
+    }
+    
+    // Vérifier si le CPT city_page existe
+    if (!post_type_exists('city_page')) {
+        return false;
+    }
+    
+    // Vérifier si une page ville existe déjà pour ce lieu (via meta _cpg_city_name)
+    $existing = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => 1,
+        'post_status' => array('publish', 'draft', 'pending'),
+        'meta_query' => array(
+            array(
+                'key' => '_cpg_city_name',
+                'value' => $city_name,
+                'compare' => '=',
+            ),
+        ),
+    ));
+    
+    if (!empty($existing)) {
+        return false; // Page existe déjà
+    }
+    
+    // Vérifier aussi par titre (fallback)
+    $existing_by_title = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => 1,
+        'post_status' => array('publish', 'draft', 'pending'),
+        'title' => 'Métallier Serrurier à ' . $city_name,
+    ));
+    
+    if (!empty($existing_by_title)) {
+        return false;
+    }
+    
+    // Créer la page ville
+    $post_data = array(
+        'post_type' => 'city_page',
+        'post_status' => 'draft', // En brouillon pour révision
+        'post_title' => 'Métallier Serrurier à ' . $city_name,
+        'post_name' => 'metallier-' . sanitize_title($city_name),
+    );
+    
+    $post_id = wp_insert_post($post_data);
+    
+    if (is_wp_error($post_id)) {
+        return false;
+    }
+    
+    // Ajouter les meta données
+    update_post_meta($post_id, '_cpg_city_name', $city_name);
+    update_post_meta($post_id, '_cpg_department', 'Puy-de-Dôme'); // Département par défaut
+    update_post_meta($post_id, '_cpg_auto_created', '1'); // Marqueur de création auto
+    update_post_meta($post_id, '_cpg_created_from_realisation', '1');
+    
+    // Log pour debug (optionnel)
+    error_log('[AL Métallerie] Page ville créée automatiquement: ' . $city_name . ' (ID: ' . $post_id . ')');
+    
+    return $post_id;
+}
 
 /**
  * Personnaliser les colonnes dans l'admin
