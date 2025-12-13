@@ -71,10 +71,76 @@ if (empty($city_display) || $city_display === get_the_title()) {
             </a>
         </div>
 
-        <!-- Contenu principal -->
+        <!-- Contenu principal avec carte Google Maps après le 1er paragraphe -->
+        <?php
+        $full_content = get_the_content();
+        $full_content = apply_filters('the_content', $full_content);
+        
+        // Supprimer les caractères ✓ du contenu
+        $full_content = str_replace('✓ ', '', $full_content);
+        $full_content = str_replace('✓', '', $full_content);
+        
+        // Trouver la position de la fin du premier paragraphe ou premier titre h2/h3
+        $first_break = false;
+        
+        // Chercher la fin du premier </p> ou </h2> ou </h3>
+        $pos_p = strpos($full_content, '</p>');
+        $pos_h2 = strpos($full_content, '</h2>');
+        $pos_h3 = strpos($full_content, '</h3>');
+        
+        // Prendre la première occurrence
+        $positions = array_filter(array($pos_p, $pos_h2, $pos_h3), function($p) { return $p !== false; });
+        if (!empty($positions)) {
+            $first_break = min($positions);
+            // Ajouter la longueur de la balise fermante
+            if ($first_break === $pos_p) $first_break += 4;
+            elseif ($first_break === $pos_h2) $first_break += 5;
+            elseif ($first_break === $pos_h3) $first_break += 5;
+        }
+        
+        if ($first_break !== false && $first_break > 0) {
+            $content_before = substr($full_content, 0, $first_break);
+            $content_after = substr($full_content, $first_break);
+        } else {
+            $content_before = $full_content;
+            $content_after = '';
+        }
+        ?>
+        
         <div class="mobile-single-content scroll-fade">
-            <?php the_content(); ?>
+            <?php echo $content_before; ?>
         </div>
+        
+        <!-- Carte Google Maps (après le 1er paragraphe) -->
+        <div class="mobile-city-map scroll-fade">
+            <h2 class="mobile-section-subtitle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+                Localisation
+            </h2>
+            <div class="mobile-city-map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=<?php echo urlencode($city_display . ', ' . $department . ', France'); ?>&zoom=12"
+                    width="100%" 
+                    height="250" 
+                    style="border:0; border-radius: 12px;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <p class="mobile-city-map-info">
+                Nous intervenons à <strong><?php echo esc_html($city_display); ?></strong> et dans un rayon de 50 km autour de notre atelier à Peschadoires.
+            </p>
+        </div>
+        
+        <?php if (!empty($content_after)) : ?>
+        <div class="mobile-single-content scroll-fade">
+            <?php echo $content_after; ?>
+        </div>
+        <?php endif; ?>
 
         <!-- Réalisations dans cette ville -->
         <?php
@@ -179,31 +245,6 @@ if (empty($city_display) || $city_display === get_the_title()) {
                 endif;
                 ?>
             </ul>
-        </div>
-
-        <!-- Carte Google Maps -->
-        <div class="mobile-city-map scroll-fade">
-            <h2 class="mobile-section-subtitle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                </svg>
-                Localisation
-            </h2>
-            <div class="mobile-city-map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=<?php echo urlencode($city_display . ', ' . $department . ', France'); ?>&zoom=12"
-                    width="100%" 
-                    height="250" 
-                    style="border:0; border-radius: 12px;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-            <p class="mobile-city-map-info">
-                Nous intervenons à <strong><?php echo esc_html($city_display); ?></strong> et dans un rayon de 50 km autour de notre atelier à Peschadoires.
-            </p>
         </div>
 
         <!-- Contact final -->

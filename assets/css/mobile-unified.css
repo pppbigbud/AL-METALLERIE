@@ -1392,13 +1392,25 @@ body {
    ============================================ */
 
 .mobile-page-city {
-    padding-top: 70px;
+    padding-top: 0;
     background: #191919;
     min-height: 100vh;
 }
 
 .mobile-single-city {
     padding-bottom: 2rem;
+}
+
+/* Masquer les coches ✓ dans le contenu des pages ville */
+.mobile-single-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.mobile-single-content ul li {
+    list-style-type: disc;
+    list-style-position: outside;
+    margin-left: 0.5rem;
 }
 
 .mobile-single-hero {
@@ -3464,13 +3476,25 @@ background: #262626;
    ============================================ */
 
 .mobile-page-city {
-    padding-top: 70px;
+    padding-top: 0;
     background: #191919;
     min-height: 100vh;
 }
 
 .mobile-single-city {
     padding-bottom: 2rem;
+}
+
+/* Masquer les coches ✓ dans le contenu des pages ville */
+.mobile-single-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.mobile-single-content ul li {
+    list-style-type: disc;
+    list-style-position: outside;
+    margin-left: 0.5rem;
 }
 
 .mobile-single-hero {
