@@ -12,6 +12,50 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Headers de sécurité HTTP
+ * Ajoute les headers recommandés pour améliorer la sécurité du site
+ */
+function almetal_security_headers() {
+    if (headers_sent()) {
+        return;
+    }
+    
+    // Strict-Transport-Security (HSTS) - Force HTTPS pendant 1 an
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+    
+    // Content-Security-Policy - Politique de sécurité du contenu
+    // Autorise les ressources du même domaine + Google Fonts/Maps + YouTube + CDNs courants
+    $csp = "default-src 'self'; ";
+    $csp .= "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://maps.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.youtube.com; ";
+    $csp .= "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; ";
+    $csp .= "img-src 'self' data: https: blob:; ";
+    $csp .= "font-src 'self' https://fonts.gstatic.com data:; ";
+    $csp .= "frame-src 'self' https://www.google.com https://www.youtube.com https://www.youtube-nocookie.com https://maps.google.com; ";
+    $csp .= "connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com https://fonts.googleapis.com; ";
+    $csp .= "object-src 'none'; ";
+    $csp .= "base-uri 'self'; ";
+    $csp .= "form-action 'self';";
+    header('Content-Security-Policy: ' . $csp);
+    
+    // Referrer-Policy - Contrôle les informations de référent envoyées
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    
+    // Permissions-Policy - Désactive les fonctionnalités non utilisées
+    $permissions = 'accelerometer=(), camera=(), geolocation=(self), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()';
+    header('Permissions-Policy: ' . $permissions);
+    
+    // X-Content-Type-Options - Empêche le sniffing MIME (déjà présent mais on s'assure)
+    header('X-Content-Type-Options: nosniff');
+    
+    // X-Frame-Options - Protection contre le clickjacking (déjà présent mais on s'assure)
+    header('X-Frame-Options: SAMEORIGIN');
+    
+    // X-XSS-Protection - Protection XSS pour anciens navigateurs
+    header('X-XSS-Protection: 1; mode=block');
+}
+add_action('send_headers', 'almetal_security_headers');
+
+/**
  * Configuration du thème
  */
 function almetal_theme_setup() {
