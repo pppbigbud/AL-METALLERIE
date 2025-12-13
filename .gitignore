@@ -9,20 +9,6 @@
 # WordPress - Dossier complet (installation locale de dev)
 wordpress/
 
-# MAIS on versionne le thème et certains plugins custom
-# (on laisse tout le reste de l'installation WordPress ignoré)
-!wordpress/
-!wordpress/wp-content/
-wordpress/wp-content/*
-!wordpress/wp-content/themes/
-!wordpress/wp-content/plugins/
-wordpress/wp-content/themes/*
-!wordpress/wp-content/themes/almetal-theme/
-!wordpress/wp-content/themes/almetal-theme/**
-wordpress/wp-content/plugins/*
-!wordpress/wp-content/plugins/city-pages-generator/
-!wordpress/wp-content/plugins/city-pages-generator/**
-
 # Base de données
 *.sql
 *.sql.gz
