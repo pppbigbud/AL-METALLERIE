@@ -597,6 +597,20 @@ function almetal_is_mobile() {
     return wp_is_mobile();
 }
 
+add_filter('template_include', 'almetal_force_city_page_template', 99);
+function almetal_force_city_page_template($template) {
+    if (!is_singular('city_page')) {
+        return $template;
+    }
+
+    $theme_template = locate_template('single-city_page.php');
+    if (!empty($theme_template)) {
+        return $theme_template;
+    }
+
+    return $template;
+}
+
 /**
  * CSS CRITIQUE MOBILE - Inline dans le <head>
  * Garantit que le burger est toujours visible et fonctionnel
@@ -797,6 +811,10 @@ add_action('init', 'almetal_disable_emojis');
  * Optimisation : supprimer les versions des CSS/JS (sécurité)
  */
 function almetal_remove_version_scripts_styles($src) {
+    if (strpos($src, '/assets/css/city-pages.css') !== false) {
+        return $src;
+    }
+
     if (strpos($src, 'ver=')) {
         $src = remove_query_arg('ver', $src);
     }
