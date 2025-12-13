@@ -1003,3 +1003,153 @@ function almetal_get_realisations_by_matiere($matiere_slug, $limit = 6) {
         'order' => 'DESC',
     ));
 }
+
+/**
+ * ============================================
+ * INITIALISATION DES PAGES MATIÈRES
+ * Crée automatiquement les pages matières avec contenu SEO
+ * ============================================
+ */
+function almetal_init_matiere_pages() {
+    // Vérifier si déjà initialisé
+    if (get_option('almetal_matieres_initialized')) {
+        return;
+    }
+    
+    $matieres = array(
+        'acier' => array(
+            'title' => 'Acier',
+            'slug' => 'acier',
+            'couleur' => '#4A5568',
+            'intro' => "L'acier est le matériau de prédilection en métallerie pour sa robustesse exceptionnelle et sa polyvalence. Chez AL Métallerie Soudure à Thiers, nous maîtrisons parfaitement le travail de l'acier pour créer des ouvrages durables et esthétiques : portails, garde-corps, escaliers, pergolas et bien plus encore.",
+            'proprietes' => "Excellente résistance mécanique\nGrande durabilité dans le temps\nFacilité de soudure et d'assemblage\nPossibilité de thermolaquage (large choix de couleurs)\nRapport qualité-prix optimal\nRecyclable à 100%",
+            'avantages' => "Matériau économique et performant\nAdapté aux grandes structures\nEntretien facile avec traitement antirouille\nPersonnalisation illimitée des formes\nCompatible avec tous types de finitions",
+            'applications' => "Portails et portillons\nGarde-corps et rampes\nEscaliers métalliques\nPergolas et carports\nClôtures et grilles\nMobilier métallique\nStructures et charpentes",
+            'meta_title' => "Métallerie Acier Thiers | Portails, Garde-corps, Escaliers | AL Métallerie",
+            'meta_description' => "Artisan métallier spécialiste de l'acier à Thiers. Fabrication sur mesure de portails, garde-corps, escaliers en acier thermolaqué. Devis gratuit.",
+            'faq' => "Pourquoi choisir l'acier pour mon portail ?|L'acier offre une excellente résistance aux chocs et aux intempéries. Avec un traitement thermolaqué, votre portail en acier durera des décennies sans rouiller.\nL'acier rouille-t-il ?|Sans traitement, l'acier peut rouiller. C'est pourquoi nous appliquons systématiquement un traitement antirouille et un thermolaquage qui protègent durablement vos ouvrages.\nQuel entretien pour l'acier thermolaqué ?|Un simple nettoyage à l'eau savonneuse une à deux fois par an suffit. Le thermolaquage est très résistant aux UV et aux intempéries.\nPeut-on peindre l'acier de n'importe quelle couleur ?|Oui ! Le thermolaquage permet de choisir parmi des centaines de teintes RAL. Nous pouvons même reproduire des couleurs sur mesure.\nQuelle est la durée de vie d'un ouvrage en acier ?|Avec un entretien minimal, un ouvrage en acier thermolaqué peut durer plus de 30 ans sans problème.",
+        ),
+        'inox' => array(
+            'title' => 'Inox',
+            'slug' => 'inox',
+            'couleur' => '#A0AEC0',
+            'intro' => "L'acier inoxydable, communément appelé inox, est le choix premium pour les ouvrages de métallerie haut de gamme. Sa résistance naturelle à la corrosion et son aspect moderne en font le matériau idéal pour les garde-corps, rampes et éléments décoratifs. AL Métallerie Soudure vous propose des réalisations en inox 304 et 316 selon vos besoins.",
+            'proprietes' => "Résistance naturelle à la corrosion\nAspect brillant et moderne\nHygiénique et facile à nettoyer\nExcellente tenue aux UV\nInox 304 (intérieur) ou 316 (extérieur/bord de mer)\nDurée de vie exceptionnelle",
+            'avantages' => "Aucun traitement de surface nécessaire\nAspect contemporain et élégant\nIdéal pour les environnements humides\nParfait pour le bord de mer (inox 316)\nValeur ajoutée pour votre propriété",
+            'applications' => "Garde-corps et balustrades\nRampes d'escalier\nMains courantes\nÉléments de cuisine professionnelle\nMobilier design\nÉléments décoratifs\nPiscines et spas",
+            'meta_title' => "Métallerie Inox Thiers | Garde-corps, Rampes Inox | AL Métallerie",
+            'meta_description' => "Spécialiste inox à Thiers. Fabrication sur mesure de garde-corps, rampes et balustrades en acier inoxydable 304/316. Design moderne, devis gratuit.",
+            'faq' => "Quelle différence entre inox 304 et 316 ?|L'inox 304 convient parfaitement pour l'intérieur et l'extérieur standard. L'inox 316, enrichi en molybdène, résiste mieux aux environnements salins (bord de mer, piscine).\nL'inox nécessite-t-il un entretien ?|Très peu ! Un nettoyage occasionnel à l'eau savonneuse suffit. Pour les traces de doigts, un produit spécial inox redonne tout son éclat.\nPeut-on combiner inox et verre ?|Absolument ! C'est même une combinaison très tendance pour les garde-corps modernes. Nous réalisons des garde-corps inox avec remplissage verre trempé.\nL'inox est-il plus cher que l'acier ?|Oui, l'inox est plus onéreux à l'achat, mais il ne nécessite aucun traitement de surface et sa durée de vie est supérieure. C'est un investissement rentable à long terme.\nPeut-on souder l'inox ?|Oui, mais cela requiert une expertise spécifique. Nous maîtrisons le soudage TIG de l'inox pour des finitions parfaites et durables.",
+        ),
+        'aluminium' => array(
+            'title' => 'Aluminium',
+            'slug' => 'aluminium',
+            'couleur' => '#CBD5E0',
+            'intro' => "L'aluminium est le matériau moderne par excellence pour la métallerie légère. Sa légèreté, sa résistance à la corrosion et sa facilité d'entretien en font un choix privilégié pour les portails, pergolas et garde-corps contemporains. AL Métallerie Soudure travaille l'aluminium avec précision pour des réalisations élégantes et durables.",
+            'proprietes' => "Légèreté exceptionnelle\nRésistance naturelle à la corrosion\nExcellente conductivité thermique\nThermolaquage disponible (toutes couleurs RAL)\nRecyclable à 100%\nNe rouille jamais",
+            'avantages' => "Idéal pour les grandes portées (portails)\nMotorisation facilitée par la légèreté\nEntretien quasi inexistant\nDesign contemporain\nParfait pour les bords de mer",
+            'applications' => "Portails coulissants et battants\nPergolas bioclimatiques\nGarde-corps design\nClôtures et brise-vue\nCarports\nVérandas\nVolets et persiennes",
+            'meta_title' => "Métallerie Aluminium Thiers | Portails, Pergolas Alu | AL Métallerie",
+            'meta_description' => "Expert aluminium à Thiers. Portails, pergolas, garde-corps en aluminium sur mesure. Léger, durable, sans entretien. Devis gratuit.",
+            'faq' => "L'aluminium est-il solide ?|Oui ! Malgré sa légèreté, l'aluminium offre une excellente résistance mécanique. Les profilés utilisés en métallerie sont conçus pour supporter des charges importantes.\nPourquoi l'aluminium pour un portail ?|Sa légèreté facilite la motorisation et réduit l'usure des mécanismes. De plus, il ne rouille jamais et nécessite très peu d'entretien.\nPeut-on avoir de l'aluminium couleur bois ?|Oui ! Le thermolaquage permet d'obtenir des finitions imitation bois très réalistes, combinant l'esthétique du bois et les avantages de l'aluminium.\nL'aluminium convient-il en bord de mer ?|Parfaitement ! L'aluminium résiste naturellement à la corrosion et au sel marin. C'est le choix idéal pour les environnements côtiers.\nQuel entretien pour l'aluminium ?|Un simple lavage à l'eau claire une à deux fois par an suffit. L'aluminium thermolaqué conserve son aspect pendant des décennies.",
+        ),
+        'fer-forge' => array(
+            'title' => 'Fer forgé',
+            'slug' => 'fer-forge',
+            'couleur' => '#2D3748',
+            'intro' => "Le fer forgé incarne l'excellence de l'artisanat traditionnel en métallerie. Chaque pièce est unique, façonnée à la main par nos artisans pour créer des ouvrages d'exception. Portails ouvragés, garde-corps aux motifs élaborés, grilles décoratives : le fer forgé apporte caractère et authenticité à votre propriété.",
+            'proprietes' => "Travail artisanal traditionnel\nPièces uniques et personnalisées\nExcellente malléabilité à chaud\nPossibilité de motifs complexes\nPatine naturelle ou traitement antirouille\nValeur patrimoniale",
+            'avantages' => "Esthétique intemporelle et élégante\nPersonnalisation totale des motifs\nValorisation du patrimoine\nDurabilité exceptionnelle\nRestauration possible",
+            'applications' => "Portails et portillons ouvragés\nGarde-corps et balcons\nGrilles de défense décoratives\nRampes d'escalier\nMobilier de jardin\nÉléments décoratifs\nRestauration de patrimoine",
+            'meta_title' => "Ferronnerie d'Art Thiers | Portails Fer Forgé | AL Métallerie",
+            'meta_description' => "Artisan ferronnier à Thiers. Création sur mesure de portails, garde-corps et grilles en fer forgé. Travail traditionnel, pièces uniques. Devis gratuit.",
+            'faq' => "Quelle différence entre fer forgé et acier ?|Le fer forgé est travaillé à chaud de manière artisanale, permettant des formes et motifs impossibles à réaliser industriellement. L'acier est plus standardisé mais aussi plus économique.\nLe fer forgé rouille-t-il ?|Sans traitement, oui. Nous appliquons une protection antirouille et une peinture de finition. Certains clients préfèrent la patine naturelle du fer pour un aspect authentique.\nPeut-on reproduire des motifs anciens ?|Absolument ! Nous pouvons reproduire des motifs traditionnels ou créer des designs sur mesure selon vos souhaits. La restauration de ferronnerie ancienne fait partie de notre savoir-faire.\nLe fer forgé est-il plus cher ?|Le travail artisanal du fer forgé demande plus de temps et de savoir-faire, ce qui se reflète dans le prix. C'est un investissement dans une pièce unique et durable.\nCombien de temps pour réaliser un portail en fer forgé ?|Selon la complexité des motifs, comptez 3 à 6 semaines. Chaque pièce étant unique, nous prenons le temps nécessaire pour un travail de qualité.",
+        ),
+        'cuivre' => array(
+            'title' => 'Cuivre',
+            'slug' => 'cuivre',
+            'couleur' => '#C77B58',
+            'intro' => "Le cuivre est un matériau noble qui apporte chaleur et élégance à vos ouvrages de métallerie. Sa patine naturelle qui évolue avec le temps lui confère un charme unique. AL Métallerie Soudure travaille le cuivre pour des réalisations décoratives haut de gamme et des éléments architecturaux distinctifs.",
+            'proprietes' => "Couleur chaude et chaleureuse\nPatine naturelle (vert-de-gris)\nExcellente conductivité\nAntibactérien naturel\nMalléabilité exceptionnelle\nDurée de vie centenaire",
+            'avantages' => "Esthétique unique et évolutive\nMatériau noble et prestigieux\nRésistance naturelle à la corrosion\nFacilité de mise en forme\nValeur patrimoniale",
+            'applications' => "Éléments décoratifs\nCouvertures et zinguerie\nGouttières et descentes\nLuminaires\nMobilier design\nÉléments architecturaux\nRestauration de patrimoine",
+            'meta_title' => "Métallerie Cuivre Thiers | Éléments Décoratifs Cuivre | AL Métallerie",
+            'meta_description' => "Artisan métallier spécialiste du cuivre à Thiers. Création d'éléments décoratifs, zinguerie et ouvrages en cuivre. Matériau noble, devis gratuit.",
+            'faq' => "Le cuivre change-t-il de couleur ?|Oui, c'est sa caractéristique ! Le cuivre développe naturellement une patine qui passe du brun au vert-de-gris. Cette évolution peut être accélérée ou stoppée selon vos préférences.\nLe cuivre est-il résistant ?|Très résistant ! Les toitures en cuivre peuvent durer plus de 100 ans. C'est un investissement durable malgré un coût initial plus élevé.\nPeut-on garder le cuivre brillant ?|Oui, avec un vernis de protection ou un entretien régulier. Cependant, beaucoup apprécient la patine naturelle qui donne du caractère.\nLe cuivre convient-il en extérieur ?|Parfaitement ! Le cuivre résiste naturellement aux intempéries. Sa patine le protège de la corrosion.\nPourquoi le cuivre est-il plus cher ?|Le cuivre est un métal précieux dont le cours fluctue. Son travail demande aussi un savoir-faire spécifique. C'est un choix premium pour des réalisations d'exception.",
+        ),
+        'laiton' => array(
+            'title' => 'Laiton',
+            'slug' => 'laiton',
+            'couleur' => '#D4A84B',
+            'intro' => "Le laiton, alliage de cuivre et de zinc, offre une teinte dorée élégante pour vos ouvrages de métallerie décorative. Apprécié pour son aspect luxueux et sa facilité de travail, le laiton est idéal pour les poignées, rampes, éléments décoratifs et pièces de quincaillerie haut de gamme.",
+            'proprietes' => "Teinte dorée naturelle\nExcellente usinabilité\nBonne résistance à la corrosion\nAspect luxueux\nPolissage miroir possible\nAlliage cuivre-zinc",
+            'avantages' => "Esthétique dorée sans dorure\nFacilité de mise en forme\nFinitions variées (poli, brossé, patiné)\nDurabilité\nEntretien simple",
+            'applications' => "Poignées et quincaillerie\nRampes et mains courantes\nÉléments décoratifs\nLuminaires\nPlaques et enseignes\nMobilier design\nRestauration",
+            'meta_title' => "Métallerie Laiton Thiers | Quincaillerie, Déco Laiton | AL Métallerie",
+            'meta_description' => "Artisan métallier spécialiste du laiton à Thiers. Création de poignées, rampes et éléments décoratifs en laiton. Aspect doré luxueux, devis gratuit.",
+            'faq' => "Le laiton ternit-il ?|Avec le temps, le laiton peut développer une patine. Un entretien régulier avec un produit adapté lui redonne son éclat. Certains préfèrent la patine pour un aspect vintage.\nQuelle différence entre laiton et bronze ?|Le laiton est un alliage cuivre-zinc (teinte dorée), le bronze est un alliage cuivre-étain (teinte plus brune). Le laiton est plus facile à travailler.\nLe laiton convient-il en extérieur ?|Oui, mais il nécessite un traitement de protection ou un entretien régulier. En intérieur, il conserve mieux son éclat.\nPeut-on avoir du laiton brossé ?|Absolument ! Nous proposons différentes finitions : poli miroir, brossé, satiné ou patiné selon l'effet recherché.\nLe laiton est-il hygiénique ?|Oui, comme le cuivre, le laiton possède des propriétés antibactériennes naturelles. Idéal pour les poignées de porte.",
+        ),
+        'mixte' => array(
+            'title' => 'Mixte',
+            'slug' => 'mixte',
+            'couleur' => '#F08B18',
+            'intro' => "Les réalisations mixtes combinent plusieurs matériaux pour créer des ouvrages uniques alliant les avantages de chacun. Acier et bois, inox et verre, aluminium et composite : AL Métallerie Soudure maîtrise l'art de marier les matières pour des créations sur mesure qui répondent parfaitement à vos attentes esthétiques et fonctionnelles.",
+            'proprietes' => "Combinaison de matériaux\nOptimisation des propriétés\nDesign personnalisé\nAdaptation aux contraintes\nCréativité sans limite\nSolutions sur mesure",
+            'avantages' => "Le meilleur de chaque matériau\nEsthétique unique et personnalisée\nOptimisation du budget\nAdaptation parfaite au projet\nOriginalité garantie",
+            'applications' => "Portails acier et bois\nGarde-corps inox et verre\nEscaliers métal et bois\nPergolas alu et bois\nClôtures mixtes\nMobilier design\nAménagements sur mesure",
+            'meta_title' => "Métallerie Mixte Thiers | Acier-Bois, Inox-Verre | AL Métallerie",
+            'meta_description' => "Expert en réalisations mixtes à Thiers. Portails acier-bois, garde-corps inox-verre, escaliers métal-bois. Créations sur mesure, devis gratuit.",
+            'faq' => "Quelles combinaisons de matériaux sont possibles ?|Presque toutes ! Les plus courantes : acier/bois, inox/verre, aluminium/composite, fer forgé/bois. Nous étudions chaque projet pour proposer la meilleure combinaison.\nLes matériaux mixtes sont-ils durables ?|Oui, à condition de bien choisir les matériaux et leurs traitements. Nous veillons à la compatibilité et à la durabilité de chaque assemblage.\nEst-ce plus cher qu'un seul matériau ?|Pas nécessairement. Parfois, combiner les matériaux permet d'optimiser le budget en utilisant chacun là où il est le plus pertinent.\nComment entretenir un ouvrage mixte ?|Chaque matériau a ses spécificités. Nous vous fournissons les conseils d'entretien adaptés à votre réalisation.\nPeut-on personnaliser les proportions ?|Absolument ! C'est tout l'intérêt du sur mesure. Nous adaptons les proportions de chaque matériau selon vos goûts et contraintes.",
+        ),
+    );
+    
+    foreach ($matieres as $key => $data) {
+        // Vérifier si la page existe déjà
+        $existing = get_posts(array(
+            'post_type' => 'matiere',
+            'posts_per_page' => 1,
+            'meta_query' => array(
+                array(
+                    'key' => '_almetal_matiere_slug',
+                    'value' => $data['slug'],
+                ),
+            ),
+        ));
+        
+        if (!empty($existing)) {
+            continue;
+        }
+        
+        // Créer la page matière
+        $post_id = wp_insert_post(array(
+            'post_title' => $data['title'],
+            'post_type' => 'matiere',
+            'post_status' => 'publish',
+            'post_content' => '',
+        ));
+        
+        if ($post_id && !is_wp_error($post_id)) {
+            update_post_meta($post_id, '_almetal_matiere_slug', $data['slug']);
+            update_post_meta($post_id, '_almetal_matiere_couleur', $data['couleur']);
+            update_post_meta($post_id, '_almetal_matiere_intro', $data['intro']);
+            update_post_meta($post_id, '_almetal_matiere_proprietes', $data['proprietes']);
+            update_post_meta($post_id, '_almetal_matiere_avantages', $data['avantages']);
+            update_post_meta($post_id, '_almetal_matiere_applications', $data['applications']);
+            update_post_meta($post_id, '_almetal_matiere_meta_title', $data['meta_title']);
+            update_post_meta($post_id, '_almetal_matiere_meta_description', $data['meta_description']);
+            update_post_meta($post_id, '_almetal_matiere_faq', $data['faq']);
+        }
+    }
+    
+    // Marquer comme initialisé
+    update_option('almetal_matieres_initialized', true);
+}
+add_action('init', 'almetal_init_matiere_pages', 20);
+
+/**
+ * Réinitialiser les pages matières (pour forcer la recréation)
+ * Utiliser: delete_option('almetal_matieres_initialized'); dans la console ou via un hook
+ */
+function almetal_reset_matiere_pages() {
+    delete_option('almetal_matieres_initialized');
+}
