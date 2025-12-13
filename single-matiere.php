@@ -62,14 +62,6 @@ if (!empty($faq_raw)) {
     <!-- Hero Section -->
     <section class="matiere-hero" style="background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%), url('<?php echo esc_url($hero_image); ?>');">
         <div class="matiere-hero__container">
-            <nav class="matiere-breadcrumb" aria-label="Fil d'Ariane">
-                <a href="<?php echo home_url(); ?>">Accueil</a>
-                <span class="separator">›</span>
-                <a href="<?php echo home_url('/realisations/'); ?>">Réalisations</a>
-                <span class="separator">›</span>
-                <span class="current"><?php echo esc_html($matiere_title); ?></span>
-            </nav>
-            
             <h1 class="matiere-hero__title">
                 <span class="matiere-hero__label">Métallerie</span>
                 <?php echo esc_html($matiere_title); ?>
