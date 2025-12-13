@@ -857,11 +857,11 @@
     /* Layout géré par header-new.css */
 
     .header-mega__logo-center .site-logo-img {
-        height: 120px;
+        height: 140px !important;
     }
 
     .site-header.scrolled .header-mega__logo-center .site-logo-img {
-        height: 80px;
+        height: 100px !important;
     }
 
     .megamenu-wrapper {
@@ -890,11 +890,11 @@
     /* Layout géré par header-new.css */
 
     .header-mega__logo-center .site-logo-img {
-        height: 90px;
+        height: 120px !important;
     }
 
     .site-header.scrolled .header-mega__logo-center .site-logo-img {
-        height: 60px;
+        height: 90px !important;
     }
 
     .megamenu-wrapper {

@@ -565,11 +565,11 @@
         padding: 10px 20px;
     }
 
-    /* Logo 110px - dépasse de la barre de 80px */
+    /* Logo 140px - dépasse de la barre */
     .header-mega__logo-center .site-logo-img,
     .header-mega__logo-center .custom-logo,
     .header-mega__logo-center .custom-logo img {
-        height: 110px;
+        height: 140px !important;
     }
 
     /* État scrolled */
@@ -584,7 +584,7 @@
     .site-header.scrolled .header-mega__logo-center .site-logo-img,
     .site-header.scrolled .header-mega__logo-center .custom-logo,
     .site-header.scrolled .header-mega__logo-center .custom-logo img {
-        height: 85px;
+        height: 100px !important;
     }
 }
 
