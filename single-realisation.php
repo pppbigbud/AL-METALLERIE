@@ -139,7 +139,7 @@ $icons = array(
                                         <circle cx="12" cy="10" r="3"/>
                                     </svg>
                                     <span class="info-label"><?php _e('Lieu', 'almetal'); ?></span>
-                                    <span class="info-value"><?php echo esc_html($lieu); ?></span>
+                                    <span class="info-value"><?php echo almetal_city_link_html($lieu, 'info-value--link'); ?></span>
                                 </div>
                             <?php endif; ?>
                             

@@ -1053,6 +1053,184 @@ function almetal_default_menu() {
     echo '</ul>';
 }
 
+function almetal_get_city_page_url($city_name) {
+    $city_name = is_string($city_name) ? trim($city_name) : '';
+    if ($city_name === '') {
+        return null;
+    }
+
+    // Recherche exacte via meta _cpg_city_name
+    $exact = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => 1,
+        'post_status' => 'publish',
+        'fields' => 'ids',
+        'meta_query' => array(
+            array(
+                'key' => '_cpg_city_name',
+                'value' => $city_name,
+                'compare' => '=',
+            ),
+        ),
+    ));
+
+    if (!empty($exact) && !is_wp_error($exact)) {
+        return get_permalink((int) $exact[0]);
+    }
+
+    // Fallback: recherche dans le titre
+    $search = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => 1,
+        'post_status' => 'publish',
+        'fields' => 'ids',
+        's' => $city_name,
+    ));
+
+    if (!empty($search) && !is_wp_error($search)) {
+        return get_permalink((int) $search[0]);
+    }
+
+    return null;
+}
+
+function almetal_city_link_html($city_name, $class = '') {
+    $city_name = is_string($city_name) ? trim($city_name) : '';
+    if ($city_name === '') {
+        return '';
+    }
+
+    $url = almetal_get_city_page_url($city_name);
+    if (!$url) {
+        return esc_html($city_name);
+    }
+
+    $class_attr = $class !== '' ? ' class="' . esc_attr($class) . '"' : '';
+    return '<a href="' . esc_url($url) . '"' . $class_attr . '>' . esc_html($city_name) . '</a>';
+}
+
+function almetal_get_city_pages_map() {
+    static $map = null;
+    if (is_array($map)) {
+        return $map;
+    }
+
+    $map = array();
+    $posts = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => 300,
+        'post_status' => 'publish',
+        'fields' => 'ids',
+        'orderby' => 'date',
+        'order' => 'DESC',
+    ));
+
+    if (empty($posts) || is_wp_error($posts)) {
+        return $map;
+    }
+
+    foreach ($posts as $id) {
+        $name = get_post_meta($id, '_cpg_city_name', true);
+        if (!$name) {
+            $name = get_the_title($id);
+        }
+        $name = is_string($name) ? trim($name) : '';
+        if ($name === '') {
+            continue;
+        }
+
+        $map[$name] = get_permalink((int) $id);
+    }
+
+    // Plus longs d'abord pour éviter de lier "Riom" dans "Riom-ès-Montagnes"
+    uksort($map, function ($a, $b) {
+        return mb_strlen($b) <=> mb_strlen($a);
+    });
+
+    return $map;
+}
+
+add_filter('the_content', 'almetal_autolink_city_pages_in_realisation_content', 20);
+function almetal_autolink_city_pages_in_realisation_content($content) {
+    if (!is_singular('realisation')) {
+        return $content;
+    }
+
+    $map = almetal_get_city_pages_map();
+    if (empty($map)) {
+        return $content;
+    }
+
+    libxml_use_internal_errors(true);
+
+    $html = '<div id="almetal-content-root">' . $content . '</div>';
+    $doc = new DOMDocument();
+    $doc->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    $xpath = new DOMXPath($doc);
+
+    // Ne pas toucher aux textes déjà dans un lien
+    $text_nodes = $xpath->query('//text()[not(ancestor::a)]');
+    if (!$text_nodes) {
+        return $content;
+    }
+
+    foreach ($text_nodes as $text_node) {
+        $text = $text_node->nodeValue;
+        if (!is_string($text) || trim($text) === '') {
+            continue;
+        }
+
+        foreach ($map as $city => $url) {
+            if ($city === '' || !$url) {
+                continue;
+            }
+
+            // Recherche simple (case-insensitive). On remplace la 1ère occurrence par noeuds DOM.
+            $pos = mb_stripos($text, $city);
+            if ($pos === false) {
+                continue;
+            }
+
+            $before = mb_substr($text, 0, $pos);
+            $match = mb_substr($text, $pos, mb_strlen($city));
+            $after = mb_substr($text, $pos + mb_strlen($city));
+
+            $parent = $text_node->parentNode;
+            if (!$parent) {
+                break;
+            }
+
+            if ($before !== '') {
+                $parent->insertBefore($doc->createTextNode($before), $text_node);
+            }
+
+            $a = $doc->createElement('a', $match);
+            $a->setAttribute('href', $url);
+            $parent->insertBefore($a, $text_node);
+
+            if ($after !== '') {
+                $parent->insertBefore($doc->createTextNode($after), $text_node);
+            }
+
+            $parent->removeChild($text_node);
+            // On passe au node suivant (on ne relie qu'une occurrence par node)
+            break;
+        }
+    }
+
+    $root = $doc->getElementById('almetal-content-root');
+    if (!$root) {
+        return $content;
+    }
+
+    $new = '';
+    foreach ($root->childNodes as $child) {
+        $new .= $doc->saveHTML($child);
+    }
+
+    return $new;
+}
+
 /**
  * Ajouter un champ personnalisé pour les icônes de menu
  */
@@ -1715,7 +1893,7 @@ function almetal_ajax_load_mobile_realisations() {
                     $html .= '<span class="meta-item meta-date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' . date_i18n('M Y', strtotime($date_realisation)) . '</span>';
                 }
                 if ($lieu) {
-                    $html .= '<span class="meta-item meta-lieu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . esc_html($lieu) . '</span>';
+                    $html .= '<span class="meta-item meta-lieu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . almetal_city_link_html($lieu, 'meta-lieu-link') . '</span>';
                 }
                 $html .= '</div>';
             }

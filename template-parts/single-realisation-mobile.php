@@ -138,7 +138,7 @@ $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : 
                     </div>
                     <div class="mobile-single-info-content">
                         <h3><?php esc_html_e('Lieu', 'almetal'); ?></h3>
-                        <p><?php echo esc_html($lieu); ?></p>
+                        <p><?php echo almetal_city_link_html($lieu, 'mobile-info-link'); ?></p>
                     </div>
                 </div>
             <?php endif; ?>

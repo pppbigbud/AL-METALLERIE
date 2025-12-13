@@ -196,7 +196,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                                                     <circle cx="12" cy="10" r="3"/>
                                                 </svg>
-                                                <?php echo esc_html($lieu); ?>
+                                                <?php echo almetal_city_link_html($lieu, 'meta-lieu-link'); ?>
                                             </span>
                                         <?php endif; ?>
                                         <?php if ($date_realisation) : ?>
