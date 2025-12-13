@@ -1195,9 +1195,10 @@ function almetal_get_city_pages_map() {
 }
 
 add_filter('the_content', 'almetal_autolink_city_pages_in_content', 20);
+
 /**
  * Auto-lier les noms de villes vers leurs pages ville respectives
- * S'applique sur toutes les pages, uniquement la première occurrence de chaque ville
+ * S'applique sur toutes les pages, première occurrence de chaque ville uniquement
  */
 function almetal_autolink_city_pages_in_content($content) {
     // Ne pas appliquer dans l'admin ou sur les archives
@@ -1224,94 +1225,39 @@ function almetal_autolink_city_pages_in_content($content) {
     // Tracker les villes déjà liées (une seule fois par ville)
     $linked_cities = array();
 
-    libxml_use_internal_errors(true);
-
-    $html = '<div id="almetal-content-root">' . $content . '</div>';
-    $doc = new DOMDocument();
-    $doc->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    $xpath = new DOMXPath($doc);
-
-    // Ne pas toucher aux textes déjà dans un lien
-    $text_nodes = $xpath->query('//text()[not(ancestor::a)]');
-    if (!$text_nodes) {
-        return $content;
-    }
-
-    foreach ($text_nodes as $text_node) {
-        $text = $text_node->nodeValue;
-        if (!is_string($text) || trim($text) === '') {
+    // Pour chaque ville dans la map, remplacer la première occurrence
+    foreach ($map as $city => $url) {
+        if ($city === '' || !$url) {
+            continue;
+        }
+        
+        // Ne pas lier vers la page courante
+        if ($current_city && mb_strtolower($city) === mb_strtolower($current_city)) {
+            continue;
+        }
+        
+        // Ne lier qu'une seule fois par ville (déjà fait par preg_replace avec limit=1)
+        if (isset($linked_cities[mb_strtolower($city)])) {
             continue;
         }
 
-        foreach ($map as $city => $url) {
-            if ($city === '' || !$url) {
-                continue;
-            }
-            
-            // Ne pas lier vers la page courante
-            if ($current_city && mb_strtolower($city) === mb_strtolower($current_city)) {
-                continue;
-            }
-            
-            // Ne lier qu'une seule fois par ville
-            if (isset($linked_cities[mb_strtolower($city)])) {
-                continue;
-            }
-
-            // Recherche simple (case-insensitive). On remplace la 1ère occurrence par noeuds DOM.
-            $pos = mb_stripos($text, $city);
-            if ($pos === false) {
-                continue;
-            }
-
-            $before = mb_substr($text, 0, $pos);
-            $match = mb_substr($text, $pos, mb_strlen($city));
-            $after = mb_substr($text, $pos + mb_strlen($city));
-
-            $parent = $text_node->parentNode;
-            if (!$parent) {
-                break;
-            }
-
-            if ($before !== '') {
-                $parent->insertBefore($doc->createTextNode($before), $text_node);
-            }
-
-            $a = $doc->createElement('a', $match);
-            $a->setAttribute('href', $url);
-            $a->setAttribute('class', 'city-autolink');
-            $parent->insertBefore($a, $text_node);
-
-            if ($after !== '') {
-                $parent->insertBefore($doc->createTextNode($after), $text_node);
-            }
-
-            $parent->removeChild($text_node);
-            
-            // Marquer cette ville comme déjà liée
+        // Échapper les caractères spéciaux regex
+        $city_escaped = preg_quote($city, '/');
+        
+        // Pattern: le nom de la ville, pas déjà dans un lien (lookbehind négatif pour <a et href)
+        // On utilise un pattern simple qui évite de matcher dans les balises HTML
+        $pattern = '/(?<!["\'>\/])(\b' . $city_escaped . '\b)(?![^<]*<\/a>)/iu';
+        
+        // Vérifier si la ville est présente (hors liens existants)
+        if (preg_match($pattern, $content)) {
+            $replacement = '<a href="' . esc_url($url) . '" class="city-autolink">$1</a>';
+            $content = preg_replace($pattern, $replacement, $content, 1); // limit=1 pour première occurrence seulement
             $linked_cities[mb_strtolower($city)] = true;
-            
-            // On passe au node suivant (on ne relie qu'une occurrence par node)
-            break;
         }
     }
 
-    $root = $doc->getElementById('almetal-content-root');
-    if (!$root) {
-        return $content;
-    }
-
-    $new = '';
-    foreach ($root->childNodes as $child) {
-        $new .= $doc->saveHTML($child);
-    }
-
-    return $new;
+    return $content;
 }
-
-/**
- * Ajouter un champ personnalisé pour les icônes de menu
- */
 // ... (code inchangé)
 function almetal_menu_item_custom_fields($item_id, $item, $depth, $args) {
     $icon = get_post_meta($item_id, '_menu_item_icon', true);
