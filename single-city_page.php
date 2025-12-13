@@ -48,8 +48,14 @@ $almetal_get_realisation_image_url = function ($realisation_id) {
     }
 
     $gallery_images = get_post_meta($realisation_id, '_almetal_gallery_images', true);
+    $gallery_images = function_exists('maybe_unserialize') ? maybe_unserialize($gallery_images) : $gallery_images;
+
+    if (is_string($gallery_images)) {
+        $gallery_images = wp_parse_id_list($gallery_images);
+    }
+
     if (is_array($gallery_images) && !empty($gallery_images)) {
-        $first_image_id = (int) $gallery_images[0];
+        $first_image_id = (int) reset($gallery_images);
         $url = wp_get_attachment_image_url($first_image_id, 'full');
         if ($url) {
             return $url;
@@ -120,6 +126,11 @@ if (!$city_hero_bg_url) {
 // Dernier fallback: image à la une de la page ville
 if (!$city_hero_bg_url && has_post_thumbnail()) {
     $city_hero_bg_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+}
+
+// Fallback final: image du thème (garantit un rendu visuel)
+if (!$city_hero_bg_url) {
+    $city_hero_bg_url = get_template_directory_uri() . '/assets/images/hero/hero-1.png';
 }
 ?>
 
