@@ -611,6 +611,27 @@ function almetal_force_city_page_template($template) {
     return $template;
 }
 
+add_action('template_redirect', 'almetal_disable_cache_for_city_pages', 0);
+function almetal_disable_cache_for_city_pages() {
+    if (!is_singular('city_page')) {
+        return;
+    }
+
+    if (!defined('DONOTCACHEPAGE')) {
+        define('DONOTCACHEPAGE', true);
+    }
+    if (!defined('DONOTCACHEDB')) {
+        define('DONOTCACHEDB', true);
+    }
+    if (!defined('DONOTMINIFY')) {
+        define('DONOTMINIFY', true);
+    }
+
+    if (function_exists('nocache_headers')) {
+        nocache_headers();
+    }
+}
+
 /**
  * CSS CRITIQUE MOBILE - Inline dans le <head>
  * Garantit que le burger est toujours visible et fonctionnel
