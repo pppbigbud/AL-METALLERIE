@@ -2092,10 +2092,10 @@ function almetal_get_google_reviews() {
     
     // Configuration API
     $api_key = 'AIzaSyAWrQ0heLj3xzkTUy_-elelg0I9HtsvzH8';
-    // Place ID de AL Métallerie Soudure (extrait de l'iframe Google Maps)
-    $place_id = get_option('almetal_google_place_id', 'ChIJ4VEY3GLrdhQRcX40nqn2rrI');
+    // Récupérer le Place ID sauvegardé ou le chercher automatiquement
+    $place_id = get_option('almetal_google_place_id', '');
     
-    // Si pas de Place ID configuré, essayer de le trouver
+    // Si pas de Place ID configuré, essayer de le trouver via l'API
     if (empty($place_id)) {
         $place_id = almetal_find_google_place_id($api_key);
         if ($place_id) {
