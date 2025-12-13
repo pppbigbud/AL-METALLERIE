@@ -13,10 +13,15 @@ $categories = get_terms(array(
     'hide_empty' => true,
 ));
 
-// Récupérer plus de réalisations pour le filtrage (on n'affichera que 3 à la fois)
+// Configuration de la pagination AJAX
+$per_page = 6;
+$total_realisations = wp_count_posts('realisation')->publish;
+
+// Récupérer les premières réalisations
 $realisations_query = new WP_Query(array(
     'post_type' => 'realisation',
-    'posts_per_page' => 12, // Charger 12 réalisations pour avoir du contenu à filtrer
+    'posts_per_page' => $per_page,
+    'paged' => 1,
     'orderby' => 'date',
     'order' => 'DESC',
 ));
@@ -103,7 +108,7 @@ $realisations_query = new WP_Query(array(
         <?php endif; ?>
 
         <!-- Grille d'actualités (réalisations dynamiques) -->
-        <div class="actualites-grid">
+        <div class="actualites-grid" id="desktop-realisations-grid" data-page="1" data-per-page="<?php echo esc_attr($per_page); ?>" data-total="<?php echo esc_attr($total_realisations); ?>">
             <?php if ($realisations_query->have_posts()) : ?>
                 <?php while ($realisations_query->have_posts()) : $realisations_query->the_post(); ?>
                     <?php
@@ -231,6 +236,29 @@ $realisations_query = new WP_Query(array(
                 <p><?php esc_html_e('Aucune réalisation pour le moment.', 'almetal'); ?></p>
             <?php endif; ?>
         </div>
+        
+        <!-- Loader AJAX -->
+        <div id="desktop-realisations-loader" class="realisations-loader" style="display: none;">
+            <div class="loader-spinner"></div>
+        </div>
+        
+        <!-- Bouton Voir Plus -->
+        <?php 
+        $remaining = max(0, $total_realisations - $per_page);
+        if ($remaining > 0) : 
+        ?>
+        <div id="desktop-loadmore-wrapper" class="loadmore-wrapper">
+            <button id="btn-desktop-load-more" class="btn-load-more" data-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
+                <span class="btn-load-more__icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </span>
+                <span class="btn-load-more__text"><?php esc_html_e('Voir plus de réalisations', 'almetal'); ?></span>
+                <span class="btn-load-more__count"><?php echo esc_html($remaining); ?> restantes</span>
+            </button>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -281,5 +309,87 @@ $realisations_query = new WP_Query(array(
     .hp-section-subtitle {
         font-size: 1rem;
     }
+}
+
+/* Bouton Voir Plus */
+.loadmore-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.btn-load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background: transparent;
+    border: 2px solid #F08B18;
+    border-radius: 50px;
+    color: #F08B18;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-load-more:hover {
+    background: #F08B18;
+    color: #fff;
+}
+
+.btn-load-more__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.btn-load-more:hover .btn-load-more__icon {
+    transform: translateY(3px);
+}
+
+.btn-load-more__count {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    padding-left: 8px;
+    border-left: 1px solid currentColor;
+}
+
+.btn-load-more.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Loader */
+.realisations-loader {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(240, 139, 24, 0.2);
+    border-top-color: #F08B18;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Animation des nouvelles cards */
+.realisation-card.loading-new {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.realisation-card.loaded {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 </style>
