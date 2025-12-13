@@ -559,12 +559,16 @@ function almetal_maybe_create_city_page($city_name) {
         return false;
     }
     
+    // Générer le contenu automatique
+    $content = almetal_generate_city_page_content($city_name);
+    
     // Créer la page ville
     $post_data = array(
         'post_type' => 'city_page',
         'post_status' => 'draft', // En brouillon pour révision
         'post_title' => 'Métallier Serrurier à ' . $city_name,
         'post_name' => 'metallier-' . sanitize_title($city_name),
+        'post_content' => $content,
     );
     
     $post_id = wp_insert_post($post_data);
@@ -583,6 +587,82 @@ function almetal_maybe_create_city_page($city_name) {
     error_log('[AL Métallerie] Page ville créée automatiquement: ' . $city_name . ' (ID: ' . $post_id . ')');
     
     return $post_id;
+}
+
+/**
+ * Générer le contenu automatique pour une page ville
+ * 
+ * @param string $city_name Nom de la ville
+ * @return string Contenu HTML généré
+ */
+function almetal_generate_city_page_content($city_name) {
+    $city = esc_html($city_name);
+    
+    // Variations pour éviter le contenu dupliqué
+    $variations = array(
+        array(
+            'intro' => "Vous recherchez un <strong>métallier serrurier professionnel à {$city}</strong> ? AL Métallerie & Soudure, artisan basé à Peschadoires (63), intervient dans votre commune pour tous vos projets de métallerie sur mesure.",
+            'expertise' => "Notre expertise en ferronnerie et soudure nous permet de réaliser des ouvrages uniques, parfaitement adaptés à votre habitat ou votre entreprise.",
+        ),
+        array(
+            'intro' => "Besoin d'un <strong>artisan métallier à {$city}</strong> pour votre projet ? AL Métallerie & Soudure vous accompagne dans la conception et la réalisation de vos ouvrages métalliques sur mesure.",
+            'expertise' => "Depuis notre atelier de Peschadoires, nous intervenons rapidement à {$city} et ses environs pour des créations personnalisées de qualité.",
+        ),
+        array(
+            'intro' => "<strong>Métallier ferronnier intervenant à {$city}</strong>, AL Métallerie & Soudure met son savoir-faire artisanal au service de vos projets. Portails, garde-corps, escaliers : nous créons des pièces uniques.",
+            'expertise' => "Notre proximité avec {$city} nous permet d'assurer un suivi personnalisé de votre projet, de la conception à la pose.",
+        ),
+        array(
+            'intro' => "AL Métallerie & Soudure, votre <strong>serrurier métallier de confiance à {$city}</strong>. Nous réalisons tous types d'ouvrages en métal : portails, clôtures, garde-corps, escaliers et ferronnerie d'art.",
+            'expertise' => "Artisan passionné, nous privilégions la qualité et le sur-mesure pour chaque réalisation à {$city}.",
+        ),
+    );
+    
+    $v = $variations[array_rand($variations)];
+    
+    $content = "
+<p>{$v['intro']}</p>
+
+<p>{$v['expertise']}</p>
+
+<h2>Nos services de métallerie à {$city}</h2>
+
+<p>Nous proposons une gamme complète de services pour répondre à tous vos besoins :</p>
+
+<ul>
+<li><strong>Portails et portillons</strong> : battants, coulissants, motorisés</li>
+<li><strong>Garde-corps et rampes</strong> : intérieurs et extérieurs, design contemporain ou classique</li>
+<li><strong>Escaliers métalliques</strong> : droits, quart tournant, hélicoïdaux</li>
+<li><strong>Pergolas et auvents</strong> : structures sur mesure pour vos espaces extérieurs</li>
+<li><strong>Grilles et clôtures</strong> : sécurisation de votre propriété</li>
+<li><strong>Ferronnerie d'art</strong> : pièces décoratives uniques</li>
+<li><strong>Serrurerie</strong> : dépannage et installation</li>
+</ul>
+
+<h2>Pourquoi choisir AL Métallerie à {$city} ?</h2>
+
+<ul>
+<li><strong>Fabrication française</strong> : Tout est conçu et fabriqué dans notre atelier</li>
+<li><strong>Sur mesure uniquement</strong> : Chaque projet est unique et personnalisé</li>
+<li><strong>Devis gratuit</strong> : Étude de votre projet sans engagement</li>
+<li><strong>Pose incluse</strong> : Installation professionnelle par nos soins</li>
+<li><strong>Garantie décennale</strong> : Travail assuré et garanti</li>
+<li><strong>Proximité</strong> : Intervention rapide à {$city} et environs</li>
+</ul>
+
+<h2>Zone d'intervention autour de {$city}</h2>
+
+<p>Basés à Peschadoires dans le Puy-de-Dôme (63), nous intervenons dans un rayon de 50 km, incluant {$city} et les communes environnantes. Notre connaissance du terrain local nous permet d'adapter nos réalisations aux spécificités architecturales de votre région.</p>
+
+<h2>Demandez votre devis gratuit</h2>
+
+<p>Vous avez un projet de métallerie à {$city} ? Contactez-nous pour obtenir un devis gratuit et personnalisé. Nous nous déplaçons chez vous pour étudier votre projet et vous proposer la solution la plus adaptée.</p>
+
+<p><strong>Téléphone :</strong> 06 73 33 35 32<br>
+<strong>Email :</strong> contact@al-metallerie.fr</p>
+";
+
+    return trim($content);
 }
 
 /**
