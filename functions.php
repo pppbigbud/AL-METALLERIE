@@ -2225,7 +2225,7 @@ function almetal_render_google_reviews_widget() {
     if (!$reviews) {
         $reviews = array(
             'rating' => 5.0,
-            'total_reviews' => 47,
+            'total_reviews' => 5,
             'url' => 'https://www.google.com/search?q=AL+M%C3%A9tallerie+Soudure',
         );
     }

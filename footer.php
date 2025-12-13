@@ -272,9 +272,6 @@
                         </a>
                     </div>
                     
-                    <!-- Avis Google Business -->
-                    <?php echo almetal_render_google_reviews_widget(); ?>
-
                     <!-- Bouton CTA -->
                     <a href="<?php echo esc_url(home_url('/contact')); ?>" class="footer-cta-btn">
                         <span class="circle" aria-hidden="true">
@@ -284,6 +281,9 @@
                         </span>
                         <span class="button-text"><?php _e('Demander un devis', 'almetal'); ?></span>
                     </a>
+                    
+                    <!-- Avis Google Business -->
+                    <?php echo almetal_render_google_reviews_widget(); ?>
                 </div>
             </div>
 
