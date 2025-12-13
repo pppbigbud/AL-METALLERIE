@@ -118,7 +118,7 @@
     .header-mega__logo-center .custom-logo,
     .header-mega__logo-center .custom-logo img,
     .header-mega__logo-center picture img {
-        height: 110px !important; /* Taille fixe - dépasse de la barre de 70px */
+        height: 140px !important; /* Taille fixe - logo plus grand */
         width: auto !important;
         max-width: none !important;
         display: block;
@@ -272,7 +272,7 @@
     .site-header.scrolled .header-mega__logo-center .custom-logo,
     .site-header.scrolled .header-mega__logo-center .custom-logo img,
     .site-header.scrolled .header-mega__logo-center picture img {
-        height: 80px !important; /* Logo réduit au scroll mais dépasse toujours */
+        height: 100px !important; /* Logo réduit au scroll mais reste visible */
     }
 
     /* ========== MASQUER ÉLÉMENTS MOBILES ========== */
