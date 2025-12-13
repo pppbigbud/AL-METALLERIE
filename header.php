@@ -217,12 +217,10 @@
                                     $logo_png = get_template_directory_uri() . '/assets/images/logo.webp'; // Fallback sur l'original
                                     ?>
                                     <picture>
-                                        <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp" width="81" height="80">
+                                        <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp">
                                         <img src="<?php echo esc_url($logo_png); ?>" 
                                              alt="AL Métallerie Soudure - Métallier Serrurier à Thiers Puy-de-Dôme (63)" 
                                              class="site-logo-img no-lazyload"
-                                             width="81"
-                                             height="80"
                                              fetchpriority="high"
                                              decoding="async"
                                              data-no-lazy="1">
