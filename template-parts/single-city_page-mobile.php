@@ -41,10 +41,15 @@ if (empty($city_display) || $city_display === get_the_title()) {
             Métallier Soudeur à <?php echo esc_html($city_display); ?>
         </h1>
 
-        <!-- Image hero si disponible -->
-        <?php if (has_post_thumbnail()) : ?>
-            <div class="mobile-single-hero scroll-fade scroll-delay-2">
-                <?php the_post_thumbnail('large', array('class' => 'mobile-single-hero-img', 'loading' => 'eager')); ?>
+        <!-- Image hero (background aléatoire comme desktop) -->
+        <?php
+        $mobile_city_hero_bg = function_exists('almetal_get_city_hero_background_url')
+            ? almetal_get_city_hero_background_url(get_the_ID())
+            : null;
+        ?>
+        <?php if (!empty($mobile_city_hero_bg)) : ?>
+            <div class="mobile-single-hero scroll-fade scroll-delay-2" style="background-image: url('<?php echo esc_url($mobile_city_hero_bg); ?>'); background-size: cover; background-position: center; background-repeat: no-repeat; aspect-ratio: 16/9;">
+                <div style="width:100%;height:100%;background:linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.35) 100%);"></div>
             </div>
         <?php endif; ?>
 
