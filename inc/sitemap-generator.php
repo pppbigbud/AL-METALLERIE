@@ -110,6 +110,27 @@ function almetal_generate_sitemap() {
         );
     }
 
+    // Pages Matières (acier, inox, aluminium, etc.)
+    $matieres = get_posts(array(
+        'post_type' => 'matiere',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+    ));
+
+    foreach ($matieres as $matiere) {
+        $image_id = get_post_thumbnail_id($matiere->ID);
+        $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+        
+        $sitemap .= almetal_sitemap_url(
+            get_permalink($matiere),
+            get_the_modified_date('Y-m-d', $matiere),
+            'monthly',
+            '0.8',
+            $image_url,
+            get_the_title($matiere) . ' - Métallerie AL Métallerie Soudure'
+        );
+    }
+
     // Articles de blog (si présents)
     $posts = get_posts(array(
         'post_type' => 'post',
