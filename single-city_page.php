@@ -40,30 +40,84 @@ $lng = get_post_meta(get_the_ID(), '_cpg_longitude', true);
 
 // Image hero aléatoire (réalisations) - Portails / Garde-corps / Escaliers
 $city_hero_bg_url = null;
+
+$almetal_get_realisation_image_url = function ($realisation_id) {
+    $thumb = get_the_post_thumbnail_url($realisation_id, 'full');
+    if ($thumb) {
+        return $thumb;
+    }
+
+    $gallery_images = get_post_meta($realisation_id, '_almetal_gallery_images', true);
+    if (is_array($gallery_images) && !empty($gallery_images)) {
+        $first_image_id = (int) $gallery_images[0];
+        $url = wp_get_attachment_image_url($first_image_id, 'full');
+        if ($url) {
+            return $url;
+        }
+    }
+
+    $attachments = get_posts(array(
+        'post_type' => 'attachment',
+        'posts_per_page' => 1,
+        'post_parent' => $realisation_id,
+        'post_mime_type' => 'image',
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+        'fields' => 'ids',
+    ));
+
+    if (!empty($attachments) && !is_wp_error($attachments)) {
+        $url = wp_get_attachment_image_url((int) $attachments[0], 'full');
+        if ($url) {
+            return $url;
+        }
+    }
+
+    return null;
+};
+
+$target_terms = array(
+    'garde-corps',
+    'garde-corps-metallique',
+    'portails',
+    'portail',
+    'escaliers',
+    'escalier',
+);
+
 $random_realisation_id = get_posts(array(
     'post_type' => 'realisation',
     'posts_per_page' => 1,
     'orderby' => 'rand',
     'fields' => 'ids',
-    'meta_query' => array(
-        array(
-            'key' => '_thumbnail_id',
-            'compare' => 'EXISTS',
-        ),
-    ),
     'tax_query' => array(
         array(
             'taxonomy' => 'type_realisation',
             'field' => 'slug',
-            'terms' => array('garde-corps', 'portails', 'escaliers'),
+            'terms' => $target_terms,
         ),
     ),
 ));
 
 if (!empty($random_realisation_id) && !is_wp_error($random_realisation_id)) {
-    $city_hero_bg_url = get_the_post_thumbnail_url($random_realisation_id[0], 'full');
+    $city_hero_bg_url = $almetal_get_realisation_image_url((int) $random_realisation_id[0]);
 }
 
+// Fallback: n'importe quelle réalisation
+if (!$city_hero_bg_url) {
+    $any_realisation_id = get_posts(array(
+        'post_type' => 'realisation',
+        'posts_per_page' => 1,
+        'orderby' => 'rand',
+        'fields' => 'ids',
+    ));
+
+    if (!empty($any_realisation_id) && !is_wp_error($any_realisation_id)) {
+        $city_hero_bg_url = $almetal_get_realisation_image_url((int) $any_realisation_id[0]);
+    }
+}
+
+// Dernier fallback: image à la une de la page ville
 if (!$city_hero_bg_url && has_post_thumbnail()) {
     $city_hero_bg_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
 }
