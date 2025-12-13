@@ -108,18 +108,21 @@
     /* Supprime l'espace en dessous de l'image */
 }
 
-.header-mega__logo-center .site-logo-img {
-    height: 140px;
+.header-mega__logo-center .site-logo-img,
+.header-mega__logo-center .site-logo img {
+    height: 140px !important;
+    max-height: 140px !important;
     width: auto;
     display: block;
     transition: all var(--transition-normal);
 }
 
 /* Logo réduit au scroll */
-.site-header.scrolled .header-mega__logo-center .site-logo-img {
-    height: 100px;
+.site-header.scrolled .header-mega__logo-center .site-logo-img,
+.site-header.scrolled .header-mega__logo-center .site-logo img {
+    height: 100px !important;
+    max-height: 100px !important;
 }
-
 
 /* ============================================
    MEGA MENU WRAPPER

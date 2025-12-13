@@ -117,8 +117,10 @@
     .header-mega__logo-center .site-logo-img,
     .header-mega__logo-center .custom-logo,
     .header-mega__logo-center .custom-logo img,
-    .header-mega__logo-center picture img {
+    .header-mega__logo-center picture img,
+    .header-mega__logo-center .site-logo img {
         height: 140px !important; /* Taille fixe - logo plus grand */
+        max-height: 140px !important; /* Écraser toute règle max-height */
         width: auto !important;
         max-width: none !important;
         display: block;
@@ -271,8 +273,10 @@
     .site-header.scrolled .header-mega__logo-center .site-logo-img,
     .site-header.scrolled .header-mega__logo-center .custom-logo,
     .site-header.scrolled .header-mega__logo-center .custom-logo img,
-    .site-header.scrolled .header-mega__logo-center picture img {
+    .site-header.scrolled .header-mega__logo-center picture img,
+    .site-header.scrolled .header-mega__logo-center .site-logo img {
         height: 100px !important; /* Logo réduit au scroll mais reste visible */
+        max-height: 100px !important;
     }
 
     /* ========== MASQUER ÉLÉMENTS MOBILES ========== */
@@ -568,8 +572,10 @@
     /* Logo 140px - dépasse de la barre */
     .header-mega__logo-center .site-logo-img,
     .header-mega__logo-center .custom-logo,
-    .header-mega__logo-center .custom-logo img {
+    .header-mega__logo-center .custom-logo img,
+    .header-mega__logo-center .site-logo img {
         height: 140px !important;
+        max-height: 140px !important;
     }
 
     /* État scrolled */
@@ -583,8 +589,10 @@
 
     .site-header.scrolled .header-mega__logo-center .site-logo-img,
     .site-header.scrolled .header-mega__logo-center .custom-logo,
-    .site-header.scrolled .header-mega__logo-center .custom-logo img {
+    .site-header.scrolled .header-mega__logo-center .custom-logo img,
+    .site-header.scrolled .header-mega__logo-center .site-logo img {
         height: 100px !important;
+        max-height: 100px !important;
     }
 }
 
