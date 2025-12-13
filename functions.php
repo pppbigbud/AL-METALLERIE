@@ -1194,9 +1194,19 @@ function almetal_get_city_pages_map() {
     return $map;
 }
 
-add_filter('the_content', 'almetal_autolink_city_pages_in_realisation_content', 20);
-function almetal_autolink_city_pages_in_realisation_content($content) {
-    if (!is_singular('realisation')) {
+add_filter('the_content', 'almetal_autolink_city_pages_in_content', 20);
+/**
+ * Auto-lier les noms de villes vers leurs pages ville respectives
+ * S'applique sur toutes les pages, uniquement la première occurrence de chaque ville
+ */
+function almetal_autolink_city_pages_in_content($content) {
+    // Ne pas appliquer dans l'admin ou sur les archives
+    if (is_admin() || is_archive() || is_home()) {
+        return $content;
+    }
+    
+    // Appliquer sur les pages ville, réalisations et pages standard
+    if (!is_singular(array('city_page', 'realisation', 'page', 'post'))) {
         return $content;
     }
 
@@ -1204,6 +1214,15 @@ function almetal_autolink_city_pages_in_realisation_content($content) {
     if (empty($map)) {
         return $content;
     }
+    
+    // Exclure la ville de la page courante (éviter de lier vers soi-même)
+    $current_city = '';
+    if (is_singular('city_page')) {
+        $current_city = get_post_meta(get_the_ID(), '_cpg_city_name', true);
+    }
+
+    // Tracker les villes déjà liées (une seule fois par ville)
+    $linked_cities = array();
 
     libxml_use_internal_errors(true);
 
@@ -1228,6 +1247,16 @@ function almetal_autolink_city_pages_in_realisation_content($content) {
             if ($city === '' || !$url) {
                 continue;
             }
+            
+            // Ne pas lier vers la page courante
+            if ($current_city && mb_strtolower($city) === mb_strtolower($current_city)) {
+                continue;
+            }
+            
+            // Ne lier qu'une seule fois par ville
+            if (isset($linked_cities[mb_strtolower($city)])) {
+                continue;
+            }
 
             // Recherche simple (case-insensitive). On remplace la 1ère occurrence par noeuds DOM.
             $pos = mb_stripos($text, $city);
@@ -1250,6 +1279,7 @@ function almetal_autolink_city_pages_in_realisation_content($content) {
 
             $a = $doc->createElement('a', $match);
             $a->setAttribute('href', $url);
+            $a->setAttribute('class', 'city-autolink');
             $parent->insertBefore($a, $text_node);
 
             if ($after !== '') {
@@ -1257,6 +1287,10 @@ function almetal_autolink_city_pages_in_realisation_content($content) {
             }
 
             $parent->removeChild($text_node);
+            
+            // Marquer cette ville comme déjà liée
+            $linked_cities[mb_strtolower($city)] = true;
+            
             // On passe au node suivant (on ne relie qu'une occurrence par node)
             break;
         }
@@ -1278,6 +1312,7 @@ function almetal_autolink_city_pages_in_realisation_content($content) {
 /**
  * Ajouter un champ personnalisé pour les icônes de menu
  */
+// ... (code inchangé)
 function almetal_menu_item_custom_fields($item_id, $item, $depth, $args) {
     $icon = get_post_meta($item_id, '_menu_item_icon', true);
     ?>
