@@ -456,11 +456,12 @@ function almetal_enqueue_scripts() {
     
     // CSS pour les pages ville (city_page)
     if (is_singular('city_page')) {
+        $city_pages_css = get_template_directory() . '/assets/css/city-pages.css';
         wp_enqueue_style(
             'almetal-city-pages',
             get_template_directory_uri() . '/assets/css/city-pages.css',
             array('almetal-style'),
-            wp_get_theme()->get('Version')
+            file_exists($city_pages_css) ? filemtime($city_pages_css) : wp_get_theme()->get('Version')
         );
     }
     
