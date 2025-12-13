@@ -717,3 +717,283 @@ function almetal_realisation_sortable_columns($columns) {
     return $columns;
 }
 add_filter('manage_edit-realisation_sortable_columns', 'almetal_realisation_sortable_columns');
+
+/**
+ * ============================================
+ * CUSTOM POST TYPE : MATIÈRES
+ * Pages dédiées aux matériaux (Acier, Inox, Aluminium, Fer forgé)
+ * ============================================
+ */
+
+/**
+ * Enregistrer le Custom Post Type "Matière"
+ */
+function almetal_register_matiere_cpt() {
+    $labels = array(
+        'name'                  => _x('Matières', 'Post Type General Name', 'almetal'),
+        'singular_name'         => _x('Matière', 'Post Type Singular Name', 'almetal'),
+        'menu_name'             => __('Matières', 'almetal'),
+        'name_admin_bar'        => __('Matière', 'almetal'),
+        'archives'              => __('Archives des matières', 'almetal'),
+        'attributes'            => __('Attributs de la matière', 'almetal'),
+        'parent_item_colon'     => __('Matière parente:', 'almetal'),
+        'all_items'             => __('Toutes les matières', 'almetal'),
+        'add_new_item'          => __('Ajouter une matière', 'almetal'),
+        'add_new'               => __('Ajouter', 'almetal'),
+        'new_item'              => __('Nouvelle matière', 'almetal'),
+        'edit_item'             => __('Modifier la matière', 'almetal'),
+        'update_item'           => __('Mettre à jour', 'almetal'),
+        'view_item'             => __('Voir la matière', 'almetal'),
+        'view_items'            => __('Voir les matières', 'almetal'),
+        'search_items'          => __('Rechercher une matière', 'almetal'),
+        'not_found'             => __('Aucune matière trouvée', 'almetal'),
+        'not_found_in_trash'    => __('Aucune matière dans la corbeille', 'almetal'),
+        'featured_image'        => __('Image principale', 'almetal'),
+        'set_featured_image'    => __('Définir l\'image principale', 'almetal'),
+        'remove_featured_image' => __('Retirer l\'image principale', 'almetal'),
+        'use_featured_image'    => __('Utiliser comme image principale', 'almetal'),
+    );
+
+    $args = array(
+        'label'                 => __('Matière', 'almetal'),
+        'description'           => __('Pages dédiées aux matériaux de métallerie', 'almetal'),
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 6,
+        'menu_icon'             => 'dashicons-database',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'show_in_rest'          => true,
+        'rewrite'               => array('slug' => 'matiere', 'with_front' => false),
+    );
+
+    register_post_type('matiere', $args);
+}
+add_action('init', 'almetal_register_matiere_cpt', 0);
+
+/**
+ * Ajouter les metaboxes pour les matières
+ */
+function almetal_matiere_metaboxes() {
+    add_meta_box(
+        'almetal_matiere_details',
+        __('Détails de la matière', 'almetal'),
+        'almetal_matiere_details_callback',
+        'matiere',
+        'normal',
+        'high'
+    );
+    
+    add_meta_box(
+        'almetal_matiere_seo',
+        __('SEO & Contenu', 'almetal'),
+        'almetal_matiere_seo_callback',
+        'matiere',
+        'normal',
+        'default'
+    );
+}
+add_action('add_meta_boxes', 'almetal_matiere_metaboxes');
+
+/**
+ * Callback pour la metabox des détails
+ */
+function almetal_matiere_details_callback($post) {
+    wp_nonce_field('almetal_matiere_nonce', 'almetal_matiere_nonce_field');
+    
+    $slug = get_post_meta($post->ID, '_almetal_matiere_slug', true);
+    $icone = get_post_meta($post->ID, '_almetal_matiere_icone', true);
+    $couleur = get_post_meta($post->ID, '_almetal_matiere_couleur', true) ?: '#F08B18';
+    $proprietes = get_post_meta($post->ID, '_almetal_matiere_proprietes', true);
+    $avantages = get_post_meta($post->ID, '_almetal_matiere_avantages', true);
+    $applications = get_post_meta($post->ID, '_almetal_matiere_applications', true);
+    ?>
+    <style>
+        .almetal-metabox-row { margin-bottom: 15px; }
+        .almetal-metabox-row label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .almetal-metabox-row input[type="text"],
+        .almetal-metabox-row textarea { width: 100%; }
+        .almetal-metabox-row textarea { min-height: 100px; }
+        .almetal-metabox-row input[type="color"] { width: 60px; height: 35px; }
+        .almetal-metabox-hint { color: #666; font-size: 12px; margin-top: 3px; }
+    </style>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_slug"><?php _e('Slug (identifiant)', 'almetal'); ?></label>
+        <input type="text" id="almetal_matiere_slug" name="almetal_matiere_slug" value="<?php echo esc_attr($slug); ?>" placeholder="acier, inox, aluminium, fer-forge">
+        <p class="almetal-metabox-hint"><?php _e('Identifiant utilisé pour lier les réalisations (ex: acier, inox, aluminium, fer-forge)', 'almetal'); ?></p>
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_couleur"><?php _e('Couleur d\'accent', 'almetal'); ?></label>
+        <input type="color" id="almetal_matiere_couleur" name="almetal_matiere_couleur" value="<?php echo esc_attr($couleur); ?>">
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_proprietes"><?php _e('Propriétés techniques', 'almetal'); ?></label>
+        <textarea id="almetal_matiere_proprietes" name="almetal_matiere_proprietes" placeholder="Une propriété par ligne"><?php echo esc_textarea($proprietes); ?></textarea>
+        <p class="almetal-metabox-hint"><?php _e('Ex: Résistance à la corrosion, Durabilité, Facilité de soudure...', 'almetal'); ?></p>
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_avantages"><?php _e('Avantages', 'almetal'); ?></label>
+        <textarea id="almetal_matiere_avantages" name="almetal_matiere_avantages" placeholder="Un avantage par ligne"><?php echo esc_textarea($avantages); ?></textarea>
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_applications"><?php _e('Applications / Types de réalisations', 'almetal'); ?></label>
+        <textarea id="almetal_matiere_applications" name="almetal_matiere_applications" placeholder="Une application par ligne"><?php echo esc_textarea($applications); ?></textarea>
+        <p class="almetal-metabox-hint"><?php _e('Ex: Portails, Garde-corps, Escaliers, Pergolas...', 'almetal'); ?></p>
+    </div>
+    <?php
+}
+
+/**
+ * Callback pour la metabox SEO
+ */
+function almetal_matiere_seo_callback($post) {
+    $meta_title = get_post_meta($post->ID, '_almetal_matiere_meta_title', true);
+    $meta_description = get_post_meta($post->ID, '_almetal_matiere_meta_description', true);
+    $intro_text = get_post_meta($post->ID, '_almetal_matiere_intro', true);
+    $faq = get_post_meta($post->ID, '_almetal_matiere_faq', true);
+    ?>
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_meta_title"><?php _e('Meta Title (SEO)', 'almetal'); ?></label>
+        <input type="text" id="almetal_matiere_meta_title" name="almetal_matiere_meta_title" value="<?php echo esc_attr($meta_title); ?>" placeholder="Métallerie [Matière] Thiers | AL Métallerie Soudure">
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_meta_description"><?php _e('Meta Description (SEO)', 'almetal'); ?></label>
+        <textarea id="almetal_matiere_meta_description" name="almetal_matiere_meta_description" placeholder="Description pour les moteurs de recherche (150-160 caractères)"><?php echo esc_textarea($meta_description); ?></textarea>
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_intro"><?php _e('Texte d\'introduction', 'almetal'); ?></label>
+        <textarea id="almetal_matiere_intro" name="almetal_matiere_intro" style="min-height: 150px;"><?php echo esc_textarea($intro_text); ?></textarea>
+    </div>
+    
+    <div class="almetal-metabox-row">
+        <label for="almetal_matiere_faq"><?php _e('FAQ (format: Question|Réponse, une par ligne)', 'almetal'); ?></label>
+        <textarea id="almetal_matiere_faq" name="almetal_matiere_faq" style="min-height: 150px;" placeholder="Pourquoi choisir l'acier ?|L'acier offre une excellente résistance..."><?php echo esc_textarea($faq); ?></textarea>
+    </div>
+    <?php
+}
+
+/**
+ * Sauvegarder les métadonnées des matières
+ */
+function almetal_save_matiere_meta($post_id) {
+    if (!isset($_POST['almetal_matiere_nonce_field']) || !wp_verify_nonce($_POST['almetal_matiere_nonce_field'], 'almetal_matiere_nonce')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    $fields = array(
+        'almetal_matiere_slug',
+        'almetal_matiere_couleur',
+        'almetal_matiere_proprietes',
+        'almetal_matiere_avantages',
+        'almetal_matiere_applications',
+        'almetal_matiere_meta_title',
+        'almetal_matiere_meta_description',
+        'almetal_matiere_intro',
+        'almetal_matiere_faq',
+    );
+    
+    foreach ($fields as $field) {
+        if (isset($_POST[$field])) {
+            update_post_meta($post_id, '_' . $field, sanitize_textarea_field($_POST[$field]));
+        }
+    }
+}
+add_action('save_post_matiere', 'almetal_save_matiere_meta');
+
+/**
+ * Récupérer l'URL d'une page matière par son slug
+ */
+function almetal_get_matiere_url($matiere_slug) {
+    if (empty($matiere_slug)) {
+        return false;
+    }
+    
+    // Normaliser le slug
+    $matiere_slug = sanitize_title($matiere_slug);
+    
+    // Chercher la page matière correspondante
+    $matiere_posts = get_posts(array(
+        'post_type' => 'matiere',
+        'posts_per_page' => 1,
+        'meta_query' => array(
+            array(
+                'key' => '_almetal_matiere_slug',
+                'value' => $matiere_slug,
+                'compare' => '=',
+            ),
+        ),
+    ));
+    
+    if (!empty($matiere_posts)) {
+        return get_permalink($matiere_posts[0]->ID);
+    }
+    
+    // Fallback: chercher par titre
+    $matiere_post = get_page_by_title($matiere_slug, OBJECT, 'matiere');
+    if ($matiere_post) {
+        return get_permalink($matiere_post->ID);
+    }
+    
+    return false;
+}
+
+/**
+ * Générer le lien HTML vers une page matière
+ */
+function almetal_matiere_link_html($matiere_name, $class = '') {
+    if (empty($matiere_name)) {
+        return '';
+    }
+    
+    $url = almetal_get_matiere_url($matiere_name);
+    $class_attr = $class ? ' class="' . esc_attr($class) . '"' : '';
+    
+    if ($url) {
+        return '<a href="' . esc_url($url) . '"' . $class_attr . '>' . esc_html($matiere_name) . '</a>';
+    }
+    
+    return esc_html($matiere_name);
+}
+
+/**
+ * Récupérer les réalisations par matière
+ */
+function almetal_get_realisations_by_matiere($matiere_slug, $limit = 6) {
+    return get_posts(array(
+        'post_type' => 'realisation',
+        'posts_per_page' => $limit,
+        'meta_query' => array(
+            array(
+                'key' => '_almetal_matiere',
+                'value' => $matiere_slug,
+                'compare' => 'LIKE',
+            ),
+        ),
+        'orderby' => 'date',
+        'order' => 'DESC',
+    ));
+}

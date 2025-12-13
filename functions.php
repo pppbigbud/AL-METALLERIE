@@ -188,6 +188,16 @@ function almetal_enqueue_scripts() {
             array('almetal-style', 'almetal-components'),
             wp_get_theme()->get('Version')
         );
+        
+        // Pages Matières
+        if (is_singular('matiere')) {
+            wp_enqueue_style(
+                'almetal-matiere',
+                get_template_directory_uri() . '/assets/css/matiere.css',
+                array('almetal-style', 'almetal-components'),
+                wp_get_theme()->get('Version')
+            );
+        }
     }
     
     // ============================================

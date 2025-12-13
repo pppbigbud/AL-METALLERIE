@@ -163,7 +163,7 @@ $icons = array(
                                         <line x1="16" y1="17" x2="8" y2="17"/>
                                     </svg>
                                     <span class="info-label"><?php _e('Matière', 'almetal'); ?></span>
-                                    <span class="info-value"><?php echo esc_html($matiere_label); ?></span>
+                                    <span class="info-value"><?php echo almetal_matiere_link_html($matiere_label, 'info-value--link'); ?></span>
                                 </div>
                             <?php endif; ?>
                             
