@@ -45,7 +45,7 @@
 }
 
 .matiere-breadcrumb a:hover {
-    color: var(--matiere-color);
+    color: #F08B18;
 }
 
 .matiere-breadcrumb .separator {
@@ -53,7 +53,7 @@
 }
 
 .matiere-breadcrumb .current {
-    color: var(--matiere-color);
+    color: #F08B18;
     font-weight: 500;
 }
 
@@ -61,7 +61,7 @@
     display: block;
     font-size: 1rem;
     font-weight: 500;
-    color: var(--matiere-color);
+    color: #F08B18;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
@@ -96,7 +96,7 @@
     display: block;
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--matiere-color);
+    color: #F08B18;
     line-height: 1;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .properties-card:hover {
-    border-color: var(--matiere-color);
+    border-color: #F08B18;
     box-shadow: 0 10px 40px rgba(240, 139, 24, 0.15);
     transform: translateY(-5px);
 }
@@ -147,7 +147,7 @@
     background: rgba(240, 139, 24, 0.1);
     border-radius: 12px;
     margin-bottom: 1.5rem;
-    color: var(--matiere-color);
+    color: #F08B18;
 }
 
 .properties-card__title {
@@ -208,7 +208,7 @@
     justify-content: center;
     background: rgba(240, 139, 24, 0.1);
     border-radius: 12px;
-    color: var(--matiere-color);
+    color: #F08B18;
 }
 
 .applications-grid {
@@ -314,7 +314,7 @@
 
 .view-project {
     padding: 0.75rem 1.5rem;
-    background: var(--matiere-color);
+    background: #F08B18;
     color: #fff;
     font-weight: 600;
     border-radius: 50px;
@@ -342,7 +342,7 @@
 }
 
 .meta-type {
-    color: var(--matiere-color);
+    color: #F08B18;
     font-weight: 500;
 }
 
@@ -441,13 +441,13 @@
 }
 
 .faq-question:hover {
-    color: var(--matiere-color);
+    color: #F08B18;
 }
 
 .faq-icon {
     flex-shrink: 0;
     transition: transform 0.3s ease;
-    color: var(--matiere-color);
+    color: #F08B18;
 }
 
 .faq-item.active .faq-icon {
@@ -515,9 +515,9 @@
     gap: 12px;
     padding: 0;
     background: transparent;
-    border: 2px solid var(--matiere-color);
+    border: 2px solid #F08B18;
     border-radius: 50px;
-    color: var(--matiere-color);
+    color: #F08B18;
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
@@ -532,7 +532,7 @@
     justify-content: center;
     width: 3rem;
     height: 3rem;
-    background: var(--matiere-color);
+    background: #F08B18;
     border-radius: 50%;
     transition: width 0.45s cubic-bezier(0.65, 0, 0.076, 1);
 }
@@ -545,7 +545,7 @@
 
 .btn-view-all:hover,
 .cta-button:hover {
-    background: var(--matiere-color);
+    background: #F08B18;
     color: #fff;
 }
 

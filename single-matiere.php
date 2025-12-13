@@ -118,7 +118,7 @@ if (!empty($faq_raw)) {
                     <ul class="properties-list">
                         <?php foreach ($proprietes_array as $prop) : ?>
                             <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--matiere-color)" stroke-width="3">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="3">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
                                 <?php echo esc_html($prop); ?>
@@ -140,7 +140,7 @@ if (!empty($faq_raw)) {
                     <ul class="properties-list">
                         <?php foreach ($avantages_array as $avantage) : ?>
                             <li>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--matiere-color)" stroke-width="3">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="3">
                                     <polyline points="20 6 9 17 4 12"></polyline>
                                 </svg>
                                 <?php echo esc_html($avantage); ?>
@@ -175,7 +175,7 @@ if (!empty($faq_raw)) {
                 <?php foreach ($applications_array as $index => $app) : ?>
                     <div class="application-item" style="animation-delay: <?php echo $index * 0.1; ?>s;">
                         <span class="application-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--matiere-color)" stroke-width="2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                                 <polyline points="22 4 12 14.01 9 11.01"/>
                             </svg>
