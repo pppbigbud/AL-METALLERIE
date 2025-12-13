@@ -458,3 +458,57 @@
 .footer-mobile-links a:hover {
     color: var(--color-primary);
 }
+
+/* ============================================
+   GOOGLE REVIEWS WIDGET
+   ============================================ */
+
+.google-reviews-widget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.25rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.google-reviews-widget:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(240, 139, 24, 0.3);
+}
+
+.google-reviews-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.google-icon {
+    flex-shrink: 0;
+}
+
+.google-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.google-stars .star {
+    flex-shrink: 0;
+}
+
+.google-rating {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    margin-left: 4px;
+}
+
+.google-count {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}

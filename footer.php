@@ -271,6 +271,9 @@
                             </svg>
                         </a>
                     </div>
+                    
+                    <!-- Avis Google Business -->
+                    <?php echo almetal_render_google_reviews_widget(); ?>
 
                     <!-- Bouton CTA -->
                     <a href="<?php echo esc_url(home_url('/contact')); ?>" class="footer-cta-btn">

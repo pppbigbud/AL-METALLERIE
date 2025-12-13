@@ -2063,10 +2063,181 @@ function almetal_ajax_load_desktop_realisations() {
     wp_send_json_success(array(
         'html' => $html,
         'has_more' => $has_more,
-        'total' => $query->found_posts,
         'remaining' => $remaining,
         'current_page' => $page,
     ));
 }
 add_action('wp_ajax_load_desktop_realisations', 'almetal_ajax_load_desktop_realisations');
 add_action('wp_ajax_nopriv_load_desktop_realisations', 'almetal_ajax_load_desktop_realisations');
+
+/**
+ * ============================================
+ * GOOGLE BUSINESS REVIEWS
+ * Récupère et affiche les avis Google Business
+ * ============================================
+ */
+
+/**
+ * Récupère les données Google Business (note moyenne et nombre d'avis)
+ * Les données sont mises en cache pendant 24h pour éviter trop d'appels API
+ * 
+ * @return array|false Données des avis ou false en cas d'erreur
+ */
+function almetal_get_google_reviews() {
+    // Vérifier le cache d'abord
+    $cached = get_transient('almetal_google_reviews');
+    if ($cached !== false) {
+        return $cached;
+    }
+    
+    // Configuration API
+    $api_key = 'AIzaSyAWrQ0heLj3xzkTUy_-elelg0I9HtsvzH8';
+    $place_id = get_option('almetal_google_place_id', '');
+    
+    // Si pas de Place ID configuré, essayer de le trouver
+    if (empty($place_id)) {
+        $place_id = almetal_find_google_place_id($api_key);
+        if ($place_id) {
+            update_option('almetal_google_place_id', $place_id);
+        }
+    }
+    
+    if (empty($place_id)) {
+        // Retourner des valeurs par défaut si pas de Place ID
+        return array(
+            'rating' => 5.0,
+            'total_reviews' => 0,
+            'url' => 'https://www.google.com/maps/search/AL+Metallerie+Soudure+Peschadoires',
+            'cached' => false,
+        );
+    }
+    
+    // Appel API Google Places Details
+    $url = add_query_arg(array(
+        'place_id' => $place_id,
+        'fields' => 'rating,user_ratings_total,url',
+        'key' => $api_key,
+    ), 'https://maps.googleapis.com/maps/api/place/details/json');
+    
+    $response = wp_remote_get($url, array('timeout' => 10));
+    
+    if (is_wp_error($response)) {
+        error_log('Google Places API Error: ' . $response->get_error_message());
+        return false;
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+    
+    if (empty($data['result'])) {
+        error_log('Google Places API: No result found');
+        return false;
+    }
+    
+    $result = array(
+        'rating' => isset($data['result']['rating']) ? floatval($data['result']['rating']) : 5.0,
+        'total_reviews' => isset($data['result']['user_ratings_total']) ? intval($data['result']['user_ratings_total']) : 0,
+        'url' => isset($data['result']['url']) ? $data['result']['url'] : 'https://www.google.com/maps/search/AL+Metallerie+Soudure+Peschadoires',
+        'cached' => true,
+    );
+    
+    // Mettre en cache pendant 24 heures
+    set_transient('almetal_google_reviews', $result, DAY_IN_SECONDS);
+    
+    return $result;
+}
+
+/**
+ * Trouve le Place ID de l'entreprise via l'API Google Places
+ * 
+ * @param string $api_key Clé API Google
+ * @return string|false Place ID ou false
+ */
+function almetal_find_google_place_id($api_key) {
+    $search_query = 'AL Métallerie Soudure Peschadoires';
+    
+    $url = add_query_arg(array(
+        'input' => $search_query,
+        'inputtype' => 'textquery',
+        'fields' => 'place_id',
+        'key' => $api_key,
+    ), 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json');
+    
+    $response = wp_remote_get($url, array('timeout' => 10));
+    
+    if (is_wp_error($response)) {
+        return false;
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+    
+    if (!empty($data['candidates'][0]['place_id'])) {
+        return $data['candidates'][0]['place_id'];
+    }
+    
+    return false;
+}
+
+/**
+ * Affiche les étoiles Google Business
+ * 
+ * @param float $rating Note moyenne (1-5)
+ * @return string HTML des étoiles
+ */
+function almetal_render_google_stars($rating) {
+    $full_stars = floor($rating);
+    $half_star = ($rating - $full_stars) >= 0.5;
+    $empty_stars = 5 - $full_stars - ($half_star ? 1 : 0);
+    
+    $html = '<div class="google-stars">';
+    
+    // Étoiles pleines
+    for ($i = 0; $i < $full_stars; $i++) {
+        $html .= '<svg class="star star-full" width="16" height="16" viewBox="0 0 24 24" fill="#FBBC04"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    }
+    
+    // Demi-étoile
+    if ($half_star) {
+        $html .= '<svg class="star star-half" width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="half"><stop offset="50%" stop-color="#FBBC04"/><stop offset="50%" stop-color="#4a4a4a"/></linearGradient></defs><path fill="url(#half)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    }
+    
+    // Étoiles vides
+    for ($i = 0; $i < $empty_stars; $i++) {
+        $html .= '<svg class="star star-empty" width="16" height="16" viewBox="0 0 24 24" fill="#4a4a4a"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+    }
+    
+    $html .= '</div>';
+    
+    return $html;
+}
+
+/**
+ * Affiche le widget complet des avis Google
+ * 
+ * @return string HTML du widget
+ */
+function almetal_render_google_reviews_widget() {
+    $reviews = almetal_get_google_reviews();
+    
+    if (!$reviews) {
+        return '';
+    }
+    
+    $rating = $reviews['rating'];
+    $total = $reviews['total_reviews'];
+    $url = $reviews['url'];
+    
+    $html = '<a href="' . esc_url($url) . '" target="_blank" rel="noopener noreferrer" class="google-reviews-widget" title="Voir nos avis Google">';
+    $html .= '<div class="google-reviews-content">';
+    $html .= '<svg class="google-icon" width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>';
+    $html .= almetal_render_google_stars($rating);
+    $html .= '<span class="google-rating">' . number_format($rating, 1, ',', '') . '</span>';
+    if ($total > 0) {
+        $html .= '<span class="google-count">(' . $total . ' avis)</span>';
+    }
+    $html .= '</div>';
+    $html .= '</a>';
+    
+    return $html;
+}
