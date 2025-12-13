@@ -305,6 +305,40 @@ get_header();
                     </li>
                 </ul>
             </section>
+
+            <!-- Zones d'intervention (Pages villes) -->
+            <section class="plan-du-site__section">
+                <h2 class="plan-du-site__section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    Zones d'intervention
+                </h2>
+                <ul class="plan-du-site__list">
+                    <?php
+                    $city_pages = get_posts(array(
+                        'post_type' => 'city_page',
+                        'posts_per_page' => -1,
+                        'post_status' => 'publish',
+                        'orderby' => 'title',
+                        'order' => 'ASC',
+                    ));
+                    if ($city_pages) :
+                        foreach ($city_pages as $city_page) :
+                    ?>
+                    <li>
+                        <a href="<?php echo get_permalink($city_page); ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                            <?php echo esc_html(get_the_title($city_page)); ?>
+                        </a>
+                    </li>
+                    <?php
+                        endforeach;
+                    endif;
+                    ?>
+                </ul>
+            </section>
         </div>
 
         <!-- Statistiques -->
@@ -312,6 +346,7 @@ get_header();
         $total_realisations = wp_count_posts('realisation')->publish;
         $total_matieres = wp_count_posts('matiere')->publish;
         $total_categories = count($categories);
+        $total_villes = wp_count_posts('city_page')->publish;
         ?>
         <div class="plan-du-site__stats">
             <div class="plan-du-site__stat">
@@ -325,6 +360,10 @@ get_header();
             <div class="plan-du-site__stat">
                 <div class="plan-du-site__stat-number"><?php echo $total_matieres; ?></div>
                 <div class="plan-du-site__stat-label">Matières</div>
+            </div>
+            <div class="plan-du-site__stat">
+                <div class="plan-du-site__stat-number"><?php echo $total_villes; ?></div>
+                <div class="plan-du-site__stat-label">Villes</div>
             </div>
         </div>
 
