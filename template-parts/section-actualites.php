@@ -316,6 +316,7 @@ $realisations_query = new WP_Query(array(
     display: flex;
     justify-content: center;
     margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 .btn-load-more {
