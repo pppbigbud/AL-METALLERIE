@@ -2141,7 +2141,7 @@ function almetal_get_google_reviews() {
     $data = json_decode($body, true);
     
     if (empty($data['result'])) {
-        error_log('Google Places API: No result found');
+        // Pas de log ici - ce n'est pas une erreur, juste pas de résultat
         return false;
     }
     

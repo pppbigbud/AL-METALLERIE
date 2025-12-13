@@ -952,10 +952,16 @@ function almetal_get_matiere_url($matiere_slug) {
         return get_permalink($matiere_posts[0]->ID);
     }
     
-    // Fallback: chercher par titre
-    $matiere_post = get_page_by_title($matiere_slug, OBJECT, 'matiere');
-    if ($matiere_post) {
-        return get_permalink($matiere_post->ID);
+    // Fallback: chercher par titre (WP_Query au lieu de get_page_by_title obsolète)
+    $fallback_query = new WP_Query(array(
+        'post_type' => 'matiere',
+        'title' => $matiere_slug,
+        'posts_per_page' => 1,
+        'post_status' => 'publish',
+    ));
+    
+    if ($fallback_query->have_posts()) {
+        return get_permalink($fallback_query->posts[0]->ID);
     }
     
     return false;
