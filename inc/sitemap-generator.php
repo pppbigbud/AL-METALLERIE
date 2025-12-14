@@ -94,8 +94,8 @@ function almetal_generate_sitemap() {
         $sitemap .= almetal_sitemap_url(
             get_permalink($city_page),
             get_the_modified_date('Y-m-d', $city_page),
-            'monthly',
-            '0.8'
+            'weekly',
+            '0.9'
         );
     }
 
