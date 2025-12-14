@@ -153,21 +153,32 @@ function almetal_generate_sitemap() {
 }
 
 /**
+ * Échapper une chaîne pour XML (entités valides uniquement)
+ */
+function almetal_xml_escape($string) {
+    // Convertir les entités HTML en caractères, puis échapper pour XML
+    $string = html_entity_decode($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // Échapper uniquement les 5 entités XML valides
+    $string = htmlspecialchars($string, ENT_XML1 | ENT_QUOTES, 'UTF-8');
+    return $string;
+}
+
+/**
  * Formater une URL pour le sitemap
  */
 function almetal_sitemap_url($loc, $lastmod, $changefreq, $priority, $image_url = '', $image_title = '') {
     $url = "    <url>\n";
     $url .= "        <loc>" . esc_url($loc) . "</loc>\n";
-    $url .= "        <lastmod>" . esc_html($lastmod) . "</lastmod>\n";
-    $url .= "        <changefreq>" . esc_html($changefreq) . "</changefreq>\n";
-    $url .= "        <priority>" . esc_html($priority) . "</priority>\n";
+    $url .= "        <lastmod>" . almetal_xml_escape($lastmod) . "</lastmod>\n";
+    $url .= "        <changefreq>" . almetal_xml_escape($changefreq) . "</changefreq>\n";
+    $url .= "        <priority>" . almetal_xml_escape($priority) . "</priority>\n";
     
     // Ajouter l'image si présente
     if ($image_url) {
         $url .= "        <image:image>\n";
         $url .= "            <image:loc>" . esc_url($image_url) . "</image:loc>\n";
         if ($image_title) {
-            $url .= "            <image:title>" . esc_html($image_title) . "</image:title>\n";
+            $url .= "            <image:title>" . almetal_xml_escape($image_title) . "</image:title>\n";
         }
         $url .= "        </image:image>\n";
     }
