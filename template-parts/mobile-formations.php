@@ -8,6 +8,14 @@
  */
 ?>
 
+<?php
+$almetal_formations_pro_page = get_page_by_path('formations-professionnelles');
+$almetal_formations_part_page = get_page_by_path('formations-particuliers');
+
+$almetal_formations_pro_url = $almetal_formations_pro_page ? get_permalink($almetal_formations_pro_page) : home_url('/formations-professionnelles/');
+$almetal_formations_part_url = $almetal_formations_part_page ? get_permalink($almetal_formations_part_page) : home_url('/formations-particuliers/');
+?>
+
 <div class="mobile-formations-container">
     <!-- Tag -->
     <div class="mobile-formations-tag">
@@ -28,7 +36,7 @@
     <div class="mobile-formations-grid">
         
         <!-- Card Professionnels -->
-        <article class="mobile-formation-card">
+        <article class="mobile-formation-card" data-href="<?php echo esc_url($almetal_formations_pro_url); ?>" role="link" tabindex="0">
             <div class="mobile-formation-card-inner">
                 <!-- Icône -->
                 <div class="mobile-formation-icon">
@@ -73,7 +81,7 @@
                     </ul>
 
                     <!-- Bouton -->
-                    <a href="<?php echo esc_url(home_url('/formations-professionnels')); ?>" class="mobile-btn-cta">
+                    <a href="<?php echo esc_url($almetal_formations_pro_url); ?>" class="mobile-btn-cta">
                         <?php esc_html_e('En savoir +', 'almetal'); ?>
                     </a>
                 </div>
@@ -81,7 +89,7 @@
         </article>
 
         <!-- Card Particuliers -->
-        <article class="mobile-formation-card">
+        <article class="mobile-formation-card" data-href="<?php echo esc_url($almetal_formations_part_url); ?>" role="link" tabindex="0">
             <div class="mobile-formation-card-inner">
                 <!-- Icône -->
                 <div class="mobile-formation-icon">
@@ -124,7 +132,7 @@
                     </ul>
 
                     <!-- Bouton -->
-                    <a href="<?php echo esc_url(home_url('/formations-particuliers')); ?>" class="mobile-btn-cta">
+                    <a href="<?php echo esc_url($almetal_formations_part_url); ?>" class="mobile-btn-cta">
                         <?php esc_html_e('En savoir +', 'almetal'); ?>
                     </a>
                 </div>
@@ -133,3 +141,29 @@
 
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.mobile-formation-card[data-href]').forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      if (e.target && e.target.closest && e.target.closest('a')) {
+        return;
+      }
+      var href = card.getAttribute('data-href');
+      if (href) {
+        window.location.href = href;
+      }
+    });
+
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var href = card.getAttribute('data-href');
+        if (href) {
+          window.location.href = href;
+        }
+      }
+    });
+  });
+});
+</script>

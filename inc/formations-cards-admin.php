@@ -90,7 +90,7 @@ class Almetal_Formations_Cards_Admin {
                 'icon' => 'professionnels',
                 'features' => "Certification professionnelle\nFormateurs experts\nÉquipement professionnel",
                 'cta_text' => 'En savoir +',
-                'cta_url' => '/formations-professionnels',
+                'cta_url' => '/formations-professionnelles',
                 'order' => 0,
             ),
             array(
@@ -483,7 +483,7 @@ class Almetal_Formations_Cards_Admin {
                                name="cards[<?php echo $index; ?>][cta_url]" 
                                value="<?php echo esc_attr($cta_url); ?>" 
                                class="form-control"
-                               placeholder="Ex: /formations-professionnels">
+                               placeholder="Ex: /formations-professionnelles">
                     </div>
                 </div>
             </div>

@@ -270,7 +270,7 @@ function almetal_enqueue_scripts() {
         is_page_template('page-formations-professionnels.php') ||
         is_page('formations') || 
         is_page('formations-particuliers') || 
-        is_page('formations-professionnels')) {
+        is_page('formations-professionnelles')) {
         wp_enqueue_style(
             'almetal-formations',
             get_template_directory_uri() . '/assets/css/formations.css',
@@ -506,7 +506,7 @@ function almetal_enqueue_scripts() {
         is_page_template('page-formations-professionnels.php') ||
         is_page('formations') ||
         is_page('formations-particuliers') ||
-        is_page('formations-professionnels') ||
+        is_page('formations-professionnelles') ||
         is_page('realisations') ||
         is_tax('type_realisation')) {
         wp_enqueue_style(

@@ -73,7 +73,7 @@ if (!function_exists('almetal_formations_seo_meta')) {
                             "addressCountry": "FR"
                         }
                     },
-                    "url": "<?php echo esc_url(home_url('/formations-professionnels/')); ?>"
+                    "url": "<?php echo esc_url(home_url('/formations-professionnelles/')); ?>"
                 }
             }
         ]
@@ -184,7 +184,7 @@ get_header();
                     </a>
 
                     <!-- Carte Professionnels -->
-                    <a href="<?php echo esc_url(home_url('/formations-professionnels')); ?>" class="formation-category-card">
+                    <a href="<?php echo esc_url(home_url('/formations-professionnelles/')); ?>" class="formation-category-card">
                         <div class="formation-category-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
