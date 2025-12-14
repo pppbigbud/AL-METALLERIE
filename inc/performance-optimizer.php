@@ -358,17 +358,19 @@ add_action('wp_enqueue_scripts', 'almetal_move_jquery_to_footer', 1);
 /**
  * Précharger les polices critiques (uniquement sur la page d'accueil)
  */
-function almetal_preload_fonts() {
-    // Ne précharger que sur la page d'accueil où la police est utilisée immédiatement
-    if (!is_front_page() && !is_home()) {
-        return;
+if (!function_exists('almetal_preload_fonts')) {
+    function almetal_preload_fonts() {
+        // Ne précharger que sur la page d'accueil où la police est utilisée immédiatement
+        if (!is_front_page() && !is_home()) {
+            return;
+        }
+        ?>
+        <!-- Préchargement des polices critiques -->
+        <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin>
+        <?php
     }
-    ?>
-    <!-- Préchargement des polices critiques -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" as="font" type="font/woff2" crossorigin>
-    <?php
+    add_action('wp_head', 'almetal_preload_fonts', 1);
 }
-add_action('wp_head', 'almetal_preload_fonts', 1);
 
 /**
  * Inline le CSS critique pour le First Contentful Paint
