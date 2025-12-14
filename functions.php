@@ -2224,6 +2224,43 @@ function almetal_render_google_stars($rating) {
 }
 
 /**
+ * Règles de réécriture pour les pages ville (city_page) à la racine
+ * URLs: /nom-ville/ au lieu de /city_page/nom-ville/
+ */
+function almetal_city_page_rewrite_rules() {
+    // Récupérer tous les slugs des pages ville
+    $city_pages = get_posts(array(
+        'post_type' => 'city_page',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+        'fields' => 'ids',
+    ));
+    
+    foreach ($city_pages as $city_id) {
+        $slug = get_post_field('post_name', $city_id);
+        if ($slug) {
+            add_rewrite_rule(
+                '^' . preg_quote($slug, '/') . '/?$',
+                'index.php?post_type=city_page&name=' . $slug,
+                'top'
+            );
+        }
+    }
+}
+add_action('init', 'almetal_city_page_rewrite_rules', 20);
+
+/**
+ * Modifier le permalien des pages ville pour afficher /nom-ville/
+ */
+function almetal_city_page_permalink($permalink, $post) {
+    if ($post->post_type === 'city_page') {
+        return home_url('/' . $post->post_name . '/');
+    }
+    return $permalink;
+}
+add_filter('post_type_link', 'almetal_city_page_permalink', 10, 2);
+
+/**
  * Affiche le widget complet des avis Google
  * 
  * @return string HTML du widget
