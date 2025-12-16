@@ -1943,8 +1943,10 @@ function almetal_ajax_load_mobile_realisations() {
                 $html .= '<div class="mobile-realisation-badges" onclick="event.stopPropagation();">';
                 foreach (array_slice($terms, 0, 2) as $term) {
                     $term_link = get_term_link($term);
+                    $default_icon_svg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+                    $term_icon_svg = function_exists('almetal_get_category_icon') ? almetal_get_category_icon($term->slug, 14) : $default_icon_svg;
                     $html .= '<a href="' . esc_url($term_link) . '" class="mobile-realisation-badge" onclick="event.stopPropagation();">';
-                    $html .= '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+                    $html .= $term_icon_svg;
                     $html .= esc_html($term->name);
                     $html .= '</a>';
                 }
