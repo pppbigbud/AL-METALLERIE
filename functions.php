@@ -213,6 +213,28 @@ function almetal_enqueue_scripts() {
             file_exists($mobile_unified_css) ? filemtime($mobile_unified_css) : wp_get_theme()->get('Version')
         );
     }
+
+    if (!function_exists('almetal_matiere_mobile_footer_styles')) {
+        function almetal_matiere_mobile_footer_styles() {
+            if (!function_exists('almetal_is_mobile') || !almetal_is_mobile() || !is_singular('matiere')) {
+                return;
+            }
+
+            echo '<style id="almetal-matiere-mobile-override">'
+                . 'body{background:#191919 !important;}'
+                . '.single-matiere{background:#191919 !important;color:#fff !important;min-height:100vh !important;}'
+                . '.single-matiere .matiere-properties,.single-matiere .matiere-applications,.single-matiere .matiere-realisations,.single-matiere .matiere-content,.single-matiere .matiere-faq,.single-matiere .matiere-cta{background:#191919 !important;}'
+                . '.single-matiere .properties-card,.single-matiere .application-item,.single-matiere .realisation-card,.single-matiere .faq-item,.single-matiere .content-wrapper{background:rgba(255,255,255,0.05) !important;border:1px solid rgba(255,255,255,0.1) !important;border-radius:16px !important;}'
+                . '.single-matiere .section-title,.single-matiere .properties-card__title,.single-matiere .realisation-card__title,.single-matiere .matiere-cta .cta-content h2{color:#fff !important;}'
+                . '.single-matiere .section-title__icon svg,.single-matiere .realisation-card__meta svg,.single-matiere .faq-icon{stroke:#F08B18 !important;}'
+                . '.single-matiere .btn-view-all,.single-matiere .matiere-cta .cta-button{background:linear-gradient(135deg,#F08B18 0%,#e67e0f 100%) !important;color:#fff !important;border-radius:25px !important;}'
+                . '</style>';
+        }
+    }
+
+    if (!function_exists('has_action') || !has_action('wp_footer', 'almetal_matiere_mobile_footer_styles')) {
+        add_action('wp_footer', 'almetal_matiere_mobile_footer_styles', 100);
+    }
     
     /* ANCIENS FICHIERS MOBILES DÉSACTIVÉS - Remplacés par mobile-unified.css
     - mobile.css
