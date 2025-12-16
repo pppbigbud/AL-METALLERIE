@@ -205,11 +205,12 @@ function almetal_enqueue_scripts() {
     // ============================================
     if (almetal_is_mobile()) {
         // CSS Mobile unifié (remplace tous les anciens fichiers mobiles)
+        $mobile_unified_css = get_template_directory() . '/assets/css/mobile-unified.css';
         wp_enqueue_style(
             'almetal-mobile-unified',
             get_template_directory_uri() . '/assets/css/mobile-unified.css',
             array('almetal-style', 'almetal-components'),
-            '2.1.0'
+            file_exists($mobile_unified_css) ? filemtime($mobile_unified_css) : wp_get_theme()->get('Version')
         );
     }
     
