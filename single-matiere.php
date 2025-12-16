@@ -214,7 +214,7 @@ if (function_exists('almetal_is_mobile') && almetal_is_mobile()) {
                             <div class="realisation-card__image">
                                 <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr($realisation->post_title); ?>" loading="lazy">
                                 <div class="realisation-card__overlay">
-                                    <span class="view-project">Voir le projet</span>
+                                    <span class="view-project"></span>
                                 </div>
                             </div>
                             <div class="realisation-card__content">
