@@ -49,6 +49,10 @@ if (!empty($faq_raw)) {
         }
     }
 }
+
+if (function_exists('almetal_is_mobile') && almetal_is_mobile()) {
+    get_template_part('template-parts/header', 'mobile');
+}
 ?>
 
 <style>
