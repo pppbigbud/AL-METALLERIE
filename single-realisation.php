@@ -281,6 +281,9 @@ $icons = array(
                         }
                         
                         if (!empty($gallery_images) && is_array($gallery_images)) :
+                            $gallery_lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true) ?: 'Thiers';
+                            $gallery_terms = get_the_terms(get_the_ID(), 'type_realisation');
+                            $gallery_type = (!empty($gallery_terms) && !is_wp_error($gallery_terms)) ? $gallery_terms[0]->name : 'Métallerie';
                             ?>
                             <div class="realisation-gallery">
                                 <h3><?php _e('Galerie photos', 'almetal'); ?></h3>
@@ -293,12 +296,15 @@ $icons = array(
                                             $image_large_url = wp_get_attachment_image_url($image_id, 'large');
                                             $image_title = get_the_title($image_id);
                                             $image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+                                            $image_alt_base = $image_alt ?: $image_title;
+                                            $image_alt_seo = $gallery_type . ' à ' . $gallery_lieu . ' - ' . $image_alt_base . ' - AL Métallerie';
                                             $is_first = ($index === 0);
                                         ?>
                                             <div class="gallery-slide <?php echo $is_first ? 'active' : ''; ?>" 
                                                  data-index="<?php echo $index; ?>"
                                                  data-full-url="<?php echo esc_url($image_url); ?>"
-                                                 data-title="<?php echo esc_attr($image_title); ?>">
+                                                 data-title="<?php echo esc_attr($image_title); ?>"
+                                                 data-alt="<?php echo esc_attr($image_alt_seo); ?>">
                                                 <?php if ($is_first) : ?>
                                                     <img src="<?php echo esc_url($image_large_url); ?>" 
                                                          alt="<?php echo esc_attr($image_alt ?: $image_title); ?>" 
@@ -392,7 +398,7 @@ $icons = array(
                                     <button class="lightbox-prev" aria-label="<?php _e('Image précédente', 'almetal'); ?>">‹</button>
                                     <button class="lightbox-next" aria-label="<?php _e('Image suivante', 'almetal'); ?>">›</button>
                                     <div class="lightbox-image-container">
-                                        <img src="" alt="" class="lightbox-image">
+                                        <img src="" alt="Agrandissement d'image - AL Métallerie Thiers (63)" class="lightbox-image">
                                     </div>
                                     <div class="lightbox-caption"></div>
                                 </div>

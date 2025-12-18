@@ -144,8 +144,10 @@
             const slide = $(slides[index]);
             const imageUrl = slide.data('full-url');
             const imageTitle = slide.data('title');
+            const imageAlt = slide.data('alt') || imageTitle || "AL Métallerie Thiers (63)";
             
             lightbox.find('.lightbox-image').attr('src', imageUrl);
+            lightbox.find('.lightbox-image').attr('alt', imageAlt);
             lightbox.find('.lightbox-caption').text(imageTitle);
             lightbox.fadeIn(300);
             $('body').css('overflow', 'hidden');

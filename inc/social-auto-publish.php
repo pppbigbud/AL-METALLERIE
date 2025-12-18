@@ -305,7 +305,7 @@ class ALMetal_Social_Auto_Publish {
                         $is_featured = ($attachment->ID == $featured_id);
                         
                         echo '<div class="almetal-image-item" data-id="' . $attachment->ID . '" style="position: relative;">';
-                        echo '<img src="' . esc_url($img_url) . '" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px; ' . ($is_featured ? 'border: 3px solid #F08B18;' : '') . '">';
+                        echo '<img src="' . esc_url($img_url) . '" alt="Aperçu image" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px; ' . ($is_featured ? 'border: 3px solid #F08B18;' : '') . '">';
                         
                         // Bouton supprimer
                         echo '<button type="button" class="almetal-remove-image" data-id="' . $attachment->ID . '" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-size: 16px; line-height: 1;">×</button>';

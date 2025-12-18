@@ -223,7 +223,7 @@ function almetal_slideshow_widget_content() {
         foreach (array_slice($slides, 0, 4) as $slide) {
             if (!empty($slide['image'])) {
                 echo '<div style="width:60px;height:40px;overflow:hidden;border-radius:4px;border:1px solid #ddd;">';
-                echo '<img src="' . esc_url($slide['image']) . '" style="width:100%;height:100%;object-fit:cover;">';
+                echo '<img src="' . esc_url($slide['image']) . '" alt="Aperçu slide" style="width:100%;height:100%;object-fit:cover;">';
                 echo '</div>';
             }
         }
