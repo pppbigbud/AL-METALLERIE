@@ -1,33 +1,36 @@
 # Robots.txt pour AL-Metallerie.fr
-# Optimisé pour le SEO
+# Optimise pour le SEO
 
 User-agent: *
 Allow: /
 
-# Bloquer les ressources WordPress inutiles
+# Bloquer l'admin WordPress (sauf AJAX)
 Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+# Bloquer les ressources techniques
 Disallow: /wp-includes/
 Disallow: /wp-content/plugins/
 Disallow: /wp-content/cache/
 Disallow: /wp-content/litespeed/
 Disallow: /wp-json/
+
+# Bloquer recherche et flux
 Disallow: /feed/
 Disallow: /comments/feed/
 Disallow: /trackback/
 Disallow: /?s=
 Disallow: /search/
-Disallow: /*?*
-Disallow: /*.json$
-Disallow: /xmlrpc.php
 
-# Autoriser les ressources du thème
-Allow: /wp-content/themes/almetal-theme/
-Allow: /wp-content/uploads/
-
-# Bloquer les URLs avec paramètres de tri/filtrage
+# Bloquer certains parametres de requete
 Disallow: /*?orderby=
 Disallow: /*?filter=
 Disallow: /*?replytocom=
 
-# Sitemap
+# Autoriser les ressources du theme
+Allow: /wp-content/themes/almetal-theme/
+Allow: /wp-content/uploads/
+
+# Sitemaps
 Sitemap: https://www.al-metallerie.fr/sitemap.xml
+Sitemap: https://al-metallerie.fr/sitemap.xml

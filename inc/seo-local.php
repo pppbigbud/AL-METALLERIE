@@ -729,34 +729,147 @@ add_action('wp_footer', 'almetal_seo_footer_text', 5);
  * Générer automatiquement les attributs ALT des images
  * Optimisé pour le SEO - Audit Décembre 2024
  */
+/**
+ * Liste des étiquettes lisibles pour les matières
+ */
+function almetal_realisation_matiere_labels() {
+    return array(
+        'acier'      => 'Acier',
+        'inox'       => 'Inox',
+        'aluminium'  => 'Aluminium',
+        'fer-forge'  => 'Fer forgé',
+        'mixte'      => 'Mixte (acier/bois)',
+        'brut'       => 'Aspect brut ciré',
+    );
+}
+
+/**
+ * Liste des étiquettes pour les finitions/peintures
+ */
+function almetal_realisation_peinture_labels() {
+    return array(
+        'thermolaquage'   => 'Thermolaquage',
+        'galvanisation'   => 'Galvanisation à chaud',
+        'peinture-epoxy'  => 'Peinture époxy',
+        'brut'            => 'Aspect brut ciré',
+        'inox-brosse'     => 'Inox brossé',
+        'brut-ciré'       => 'Brut ciré',
+        'peinture-ral'    => 'Peinture RAL',
+    );
+}
+
+/**
+ * Construit un contexte SEO à partir des métadonnées d'une réalisation
+ */
+function almetal_get_realisation_alt_context($post_id) {
+    $post = get_post($post_id);
+    if (!$post || $post->post_type !== 'realisation') {
+        return array();
+    }
+
+    $terms = get_the_terms($post_id, 'type_realisation');
+    $type_name = !empty($terms) && !is_wp_error($terms) ? $terms[0]->name : 'Réalisation';
+
+    $matiere = get_post_meta($post_id, '_almetal_matiere', true) ?: 'acier';
+    $peinture = get_post_meta($post_id, '_almetal_peinture', true) ?: 'thermolaquage';
+    $client_type = get_post_meta($post_id, '_almetal_client_type', true);
+    $pose = get_post_meta($post_id, '_almetal_pose', true);
+    $lieu = get_post_meta($post_id, '_almetal_lieu', true) ?: 'Thiers';
+    $dimensions = get_post_meta($post_id, '_almetal_dimensions', true);
+    $duree = get_post_meta($post_id, '_almetal_duree', true);
+
+    $matiere_labels = almetal_realisation_matiere_labels();
+    $peinture_labels = almetal_realisation_peinture_labels();
+
+    return array(
+        'type_name'      => $type_name,
+        'type_slug'      => $terms && !is_wp_error($terms) ? $terms[0]->slug : 'autres',
+        'matiere'        => $matiere,
+        'matiere_label'  => isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : ucfirst($matiere),
+        'peinture_label' => isset($peinture_labels[$peinture]) ? $peinture_labels[$peinture] : ucfirst(str_replace('-', ' ', $peinture)),
+        'client_type'    => $client_type ?: 'particulier',
+        'pose'           => $pose,
+        'lieu'           => $lieu,
+        'dimensions'     => $dimensions,
+        'duree'          => $duree,
+    );
+}
+
+/**
+ * Tronque un texte ALT pour respecter la limite SEO de 125 caractères
+ */
+function almetal_truncate_alt_text($text, $max = 125) {
+    $text = trim(preg_replace('/\s+/', ' ', $text));
+    if (mb_strlen($text) <= $max) {
+        return $text;
+    }
+
+    $trimmed = mb_substr($text, 0, $max);
+    $last_space = mb_strrpos($trimmed, ' ');
+    if ($last_space !== false) {
+        $trimmed = mb_substr($trimmed, 0, $last_space);
+    }
+
+    return rtrim($trimmed, ' -');
+}
+
+/**
+ * Génère un ALT descriptif pour les réalisations
+ */
+function almetal_build_realisation_alt($post_id, $image_index = 0) {
+    $context = almetal_get_realisation_alt_context($post_id);
+    if (empty($context)) {
+        return get_the_title($post_id);
+    }
+
+    $parts = array();
+    $material_part = 'en ' . mb_strtolower($context['matiere_label']);
+    if (!empty($context['peinture_label'])) {
+        $material_part .= ' ' . mb_strtolower($context['peinture_label']);
+    }
+    $parts[] = $material_part;
+
+    if (!empty($context['client_type']) && $context['client_type'] !== 'particulier') {
+        $parts[] = 'pour ' . mb_strtolower($context['client_type']);
+    }
+
+    if (!empty($context['pose']) && in_array(mb_strtolower($context['pose']), array('oui', '1', 'true'), true)) {
+        $parts[] = 'pose incluse';
+    }
+
+    if (!empty($context['dimensions'])) {
+        $parts[] = 'dimensions ' . mb_strtolower($context['dimensions']);
+    }
+
+    $detail = implode(' ', array_filter($parts));
+    if (empty($detail)) {
+        $detail = 'sur mesure';
+    }
+
+    $type = ucfirst(mb_strtolower($context['type_name']));
+    $lieu = ucwords(mb_strtolower($context['lieu']));
+    $alt = $type . ' ' . $detail . ' - ' . $lieu;
+    if ($image_index > 0) {
+        $alt .= ' (détail ' . ($image_index + 1) . ')';
+    }
+
+    return almetal_truncate_alt_text($alt);
+}
+
 function almetal_auto_image_alt($attr, $attachment, $size) {
     // Si l'alt est déjà défini et non vide, ne pas le modifier
     if (!empty($attr['alt'])) {
         return $attr;
     }
     
-    // Récupérer le titre de l'image
     $alt = get_the_title($attachment->ID);
-    
-    // Si on est sur une réalisation, enrichir l'alt
+
     if (is_singular('realisation')) {
-        global $post;
-        $lieu = get_post_meta($post->ID, '_almetal_lieu', true);
-        $terms = get_the_terms($post->ID, 'type_realisation');
-        $type = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : '';
-        
-        if ($type && $lieu) {
-            $attr['alt'] = ucfirst($type) . ' - ' . $alt . ' à ' . $lieu . ' - AL Métallerie';
-        } elseif ($type) {
-            $attr['alt'] = ucfirst($type) . ' - ' . $alt . ' - AL Métallerie Thiers';
-        } elseif ($lieu) {
-            $attr['alt'] = $alt . ' à ' . $lieu . ' - AL Métallerie';
-        } else {
-            $attr['alt'] = $alt . ' - AL Métallerie Thiers';
-        }
+        $attr['alt'] = almetal_build_realisation_alt(get_the_ID());
+        return $attr;
     }
     // Sur les pages ville
-    elseif (is_singular('city_page')) {
+    if (is_singular('city_page')) {
         $city_name = get_post_meta(get_the_ID(), '_cpg_city_name', true);
         if ($city_name) {
             $attr['alt'] = $alt . ' - Métallier à ' . $city_name . ' - AL Métallerie';
@@ -772,7 +885,7 @@ function almetal_auto_image_alt($attr, $attachment, $size) {
     else {
         $attr['alt'] = $alt . ' - AL Métallerie Thiers (63)';
     }
-    
+
     return $attr;
 }
 add_filter('wp_get_attachment_image_attributes', 'almetal_auto_image_alt', 10, 3);
@@ -971,31 +1084,7 @@ function almetal_display_taxonomy_faq() {
  * @return string Attribut ALT optimisé
  */
 function almetal_generate_image_alt($post_id, $image_index = 0) {
-    $post = get_post($post_id);
-    if (!$post || $post->post_type !== 'realisation') {
-        return get_the_title($post_id) . ' - AL Métallerie Thiers';
-    }
-    
-    // Récupérer le type de réalisation
-    $types = get_the_terms($post_id, 'type_realisation');
-    $type_name = $types && !is_wp_error($types) ? $types[0]->name : 'Réalisation métallerie';
-    
-    // Récupérer le lieu
-    $lieu = get_post_meta($post_id, '_realisation_lieu', true) ?: 'Thiers';
-    
-    // Récupérer le matériau
-    $materiaux = get_post_meta($post_id, '_realisation_materiaux', true) ?: 'acier';
-    
-    // Construire l'ALT selon l'index de l'image
-    $alt_variations = array(
-        0 => sprintf('%s en %s à %s - Fabrication sur mesure AL Métallerie', $type_name, $materiaux, $lieu),
-        1 => sprintf('%s %s - Création artisanale AL Métallerie Thiers', $type_name, $lieu),
-        2 => sprintf('Détail %s en %s - AL Métallerie Puy-de-Dôme', strtolower($type_name), $materiaux),
-        3 => sprintf('%s sur mesure à %s - Artisan métallier AL Métallerie', $type_name, $lieu),
-    );
-    
-    $index = $image_index % count($alt_variations);
-    return $alt_variations[$index];
+    return almetal_build_realisation_alt($post_id, $image_index);
 }
 
 /**
@@ -1088,7 +1177,8 @@ function almetal_filter_realisation_image_alt($attr, $attachment, $size) {
     
     // Si l'ALT est vide ou générique, le remplacer
     if (empty($attr['alt']) || $attr['alt'] === get_the_title($attachment->ID)) {
-        $attr['alt'] = almetal_generate_image_alt($post->ID);
+        $image_index = !empty($attr['data-image-index']) ? (int) $attr['data-image-index'] : 0;
+        $attr['alt'] = almetal_build_realisation_alt($post->ID, $image_index);
     }
     
     return $attr;
