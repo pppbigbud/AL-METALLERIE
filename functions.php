@@ -1351,6 +1351,7 @@ require_once get_template_directory() . '/inc/sitemap-generator.php';
 require_once get_template_directory() . '/inc/seo-local.php';
 require_once get_template_directory() . '/inc/realisation-content-generator.php';
 require_once get_template_directory() . '/inc/performance-optimizer.php';
+require_once get_template_directory() . '/inc/admin-dashboard.php';
 
 /**
  * ============================================================================
