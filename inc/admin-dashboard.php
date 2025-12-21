@@ -525,6 +525,46 @@ function almetal_dashboard_styles() {
             #almetal_formations_widget .postbox-header h2 { color: #d63638; }
             #almetal_slideshow_widget .postbox-header h2 { color: #dba617; }
             #almetal_city_pages_widget .postbox-header h2 { color: #00a32a; }
+            @media (max-width: 768px) {
+                #almetal_analytics_widget .analytics-kpis {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 6px;
+                }
+                #almetal_analytics_widget .analytics-kpis div {
+                    font-size: 12px;
+                    line-height: 1.2;
+                }
+                #almetal_analytics_widget .top-pages-list div {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 11px;
+                    word-break: break-word;
+                }
+                #almetal_analytics_widget .analytics-chart {
+                    overflow-x: auto;
+                }
+                #almetal_analytics_widget h4 {
+                    font-size: 12px;
+                    word-break: break-word;
+                }
+                #almetal_analytics_widget .top-pages-list {
+                    max-width: 100%;
+                }
+                #almetal_analytics_widget .top-pages-list div span {
+                    white-space: normal;
+                }
+                #almetal_analytics_widget table {
+                    width: 100%;
+                    display: block;
+                    overflow-x: auto;
+                }
+                #almetal_analytics_widget table th,
+                #almetal_analytics_widget table td {
+                    word-break: break-all;
+                    white-space: normal;
+                    font-size: 12px;
+                }
+            }
         </style>
         <?php
     }

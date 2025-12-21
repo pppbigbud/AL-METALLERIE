@@ -106,37 +106,72 @@ function almetal_seo_meta_head() {
     );
     
     // Meta description par défaut (160 caractères max) - Optimisé audit SEO
-    $description = 'Artisan métallier à Thiers (63). Fabrication et pose de portails, garde-corps, escaliers, pergolas sur mesure. Devis gratuit sous 24h. ☎ 06 73 33 35 32';
-    
+    $description = almetal_build_meta_description(array(
+        'type' => 'Métallerie artisanale',
+        'detail' => 'fabrication et pose de portails, garde-corps, escaliers, pergolas sur mesure',
+        'city' => 'Thiers (63)',
+        'cta' => 'Devis gratuit sous 24h.',
+    ));
+
     // Page d'accueil - 158 caractères avec CTA fort
     if (is_front_page() || is_home()) {
-        $description = 'Artisan métallier à Thiers (63). Fabrication et pose de portails, garde-corps, escaliers, pergolas sur mesure. Devis gratuit sous 24h. ☎ 06 73 33 35 32';
+        $description = almetal_build_meta_description(array(
+            'type' => 'Métallerie artisanale',
+            'detail' => 'fabrication et pose de portails, garde-corps, escaliers, pergolas sur mesure',
+            'city' => 'Thiers (63)',
+            'cta' => 'Devis gratuit sous 24h.',
+        ));
     }
-    
+
     // Page réalisations - 156 caractères avec incitation
     if (is_post_type_archive('realisation') || is_page('realisations')) {
-        $description = 'Découvrez nos réalisations en métallerie : portails, garde-corps, escaliers dans le Puy-de-Dôme. Photos avant/après. Inspirez-vous pour votre projet !';
+        $description = almetal_build_meta_description(array(
+            'type' => 'Réalisations métallerie',
+            'detail' => 'portails, garde-corps, escaliers sur mesure avec photos avant/après',
+            'city' => 'Puy-de-Dôme',
+            'cta' => 'Inspirez-vous pour votre projet !',
+        ));
     }
-    
+
     // Page formations - 159 caractères
     if (is_page('formations')) {
-        $description = 'Formations soudure MIG, TIG, ARC à Thiers (63). Stages pour particuliers et professionnels. Apprenez avec un artisan expérimenté. Inscrivez-vous !';
+        $description = almetal_build_meta_description(array(
+            'type' => 'Formations soudure',
+            'detail' => 'stages MIG, TIG, ARC pour particuliers et professionnels',
+            'city' => 'Thiers (63)',
+            'cta' => 'Inscrivez-vous dès maintenant !',
+        ));
     }
-    
+
     // Page formations particuliers
     if (is_page('formations-particuliers')) {
-        $description = 'Stages soudure pour particuliers à Thiers (63). Découverte ou perfectionnement. Apprenez à souder avec un artisan métallier. Places limitées !';
+        $description = almetal_build_meta_description(array(
+            'type' => 'Formations soudure pour particuliers',
+            'detail' => 'stages découverte et perfectionnement encadrés par un artisan métallier',
+            'city' => 'Thiers (63)',
+            'cta' => 'Places limitées !',
+        ));
     }
-    
+
     // Page contact - 155 caractères avec CTA
     if (is_page('contact')) {
-        $description = 'Contactez AL Métallerie pour un devis gratuit. Réponse sous 24h. Déplacement gratuit dans le Puy-de-Dôme. ☎ 06 73 33 35 32';
+        $description = almetal_build_meta_description(array(
+            'type' => 'Contact & devis',
+            'detail' => 'devis gratuit et déplacement offert dans le Puy-de-Dôme',
+            'city' => 'Puy-de-Dôme',
+            'cta' => 'Réponse sous 24h.',
+        ));
     }
-    
+
     // Taxonomie type de réalisation (adapté dynamiquement)
     if (is_tax('type_realisation')) {
         $term = get_queried_object();
-        $description = ucfirst($term->name) . ' sur mesure à Thiers (63) par AL Métallerie & Soudure. Fabrication artisanale, fer forgé et métal. Devis gratuit !';
+        $description = almetal_build_meta_description(array(
+            'type' => ucfirst($term->name) . ' sur mesure',
+            'detail' => 'fabrication artisanale en fer forgé et métal',
+            'city' => 'Thiers (63)',
+            'cta' => 'Devis gratuit !',
+        ));
     }
     
     // Single réalisation - géré par almetal_seo_meta_tags() dans functions.php
@@ -854,6 +889,58 @@ function almetal_build_realisation_alt($post_id, $image_index = 0) {
     }
 
     return almetal_truncate_alt_text($alt);
+}
+
+/**
+ * Tronque une méta description pour ne pas dépasser 155 caractères
+ */
+function almetal_truncate_meta_description($text, $max = 155) {
+    $text = trim(preg_replace('/\s+/', ' ', $text));
+    if (mb_strlen($text) <= $max) {
+        return $text;
+    }
+
+    $trimmed = mb_substr($text, 0, $max);
+    $last_space = mb_strrpos($trimmed, ' ');
+    if ($last_space !== false) {
+        $trimmed = mb_substr($trimmed, 0, $last_space);
+    }
+
+    return rtrim($trimmed, '.,- ') . '...';
+}
+
+/**
+ * Génère une méta description SEO structurée selon le contexte
+ */
+function almetal_build_meta_description($context = array()) {
+    $defaults = array(
+        'type' => 'Métallerie artisanale',
+        'detail' => 'fabrication et pose sur mesure',
+        'city' => 'Thiers (63)',
+        'material' => '',
+        'duration' => '',
+        'cta' => 'Devis gratuit sous 48h.',
+    );
+    $context = wp_parse_args($context, $defaults);
+
+    $parts = array();
+    $parts[] = ucfirst($context['type']);
+
+    if (!empty($context['material'])) {
+        $parts[] = 'en ' . $context['material'];
+    }
+
+    $parts[] = $context['detail'];
+    $parts[] = 'à ' . $context['city'];
+
+    if (!empty($context['duration'])) {
+        $parts[] = $context['duration'];
+    }
+
+    $parts[] = $context['cta'];
+
+    $description = implode('. ', array_filter($parts));
+    return almetal_truncate_meta_description($description);
 }
 
 function almetal_auto_image_alt($attr, $attachment, $size) {
