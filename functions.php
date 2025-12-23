@@ -1933,47 +1933,85 @@ function almetal_ajax_load_mobile_realisations() {
             $type_name = ($terms && !is_wp_error($terms)) ? $terms[0]->name : 'Réalisation';
             $alt_seo = $type_name . ' à ' . $lieu . ' - ' . get_the_title() . ' | AL Métallerie Thiers';
             
-            $html .= '<article class="mobile-realisation-card ' . esc_attr($term_classes) . '" data-categories="' . esc_attr($term_data) . '">';
-            $html .= '<div class="mobile-realisation-image-wrapper">';
-            $html .= '<a href="' . get_permalink() . '">';
-            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" width="400" height="300" loading="lazy" decoding="async" class="mobile-realisation-image">';
-            $html .= '<div class="mobile-realisation-overlay"><span class="view-more">Voir le projet</span></div>';
-            $html .= '</a>';
+            $html .= '<article class="mobile-realisation-card scroll-slide-up">';
+            $html .= '<a href="' . get_permalink() . '" class="mobile-realisation-link">';
+            $html .= '<div class="mobile-realisation-image">';
+            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" width="400" height="300" loading="lazy" decoding="async">';
             
+            // Badge de ville en bas à gauche
+            if ($lieu) {
+                $html .= '<div class="mobile-city-badge">';
+                $html .= '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
+                $html .= '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>';
+                $html .= '<circle cx="12" cy="10" r="3"/>';
+                $html .= '</svg>';
+                $html .= almetal_city_link_html($lieu, 'mobile-city-link');
+                $html .= '</div>';
+            }
+            
+            // Badges catégories et matériaux en haut à droite
+            $html .= '<div class="mobile-top-badges">';
+            
+            // Badge matériau
+            $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
+            if ($matiere) {
+                $matiere_labels = array(
+                    'acier' => 'Acier',
+                    'inox' => 'Inox',
+                    'aluminium' => 'Aluminium',
+                    'cuivre' => 'Cuivre',
+                    'laiton' => 'Laiton',
+                    'fer-forge' => 'Fer forgé',
+                    'mixte' => 'Mixte'
+                );
+                $html .= '<a href="' . esc_url(almetal_get_matiere_url($matiere)) . '" class="mobile-matiere-badge" onclick="event.stopPropagation();">';
+                $html .= esc_html($matiere_labels[$matiere] ?? ucfirst($matiere));
+                $html .= '</a>';
+            }
+            
+            // Badges catégories avec SVG
             if ($terms && !is_wp_error($terms)) {
-                $html .= '<div class="mobile-realisation-badges" onclick="event.stopPropagation();">';
-                foreach (array_slice($terms, 0, 2) as $term) {
-                    $term_link = get_term_link($term);
-                    $default_icon_svg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
-                    $term_icon_svg = function_exists('almetal_get_category_icon') ? almetal_get_category_icon($term->slug, 14) : $default_icon_svg;
-                    $html .= '<a href="' . esc_url($term_link) . '" class="mobile-realisation-badge" onclick="event.stopPropagation();">';
-                    $html .= $term_icon_svg;
+                $mobile_icons = array(
+                    'portails' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>',
+                    'garde-corps' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg>',
+                    'escaliers' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h4v-4h4v-4h4V8h4"/></svg>',
+                    'pergolas' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18h16M5 15h14M6 12h12M7 9h10M8 6h8M9 3h6"/></svg>',
+                    'grilles' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+                    'ferronnerie-art' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c4-4 4-12 8-12s4 8 8 12"/><path d="M4 16c3-3 3-8 6-8s3 5 6 8"/><circle cx="12" cy="8" r="2"/></svg>',
+                    'ferronnerie-dart' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c4-4 4-12 8-12s4 8 8 12"/><path d="M4 16c3-3 3-8 6-8s3 5 6 8"/><circle cx="12" cy="8" r="2"/></svg>',
+                    'vehicules' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-4H7l-2 4v5z"/><path d="M3 17h18v2H3z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 12h14"/></svg>',
+                    'serrurerie' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 16v2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>',
+                    'mobilier-metallique' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="4" rx="1"/><path d="M6 10v10M18 10v10"/><path d="M4 14h16"/></svg>',
+                    'autres' => '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>'
+                );
+                
+                foreach ($terms as $term) {
+                    $icon_svg = isset($mobile_icons[$term->slug]) ? $mobile_icons[$term->slug] : $mobile_icons['autres'];
+                    $html .= '<a href="' . esc_url(get_term_link($term)) . '" class="mobile-category-badge" onclick="event.stopPropagation();">';
+                    $html .= $icon_svg;
                     $html .= esc_html($term->name);
                     $html .= '</a>';
                 }
-                $html .= '</div>';
             }
             
+            $html .= '</div>';
             $html .= '</div>';
             $html .= '<div class="mobile-realisation-content">';
-            $html .= '<h3 class="mobile-realisation-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
+            $html .= '<h3 class="mobile-realisation-title">' . get_the_title() . '</h3>';
             
-            if ($date_realisation || $lieu) {
-                $html .= '<div class="mobile-realisation-meta">';
-                if ($date_realisation) {
-                    $html .= '<span class="meta-item meta-date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' . date_i18n('M Y', strtotime($date_realisation)) . '</span>';
-                }
-                if ($lieu) {
-                    $html .= '<span class="meta-item meta-lieu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . almetal_city_link_html($lieu, 'meta-lieu-link') . '</span>';
-                }
-                $html .= '</div>';
+            if (has_excerpt()) {
+                $html .= '<p class="mobile-realisation-excerpt">' . wp_trim_words(get_the_excerpt(), 15) . '</p>';
             }
             
-            $html .= '<a href="' . get_permalink() . '" class="mobile-btn-view-project">';
-            $html .= '<span class="circle" aria-hidden="true"><svg class="icon arrow" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-            $html .= '<span class="button-text">Voir le projet</span>';
-            $html .= '</a>';
+            $html .= '<span class="mobile-realisation-cta">';
+            $html .= esc_html_e('Voir le projet', 'almetal');
+            $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
+            $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
+            $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
+            $html .= '</svg>';
+            $html .= '</span>';
             $html .= '</div>';
+            $html .= '</a>';
             $html .= '</article>';
         }
         wp_reset_postdata();
