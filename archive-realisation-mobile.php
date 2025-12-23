@@ -9,6 +9,9 @@
  * @since 1.0.0
  */
 
+// Inclure la bibliothèque d'icônes des catégories
+require_once(get_template_directory() . '/inc/category-icons.php');
+
 get_header();
 ?>
 
