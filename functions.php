@@ -1934,9 +1934,27 @@ function almetal_ajax_load_mobile_realisations() {
             $alt_seo = $type_name . ' à ' . $lieu . ' - ' . get_the_title() . ' | AL Métallerie Thiers';
             
             $html .= '<article class="mobile-realisation-card scroll-slide-up">';
+            $html .= '<div class="mobile-realisation-card-inner">';
             $html .= '<a href="' . get_permalink() . '" class="mobile-realisation-link">';
             $html .= '<div class="mobile-realisation-image">';
             $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" width="400" height="300" loading="lazy" decoding="async">';
+            $html .= '</div>';
+            $html .= '<div class="mobile-realisation-content">';
+            $html .= '<h3 class="mobile-realisation-title">' . get_the_title() . '</h3>';
+            
+            if (has_excerpt()) {
+                $html .= '<p class="mobile-realisation-excerpt">' . wp_trim_words(get_the_excerpt(), 15) . '</p>';
+            }
+            
+            $html .= '<span class="mobile-realisation-cta">';
+            $html .= esc_html__('Voir le projet', 'almetal');
+            $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
+            $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
+            $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
+            $html .= '</svg>';
+            $html .= '</span>';
+            $html .= '</div>';
+            $html .= '</a>';
             
             // Badge de ville en bas à gauche
             if ($lieu) {
@@ -1964,7 +1982,7 @@ function almetal_ajax_load_mobile_realisations() {
                     'fer-forge' => 'Fer forgé',
                     'mixte' => 'Mixte'
                 );
-                $html .= '<a href="' . esc_url(almetal_get_matiere_url($matiere)) . '" class="mobile-matiere-badge" onclick="event.stopPropagation();">';
+                $html .= '<a href="' . esc_url(almetal_get_matiere_url($matiere)) . '" class="mobile-matiere-badge">';
                 $html .= esc_html($matiere_labels[$matiere] ?? ucfirst($matiere));
                 $html .= '</a>';
             }
@@ -1987,7 +2005,7 @@ function almetal_ajax_load_mobile_realisations() {
                 
                 foreach ($terms as $term) {
                     $icon_svg = isset($mobile_icons[$term->slug]) ? $mobile_icons[$term->slug] : $mobile_icons['autres'];
-                    $html .= '<a href="' . esc_url(get_term_link($term)) . '" class="mobile-category-badge" onclick="event.stopPropagation();">';
+                    $html .= '<a href="' . esc_url(get_term_link($term)) . '" class="mobile-category-badge">';
                     $html .= $icon_svg;
                     $html .= esc_html($term->name);
                     $html .= '</a>';
@@ -1996,22 +2014,6 @@ function almetal_ajax_load_mobile_realisations() {
             
             $html .= '</div>';
             $html .= '</div>';
-            $html .= '<div class="mobile-realisation-content">';
-            $html .= '<h3 class="mobile-realisation-title">' . get_the_title() . '</h3>';
-            
-            if (has_excerpt()) {
-                $html .= '<p class="mobile-realisation-excerpt">' . wp_trim_words(get_the_excerpt(), 15) . '</p>';
-            }
-            
-            $html .= '<span class="mobile-realisation-cta">';
-            $html .= esc_html__('Voir le projet', 'almetal');
-            $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-            $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
-            $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
-            $html .= '</svg>';
-            $html .= '</span>';
-            $html .= '</div>';
-            $html .= '</a>';
             $html .= '</article>';
         }
         wp_reset_postdata();

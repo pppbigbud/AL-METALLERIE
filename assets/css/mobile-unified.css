@@ -1228,7 +1228,24 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Badge de ville pour mobile */
+/* Structure de la card cliquable */
+.mobile-realisation-card-inner {
+    position: relative;
+    display: block;
+}
+
+.mobile-realisation-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.mobile-realisation-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* S'assurer que les badges restent au-dessus du lien */
 .mobile-city-badge {
     position: absolute;
     bottom: 8px;
