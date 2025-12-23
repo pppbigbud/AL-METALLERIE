@@ -2004,7 +2004,7 @@ function almetal_ajax_load_mobile_realisations() {
             }
             
             $html .= '<span class="mobile-realisation-cta">';
-            $html .= esc_html_e('Voir le projet', 'almetal');
+            $html .= esc_html__('Voir le projet', 'almetal');
             $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
             $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
             $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
