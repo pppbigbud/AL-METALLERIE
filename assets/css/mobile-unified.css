@@ -1228,23 +1228,6 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Structure de la card cliquable */
-.mobile-realisation-card-inner {
-    position: relative;
-    display: block;
-}
-
-.mobile-realisation-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.mobile-realisation-link:hover {
-    text-decoration: none;
-    color: inherit;
-}
-
 /* Positionnement relatif pour l'image afin d'y ancrer les badges */
 .mobile-realisation-image {
     position: relative;
@@ -1266,13 +1249,11 @@ body {
     font-weight: 600;
     z-index: 3;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    pointer-events: none; /* Permet au clic de passer à travers */
 }
 
 .mobile-city-badge a {
     color: white !important;
     text-decoration: none !important;
-    pointer-events: auto; /* Restaure le clic sur le lien du badge */
 }
 
 .mobile-city-badge svg {
@@ -1289,7 +1270,6 @@ body {
     flex-direction: column;
     gap: 0.5rem;
     z-index: 4;
-    pointer-events: none; /* Permet au clic de passer à travers */
 }
 
 .mobile-matiere-badge,
@@ -1304,7 +1284,6 @@ body {
     text-decoration: none !important;
     color: white !important;
     cursor: pointer;
-    pointer-events: auto; /* Restaure le clic sur les badges */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     min-width: 60px;
@@ -4189,4 +4168,5 @@ background: #262626;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+}
 }
