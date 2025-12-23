@@ -103,6 +103,9 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                     );
                     ?>
                     <span class="category-badge category-badge-matiere">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                        </svg>
                         <?php echo esc_html($matiere_labels[$matiere] ?? ucfirst($matiere)); ?>
                     </span>
                     <?php
@@ -111,6 +114,9 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                 // Badges de catégories
                 foreach ($terms as $type) : ?>
                     <a href="<?php echo esc_url(get_term_link($type)); ?>" class="category-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
                         <?php echo esc_html($type->name); ?>
                     </a>
                 <?php endforeach; ?>
@@ -169,20 +175,18 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
             </div>
         <?php endif; ?>
 
-        <!-- Extrait court -->
-        <div class="realisation-excerpt">
-            <?php 
-            $excerpt = get_the_excerpt();
-            if (empty($excerpt)) {
-                // Fallback sur le contenu si aucun excerpt n'est défini
-                $content = get_the_content();
-                $excerpt = wp_trim_words($content, 15, '...');
-            } else {
-                $excerpt = wp_trim_words($excerpt, 15, '...');
-            }
-            echo esc_html($excerpt);
-            ?>
-        </div>
+        <!-- Extrait court intégré directement -->
+        <?php 
+        $excerpt = get_the_excerpt();
+        if (empty($excerpt)) {
+            // Fallback sur le contenu si aucun excerpt n'est défini
+            $content = get_the_content();
+            $excerpt = wp_trim_words($content, 15, '...');
+        } else {
+            $excerpt = wp_trim_words($excerpt, 15, '...');
+        }
+        echo '<p class="realisation-excerpt">' . esc_html($excerpt) . '</p>';
+        ?>
 
         <!-- Bouton CTA -->
         <?php if ($args['show_cta']) : ?>

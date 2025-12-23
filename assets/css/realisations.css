@@ -322,7 +322,7 @@
 .category-badge {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 6px;
     padding: 6px 12px;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
@@ -333,8 +333,6 @@
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
-    min-width: 80px;
-    text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -344,14 +342,14 @@
     color: white;
 }
 
-/* Badge matériau avec style particulier */
+/* Badge matériau avec style identique */
 .category-badge-matiere {
-    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
-    font-weight: 600;
+    background: rgba(0, 0, 0, 0.8);
+    font-weight: 500;
 }
 
 .category-badge-matiere:hover {
-    background: linear-gradient(135deg, #e67e0f 0%, #d67208 100%);
+    background: rgba(240, 139, 24, 0.9);
 }
 
 .realisation-content {
@@ -365,21 +363,7 @@
 .realisation-title {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
-    padding-bottom: var(--spacing-sm);
     width: 100%;
-    position: relative;
-}
-
-/* Séparateur horizontal après le titre */
-.realisation-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.5), transparent);
 }
 
 .realisation-title a {
@@ -465,26 +449,18 @@
     margin-bottom: 1.2rem;
 }
 
-.realisation-excerpt {
+.realisation-card .realisation-excerpt {
     color: var(--color-text);
-    margin-bottom: var(--spacing-sm);
-    padding-bottom: var(--spacing-sm);
-    line-height: 1.7;
-    font-size: 0.95rem;
-    opacity: 0.9;
-    position: relative;
+    margin: var(--spacing-xs) 0 var(--spacing-sm);
+    line-height: 1.5;
+    font-size: 0.85rem;
+    opacity: 0.8;
+    text-align: center;
+    width: 100%;
 }
 
-/* Séparateur horizontal après la description */
-.realisation-excerpt::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent);
+.realisation-card .realisation-excerpt:empty {
+    display: none;
 }
 
 .realisation-meta {
