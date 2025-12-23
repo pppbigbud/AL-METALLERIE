@@ -308,6 +308,52 @@
     color: white;
 }
 
+/* Badges de catégories en haut à droite */
+.realisation-category-badges {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 3;
+}
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 80px;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.category-badge:hover {
+    background: rgba(240, 139, 24, 0.9);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Badge matériau avec style particulier */
+.category-badge-matiere {
+    background: linear-gradient(135deg, #F08B18 0%, #e67e0f 100%);
+    font-weight: 600;
+}
+
+.category-badge-matiere:hover {
+    background: linear-gradient(135deg, #e67e0f 0%, #d67208 100%);
+}
+
 .realisation-content {
     padding: var(--spacing-md);
     display: flex;
