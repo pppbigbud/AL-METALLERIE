@@ -1935,7 +1935,6 @@ function almetal_ajax_load_mobile_realisations() {
             
             $html .= '<article class="mobile-realisation-card scroll-slide-up">';
             $html .= '<div class="mobile-realisation-card-inner">';
-            $html .= '<a href="' . get_permalink() . '" class="mobile-realisation-link">';
             $html .= '<div class="mobile-realisation-image">';
             $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" width="400" height="300" loading="lazy" decoding="async">';
             
@@ -1998,21 +1997,26 @@ function almetal_ajax_load_mobile_realisations() {
             $html .= '</div>';
             $html .= '</div>';
             $html .= '<div class="mobile-realisation-content">';
-            $html .= '<h3 class="mobile-realisation-title">' . get_the_title() . '</h3>';
+            $html .= '<h3 class="mobile-realisation-title">';
+            $html .= '<a href="' . get_permalink() . '">';
+            $html .= get_the_title();
+            $html .= '</a>';
+            $html .= '</h3>';
             
             if (has_excerpt()) {
                 $html .= '<p class="mobile-realisation-excerpt">' . wp_trim_words(get_the_excerpt(), 15) . '</p>';
             }
             
             $html .= '<span class="mobile-realisation-cta">';
+            $html .= '<a href="' . get_permalink() . '">';
             $html .= esc_html__('Voir le projet', 'almetal');
             $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
             $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
             $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
             $html .= '</svg>';
+            $html .= '</a>';
             $html .= '</span>';
             $html .= '</div>';
-            $html .= '</a>';
             $html .= '</div>';
             $html .= '</article>';
         }
@@ -2031,6 +2035,28 @@ function almetal_ajax_load_mobile_realisations() {
 }
 add_action('wp_ajax_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
 add_action('wp_ajax_nopriv_load_mobile_realisations', 'almetal_ajax_load_mobile_realisations');
+
+/**
+ * ============================================================================/**
+ * Fonction helper pour générer le HTML d'une card de réalisation
+ * Utilise le template-part card-realisation.php avec buffering
+ * 
+ * @param array $args Arguments pour personnaliser l'affichage
+ * @return string HTML de la card
+ */
+function almetal_get_realisation_card_html($args = array()) {
+    ob_start();
+    get_template_part('template-parts/card-realisation', null, $args);
+    return ob_get_clean();
+}
+
+/**
+ * Fonction helper pour charger le template-part avec buffering
+ * Utilise la fonction almetal_get_realisation_card_html pour générer le HTML
+ */
+function almetal_get_realisation_card($args = array()) {
+    echo almetal_get_realisation_card_html($args);
+}
 
 /**
  * ============================================================================
@@ -2068,66 +2094,17 @@ function almetal_ajax_load_desktop_realisations() {
         while ($query->have_posts()) {
             $query->the_post();
             
-            $terms = get_the_terms(get_the_ID(), 'type_realisation');
-            $term_classes = '';
-            if ($terms && !is_wp_error($terms)) {
-                $term_slugs = array_map(function($term) {
-                    return $term->slug;
-                }, $terms);
-                $term_classes = implode(' ', $term_slugs);
-            }
+            // Utiliser la fonction helper pour générer le HTML de la card
+            $card_args = array(
+                'show_category_badges' => true,
+                'show_location_badge' => true,
+                'show_meta' => true,
+                'show_cta' => true,
+                'is_first' => false,
+                'image_size' => 'realisation-card'
+            );
             
-            $thumbnail_id = get_post_thumbnail_id(get_the_ID());
-            $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'realisation-card');
-            if (!$thumbnail_url) {
-                $thumbnail_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
-            }
-            if (!$thumbnail_url) {
-                $thumbnail_url = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
-            }
-            $srcset = $thumbnail_id ? wp_get_attachment_image_srcset($thumbnail_id, 'realisation-card') : '';
-            $sizes = '(max-width: 480px) 300px, (max-width: 768px) 390px, 640px';
-            
-            $date_realisation = get_post_meta(get_the_ID(), '_almetal_date_realisation', true);
-            $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true) ?: 'Puy-de-Dôme';
-            $duree = get_post_meta(get_the_ID(), '_almetal_duree', true);
-            
-            // Alt SEO optimisé
-            $type_name = ($terms && !is_wp_error($terms)) ? $terms[0]->name : 'Réalisation';
-            $alt_seo = $type_name . ' à ' . $lieu . ' - ' . get_the_title() . ' | AL Métallerie';
-            
-            $html .= '<article class="realisation-card ' . esc_attr($term_classes) . '" data-categories="' . esc_attr($term_classes) . '">';
-            $html .= '<div class="realisation-image-wrapper">';
-            $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" class="realisation-image" width="400" height="300" loading="lazy" decoding="async"';
-            if ($srcset) {
-                $html .= ' srcset="' . esc_attr($srcset) . '" sizes="' . esc_attr($sizes) . '"';
-            }
-            $html .= '>';
-            $html .= '</div>';
-            
-            $html .= '<div class="realisation-content">';
-            $html .= '<h3 class="realisation-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
-            
-            if ($date_realisation || $lieu || $duree) {
-                $html .= '<div class="realisation-meta">';
-                if ($date_realisation) {
-                    $html .= '<span class="meta-item meta-date"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' . esc_html($date_realisation) . '</span>';
-                }
-                if ($lieu) {
-                    $html .= '<span class="meta-item meta-lieu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' . almetal_city_link_html($lieu, 'meta-lieu-link') . '</span>';
-                }
-                if ($duree) {
-                    $html .= '<span class="meta-item meta-duree"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' . esc_html($duree) . '</span>';
-                }
-                $html .= '</div>';
-            }
-            
-            $html .= '<a href="' . get_permalink() . '" class="btn-view-project">';
-            $html .= '<span class="circle" aria-hidden="true"><svg class="icon arrow" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-            $html .= '<span class="button-text">Voir le projet</span>';
-            $html .= '</a>';
-            $html .= '</div>';
-            $html .= '</article>';
+            $html .= almetal_get_realisation_card_html($card_args);
         }
         wp_reset_postdata();
     }
