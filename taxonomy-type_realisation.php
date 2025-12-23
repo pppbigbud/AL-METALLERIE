@@ -157,6 +157,18 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 <div class="realisation-thumbnail">
                                     <a href="<?php the_permalink(); ?>">
                                         <?php the_post_thumbnail('medium_large'); ?>
+                                        <?php
+                                        $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+                                        if ($lieu) :
+                                        ?>
+                                            <span class="realisation-location-badge">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                    <circle cx="12" cy="10" r="3"/>
+                                                </svg>
+                                                <?php echo almetal_city_link_html($lieu, 'meta-lieu-link'); ?>
+                                            </span>
+                                        <?php endif; ?>
                                         <div class="realisation-overlay">
                                             <span class="view-more"><?php _e('Voir le projet', 'almetal'); ?></span>
                                         </div>
@@ -165,19 +177,6 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                             <?php endif; ?>
 
                             <div class="realisation-content">
-                                <?php
-                                $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
-                                if ($lieu) :
-                                ?>
-                                    <div class="realisation-location-badge">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                            <circle cx="12" cy="10" r="3"/>
-                                        </svg>
-                                        <?php echo almetal_city_link_html($lieu, 'meta-lieu-link'); ?>
-                                    </div>
-                                <?php endif; ?>
-                                
                                 <h2 class="realisation-title">
                                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                                 </h2>

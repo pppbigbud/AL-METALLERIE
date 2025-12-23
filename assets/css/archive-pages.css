@@ -288,17 +288,21 @@
 }
 
 .archive-page .realisation-location-badge {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  background: rgba(240, 139, 24, 0.1);
-  border: 1px solid rgba(240, 139, 24, 0.3);
+  padding: 0.4rem 0.85rem;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(240, 139, 24, 0.4);
   border-radius: 999px;
-  color: var(--color-primary);
-  font-size: 0.75rem;
+  color: var(--color-text-light);
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  z-index: 10;
 }
 
 .archive-page .realisation-location-badge svg {
@@ -708,13 +712,100 @@
   }
 
   .archive-icon svg {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
   }
 
   .archive-subtitle {
     font-size: 1rem;
-    padding: 0 1rem;
+  }
+
+  .taxonomy-seo-content {
+    padding: 3rem 0;
+  }
+
+  .seo-text-block {
+    padding: 2rem;
+  }
+
+  .seo-text-block h2 {
+    font-size: 1.5rem;
+  }
+
+  .seo-text-block p {
+    font-size: 0.95rem;
+  }
+
+  .taxonomy-results-count {
+    margin-bottom: 2rem;
+  }
+
+  .archive-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .realisation-card {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .realisation-thumbnail {
+    aspect-ratio: 16/10;
+  }
+
+  .realisation-location-badge {
+    position: static !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    background: rgba(240, 139, 24, 0.1);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 999px;
+    color: var(--color-primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    margin-top: 0.75rem;
+    box-shadow: none;
+    z-index: auto;
+  }
+
+  .realisation-location-badge svg {
+    color: var(--color-primary);
+  }
+
+  .realisation-content {
+    padding: 1.25rem;
+  }
+
+  .realisation-title {
+    font-size: 1.15rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+
+  .realisation-types {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .type-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .realisation-meta {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-back {
+    width: 100%;
+    justify-content: center;
+    margin-top: 2rem;
   }
 
   .archive-filters {
