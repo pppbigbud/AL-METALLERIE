@@ -1938,23 +1938,6 @@ function almetal_ajax_load_mobile_realisations() {
             $html .= '<a href="' . get_permalink() . '" class="mobile-realisation-link">';
             $html .= '<div class="mobile-realisation-image">';
             $html .= '<img src="' . esc_url($thumbnail_url) . '" alt="' . esc_attr($alt_seo) . '" width="400" height="300" loading="lazy" decoding="async">';
-            $html .= '</div>';
-            $html .= '<div class="mobile-realisation-content">';
-            $html .= '<h3 class="mobile-realisation-title">' . get_the_title() . '</h3>';
-            
-            if (has_excerpt()) {
-                $html .= '<p class="mobile-realisation-excerpt">' . wp_trim_words(get_the_excerpt(), 15) . '</p>';
-            }
-            
-            $html .= '<span class="mobile-realisation-cta">';
-            $html .= esc_html__('Voir le projet', 'almetal');
-            $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-            $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
-            $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
-            $html .= '</svg>';
-            $html .= '</span>';
-            $html .= '</div>';
-            $html .= '</a>';
             
             // Badge de ville en bas à gauche
             if ($lieu) {
@@ -2013,6 +1996,23 @@ function almetal_ajax_load_mobile_realisations() {
             }
             
             $html .= '</div>';
+            $html .= '</div>';
+            $html .= '<div class="mobile-realisation-content">';
+            $html .= '<h3 class="mobile-realisation-title">' . get_the_title() . '</h3>';
+            
+            if (has_excerpt()) {
+                $html .= '<p class="mobile-realisation-excerpt">' . wp_trim_words(get_the_excerpt(), 15) . '</p>';
+            }
+            
+            $html .= '<span class="mobile-realisation-cta">';
+            $html .= esc_html__('Voir le projet', 'almetal');
+            $html .= '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
+            $html .= '<line x1="5" y1="12" x2="19" y2="12"></line>';
+            $html .= '<polyline points="12 5 19 12 12 19"></polyline>';
+            $html .= '</svg>';
+            $html .= '</span>';
+            $html .= '</div>';
+            $html .= '</a>';
             $html .= '</div>';
             $html .= '</article>';
         }
