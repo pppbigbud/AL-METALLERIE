@@ -347,6 +347,16 @@
     color: var(--color-primary);
 }
 
+.category-badge a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.category-badge:hover a {
+    color: white;
+}
+
 /* Badge matériau avec style identique */
 .category-badge-matiere {
     background: rgba(0, 0, 0, 0.8);
@@ -355,6 +365,12 @@
 
 .category-badge-matiere:hover {
     background: rgba(240, 139, 24, 0.9);
+    transform: translateY(-2px);
+}
+
+.category-badge-matiere svg {
+    flex-shrink: 0;
+    color: var(--color-primary);
 }
 
 .realisation-content {
