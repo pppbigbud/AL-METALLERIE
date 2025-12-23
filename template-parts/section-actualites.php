@@ -95,7 +95,10 @@ $realisations_query = new WP_Query(array(
         
         <!-- Filtre dropdown (Mobile) -->
         <div class="actualites-filters actualites-filters-mobile">
-            <select class="filter-select" id="actualites-filter-select">
+            <label for="mobile-realisations-select" class="screen-reader-text">
+                <?php esc_html_e('Filtrer les actualités par catégorie', 'almetal'); ?>
+            </label>
+            <select id="mobile-realisations-select" class="mobile-filter-select" aria-label="<?php esc_attr_e('Filtrer les actualités', 'almetal'); ?>">
                 <option value="*"><?php esc_html_e('Toutes les catégories', 'almetal'); ?></option>
                 <?php foreach ($categories as $category) : ?>
                 <option value=".<?php echo esc_attr($category->slug); ?>">

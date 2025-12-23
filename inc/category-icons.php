@@ -12,6 +12,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Éviter la redéclaration si le fichier est déjà chargé par un autre include
+if (function_exists('almetal_get_category_icon')) {
+    return;
+}
+
 /**
  * Bibliotheque d'icones SVG pour les categories connues
  * Taille par defaut: 24x24 (peut etre modifiee via le parametre $size)
