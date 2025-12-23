@@ -1223,8 +1223,37 @@ body {
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
-    text-transform: uppercase;
     text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Badge de ville pour mobile */
+.mobile-city-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: rgba(240, 139, 24, 0.95);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-city-badge a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.mobile-city-badge svg {
+    color: white;
+    flex-shrink: 0;
 }
 
 .mobile-realisation-badge svg {

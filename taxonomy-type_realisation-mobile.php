@@ -169,6 +169,16 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                             <?php if (has_post_thumbnail()) : ?>
                                 <div class="mobile-realisation-image">
                                     <?php the_post_thumbnail('medium_large', array('loading' => 'lazy')); ?>
+                                    
+                                    <?php if ($lieu) : ?>
+                                        <div class="mobile-city-badge">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                <circle cx="12" cy="10" r="3"/>
+                                            </svg>
+                                            <?php echo almetal_city_link_html($lieu, 'mobile-city-link'); ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                             
@@ -192,16 +202,6 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 </span>
                             </div>
                         </a>
-
-                        <?php if ($lieu) : ?>
-                            <div class="mobile-realisation-location" style="margin-top: 8px;">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                </svg>
-                                <?php echo almetal_city_link_html($lieu, 'mobile-city-link'); ?>
-                            </div>
-                        <?php endif; ?>
                     </article>
                     
                 <?php endwhile; ?>

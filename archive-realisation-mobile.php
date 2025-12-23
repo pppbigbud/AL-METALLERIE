@@ -105,6 +105,19 @@ get_header();
                                 <div class="mobile-realisation-image">
                                     <?php the_post_thumbnail('medium_large', array('loading' => 'lazy')); ?>
                                     
+                                    <?php 
+                                    $lieu = get_post_meta(get_the_ID(), '_almetal_lieu', true);
+                                    if ($lieu) : 
+                                    ?>
+                                        <div class="mobile-city-badge">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                <circle cx="12" cy="10" r="3"/>
+                                            </svg>
+                                            <?php echo almetal_city_link_html($lieu, 'mobile-city-link'); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    
                                     <?php if ($terms && !is_wp_error($terms)) : ?>
                                         <div class="mobile-realisation-badges" onclick="event.stopPropagation();">
                                             <?php foreach ($terms as $term) : ?>
