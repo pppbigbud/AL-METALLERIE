@@ -1245,6 +1245,11 @@ body {
     color: inherit;
 }
 
+/* Positionnement relatif pour l'image afin d'y ancrer les badges */
+.mobile-realisation-image {
+    position: relative;
+}
+
 /* S'assurer que les badges restent au-dessus du lien */
 .mobile-city-badge {
     position: absolute;
