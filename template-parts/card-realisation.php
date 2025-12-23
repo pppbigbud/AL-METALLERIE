@@ -116,7 +116,7 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                     <a href="<?php echo esc_url(get_term_link($type)); ?>" class="category-badge">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M22 19h-4l-3 3v-3H8V11h14v8z"/>
-                            <path d="M2 12v8h6v3l3-3h4"/>
+                            <path d="M2 12v8h6v3l3-3h4V12H2z"/>
                         </svg>
                         <?php echo esc_html($type->name); ?>
                     </a>

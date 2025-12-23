@@ -28,6 +28,13 @@ body {
     overflow-x: hidden;
 }
 
+/* Corriger l'API obsolète H1UserAgentFontSizeInSection */
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
 /* Masquer le header desktop */
 .site-header:not(.mobile-header) {
     display: none !important;
