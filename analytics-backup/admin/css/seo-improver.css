@@ -1,0 +1,231 @@
+/* Modal d'amélioration SEO */
+.seo-improvement-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+.seo-improvement-modal .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.seo-improvement-modal .modal-content {
+    position: relative;
+    background: white;
+    max-width: 600px;
+    margin: 50px auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.seo-improvement-modal .modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seo-improvement-modal .modal-header h3 {
+    margin: 0;
+    font-size: 1.3em;
+    color: #333;
+}
+
+.seo-improvement-modal .modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seo-improvement-modal .modal-close:hover {
+    color: #000;
+}
+
+.seo-improvement-modal .modal-body {
+    padding: 20px;
+}
+
+.seo-improvement-modal .modal-footer {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Loading state */
+.seo-improvement-modal .loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.seo-improvement-modal .loading .spinner {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Liste des améliorations */
+.seo-improvement-modal .improvements-list {
+    margin-bottom: 20px;
+}
+
+.seo-improvement-modal .improvements-list h4 {
+    margin: 0 0 15px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.seo-improvement-modal .improvement-item {
+    margin-bottom: 10px;
+    padding: 12px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.seo-improvement-modal .improvement-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.seo-improvement-modal .improvement-desc {
+    flex: 1;
+    font-weight: 500;
+}
+
+.seo-improvement-modal .improvement-priority {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.seo-improvement-modal .priority-high {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.seo-improvement-modal .priority-medium {
+    background: #fff8e1;
+    color: #f57c00;
+}
+
+.seo-improvement-modal .priority-low {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+/* Options d'application */
+.seo-improvement-modal .improvement-options {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.seo-improvement-modal .improvement-options h4 {
+    margin: 0 0 10px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.seo-improvement-modal .improvement-options label {
+    display: block;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.seo-improvement-modal .improvement-options input[type="radio"] {
+    margin-right: 8px;
+}
+
+/* Résultat de l'amélioration */
+.seo-improvement-modal .improvement-result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #e8f5e9;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.seo-improvement-modal .improvement-result h4 {
+    margin: 0 0 10px;
+    color: #2e7d32;
+}
+
+/* Notices */
+.seo-improvement-modal .notice {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.seo-improvement-modal .notice-error {
+    background: #ffebee;
+    border-left: 4px solid #f44336;
+    color: #c62828;
+}
+
+.seo-improvement-modal .notice-success {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    color: #2e7d32;
+}
+
+/* Animation d'apparition */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.seo-improvement-modal .modal-content {
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Bouton améliorer dans le tableau */
+.seo-improve-btn {
+    transition: all 0.2s ease;
+}
+
+.seo-improve-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.seo-improve-btn .dashicons {
+    transition: transform 0.3s ease;
+}
+
+.seo-improve-btn:hover .dashicons {
+    transform: rotate(15deg);
+}
