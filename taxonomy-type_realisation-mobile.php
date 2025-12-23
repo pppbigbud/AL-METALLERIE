@@ -239,7 +239,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 
                                 <?php if (has_excerpt()) : ?>
                                     <p class="mobile-realisation-excerpt">
-                                        <?php echo wp_trim_words(get_the_excerpt(), 12); ?>
+                                        <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
                                     </p>
                                 <?php endif; ?>
                                 

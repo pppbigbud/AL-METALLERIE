@@ -167,21 +167,6 @@ get_header();
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
-                                    
-                                    <?php if ($terms && !is_wp_error($terms)) : ?>
-                                        <div class="mobile-realisation-badges" onclick="event.stopPropagation();">
-                                            <?php foreach ($terms as $term) : ?>
-                                                <a href="<?php echo esc_url(get_term_link($term)); ?>" class="mobile-realisation-badge" onclick="event.stopPropagation();">
-                                                    <?php
-                                                    $default_icon_svg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
-                                                    $term_icon_svg = function_exists('almetal_get_category_icon') ? almetal_get_category_icon($term->slug, 14) : $default_icon_svg;
-                                                    echo $term_icon_svg;
-                                                    ?>
-                                                    <?php echo esc_html($term->name); ?>
-                                                </a>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                             
