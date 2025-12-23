@@ -342,6 +342,11 @@
     color: white;
 }
 
+.category-badge svg {
+    flex-shrink: 0;
+    color: var(--color-primary);
+}
+
 /* Badge matériau avec style identique */
 .category-badge-matiere {
     background: rgba(0, 0, 0, 0.8);
