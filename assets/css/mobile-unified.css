@@ -1256,6 +1256,48 @@ body {
     flex-shrink: 0;
 }
 
+/* Badges en haut à droite (catégories et matériaux) */
+.mobile-top-badges {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 4;
+}
+
+.mobile-matiere-badge,
+.mobile-category-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.7rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    color: white !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-width: 60px;
+    text-align: center;
+}
+
+.mobile-matiere-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.mobile-category-badge {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.mobile-matiere-badge:active,
+.mobile-category-badge:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 .mobile-realisation-badge svg {
     width: 14px;
     height: 14px;

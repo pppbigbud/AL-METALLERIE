@@ -179,6 +179,37 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                             <?php echo almetal_city_link_html($lieu, 'mobile-city-link'); ?>
                                         </div>
                                     <?php endif; ?>
+                                    
+                                    <!-- Badges catégories et matériaux en haut à droite -->
+                                    <div class="mobile-top-badges">
+                                        <?php 
+                                        $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
+                                        if ($matiere) : 
+                                        ?>
+                                            <a href="<?php echo esc_url(almetal_get_matiere_url($matiere)); ?>" class="mobile-matiere-badge" onclick="event.stopPropagation();">
+                                                <?php
+                                                $matiere_labels = array(
+                                                    'acier' => 'Acier',
+                                                    'inox' => 'Inox',
+                                                    'aluminium' => 'Aluminium',
+                                                    'cuivre' => 'Cuivre',
+                                                    'laiton' => 'Laiton',
+                                                    'fer-forge' => 'Fer forgé',
+                                                    'mixte' => 'Mixte'
+                                                );
+                                                echo esc_html($matiere_labels[$matiere] ?? ucfirst($matiere));
+                                                ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($terms && !is_wp_error($terms)) : ?>
+                                            <?php foreach ($terms as $term) : ?>
+                                                <a href="<?php echo esc_url(get_term_link($term)); ?>" class="mobile-category-badge" onclick="event.stopPropagation();">
+                                                    <?php echo esc_html($term->name); ?>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                             
