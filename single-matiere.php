@@ -201,42 +201,25 @@ if (function_exists('almetal_is_mobile') && almetal_is_mobile()) {
             
             <div class="realisations-grid">
                 <?php foreach ($realisations as $realisation) : 
-                    $thumb = get_the_post_thumbnail_url($realisation->ID, 'medium_large');
-                    if (!$thumb) {
-                        $thumb = get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp';
-                    }
-                    $lieu = get_post_meta($realisation->ID, '_almetal_lieu', true);
-                    $terms = get_the_terms($realisation->ID, 'type_realisation');
-                    $type_name = ($terms && !is_wp_error($terms)) ? $terms[0]->name : '';
+                    // Utiliser le template-part unifié pour chaque réalisation
+                    $card_args = array(
+                        'show_category_badges' => true,
+                        'show_location_badge' => true,
+                        'show_meta' => true,
+                        'show_cta' => true, // Activer le CTA
+                        'is_first' => false,
+                        'image_size' => 'medium_large'
+                    );
+                    
+                    // Mettre l'ID du post en global pour que le template-part fonctionne
+                    global $post;
+                    $post = $realisation;
+                    setup_postdata($post);
+                    
+                    get_template_part('template-parts/card-realisation', null, $card_args);
+                endforeach; 
+                wp_reset_postdata();
                 ?>
-                    <article class="realisation-card">
-                        <a href="<?php echo get_permalink($realisation->ID); ?>" class="realisation-card__link">
-                            <div class="realisation-card__image">
-                                <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr($realisation->post_title); ?>" loading="lazy">
-                                <div class="realisation-card__overlay">
-                                    <span class="view-project"></span>
-                                </div>
-                            </div>
-                            <div class="realisation-card__content">
-                                <h3 class="realisation-card__title"><?php echo esc_html($realisation->post_title); ?></h3>
-                                <div class="realisation-card__meta">
-                                    <?php if ($type_name) : ?>
-                                        <span class="meta-type"><?php echo esc_html($type_name); ?></span>
-                                    <?php endif; ?>
-                                    <?php if ($lieu) : ?>
-                                        <span class="meta-lieu">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                                <circle cx="12" cy="10" r="3"/>
-                                            </svg>
-                                            <?php echo esc_html($lieu); ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </a>
-                    </article>
-                <?php endforeach; ?>
             </div>
             
             <div class="realisations-cta">

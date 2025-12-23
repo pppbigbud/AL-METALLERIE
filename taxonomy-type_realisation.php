@@ -158,7 +158,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                             'show_category_badges' => true,
                             'show_location_badge' => true,
                             'show_meta' => true,
-                            'show_cta' => false, // Pas de bouton CTA dans les taxonomies
+                            'show_cta' => true, // Activer le bouton CTA dans les taxonomies
                             'is_first' => false,
                             'image_size' => 'medium_large'
                         );
