@@ -90,7 +90,19 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
         <?php if ($args['show_category_badges'] && $terms && !is_wp_error($terms)) : ?>
             <div class="realisation-category-badges">
                 <?php 
-                // Badge matériau en premier
+                // Badges de catégories en premier
+                foreach ($terms as $type) : ?>
+                    <a href="<?php echo esc_url(get_term_link($type)); ?>" class="category-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="9" y1="9" x2="15" y2="9"/>
+                            <line x1="9" y1="15" x2="15" y2="15"/>
+                        </svg>
+                        <?php echo esc_html($type->name); ?>
+                    </a>
+                <?php endforeach; 
+                
+                // Badge matériau en dernier
                 if ($matiere) {
                     $matiere_labels = array(
                         'acier' => 'Acier',
@@ -104,23 +116,13 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                     ?>
                     <span class="category-badge category-badge-matiere">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                         </svg>
                         <?php echo esc_html($matiere_labels[$matiere] ?? ucfirst($matiere)); ?>
                     </span>
                     <?php
                 }
-                
-                // Badges de catégories avec SVG catégorie
-                foreach ($terms as $type) : ?>
-                    <a href="<?php echo esc_url(get_term_link($type)); ?>" class="category-badge">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 19h-4l-3 3v-3H8V11h14v8z"/>
-                            <path d="M2 12v8h6v3l3-3h4V12H2z"/>
-                        </svg>
-                        <?php echo esc_html($type->name); ?>
-                    </a>
-                <?php endforeach; ?>
+                ?>
             </div>
         <?php endif; ?>
         
