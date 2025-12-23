@@ -1282,14 +1282,15 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     min-width: 60px;
     text-align: center;
+    gap: 0.3rem;
 }
 
 .mobile-matiere-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: rgba(240, 139, 24, 0.95);
 }
 
 .mobile-category-badge {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: rgba(240, 139, 24, 0.95);
 }
 
 .mobile-matiere-badge:active,

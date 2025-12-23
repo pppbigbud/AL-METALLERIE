@@ -143,6 +143,11 @@ get_header();
                                         <?php if ($terms && !is_wp_error($terms)) : ?>
                                             <?php foreach ($terms as $term) : ?>
                                                 <a href="<?php echo esc_url(get_term_link($term)); ?>" class="mobile-category-badge" onclick="event.stopPropagation();">
+                                                    <?php
+                                                    $default_icon_svg = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>';
+                                                    $term_icon_svg = function_exists('almetal_get_category_icon') ? almetal_get_category_icon($term->slug, 12) : $default_icon_svg;
+                                                    echo $term_icon_svg;
+                                                    ?>
                                                     <?php echo esc_html($term->name); ?>
                                                 </a>
                                             <?php endforeach; ?>
