@@ -279,13 +279,13 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                 if (class_exists('City_Pages_Generator')) {
                     $cities = get_posts(array(
                         'post_type' => 'city_page',
-                        'posts_per_page' => 12,
+                        'posts_per_page' => -1, // Récupérer toutes les villes pour filtrer
                         'orderby' => 'title',
                         'order' => 'ASC',
                         'meta_query' => array(
                             array(
                                 'key' => '_cpg_priority',
-                                'value' => 'high',
+                                'value' => '1', // Uniquement les villes de priorité 1
                                 'compare' => '='
                             )
                         )
@@ -294,7 +294,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                     if ($cities && !is_wp_error($cities)) {
                         foreach ($cities as $city) {
                             $city_name = get_post_meta($city->ID, '_cpg_city_name', true);
-                            if ($city_name) {
+                            if ($city_name && get_post_status($city->ID) === 'publish') {
                                 echo '<div class="city-item">';
                                 echo '<a href="' . esc_url(get_permalink($city->ID)) . '" class="city-link">';
                                 echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
