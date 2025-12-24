@@ -2189,7 +2189,7 @@ function almetal_add_taxonomy_schema_service() {
         echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
         
         // Ajouter le Schema.org FAQPage pour les rich snippets
-        if (isset($seo_data[$term->slug]['faq'])) {
+        if (isset($current_seo['faq']) && !empty($current_seo['faq'])) {
             $faq_schema = array(
                 '@context' => 'https://schema.org',
                 '@type' => 'FAQPage',
