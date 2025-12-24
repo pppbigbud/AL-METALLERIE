@@ -1,6 +1,6 @@
 /**
  * Styles SEO Local pour les pages de taxonomie type_realisation
- * Optimisé pour le référencement local et l'expérience utilisateur
+ * Thème sombre optimisé pour le référencement local et l'expérience utilisateur
  * 
  * @package ALMetallerie
  * @since 1.0.0
@@ -12,8 +12,8 @@
 
 .taxonomy-zone-intervention {
     padding: 80px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-top: 1px solid rgba(240, 139, 24, 0.1);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-top: 1px solid rgba(240, 139, 24, 0.3);
 }
 
 .taxonomy-zone-intervention .section-title {
@@ -22,7 +22,7 @@
     gap: 1rem;
     font-size: 2rem;
     font-weight: 700;
-    color: #222222;
+    color: #ffffff;
     margin-bottom: 1rem;
     text-align: center;
     justify-content: center;
@@ -36,7 +36,7 @@
 .taxonomy-zone-intervention .section-subtitle {
     text-align: center;
     font-size: 1.1rem;
-    color: #666;
+    color: #b0b0b0;
     max-width: 800px;
     margin: 0 auto 3rem;
     line-height: 1.6;
@@ -50,19 +50,19 @@
 }
 
 .city-item {
-    background: white;
+    background: #2d2d2d;
     border-radius: 12px;
     padding: 1.5rem;
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid transparent;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .city-item:hover {
     transform: translateY(-5px);
-    border-color: rgba(240, 139, 24, 0.3);
-    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.15);
+    border-color: rgba(240, 139, 24, 0.5);
+    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.25);
 }
 
 .city-link {
@@ -71,7 +71,7 @@
     justify-content: center;
     gap: 0.5rem;
     text-decoration: none;
-    color: #222222;
+    color: #ffffff;
     font-weight: 600;
     font-size: 1rem;
     transition: color 0.3s ease;
@@ -91,7 +91,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    color: #222222;
+    color: #ffffff;
     font-weight: 600;
     font-size: 1rem;
 }
@@ -104,14 +104,15 @@
 .zone-info {
     text-align: center;
     padding: 2rem;
-    background: white;
+    background: #2d2d2d;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(240, 139, 24, 0.2);
 }
 
 .zone-info p {
     font-size: 1.1rem;
-    color: #333;
+    color: #e0e0e0;
     margin: 0;
 }
 
@@ -126,7 +127,7 @@
 
 .taxonomy-why-choose {
     padding: 80px 0;
-    background: #ffffff;
+    background: #1a1a1a;
 }
 
 .taxonomy-why-choose .section-title {
@@ -135,7 +136,7 @@
     gap: 1rem;
     font-size: 2rem;
     font-weight: 700;
-    color: #222222;
+    color: #ffffff;
     margin-bottom: 3rem;
     text-align: center;
     justify-content: center;
@@ -155,17 +156,18 @@
 .feature-item {
     text-align: center;
     padding: 2rem;
-    background: #f8f9fa;
+    background: #2d2d2d;
     border-radius: 12px;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .feature-item:hover {
     transform: translateY(-5px);
-    background: white;
-    border-color: rgba(240, 139, 24, 0.3);
-    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.1);
+    background: #333333;
+    border-color: rgba(240, 139, 24, 0.5);
+    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.2);
 }
 
 .feature-icon {
@@ -177,7 +179,7 @@
     margin: 0 auto 1.5rem;
     background: linear-gradient(135deg, #F08B18 0%, #f6a93a 100%);
     border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(240, 139, 24, 0.3);
+    box-shadow: 0 4px 12px rgba(240, 139, 24, 0.4);
 }
 
 .feature-icon svg {
@@ -189,13 +191,13 @@
 .feature-item h3 {
     font-size: 1.3rem;
     font-weight: 700;
-    color: #222222;
+    color: #ffffff;
     margin-bottom: 1rem;
 }
 
 .feature-item p {
     font-size: 1rem;
-    color: #666;
+    color: #b0b0b0;
     line-height: 1.6;
     margin: 0;
 }
@@ -206,8 +208,8 @@
 
 .taxonomy-faq-section {
     padding: 80px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-top: 1px solid rgba(240, 139, 24, 0.1);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-top: 1px solid rgba(240, 139, 24, 0.3);
 }
 
 .taxonomy-faq-section .section-title {
@@ -216,7 +218,7 @@
     gap: 1rem;
     font-size: 2rem;
     font-weight: 700;
-    color: #222222;
+    color: #ffffff;
     margin-bottom: 3rem;
     text-align: center;
     justify-content: center;
@@ -233,16 +235,16 @@
 }
 
 .faq-item {
-    background: white;
+    background: #2d2d2d;
     border-radius: 12px;
     margin-bottom: 1rem;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .faq-item.active {
-    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.15);
+    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.25);
 }
 
 .faq-question {
@@ -255,17 +257,17 @@
 }
 
 .faq-question:hover {
-    background-color: #f8f9fa;
+    background-color: #333333;
 }
 
 .faq-item.active .faq-question {
-    background-color: rgba(240, 139, 24, 0.05);
+    background-color: rgba(240, 139, 24, 0.1);
 }
 
 .faq-question h3 {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #222222;
+    color: #ffffff;
     margin: 0;
     flex: 1;
 }
@@ -294,7 +296,7 @@
 
 .faq-answer p {
     font-size: 1rem;
-    color: #666;
+    color: #b0b0b0;
     line-height: 1.6;
     margin: 0;
 }
