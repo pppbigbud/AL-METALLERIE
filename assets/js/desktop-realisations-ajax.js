@@ -48,7 +48,7 @@
                 
                 // Récupérer la catégorie
                 const filter = this.dataset.filter;
-                currentCategory = filter === '*' ? '' : filter.replace('.', '');
+                currentCategory = filter === '*' ? '' : filter.replace(/^\.type-/, '').replace(/^\./, '');
                 currentPage = 1;
                 hasMore = true;
                 
@@ -61,7 +61,7 @@
         if (filterSelect) {
             filterSelect.addEventListener('change', function() {
                 const filter = this.value;
-                currentCategory = filter === '*' ? '' : filter.replace('.', '');
+                currentCategory = filter === '*' ? '' : filter.replace(/^\.type-/, '').replace(/^\./, '');
                 currentPage = 1;
                 hasMore = true;
                 loadRealisations(true);

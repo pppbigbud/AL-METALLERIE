@@ -2086,6 +2086,9 @@ function almetal_ajax_load_desktop_realisations() {
     $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
     $per_page = isset($_POST['per_page']) ? intval($_POST['per_page']) : 6;
     
+    // Debug: Logger la catégorie reçue
+    error_log('AJAX Category received: "' . $category . '"');
+    
     $args = array(
         'post_type' => 'realisation',
         'posts_per_page' => $per_page,
@@ -2096,6 +2099,10 @@ function almetal_ajax_load_desktop_realisations() {
     
     // Filtrer par catégorie si spécifiée
     if (!empty($category) && $category !== '*') {
+        // Debug: Vérifier si le terme existe
+        $term = get_term_by('slug', $category, 'type_realisation');
+        error_log('Term exists for slug "' . $category . '": ' . ($term ? 'YES (ID: ' . $term->term_id . ')' : 'NO'));
+        
         $args['tax_query'] = array(
             array(
                 'taxonomy' => 'type_realisation',
