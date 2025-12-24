@@ -251,6 +251,10 @@
     transform: translateY(-3px);
 }
 
+.realisation-card:hover .realisation-image {
+    transform: scale(1.1);
+}
+
 /* Wrapper de l'image avec position relative pour les badges */
 .realisation-image-wrapper {
     position: relative;
