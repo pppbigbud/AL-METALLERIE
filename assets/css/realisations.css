@@ -403,6 +403,20 @@
     font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
     width: 100%;
+    position: relative;
+    padding-bottom: var(--spacing-sm);
+}
+
+/* Séparateur horizontal après le titre */
+.realisation-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent);
 }
 
 .realisation-title a {
