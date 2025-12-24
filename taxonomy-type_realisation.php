@@ -305,6 +305,9 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                         $page_exists = true;
                     }
                     
+                    // DEBUG - Afficher l'état de chaque ville
+                    echo '<!-- DEBUG: Ville ' . $city_name . ' - URL: ' . $city_url . ' - Page trouvée: ' . ($page_exists ? 'OUI' : 'NON') . ' -->';
+                    
                     if ($page_exists) {
                         // La page existe, afficher avec le lien
                         echo '<div class="city-item">';
