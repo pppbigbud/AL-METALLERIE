@@ -304,7 +304,7 @@ if (!$hero_background_image) {
         </div>
     </div>
     
-    <!-- Section Zone d'Intervention Local -->
+    <!-- Section Zone d'Intervention et Carte Interactive -->
     <div class="taxonomy-zone-intervention">
         <div class="container">
             <h2 class="section-title">
@@ -318,7 +318,13 @@ if (!$hero_background_image) {
                 Intervention rapide pour vos <?php echo esc_html(strtolower($current_term->name)); ?> dans tout le département du Puy-de-Dôme (63) et les régions limitrophes
             </p>
             
-            <div class="cities-grid">
+            <!-- Carte interactive en haut -->
+            <div id="taxonomy-map" style="height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); margin-bottom: 2rem;">
+                <!-- La carte sera initialisée ici par JavaScript -->
+            </div>
+            
+            <!-- Boutons des villes en dessous -->
+            <div class="cities-grid cities-grid-compact">
                 <?php
                 // Chercher les pages villes dans le custom post type du plugin
                 $city_pages = array();
@@ -363,8 +369,9 @@ if (!$hero_background_image) {
                 // Si on a trouvé des pages villes, les afficher
                 if (!empty($city_pages)) {
                     foreach ($city_pages as $city_name => $city_url) {
+                        $city_slug = sanitize_title($city_name);
                         echo '<div class="city-item">';
-                        echo '<a href="' . esc_url($city_url) . '" class="city-link">';
+                        echo '<a href="' . esc_url($city_url) . '" class="city-link" data-city="' . esc_attr($city_slug) . '">';
                         echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
                         echo esc_html($city_name);
                         echo '</a>';
@@ -374,8 +381,9 @@ if (!$hero_background_image) {
                     // Fallback : afficher les villes principales sans liens
                     $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire');
                     foreach ($main_cities as $city) {
+                        $city_slug = sanitize_title($city);
                         echo '<div class="city-item">';
-                        echo '<span class="city-name" style="opacity: 0.7;">';
+                        echo '<span class="city-name" data-city="' . esc_attr($city_slug) . '" style="opacity: 0.7; cursor: pointer;">';
                         echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
                         echo esc_html($city);
                         echo '</span>';
@@ -387,31 +395,6 @@ if (!$hero_background_image) {
             
             <div class="zone-info">
                 <p><strong>Intervention sous 48h</strong> pour toute demande urgente. Devis gratuit sur place dans un rayon de 50km autour de notre atelier à Peschadoires.</p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Section Carte Interactive -->
-    <div class="taxonomy-map-section">
-        <div class="container">
-            <h2 class="section-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
-                    <line x1="8" y1="2" x2="8" y2="18"/>
-                    <line x1="16" y1="6" x2="16" y2="22"/>
-                </svg>
-                Nos Interventions sur la Carte
-            </h2>
-            <p class="section-subtitle">
-                Découvrez toutes les villes où nous intervenons pour vos <?php echo esc_html(strtolower($current_term->name)); ?>
-            </p>
-            
-            <div id="taxonomy-map" style="height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
-                <!-- La carte sera initialisée ici par JavaScript -->
-            </div>
-            
-            <div class="map-legend">
-                <p><strong>Cliquez sur un marqueur</strong> pour accéder à la page dédiée de la ville</p>
             </div>
         </div>
     </div>

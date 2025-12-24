@@ -65,11 +65,14 @@ function initializeMap() {
         });
         
         // Ajouter les marqueurs pour chaque ville
-        var markers = [];
+        var markers = {};
         taxonomyCities.forEach(function(city) {
             console.log('DEBUG: Ajout du marqueur pour', city.name);
             var marker = L.marker([city.lat, city.lng], { icon: customIcon })
                 .addTo(map);
+            
+            // Ajouter le slug du ville au marqueur pour la synchronisation
+            marker.citySlug = city.slug;
             
             // Popup avec nom de la ville et lien
             marker.bindPopup(
@@ -84,30 +87,68 @@ function initializeMap() {
                 window.location.href = city.url;
             });
             
-            markers.push(marker);
+            // Stocker le marqueur avec le slug comme clé
+            markers[city.slug] = marker;
         });
+        
+        console.log('DEBUG: Nombre de marqueurs ajoutés:', Object.keys(markers).length);
+        
+        // Synchronisation hover entre les boutons et la carte
+        $('.city-link, .city-name').on('mouseenter', function() {
+            var citySlug = $(this).data('city');
+            if (citySlug && markers[citySlug]) {
+                markers[citySlug].openPopup();
+                // Mettre en évidence le marqueur
+                markers[citySlug].setZIndexOffset(1000);
+            }
+        }).on('mouseleave', function() {
+            var citySlug = $(this).data('city');
+            if (citySlug && markers[citySlug]) {
+                markers[citySlug].closePopup();
+                // Remettre le zIndex normal
+                markers[citySlug].setZIndexOffset(0);
+            }
+        });
+        
+        // Hover sur les marqueurs met en évidence le bouton correspondant
+        Object.keys(markers).forEach(function(citySlug) {
+            markers[citySlug].on('mouseover', function() {
+                var cityButton = $('.city-link[data-city="' + citySlug + '"], .city-name[data-city="' + citySlug + '"]');
+                if (cityButton.length) {
+                    cityButton.addClass('city-highlight');
+                }
+                this.setZIndexOffset(1000);
+            });
+            
+            markers[citySlug].on('mouseout', function() {
+                var cityButton = $('.city-link[data-city="' + citySlug + '"], .city-name[data-city="' + citySlug + '"]');
+                if (cityButton.length) {
+                    cityButton.removeClass('city-highlight');
+                }
+                this.setZIndexOffset(0);
+            });
+        });
+        
+        // Style pour le highlight des boutons
+        $('<style>').text(`
+            .city-highlight {
+                background: rgba(240, 139, 24, 0.3) !important;
+                border-color: rgba(240, 139, 24, 0.6) !important;
+                transform: translateY(-2px) scale(1.05) !important;
+            }
+        `).appendTo('head');
         
         console.log('DEBUG: Nombre de marqueurs ajoutés:', markers.length);
         
         // Ajuster la vue pour inclure tous les marqueurs
-        if (markers.length > 0) {
-            var group = new L.featureGroup(markers);
+        var markerArray = Object.values(markers);
+        if (markerArray.length > 0) {
+            var group = new L.featureGroup(markerArray);
             map.fitBounds(group.getBounds().pad(0.1));
         }
         
         // Animation au survol des marqueurs
         $('.custom-marker').css('transition', 'transform 0.2s ease');
-        
-        // Ajouter un effet de zoom au survol
-        markers.forEach(function(marker) {
-            marker.on('mouseover', function() {
-                this.setZIndexOffset(1000);
-            });
-            
-            marker.on('mouseout', function() {
-                this.setZIndexOffset(0);
-            });
-        });
         
         // Responsive : recadrer la carte au redimensionnement
         var resizeTimer;
@@ -115,8 +156,8 @@ function initializeMap() {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function() {
                 map.invalidateSize();
-                if (markers.length > 0) {
-                    var group = new L.featureGroup(markers);
+                if (markerArray.length > 0) {
+                    var group = new L.featureGroup(markerArray);
                     map.fitBounds(group.getBounds().pad(0.1));
                 }
             }, 250);
