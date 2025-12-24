@@ -17,8 +17,8 @@ wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/tax
 wp_enqueue_script('taxonomy-faq', get_template_directory_uri() . '/assets/js/taxonomy-faq.js', array(), '1.0.0', true);
 
 // Mettre en queue Leaflet.js pour la carte interactive
-wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4');
-wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array('jquery'), '1.9.4', true);
+wp_enqueue_style('leaflet-css', 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4');
+wp_enqueue_script('leaflet-js', 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js', array('jquery'), '1.9.4', true);
 
 // Mettre en queue le JavaScript personnalisé pour la carte
 wp_enqueue_script('taxonomy-map', get_template_directory_uri() . '/assets/js/taxonomy-map.js', array('jquery', 'leaflet-js'), '1.0.0', true);
@@ -451,7 +451,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
         if (typeof L === 'undefined') {
             console.log('Chargement de Leaflet.js depuis le CDN de secours...');
             var leafletScript = document.createElement('script');
-            leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            leafletScript.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
             leafletScript.onload = function() {
                 console.log('Leaflet.js chargé avec succès');
                 // Initialiser la carte après le chargement
