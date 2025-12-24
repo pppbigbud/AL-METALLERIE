@@ -265,8 +265,39 @@
     transition: transform 0.4s ease;
 }
 
-.realisation-card:hover .realisation-image-wrapper img {
+.realisation-image-wrapper a {
+    display: block;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.realisation-image-wrapper a:hover {
+    transform: scale(1.02);
+}
+
+.realisation-image-wrapper a:hover .realisation-image {
     transform: scale(1.1);
+}
+
+.realisation-image-wrapper a:hover img {
+    transform: scale(1.1);
+}
+
+/* Lien de l'extrait cliquable */
+.realisation-excerpt-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.realisation-excerpt-link:hover {
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.realisation-excerpt-link:hover .realisation-excerpt {
+    opacity: 1;
 }
 
 /* Badge de localisation sur l'image */

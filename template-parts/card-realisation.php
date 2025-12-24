@@ -66,25 +66,27 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
 
 <article class="realisation-card <?php echo esc_attr($term_classes); ?>" data-categories="<?php echo esc_attr($term_classes); ?>">
     <div class="realisation-image-wrapper">
-        <?php if ($thumbnail_url) : ?>
-            <img src="<?php echo esc_url($thumbnail_url); ?>" 
-                 alt="<?php echo esc_attr($alt_seo); ?>" 
-                 class="realisation-image<?php echo $args['is_first'] ? ' no-lazyload' : ''; ?>"
-                 width="400"
-                 height="300"
-                 <?php if ($srcset) : ?>
-                 srcset="<?php echo esc_attr($srcset); ?>"
-                 sizes="<?php echo esc_attr($sizes); ?>"
-                 <?php endif; ?>
-                 <?php if ($args['is_first']) : ?>
-                 fetchpriority="high"
-                 decoding="sync"
-                 data-no-lazy="1"
-                 <?php else : ?>
-                 loading="lazy"
-                 decoding="async"
-                 <?php endif; ?>>
-        <?php endif; ?>
+        <a href="<?php the_permalink(); ?>" aria-label="<?php echo esc_attr(get_the_title()); ?>">
+            <?php if ($thumbnail_url) : ?>
+                <img src="<?php echo esc_url($thumbnail_url); ?>" 
+                     alt="<?php echo esc_attr($alt_seo); ?>" 
+                     class="realisation-image<?php echo $args['is_first'] ? ' no-lazyload' : ''; ?>"
+                     width="400"
+                     height="300"
+                     <?php if ($srcset) : ?>
+                     srcset="<?php echo esc_attr($srcset); ?>"
+                     sizes="<?php echo esc_attr($sizes); ?>"
+                     <?php endif; ?>
+                     <?php if ($args['is_first']) : ?>
+                     fetchpriority="high"
+                     decoding="sync"
+                     data-no-lazy="1"
+                     <?php else : ?>
+                     loading="lazy"
+                     decoding="async"
+                     <?php endif; ?>>
+            <?php endif; ?>
+        </a>
         
         <!-- Badges de catégories en haut à droite -->
         <?php if ($args['show_category_badges'] && $terms && !is_wp_error($terms)) : ?>
@@ -208,8 +210,10 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
         } else {
             $excerpt = wp_trim_words($excerpt, 15, '...');
         }
-        echo '<p class="realisation-excerpt">' . esc_html($excerpt) . '</p>';
         ?>
+        <a href="<?php the_permalink(); ?>" class="realisation-excerpt-link">
+            <p class="realisation-excerpt"><?php echo esc_html($excerpt); ?></p>
+        </a>
 
         <!-- Bouton CTA -->
         <?php if ($args['show_cta']) : ?>
