@@ -301,6 +301,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 $city_name = str_replace(array(
                                     'Ferronier à ',
                                     'Ferronnier à ',
+                                    'Serrurier à ',
                                     'Métallier ',
                                     'AL Métallerie ',
                                     'AL Métallerie'
