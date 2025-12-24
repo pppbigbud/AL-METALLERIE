@@ -16,6 +16,9 @@ wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/tax
 // Mettre en queue le JavaScript pour l'interactivité de la FAQ
 wp_enqueue_script('taxonomy-faq', get_template_directory_uri() . '/assets/js/taxonomy-faq.js', array(), '1.0.0', true);
 
+// MESSAGE DE DEBUG TEMPORAIRE - À SUPPRIMER APRÈS VÉRIFICATION
+echo '<div style="background: red; color: white; padding: 10px; text-align: center; font-size: 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;">✅ NOUVEAU CODE ACTIF - Version du ' . date('d/m/Y H:i:s') . '</div>';
+
 // Récupérer le terme actuel
 $current_term = get_queried_object();
 
