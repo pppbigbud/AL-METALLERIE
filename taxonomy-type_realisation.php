@@ -16,6 +16,13 @@ wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/tax
 // Mettre en queue le JavaScript pour l'interactivité de la FAQ
 wp_enqueue_script('taxonomy-faq', get_template_directory_uri() . '/assets/js/taxonomy-faq.js', array(), '1.0.0', true);
 
+// Mettre en queue Leaflet.js pour la carte interactive
+wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4');
+wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), '1.9.4', true);
+
+// Mettre en queue le JavaScript personnalisé pour la carte
+wp_enqueue_script('taxonomy-map', get_template_directory_uri() . '/assets/js/taxonomy-map.js', array('leaflet-js'), '1.0.0', true);
+
 // Récupérer le terme actuel
 $current_term = get_queried_object();
 
@@ -283,7 +290,6 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                 
                 foreach ($post_types as $post_type) {
                     if (post_type_exists($post_type)) {
-                        echo '<!-- DEBUG: Post type trouvé: ' . $post_type . ' -->';
                         $cities = get_posts(array(
                             'post_type' => $post_type,
                             'posts_per_page' => -1,
@@ -310,7 +316,6 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 
                                 if (!empty($city_name)) {
                                     $city_pages[$city_name] = get_permalink($city->ID);
-                                    echo '<!-- DEBUG: Ville trouvée: ' . $city_name . ' - URL: ' . get_permalink($city->ID) . ' -->';
                                 }
                             }
                         }
@@ -319,7 +324,6 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                 
                 // Si on a trouvé des pages villes, les afficher
                 if (!empty($city_pages)) {
-                    echo '<!-- DEBUG: Nombre de villes trouvées: ' . count($city_pages) . ' -->';
                     foreach ($city_pages as $city_name => $city_url) {
                         echo '<div class="city-item">';
                         echo '<a href="' . esc_url($city_url) . '" class="city-link">';
@@ -329,7 +333,6 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                         echo '</div>';
                     }
                 } else {
-                    echo '<!-- DEBUG: Aucune ville trouvée dans les custom post types, utilisation du fallback -->';
                     // Fallback : afficher les villes principales sans liens
                     $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire');
                     foreach ($main_cities as $city) {
@@ -348,6 +351,91 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                 <p><strong>Intervention sous 48h</strong> pour toute demande urgente. Devis gratuit sur place dans un rayon de 50km autour de notre atelier à Peschadoires.</p>
             </div>
         </div>
+        
+        <!-- Section Carte Interactive -->
+        <div class="taxonomy-map-section">
+            <h2 class="section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                    <line x1="8" y1="2" x2="8" y2="18"/>
+                    <line x1="16" y1="6" x2="16" y2="22"/>
+                </svg>
+                Nos Interventions sur la Carte
+            </h2>
+            <p class="section-subtitle">
+                Découvrez toutes les villes où nous intervenons pour vos <?php echo esc_html(strtolower($current_term->name)); ?>
+            </p>
+            
+            <div id="taxonomy-map" style="height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
+                <!-- La carte sera initialisée ici par JavaScript -->
+            </div>
+            
+            <div class="map-legend">
+                <p><strong>Cliquez sur un marqueur</strong> pour accéder à la page dédiée de la ville</p>
+            </div>
+        </div>
+        
+        <script>
+            // Préparer les données des villes pour la carte
+            var taxonomyCities = <?php
+                $cities_data = array();
+                
+                // Récupérer les villes du plugin
+                $post_types = array('city_page', 'city-page', 'villes', 'ville', 'city');
+                
+                foreach ($post_types as $post_type) {
+                    if (post_type_exists($post_type)) {
+                        $cities = get_posts(array(
+                            'post_type' => $post_type,
+                            'posts_per_page' => -1,
+                            'post_status' => 'publish',
+                            'orderby' => 'title',
+                            'order' => 'ASC'
+                        ));
+                        
+                        if ($cities && !is_wp_error($cities)) {
+                            foreach ($cities as $city) {
+                                $city_name = get_the_title($city->ID);
+                                $city_name = str_replace(array(
+                                    'Ferronier à ',
+                                    'Ferronnier à ',
+                                    'Serrurier à ',
+                                    'Métallier ',
+                                    'AL Métallerie ',
+                                    'AL Métallerie'
+                                ), '', $city_name);
+                                $city_name = trim($city_name);
+                                
+                                // Coordonnées approximatives des villes (peuvent être remplacées par des vraies coordonnées)
+                                $coordinates = array(
+                                    'Thiers' => array(45.8566, 3.5519),
+                                    'Clermont-Ferrand' => array(45.7772, 3.0870),
+                                    'Peschadoires' => array(45.8967, 3.5497),
+                                    'Riom' => array(45.8930, 3.1137),
+                                    'Issoire' => array(45.5436, 3.2506),
+                                    'Ambert' => array(45.5492, 3.6196),
+                                    'Coudes' => array(45.7333, 3.2167),
+                                    'Courpière' => array(45.8167, 3.5167),
+                                    'Lezoux' => array(45.8167, 3.3833),
+                                    'Thuret' => array(45.8833, 3.4167)
+                                );
+                                
+                                if (!empty($city_name) && isset($coordinates[$city_name])) {
+                                    $cities_data[] = array(
+                                        'name' => $city_name,
+                                        'lat' => $coordinates[$city_name][0],
+                                        'lng' => $coordinates[$city_name][1],
+                                        'url' => get_permalink($city->ID)
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                echo json_encode($cities_data);
+            ?>;
+        </script>
     </div>
     
     <!-- Section Pourquoi Nous Choisir -->
