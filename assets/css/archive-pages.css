@@ -402,8 +402,6 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px dashed rgba(240, 139, 24, 0.2);
 }
 
 .archive-page .meta-item {
