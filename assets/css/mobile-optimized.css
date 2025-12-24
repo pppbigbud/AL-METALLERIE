@@ -163,9 +163,9 @@
         bottom: 0 !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        width: 60px !important;
-        height: 2px !important;
-        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent) !important;
+        width: 80px !important;
+        height: 1px !important;
+        background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent) !important;
     }
 
     /* Badges catégories */
@@ -189,7 +189,7 @@
         transform: translateX(-50%) !important;
         width: 80px !important;
         height: 1px !important;
-        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+        background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent) !important;
     }
 
     .mobile-type-badge {
@@ -219,9 +219,9 @@
         bottom: 0 !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        width: 100px !important;
+        width: 80px !important;
         height: 1px !important;
-        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+        background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent) !important;
     }
 
     /* Bouton "En savoir +" */

@@ -3021,9 +3021,9 @@ input[type="button"]:hover {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.5), transparent);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent);
 }
 
 .actualites-grid .realisation-title a {

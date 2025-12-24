@@ -515,10 +515,10 @@
 
 .separator {
     width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent);
     margin: var(--spacing-lg) auto;
-    border-radius: 2px;
+    border-radius: 0;
 }
 
 .separator--full {
