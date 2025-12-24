@@ -1,0 +1,432 @@
+/**
+ * Styles SEO Local pour les pages de taxonomie type_realisation
+ * Optimisé pour le référencement local et l'expérience utilisateur
+ * 
+ * @package ALMetallerie
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   SECTION ZONE D'INTERVENTION LOCAL
+   ========================================================================== */
+
+.taxonomy-zone-intervention {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-top: 1px solid rgba(240, 139, 24, 0.1);
+}
+
+.taxonomy-zone-intervention .section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 1rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.taxonomy-zone-intervention .section-title svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.taxonomy-zone-intervention .section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+.cities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.city-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.city-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(240, 139, 24, 0.3);
+    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.15);
+}
+
+.city-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #222222;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.city-link:hover {
+    color: #F08B18;
+}
+
+.city-link svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.city-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #222222;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.city-name svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.zone-info {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.zone-info p {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
+}
+
+.zone-info strong {
+    color: #F08B18;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   SECTION POURQUOI NOUS CHOISIR
+   ========================================================================== */
+
+.taxonomy-why-choose {
+    padding: 80px 0;
+    background: #ffffff;
+}
+
+.taxonomy-why-choose .section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 3rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.taxonomy-why-choose .section-title svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    background: white;
+    border-color: rgba(240, 139, 24, 0.3);
+    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.1);
+}
+
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #F08B18 0%, #f6a93a 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(240, 139, 24, 0.3);
+}
+
+.feature-icon svg {
+    color: white;
+    width: 40px;
+    height: 40px;
+}
+
+.feature-item h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 1rem;
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================================================
+   SECTION FAQ SPÉCIFIQUE
+   ========================================================================== */
+
+.taxonomy-faq-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-top: 1px solid rgba(240, 139, 24, 0.1);
+}
+
+.taxonomy-faq-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 3rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.taxonomy-faq-section .section-title svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.faq-item.active {
+    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.15);
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #f8f9fa;
+}
+
+.faq-item.active .faq-question {
+    background-color: rgba(240, 139, 24, 0.05);
+}
+
+.faq-question h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222222;
+    margin: 0;
+    flex: 1;
+}
+
+.faq-question svg {
+    color: #F08B18;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.faq-item.active .faq-question svg {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 0 2rem 1.5rem;
+}
+
+.faq-answer p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .taxonomy-zone-intervention,
+    .taxonomy-why-choose,
+    .taxonomy-faq-section {
+        padding: 60px 0;
+    }
+    
+    .taxonomy-zone-intervention .section-title,
+    .taxonomy-why-choose .section-title,
+    .taxonomy-faq-section .section-title {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .cities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .city-item {
+        padding: 1rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .feature-item {
+        padding: 1.5rem;
+    }
+    
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .feature-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .faq-question {
+        padding: 1rem 1.5rem;
+    }
+    
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 1.5rem 1rem;
+    }
+    
+    .zone-info {
+        padding: 1.5rem;
+    }
+    
+    .zone-info p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .taxonomy-zone-intervention,
+    .taxonomy-why-choose,
+    .taxonomy-faq-section {
+        padding: 40px 0;
+    }
+    
+    .cities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .taxonomy-zone-intervention .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.taxonomy-zone-intervention,
+.taxonomy-why-choose,
+.taxonomy-faq-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.city-item,
+.feature-item,
+.faq-item {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.city-item:nth-child(1) { animation-delay: 0.1s; }
+.city-item:nth-child(2) { animation-delay: 0.2s; }
+.city-item:nth-child(3) { animation-delay: 0.3s; }
+.city-item:nth-child(4) { animation-delay: 0.4s; }
+.city-item:nth-child(5) { animation-delay: 0.5s; }
+.city-item:nth-child(6) { animation-delay: 0.6s; }
+
+.feature-item:nth-child(1) { animation-delay: 0.1s; }
+.feature-item:nth-child(2) { animation-delay: 0.2s; }
+.feature-item:nth-child(3) { animation-delay: 0.3s; }
+.feature-item:nth-child(4) { animation-delay: 0.4s; }
+.feature-item:nth-child(5) { animation-delay: 0.5s; }
+.feature-item:nth-child(6) { animation-delay: 0.6s; }
+
+.faq-item:nth-child(1) { animation-delay: 0.1s; }
+.faq-item:nth-child(2) { animation-delay: 0.2s; }
+.faq-item:nth-child(3) { animation-delay: 0.3s; }
+.faq-item:nth-child(4) { animation-delay: 0.4s; }
+.faq-item:nth-child(5) { animation-delay: 0.5s; }

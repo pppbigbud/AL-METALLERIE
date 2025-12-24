@@ -2078,6 +2078,230 @@ function almetal_get_realisation_card($args = array()) {
 
 /**
  * ============================================================================
+ * DONNÉES STRUCTURÉES SCHEMA.ORG POUR LES PAGES CATÉGORIES
+ * ============================================================================
+ */
+
+// Ajout des données structurées pour les pages de taxonomie type_realisation
+function almetal_add_taxonomy_schema_service() {
+    // Vérifier si nous sommes sur une page de taxonomie type_realisation
+    if (is_tax('type_realisation')) {
+        $term = get_queried_object();
+        
+        // Contenu SEO par catégorie pour les données structurées
+        $seo_data = array(
+            'portails' => array(
+                'serviceType' => 'Fabrication de portails sur mesure',
+                'description' => 'Création et installation de portails battants, coulissants et motorisés dans le Puy-de-Dôme',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'garde-corps' => array(
+                'serviceType' => 'Fabrication de garde-corps sur mesure',
+                'description' => 'Conception et pose de garde-corps, balustrades et rampes sécurisées selon les normes NF P01-012',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'escaliers' => array(
+                'serviceType' => 'Fabrication d\'escaliers métalliques',
+                'description' => 'Création d\'escaliers droits, quart tournant, hélicoïdaux en acier, inox ou bois/métal',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'ferronnerie-dart' => array(
+                'serviceType' => 'Ferronnerie d\'art',
+                'description' => 'Créations artistiques en fer forgé, restauration de pièces anciennes et œuvres décoratives',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'grilles' => array(
+                'serviceType' => 'Fabrication de grilles de protection',
+                'description' => 'Grilles de sécurité, décoratives, de fenêtre et de porte sur mesure',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'serrurerie' => array(
+                'serviceType' => 'Serrurerie métallique',
+                'description' => 'Fabrication de portes métalliques, portillons et systèmes de fermeture haute sécurité',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'mobilier-metallique' => array(
+                'serviceType' => 'Création de mobilier métallique',
+                'description' => 'Tables, étagères, verrières et mobilier design sur mesure en métal et matériaux associés',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'vehicules' => array(
+                'serviceType' => 'Aménagements métalliques pour véhicules',
+                'description' => 'Hard-tops, racks, protections et équipements sur mesure pour pick-ups et utilitaires',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            ),
+            'autres' => array(
+                'serviceType' => 'Métallerie sur mesure',
+                'description' => 'Réalisations personnalisées en métal, structures techniques et projets spéciaux',
+                'areaServed' => array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Auvergne')
+            )
+        );
+        
+        $data = isset($seo_data[$term->slug]) ? $seo_data[$term->slug] : $seo_data['autres'];
+        
+        $schema = array(
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => $data['serviceType'],
+            'description' => $data['description'],
+            'provider' => array(
+                '@type' => 'LocalBusiness',
+                'name' => 'AL Métallerie & Soudure',
+                'address' => array(
+                    '@type' => 'PostalAddress',
+                    'streetAddress' => 'Zone Artisanale de la Goutte',
+                    'addressLocality' => 'Peschadoires',
+                    'postalCode' => '63570',
+                    'addressCountry' => 'FR'
+                ),
+                'telephone' => '+33673333532',
+                'email' => 'contact@al-metallerie.fr',
+                'url' => 'https://al-metallerie.fr',
+                'geo' => array(
+                    '@type' => 'GeoCoordinates',
+                    'latitude' => '45.8567',
+                    'longitude' => '3.5530'
+                ),
+                'openingHoursSpecification' => array(
+                    '@type' => 'OpeningHoursSpecification',
+                    'dayOfWeek' => array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'),
+                    'opens' => '08:00',
+                    'closes' => '18:00'
+                )
+            ),
+            'areaServed' => array(
+                '@type' => 'Place',
+                'name' => implode(', ', $data['areaServed'])
+            ),
+            'serviceType' => $data['serviceType'],
+            'offers' => array(
+                '@type' => 'Offer',
+                'itemOffered' => array(
+                    '@type' => 'Service',
+                    'name' => $data['serviceType']
+                ),
+                'availability' => 'https://schema.org/InStock',
+                'priceCurrency' => 'EUR',
+                'description' => 'Devis gratuit et personnalisé'
+            )
+        );
+        
+        echo '<script type="application/ld+json">' . json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
+        
+        // Ajouter le Schema.org FAQPage pour les rich snippets
+        if (isset($seo_data[$term->slug]['faq'])) {
+            $faq_schema = array(
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => array()
+            );
+            
+            // Récupérer les FAQ depuis le tableau SEO
+            $seo_contents = array(
+                'portails' => array(
+                    'faq' => array(
+                        'Quels sont les délais de fabrication d\'un portail sur mesure ?' => 'Les délais varient de 4 à 8 semaines selon la complexité du design et les matériaux choisis. Nous vous fournissons un planning précis lors de la validation du devis.',
+                        'Quelle est la différence entre un portail en acier et en aluminium ?' => 'L\'acier est plus robuste et économique, idéal pour les grands portails. L\'aluminium est plus léger, ne rouille pas et convient parfaitement aux portails motorisés.',
+                        'Fournissez-vous la motorisation du portail ?' => 'Oui, nous sommes partenaires des meilleures marques (Somfy, Nice, BFT) et nous assurons l\'installation complète avec garantie décennale.',
+                        'Quel entretien nécessite un portail métallique ?' => 'Un portail thermolaqué nécessite peu d\'entretien : un nettoyage annuel à l\'eau savonneuse suffit. Le fer forgé nécessite une couche de protection tous les 5-7 ans.',
+                        'Quelle est la durée de garantie de vos portails ?' => 'Nous offrons une garantie décennale sur la structure et 2 ans sur la motorisation. Tous nos portails sont assurés pendant 10 ans en responsabilité civile professionnelle.'
+                    )
+                ),
+                'garde-corps' => array(
+                    'faq' => array(
+                        'Quelles sont les normes pour les garde-corps ?' => 'Les garde-corps doivent respecter la norme NF P01-012 : hauteur minimale de 1m pour les balcons, 0.9m pour les escaliers, et espacement maximum de 11cm entre les éléments.',
+                        'Quels matériaux choisir pour un garde-corps extérieur ?' => 'L\'inox 316 est idéal pour l\'extérieur (ne rouille pas), l\'acier thermolaqué offre un large choix de couleurs, et le fer forgé apporte un style traditionnel très recherché.',
+                        'Pouvez-vous installer des garde-corps sur mesure pour des formes particulières ?' => 'Oui, nous adaptons nos garde-corps à toutes les configurations : escaliers quart tournant, terrasses arrondies, balcons trapézoïdaux, etc.',
+                        'Quel est le prix moyen d\'un garde-corps sur mesure ?' => 'Les prix varient de 250€ à 800€ par mètre linéaire selon le matériau, le design et la complexité de l\'installation.',
+                        'Assurez-vous la mise en conformité des garde-corps existants ?' => 'Oui, nous pouvons rénover et mettre aux normes vos garde-corps existants en renforçant la structure ou en modifiant les espacements.'
+                    )
+                ),
+                'escaliers' => array(
+                    'faq' => array(
+                        'Quels types d\'escaliers métalliques fabriquez-vous ?' => 'Nous réalisons des escaliers droits, quart tournant, demi-tournant, hélicoïdaux, et sur mesure avec toutes les configurations possibles.',
+                        'Quelle est la hauteur de marche idéale pour un escalier confortable ?' => 'La hauteur idéale se situe entre 16 et 18cm, avec un giron de 25 à 30cm. Nous calculons le balancement optimal pour chaque projet.',
+                        'Pouvez-vous associer le métal à d\'autres matériaux ?' => 'Oui, nous combinons régulièrement l\'acier avec le bois (chêne, hêtre), le verre, ou la pierre pour des escaliers personnalisés.',
+                        'Quel est le délai de fabrication d\'un escalier sur mesure ?' => 'Comptez 6 à 10 semaines selon la complexité, incluant la prise de mesures, la fabrication en atelier et l\'installation.',
+                        'Vos escaliers sont-ils garantis ?' => 'Oui, nous appliquons la garantie décennale sur la structure et 2 ans sur les finitions. Tous nos escaliers sont conformes aux normes de sécurité.'
+                    )
+                ),
+                'ferronnerie-dart' => array(
+                    'faq' => array(
+                        'Quelle est la différence entre ferronnerie et serrurerie ?' => 'La ferronnerie d\'art concerne les éléments décoratifs et architecturaux (grilles, portails, rampes), tandis que la serrurerie se concentre sur les éléments fonctionnels (serrures, fermures).',
+                        'Pouvez-vous reproduire des motifs anciens ?' => 'Oui, nous maîtrisons les techniques traditionnelles et pouvons reproduire ou restaurer des pièces d\'époque tout en respectant le style d\'origine.',
+                        'Quels types de créations en ferronnerie d\'art proposez-vous ?' => 'Nous créons des grilles décoratives, portails ornementaux, rampes d\'escalier, luminaires, mobilier, et toutes pièces sur mesure.',
+                        'Comment entretenir la ferronnerie d\'art ?' => 'Un traitement anti-corrosion est appliqué en usine. Un entretien annuel avec des produits adaptés préserve l\'aspect et la durabilité.',
+                        'Travaillez-vous pour les monuments historiques ?' => 'Oui, nous avons l\'expérience nécessaire pour les chantiers de restauration du patrimoine et nous respectons les contraintes architecturales.'
+                    )
+                ),
+                'grilles' => array(
+                    'faq' => array(
+                        'Quels types de grilles de protection fabriquez-vous ?' => 'Grilles de fenêtre, de porte, de soupirail, de ventilation, et toutes protections sur mesure pour vos ouvertures.',
+                        'Les grilles sont-elles efficaces contre les effractions ?' => 'Oui, nos grilles en acier de 10mm avec soudures continues offrent une excellente protection. Nous pouvons aussi intégrer des serrures de sécurité.',
+                        'Pouvez-vous créer des grilles décoratives ?' => 'Oui, nous réalisons des grilles alliant sécurité et esthétique avec des motifs personnalisés qui s\'intègrent à votre architecture.',
+                        'Quelle est la différence entre grille fixe et ouvrante ?' => 'La grille fixe offre une sécurité maximale, la grille ouvrante permet l\'accès en cas d\'urgence (obligatoire pour certaines fenêtres).',
+                        'Comment fixez-vous les grilles ?' => 'Nous utilisons des fixations scellées dans la maçonnerie ou des visseries anti-effraction selon le support et le type de grille.'
+                    )
+                ),
+                'serrurerie' => array(
+                    'faq' => array(
+                        'Quels types de portes métalliques fabriquez-vous ?' => 'Portes d\'entrée, portes de garage, portillons, portes de service, et toutes ouvertures sur mesure en acier ou aluminium.',
+                        'Proposez-vous des serrures haute sécurité ?' => 'Oui, nous intégrons les marques leaders (Fichet, Vachette, Mul-T-Lock) avec certification A2P et certification européenne.',
+                        'Pouvez-vous motoriser les portes existantes ?' => 'Oui, nous adaptons des motorisations sur portes sectionnelles, battantes, ou coulissantes avec télécommande et contrôle d\'accès.',
+                        'Quelle est la résistance au feu de vos portes ?' => 'Nous pouvons fabriquer des portes coupe-feu (CF 1h, 2h) certifiées et conformes à la réglementation ERP et habitation.',
+                        'Assurez-vous l\'entretien des serrures ?' => 'Oui, nous proposons des contrats de maintenance annuelle pour vérifier et entretenir vos systèmes de fermeture.'
+                    )
+                ),
+                'mobilier-metallique' => array(
+                    'faq' => array(
+                        'Quels types de mobilier métallique pouvez-vous fabriquer ?' => 'Tables, chaises, étagères, verrières, bureaux, rangements, luminaires, et toutes créations personnalisées.',
+                        'Pouvez-vous associer le métal à d\'autres matériaux ?' => 'Oui, nous combinons l\'acier avec le bois massif, le verre, le béton, ou la pierre selon vos préférences.',
+                        'Le mobilier métallique est-il adapté à l\'intérieur ?' => 'Absolument, avec les bonnes finitions (thermolaquage, laques), le métal apporte un style moderne et durable à tout intérieur.',
+                        'Quels sont les délais de fabrication ?' => '4 à 6 semaines pour les pièces simples, 8 à 12 semaines pour les ensembles complexes ou les pièces sur-mesure.',
+                        'Pouvez-vous travailler à partir d\'un plan ou d\'une photo ?' => 'Oui, nous pouvons interpréter vos croquis, plans, ou même créer à partir d\'images inspiratrices.'
+                    )
+                ),
+                'vehicules' => array(
+                    'faq' => array(
+                        'Quels types de véhicules pouvez-vous équiper ?' => 'Pick-ups, fourgons, utilitaires, 4x4, et véhicules de loisirs. Nous adaptons nos équipements à chaque modèle.',
+                        'Quels matériaux utilisez-vous pour les aménagements ?' => 'Acier pour la robustesse, aluminium pour la légèreté, inox pour les pièces exposées aux intempéries.',
+                        'Les aménagements sont-ils démontables ?' => 'Oui, nous concevons des systèmes modulaires et démontables pour pouvoir les retirer ou les transférer.',
+                        'Pouvez-vous intégrer des équipements électriques ?' => 'Oui, nous pouvons intégrer des éclairages, prises 12V/220V, systèmes de signalisation, et autres équipements électriques.',
+                        'Quelle est la durée de fabrication ?' => '2 à 4 semaines selon la complexité de l\'aménagement et les personnalisations demandées.'
+                    )
+                ),
+                'autres' => array(
+                    'faq' => array(
+                        'Quels types de projets pouvez-vous réaliser ?' => 'Toutes créations en métal : structures, pièces techniques, éléments décoratifs, et projets personnalisés.',
+                        'Travaillez-vous avec des architectes ?' => 'Oui, nous collaborons régulièrement avec des architectes, designers, et particuliers sur des projets sur mesure.',
+                        'Pouvez-vous travailler d\'après un simple croquis ?' => 'Oui, nous pouvons interpréter vos idées et vous proposer des solutions techniques et esthétiques.',
+                        'Quelle est votre zone d\'intervention ?' => 'Nous intervenons principalement dans le Puy-de-Dôme et les départements limitrophes (Auvergne).',
+                        'Comment obtenir un devis pour un projet original ?' => 'Contactez-nous avec vos idées, photos ou plans. Nous étudions votre projet gratuitement et vous proposons un devis détaillé.'
+                    )
+                )
+            );
+            
+            $current_faq = isset($seo_contents[$term->slug]['faq']) ? $seo_contents[$term->slug]['faq'] : $seo_contents['autres']['faq'];
+            
+            foreach ($current_faq as $question => $answer) {
+                $faq_schema['mainEntity'][] = array(
+                    '@type' => 'Question',
+                    'name' => $question,
+                    'acceptedAnswer' => array(
+                        '@type' => 'Answer',
+                        'text' => $answer
+                    )
+                );
+            }
+            
+            echo '<script type="application/ld+json">' . json_encode($faq_schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
+        }
+    }
+}
+add_action('wp_head', 'almetal_add_taxonomy_schema_service');
+
+/**
+ * ============================================================================
  * AJAX : CHARGEMENT DES RÉALISATIONS DESKTOP AVEC FILTRAGE
  * ============================================================================
  */
