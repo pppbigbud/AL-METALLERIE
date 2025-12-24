@@ -78,6 +78,27 @@
 }
 
 /* ==========================================================================
+   UNIFORMISER LA HAUTEUR DES IMAGES (comme page d'accueil)
+   ========================================================================== */
+
+.realisation-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+
+.realisation-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.realisation-card:hover .realisation-image {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
    SECTION ZONE D'INTERVENTION LOCAL
    ========================================================================== */
 

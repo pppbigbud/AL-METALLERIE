@@ -13,9 +13,6 @@ get_header();
 // Mettre en queue le CSS spécifique pour les pages catégories
 wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/taxonomy-seo.css', array(), '1.0.0');
 
-// Mettre en queue le CSS des pages d'archives pour uniformiser les images
-wp_enqueue_style('archive-pages', get_template_directory_uri() . '/assets/css/archive-pages.css', array(), '1.0.0');
-
 // Mettre en queue le JavaScript pour l'interactivité de la FAQ
 wp_enqueue_script('taxonomy-faq', get_template_directory_uri() . '/assets/js/taxonomy-faq.js', array(), '1.0.0', true);
 
