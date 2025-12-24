@@ -115,10 +115,7 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                         ?>
                         <?php echo esc_html($type->name); ?>
                     </a>
-                <?php endforeach; 
-                
-                // Badge matériau en dernier
-                if ($matiere) {
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
         
