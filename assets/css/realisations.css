@@ -276,15 +276,16 @@
     left: 12px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 500;
-    z-index: 3;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(240, 139, 24, 0.4);
+    border-radius: 999px;
+    color: var(--color-text-light);
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    z-index: 10;
     transition: all 0.3s ease;
 }
 
@@ -322,19 +323,19 @@
 .realisation-card .category-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: rgba(0, 0, 0, 0.8) !important;
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    color: white;
-    font-size: 0.85rem;
-    font-weight: 500;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    background: rgba(0, 0, 0, 0.65) !important;
+    border: 1px solid rgba(240, 139, 24, 0.4) !important;
+    border-radius: 999px;
+    color: var(--color-text-light) !important;
+    font-size: 0.8rem;
+    font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    border: none !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+    z-index: 10;
 }
 
 .realisation-card .category-badge:hover {
@@ -361,14 +362,27 @@
 
 /* Badge matériau avec style identique - FORCER LA SPECIFICITE */
 .realisation-card .category-badge-matiere {
-    background: rgba(0, 0, 0, 0.8) !important;
-    font-weight: 500;
-    border: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    background: rgba(0, 0, 0, 0.65) !important;
+    border: 1px solid rgba(240, 139, 24, 0.4) !important;
+    border-radius: 999px;
+    color: var(--color-text-light) !important;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+    z-index: 10;
 }
 
 .realisation-card .category-badge-matiere:hover {
     background: rgba(240, 139, 24, 0.9) !important;
     transform: translateY(-2px);
+    color: white !important;
     border-color: rgba(240, 139, 24, 0.9) !important;
 }
 
@@ -505,6 +519,20 @@
     gap: 1rem;
     margin-bottom: var(--spacing-md);
     width: 100%;
+    padding-bottom: var(--spacing-sm);
+    position: relative;
+}
+
+/* Séparateur horizontal après les métadonnées */
+.realisation-meta::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent);
 }
 
 .meta-item {
@@ -543,6 +571,17 @@
 .meta-item:hover svg {
     opacity: 1;
     transform: scale(1.15);
+}
+
+/* Style pour le lien de la matière dans les métadonnées */
+.meta-matiere-link {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.meta-matiere-link:hover {
+    color: var(--color-primary);
 }
 
 .btn-view-project {

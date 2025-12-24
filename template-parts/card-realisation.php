@@ -119,25 +119,6 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                 
                 // Badge matériau en dernier
                 if ($matiere) {
-                    $matiere_labels = array(
-                        'acier' => 'Acier',
-                        'inox' => 'Inox',
-                        'aluminium' => 'Aluminium',
-                        'cuivre' => 'Cuivre',
-                        'laiton' => 'Laiton',
-                        'fer-forge' => 'Fer forgé',
-                        'mixte' => 'Mixte'
-                    );
-                    ?>
-                    <span class="category-badge category-badge-matiere">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                        </svg>
-                        <?php echo esc_html($matiere_labels[$matiere] ?? ucfirst($matiere)); ?>
-                    </span>
-                    <?php
-                }
-                ?>
             </div>
         <?php endif; ?>
         
@@ -159,7 +140,10 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
         </h3>
 
         <!-- Métadonnées -->
-        <?php if ($args['show_meta'] && ($date_realisation || $lieu || $duree)) : ?>
+        <?php 
+        $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
+        if ($args['show_meta'] && ($date_realisation || $lieu || $duree || $matiere)) : 
+        ?>
             <div class="realisation-meta">
                 <?php if ($date_realisation) : ?>
                     <span class="meta-item meta-date">
@@ -188,6 +172,30 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
                             <polyline points="12 6 12 12 16 14"/>
                         </svg>
                         <?php echo esc_html($duree); ?>
+                    </span>
+                <?php endif; ?>
+                <?php if ($matiere) : ?>
+                    <span class="meta-item meta-matiere">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <?php 
+                        $matiere_labels = array(
+                            'acier' => 'Acier',
+                            'inox' => 'Inox',
+                            'aluminium' => 'Aluminium',
+                            'cuivre' => 'Cuivre',
+                            'laiton' => 'Laiton',
+                            'fer-forge' => 'Fer forgé',
+                            'mixte' => 'Mixte'
+                        );
+                        $matiere_url = almetal_get_matiere_url($matiere);
+                        if ($matiere_url) {
+                            echo '<a href="' . esc_url($matiere_url) . '" class="meta-matiere-link">' . esc_html($matiere_labels[$matiere] ?? ucfirst($matiere)) . '</a>';
+                        } else {
+                            echo esc_html($matiere_labels[$matiere] ?? ucfirst($matiere));
+                        }
+                        ?>
                     </span>
                 <?php endif; ?>
             </div>
