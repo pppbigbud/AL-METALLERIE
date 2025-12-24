@@ -87,6 +87,7 @@
     overflow: hidden;
     aspect-ratio: 4/3 !important;
     width: 100% !important;
+    height: 250px !important;
 }
 
 .actualites-grid .realisation-image,
