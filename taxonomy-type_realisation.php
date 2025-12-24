@@ -275,50 +275,47 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             
             <div class="cities-grid">
                 <?php
-                // DEBUG - Afficher si le plugin est actif
-                if (class_exists('City_Pages_Generator')) {
-                    echo '<!-- DEBUG: Plugin City_Pages_Generator ACTIF -->';
-                    $cities = get_posts(array(
-                        'post_type' => 'city_page',
-                        'posts_per_page' => -1, // Récupérer toutes les villes pour filtrer
-                        'orderby' => 'title',
-                        'order' => 'ASC',
-                        'meta_query' => array(
-                            array(
-                                'key' => '_cpg_priority',
-                                'value' => '1', // Uniquement les villes de priorité 1
-                                'compare' => '='
-                            )
-                        )
-                    ));
+                // Configuration des villes avec leurs URLs (sans plugin)
+                $priority_cities = array(
+                    'Thiers' => '/metallier-thiers/',
+                    'Clermont-Ferrand' => '/metallier-clermont-ferrand/',
+                    'Peschadoires' => '/metallier-peschadoires/',
+                    'Riom' => '/metallier-riom/',
+                    'Issoire' => '/metallier-issoire/',
+                    'Ambert' => '/metallier-ambert/',
+                    'Coudes' => '/metallier-coudes/',
+                    'Courpière' => '/metallier-courpiere/',
+                    'Lezoux' => '/metallier-lezoux/',
+                    'Thuret' => '/metallier-thuret/'
+                );
+                
+                // Vérifier si les pages existent et les afficher
+                foreach ($priority_cities as $city_name => $city_url) {
+                    // Vérifier si la page existe
+                    $page_exists = false;
+                    $page_path = rtrim($city_url, '/');
                     
-                    echo '<!-- DEBUG: Nombre de villes trouvées: ' . count($cities) . ' -->';
+                    // Chercher la page par son URL
+                    $page = get_page_by_path($page_path, OBJECT, 'page');
                     
-                    if ($cities && !is_wp_error($cities)) {
-                        foreach ($cities as $city) {
-                            $city_name = get_post_meta($city->ID, '_cpg_city_name', true);
-                            $priority = get_post_meta($city->ID, '_cpg_priority', true);
-                            $status = get_post_status($city->ID);
-                            echo '<!-- DEBUG: Ville: ' . $city_name . ', Priorité: ' . $priority . ', Status: ' . $status . ' -->';
-                            if ($city_name && get_post_status($city->ID) === 'publish') {
-                                echo '<div class="city-item">';
-                                echo '<a href="' . esc_url(get_permalink($city->ID)) . '" class="city-link">';
-                                echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-                                echo esc_html($city_name);
-                                echo '</a>';
-                                echo '</div>';
-                            }
-                        }
+                    if ($page && $page->post_status === 'publish') {
+                        $page_exists = true;
                     }
-                } else {
-                    echo '<!-- DEBUG: Plugin City_Pages_Generator INACTIF - utilisation du fallback -->';
-                    // Afficher les villes principales si le plugin n'est pas actif
-                    $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Ambert', 'Coudes', 'Courpière', 'Lezoux', 'Thuret');
-                    foreach ($main_cities as $city) {
+                    
+                    if ($page_exists) {
+                        // La page existe, afficher avec le lien
                         echo '<div class="city-item">';
-                        echo '<span class="city-name">';
+                        echo '<a href="' . esc_url(home_url($city_url)) . '" class="city-link">';
                         echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-                        echo esc_html($city);
+                        echo esc_html($city_name);
+                        echo '</a>';
+                        echo '</div>';
+                    } else {
+                        // La page n'existe pas, afficher sans lien
+                        echo '<div class="city-item">';
+                        echo '<span class="city-name" style="opacity: 0.7;">';
+                        echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+                        echo esc_html($city_name);
                         echo '</span>';
                         echo '</div>';
                     }
