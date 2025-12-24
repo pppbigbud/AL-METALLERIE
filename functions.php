@@ -2101,7 +2101,15 @@ function almetal_ajax_load_desktop_realisations() {
     if (!empty($category) && $category !== '*') {
         // Debug: Vérifier si le terme existe
         $term = get_term_by('slug', $category, 'type_realisation');
-        error_log('Term exists for slug "' . $category . '": ' . ($term ? 'YES (ID: ' . $term->term_id . ')' : 'NO'));
+        error_log('Term exists for slug "' . $category . '": ' . ($term ? 'YES (ID: ' . $term->term_id . ', Name: ' . $term->name . ')' : 'NO'));
+        
+        // Debug: Lister tous les termes disponibles
+        $all_terms = get_terms(array('taxonomy' => 'type_realisation', 'hide_empty' => false));
+        $term_slugs = array();
+        foreach ($all_terms as $t) {
+            $term_slugs[] = $t->slug;
+        }
+        error_log('All available slugs: ' . implode(', ', $term_slugs));
         
         $args['tax_query'] = array(
             array(
@@ -2113,6 +2121,12 @@ function almetal_ajax_load_desktop_realisations() {
     }
     
     $query = new WP_Query($args);
+    
+    // Debug: Logger la requête SQL et les résultats
+    error_log('WP_Query args: ' . print_r($args, true));
+    error_log('SQL Query: ' . $query->request);
+    error_log('Found posts: ' . $query->found_posts);
+    
     $html = '';
     
     if ($query->have_posts()) {
@@ -2132,6 +2146,8 @@ function almetal_ajax_load_desktop_realisations() {
             $html .= almetal_get_realisation_card_html($card_args);
         }
         wp_reset_postdata();
+    } else {
+        error_log('No posts found in query');
     }
     
     // Calculer s'il y a plus de pages
