@@ -297,8 +297,14 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 // Récupérer le nom de la ville
                                 $city_name = get_the_title($city->ID);
                                 
-                                // Nettoyer le nom si nécessaire
-                                $city_name = str_replace(array('Métallier ', 'AL Métallerie ', 'AL Métallerie'), '', $city_name);
+                                // Nettoyer le nom en enlevant tous les préfixes indésirables
+                                $city_name = str_replace(array(
+                                    'Ferronier à ',
+                                    'Ferronnier à ',
+                                    'Métallier ',
+                                    'AL Métallerie ',
+                                    'AL Métallerie'
+                                ), '', $city_name);
                                 $city_name = trim($city_name);
                                 
                                 if (!empty($city_name)) {
