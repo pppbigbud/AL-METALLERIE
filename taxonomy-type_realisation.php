@@ -13,6 +13,9 @@ get_header();
 // Mettre en queue le CSS spécifique pour les pages catégories
 wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/taxonomy-seo.css', array(), '1.0.0');
 
+// Mettre en queue le CSS des pages d'archives pour uniformiser les images
+wp_enqueue_style('archive-pages', get_template_directory_uri() . '/assets/css/archive-pages.css', array(), '1.0.0');
+
 // Mettre en queue le JavaScript pour l'interactivité de la FAQ
 wp_enqueue_script('taxonomy-faq', get_template_directory_uri() . '/assets/js/taxonomy-faq.js', array(), '1.0.0', true);
 
@@ -164,11 +167,41 @@ $seo_contents = array(
 );
 
 $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$current_term->slug] : $seo_contents['autres'];
+
+// Récupérer une image aléatoire de la catégorie pour le hero
+$random_image_query = new WP_Query(array(
+    'post_type' => 'realisation',
+    'posts_per_page' => 1,
+    'orderby' => 'rand',
+    'tax_query' => array(
+        array(
+            'taxonomy' => 'type_realisation',
+            'field' => 'slug',
+            'terms' => $current_term->slug,
+        ),
+    ),
+));
+
+$hero_background_image = '';
+if ($random_image_query->have_posts()) {
+    $random_image_query->the_post();
+    $hero_background_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
+    if (!$hero_background_image) {
+        $hero_background_image = get_the_post_thumbnail_url(get_the_ID(), 'large');
+    }
+    wp_reset_postdata();
+}
+
+// Fallback image par défaut si aucune réalisation dans la catégorie
+if (!$hero_background_image) {
+    $hero_background_image = get_template_directory_uri() . '/assets/images/hero-default.webp';
+}
 ?>
 
 <div class="archive-page taxonomy-type-realisation">
     <!-- Hero Section -->
-    <div class="archive-hero">
+    <div class="archive-hero" style="background-image: url('<?php echo esc_url($hero_background_image); ?>');">
+        <div class="hero-overlay"></div>
         <div class="container">
             <h1 class="archive-title">
                 <span class="archive-icon"><?php echo $current_icon; ?></span>
