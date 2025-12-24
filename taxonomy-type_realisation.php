@@ -275,38 +275,44 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             
             <div class="cities-grid">
                 <?php
-                // Chercher automatiquement les pages villes qui existent
-                $all_pages = get_pages(array(
-                    'meta_key' => '_wp_page_template',
-                    'meta_value' => 'template-city-page.php'
-                ));
-                
-                // Si aucune page avec ce template, chercher par le slug
-                if (empty($all_pages)) {
-                    $all_pages = get_pages();
-                }
-                
+                // Chercher les pages villes dans le custom post type du plugin
                 $city_pages = array();
                 
-                foreach ($all_pages as $page) {
-                    // Vérifier si c'est une page ville (contient "metallier" dans le slug ou le titre)
-                    if (strpos($page->post_name, 'metallier') !== false || 
-                        strpos(strtolower($page->post_title), 'métallier') !== false ||
-                        strpos($page->post_name, 'ville') !== false) {
+                // Essayer différents noms de custom post type possibles
+                $post_types = array('city_page', 'city-page', 'villes', 'ville', 'city');
+                
+                foreach ($post_types as $post_type) {
+                    if (post_type_exists($post_type)) {
+                        echo '<!-- DEBUG: Post type trouvé: ' . $post_type . ' -->';
+                        $cities = get_posts(array(
+                            'post_type' => $post_type,
+                            'posts_per_page' => -1,
+                            'post_status' => 'publish',
+                            'orderby' => 'title',
+                            'order' => 'ASC'
+                        ));
                         
-                        // Extraire le nom de la ville
-                        $city_name = $page->post_title;
-                        // Enlever "Métallier" ou "AL Métallerie" du titre si présent
-                        $city_name = str_replace(array('Métallier ', 'AL Métallerie ', 'AL Métallerie'), '', $city_name);
-                        
-                        if (!empty($city_name) && $page->post_status === 'publish') {
-                            $city_pages[$city_name] = get_permalink($page->ID);
+                        if ($cities && !is_wp_error($cities)) {
+                            foreach ($cities as $city) {
+                                // Récupérer le nom de la ville
+                                $city_name = get_the_title($city->ID);
+                                
+                                // Nettoyer le nom si nécessaire
+                                $city_name = str_replace(array('Métallier ', 'AL Métallerie ', 'AL Métallerie'), '', $city_name);
+                                $city_name = trim($city_name);
+                                
+                                if (!empty($city_name)) {
+                                    $city_pages[$city_name] = get_permalink($city->ID);
+                                    echo '<!-- DEBUG: Ville trouvée: ' . $city_name . ' - URL: ' . get_permalink($city->ID) . ' -->';
+                                }
+                            }
                         }
                     }
                 }
                 
                 // Si on a trouvé des pages villes, les afficher
                 if (!empty($city_pages)) {
+                    echo '<!-- DEBUG: Nombre de villes trouvées: ' . count($city_pages) . ' -->';
                     foreach ($city_pages as $city_name => $city_url) {
                         echo '<div class="city-item">';
                         echo '<a href="' . esc_url($city_url) . '" class="city-link">';
@@ -316,6 +322,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                         echo '</div>';
                     }
                 } else {
+                    echo '<!-- DEBUG: Aucune ville trouvée dans les custom post types, utilisation du fallback -->';
                     // Fallback : afficher les villes principales sans liens
                     $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire');
                     foreach ($main_cities as $city) {
