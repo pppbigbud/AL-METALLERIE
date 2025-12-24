@@ -275,8 +275,9 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             
             <div class="cities-grid">
                 <?php
-                // Récupérer les pages villes si le plugin city-pages-generator est actif
+                // DEBUG - Afficher si le plugin est actif
                 if (class_exists('City_Pages_Generator')) {
+                    echo '<!-- DEBUG: Plugin City_Pages_Generator ACTIF -->';
                     $cities = get_posts(array(
                         'post_type' => 'city_page',
                         'posts_per_page' => -1, // Récupérer toutes les villes pour filtrer
@@ -291,9 +292,14 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                         )
                     ));
                     
+                    echo '<!-- DEBUG: Nombre de villes trouvées: ' . count($cities) . ' -->';
+                    
                     if ($cities && !is_wp_error($cities)) {
                         foreach ($cities as $city) {
                             $city_name = get_post_meta($city->ID, '_cpg_city_name', true);
+                            $priority = get_post_meta($city->ID, '_cpg_priority', true);
+                            $status = get_post_status($city->ID);
+                            echo '<!-- DEBUG: Ville: ' . $city_name . ', Priorité: ' . $priority . ', Status: ' . $status . ' -->';
                             if ($city_name && get_post_status($city->ID) === 'publish') {
                                 echo '<div class="city-item">';
                                 echo '<a href="' . esc_url(get_permalink($city->ID)) . '" class="city-link">';
@@ -305,6 +311,7 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                         }
                     }
                 } else {
+                    echo '<!-- DEBUG: Plugin City_Pages_Generator INACTIF - utilisation du fallback -->';
                     // Afficher les villes principales si le plugin n'est pas actif
                     $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire', 'Ambert', 'Coudes', 'Courpière', 'Lezoux', 'Thuret');
                     foreach ($main_cities as $city) {
