@@ -16,9 +16,6 @@ wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/tax
 // Mettre en queue le JavaScript pour l'interactivité de la FAQ
 wp_enqueue_script('taxonomy-faq', get_template_directory_uri() . '/assets/js/taxonomy-faq.js', array(), '1.0.0', true);
 
-// MESSAGE DE DEBUG TEMPORAIRE - À SUPPRIMER APRÈS VÉRIFICATION
-echo '<div style="background: red; color: white; padding: 10px; text-align: center; font-size: 16px; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;">✅ NOUVEAU CODE ACTIF - Version du ' . date('d/m/Y H:i:s') . '</div>';
-
 // Récupérer le terme actuel
 $current_term = get_queried_object();
 
@@ -278,50 +275,54 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             
             <div class="cities-grid">
                 <?php
-                // Configuration des villes avec leurs URLs (sans plugin)
-                $priority_cities = array(
-                    'Thiers' => '/metallier-thiers/',
-                    'Clermont-Ferrand' => '/metallier-clermont-ferrand/',
-                    'Peschadoires' => '/metallier-peschadoires/',
-                    'Riom' => '/metallier-riom/',
-                    'Issoire' => '/metallier-issoire/',
-                    'Ambert' => '/metallier-ambert/',
-                    'Coudes' => '/metallier-coudes/',
-                    'Courpière' => '/metallier-courpiere/',
-                    'Lezoux' => '/metallier-lezoux/',
-                    'Thuret' => '/metallier-thuret/'
-                );
+                // Chercher automatiquement les pages villes qui existent
+                $all_pages = get_pages(array(
+                    'meta_key' => '_wp_page_template',
+                    'meta_value' => 'template-city-page.php'
+                ));
                 
-                // Vérifier si les pages existent et les afficher
-                foreach ($priority_cities as $city_name => $city_url) {
-                    // Vérifier si la page existe
-                    $page_exists = false;
-                    $page_path = rtrim($city_url, '/');
-                    
-                    // Chercher la page par son URL
-                    $page = get_page_by_path($page_path, OBJECT, 'page');
-                    
-                    if ($page && $page->post_status === 'publish') {
-                        $page_exists = true;
+                // Si aucune page avec ce template, chercher par le slug
+                if (empty($all_pages)) {
+                    $all_pages = get_pages();
+                }
+                
+                $city_pages = array();
+                
+                foreach ($all_pages as $page) {
+                    // Vérifier si c'est une page ville (contient "metallier" dans le slug ou le titre)
+                    if (strpos($page->post_name, 'metallier') !== false || 
+                        strpos(strtolower($page->post_title), 'métallier') !== false ||
+                        strpos($page->post_name, 'ville') !== false) {
+                        
+                        // Extraire le nom de la ville
+                        $city_name = $page->post_title;
+                        // Enlever "Métallier" ou "AL Métallerie" du titre si présent
+                        $city_name = str_replace(array('Métallier ', 'AL Métallerie ', 'AL Métallerie'), '', $city_name);
+                        
+                        if (!empty($city_name) && $page->post_status === 'publish') {
+                            $city_pages[$city_name] = get_permalink($page->ID);
+                        }
                     }
-                    
-                    // DEBUG - Afficher l'état de chaque ville
-                    echo '<!-- DEBUG: Ville ' . $city_name . ' - URL: ' . $city_url . ' - Page trouvée: ' . ($page_exists ? 'OUI' : 'NON') . ' -->';
-                    
-                    if ($page_exists) {
-                        // La page existe, afficher avec le lien
+                }
+                
+                // Si on a trouvé des pages villes, les afficher
+                if (!empty($city_pages)) {
+                    foreach ($city_pages as $city_name => $city_url) {
                         echo '<div class="city-item">';
-                        echo '<a href="' . esc_url(home_url($city_url)) . '" class="city-link">';
+                        echo '<a href="' . esc_url($city_url) . '" class="city-link">';
                         echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
                         echo esc_html($city_name);
                         echo '</a>';
                         echo '</div>';
-                    } else {
-                        // La page n'existe pas, afficher sans lien
+                    }
+                } else {
+                    // Fallback : afficher les villes principales sans liens
+                    $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire');
+                    foreach ($main_cities as $city) {
                         echo '<div class="city-item">';
                         echo '<span class="city-name" style="opacity: 0.7;">';
                         echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-                        echo esc_html($city_name);
+                        echo esc_html($city);
                         echo '</span>';
                         echo '</div>';
                     }
