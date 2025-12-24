@@ -300,13 +300,6 @@
   border-radius: 999px;
   color: var(--color-text-light);
   font-size: 0.8rem;
-  font-weight: 600;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  z-index: 10;
-}
-
-.archive-page .realisation-location-badge svg {
-  color: var(--color-primary);
 }
 
 .archive-page .realisation-thumbnail img {

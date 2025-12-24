@@ -2565,3 +2565,153 @@ function almetal_render_google_reviews_widget() {
     
     return $html;
 }
+
+/**
+ * ============================================================================
+ * GÉOCODAGE AUTOMATIQUE DES VILLES
+ * ============================================================================
+ */
+
+/**
+ * Géocodage automatique des villes avec l'API Nominatim (OpenStreetMap)
+ * Récupère les coordonnées GPS d'une ville et les stocke en meta fields
+ */
+function almetal_geocode_city($city_name, $post_id = null) {
+    // Nettoyer le nom de la ville
+    $city_name = str_replace(array(
+        'Ferronier à ',
+        'Ferronnier à ',
+        'Serrurier à ',
+        'Métallier ',
+        'AL Métallerie ',
+        'AL Métallerie'
+    ), '', $city_name);
+    $city_name = trim($city_name);
+    
+    if (empty($city_name)) {
+        return false;
+    }
+    
+    // Vérifier si on a déjà les coordonnées en cache (meta fields)
+    if ($post_id) {
+        $cached_lat = get_post_meta($post_id, '_city_lat', true);
+        $cached_lng = get_post_meta($post_id, '_city_lng', true);
+        
+        if (!empty($cached_lat) && !empty($cached_lng)) {
+            return array(
+                'lat' => floatval($cached_lat),
+                'lng' => floatval($cached_lng)
+            );
+        }
+    }
+    
+    // Préparer la requête à l'API Nominatim
+    $query = urlencode($city_name . ', France');
+    $url = "https://nominatim.openstreetmap.org/search?format=json&q={$query}&limit=1&countrycodes=fr";
+    
+    // Ajouter un user agent requis par Nominatim
+    $args = array(
+        'user-agent' => 'AL Metallerie Website (geocoding)',
+        'timeout' => 10,
+        'headers' => array(
+            'Accept' => 'application/json'
+        )
+    );
+    
+    // Faire la requête API
+    $response = wp_remote_get($url, $args);
+    
+    if (is_wp_error($response)) {
+        error_log('Erreur de géocodage pour ' . $city_name . ': ' . $response->get_error_message());
+        return false;
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+    
+    if (empty($data) || !isset($data[0])) {
+        error_log('Aucun résultat de géocodage pour ' . $city_name);
+        return false;
+    }
+    
+    // Extraire les coordonnées
+    $lat = floatval($data[0]['lat']);
+    $lng = floatval($data[0]['lon']);
+    
+    // Stocker les coordonnées en meta fields si on a un post_id
+    if ($post_id) {
+        update_post_meta($post_id, '_city_lat', $lat);
+        update_post_meta($post_id, '_city_lng', $lng);
+        update_post_meta($post_id, '_city_geocoded_at', current_time('timestamp'));
+    }
+    
+    return array(
+        'lat' => $lat,
+        'lng' => $lng
+    );
+}
+
+/**
+ * Hook pour géocoder automatiquement une ville lors de sa sauvegarde
+ */
+add_action('save_post', 'almetal_auto_geocode_city', 10, 3);
+
+function almetal_auto_geocode_city($post_id, $post, $update) {
+    // Vérifier si c'est un type de post "ville"
+    $city_post_types = array('city_page', 'city-page', 'villes', 'ville', 'city');
+    
+    if (!in_array($post->post_type, $city_post_types)) {
+        return;
+    }
+    
+    // Éviter les autosaves
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    // Vérifier les permissions
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    // Géocoder la ville
+    almetal_geocode_city($post->post_title, $post_id);
+}
+
+/**
+ * Fonction pour géocoder en masse toutes les villes existantes
+ * À utiliser une seule fois pour initialiser les coordonnées
+ */
+function almetal_bulk_geocode_cities() {
+    $city_post_types = array('city_page', 'city-page', 'villes', 'ville', 'city');
+    
+    foreach ($city_post_types as $post_type) {
+        if (post_type_exists($post_type)) {
+            $cities = get_posts(array(
+                'post_type' => $post_type,
+                'posts_per_page' => -1,
+                'post_status' => 'publish',
+                'orderby' => 'title',
+                'order' => 'ASC'
+            ));
+            
+            if ($cities && !is_wp_error($cities)) {
+                foreach ($cities as $city) {
+                    $city_name = get_the_title($city->ID);
+                    echo "Géocodage de: {$city_name}... ";
+                    
+                    $coords = almetal_geocode_city($city_name, $city->ID);
+                    
+                    if ($coords) {
+                        echo "✓ Lat: {$coords['lat']}, Lng: {$coords['lng']}<br>";
+                    } else {
+                        echo "✗ Erreur<br>";
+                    }
+                    
+                    // Respecter la limite de rate de Nominatim (1 req/sec)
+                    sleep(1);
+                }
+            }
+        }
+    }
+}
