@@ -79,7 +79,7 @@ get_header();
                 foreach ($terms as $term) : 
                     $icon = isset($category_icons[$term->slug]) ? $category_icons[$term->slug] : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a0a1a5" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
                 ?>
-                    <button class="filter-btn" data-filter=".type-<?php echo esc_attr($term->slug); ?>">
+                    <button class="filter-btn" data-filter=".<?php echo esc_attr($term->slug); ?>">
                         <span class="filter-btn__icon" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(160,161,165,0.15);border-radius:50%;">
                             <?php echo $icon; ?>
                         </span>
