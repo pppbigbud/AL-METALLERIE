@@ -198,25 +198,35 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_technical') {
                                 <small><?php echo $page['checks']['images']['with_alt']; ?>/<?php echo $page['checks']['images']['total']; ?></small>
                             </td>
                             <td>
-                                <?php if ($is_taxonomy) : ?>
-                                <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_term&term_id=' . $page['term_id']); ?>" 
-                                   class="button button-small">
-                                    <?php _e('Details', 'almetal-analytics'); ?>
-                                </a>
-                                <?php else : ?>
-                                <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_page&post_id=' . $page['post_id']); ?>" 
-                                   class="button button-small">
-                                    <?php _e('Details', 'almetal-analytics'); ?>
-                                </a>
-                                <?php if ($page['score'] < 90) : ?>
-                                <button class="button button-small button-primary seo-improve-btn" 
-                                        data-post-id="<?php echo $page['post_id']; ?>"
-                                        style="margin-left: 5px;">
-                                    <span class="dashicons dashicons-update-alt" style="margin-top: 3px;"></span>
-                                    <?php _e('Améliorer', 'almetal-analytics'); ?>
-                                </button>
-                                <?php endif; ?>
-                                <?php endif; ?>
+                                <div class="action-buttons" style="display: inline-flex; gap: 5px; align-items: center;">
+                                    <?php if ($is_taxonomy) : ?>
+                                    <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_term&term_id=' . $page['term_id']); ?>" 
+                                       class="button button-small">
+                                        <?php _e('Details', 'almetal-analytics'); ?>
+                                    </a>
+                                    <?php if ($page['score'] < 90) : ?>
+                                    <button class="button button-small button-primary seo-improve-btn" 
+                                            data-post-id="<?php echo $page['term_id']; ?>"
+                                            data-is-taxonomy="true">
+                                        <span class="dashicons dashicons-update-alt"></span>
+                                        <?php _e('Améliorer', 'almetal-analytics'); ?>
+                                    </button>
+                                    <?php endif; ?>
+                                    <?php else : ?>
+                                    <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_page&post_id=' . $page['post_id']); ?>" 
+                                       class="button button-small">
+                                        <?php _e('Details', 'almetal-analytics'); ?>
+                                    </a>
+                                    <?php if ($page['score'] < 90) : ?>
+                                    <button class="button button-small button-primary seo-improve-btn" 
+                                            data-post-id="<?php echo $page['post_id']; ?>"
+                                            data-is-taxonomy="false">
+                                        <span class="dashicons dashicons-update-alt"></span>
+                                        <?php _e('Améliorer', 'almetal-analytics'); ?>
+                                    </button>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>

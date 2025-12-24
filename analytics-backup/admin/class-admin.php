@@ -251,13 +251,20 @@ class Almetal_Analytics_Admin {
         check_ajax_referer('almetal_seo_improvements', 'nonce');
         
         $post_id = intval($_POST['post_id']);
+        $is_taxonomy = isset($_POST['is_taxonomy']) && $_POST['is_taxonomy'] === 'true';
         
-        if (!current_user_can('edit_post', $post_id)) {
-            wp_die(__('Permission denied', 'almetal-analytics'));
+        if ($is_taxonomy) {
+            if (!current_user_can('edit_term', $post_id)) {
+                wp_die(__('Permission denied', 'almetal-analytics'));
+            }
+        } else {
+            if (!current_user_can('edit_post', $post_id)) {
+                wp_die(__('Permission denied', 'almetal-analytics'));
+            }
         }
         
         $seo_improver = Almetal_Analytics_SEO_Improver::get_instance();
-        $improvements = $seo_improver->get_suggested_improvements($post_id);
+        $improvements = $seo_improver->get_suggested_improvements($post_id, $is_taxonomy);
         
         wp_send_json_success($improvements);
     }
@@ -269,15 +276,23 @@ class Almetal_Analytics_Admin {
         check_ajax_referer('almetal_seo_improvements', 'nonce');
         
         $post_id = intval($_POST['post_id']);
+        $is_taxonomy = isset($_POST['is_taxonomy']) && $_POST['is_taxonomy'] === 'true';
         $improvements = isset($_POST['improvements']) ? array_map('sanitize_text_field', $_POST['improvements']) : array();
+        $custom_values = isset($_POST['custom_values']) ? array_map('sanitize_textarea_field', $_POST['custom_values']) : array();
         $create_draft = isset($_POST['create_draft']) ? boolval($_POST['create_draft']) : true;
         
-        if (!current_user_can('edit_post', $post_id)) {
-            wp_die(__('Permission denied', 'almetal-analytics'));
+        if ($is_taxonomy) {
+            if (!current_user_can('edit_term', $post_id)) {
+                wp_die(__('Permission denied', 'almetal-analytics'));
+            }
+        } else {
+            if (!current_user_can('edit_post', $post_id)) {
+                wp_die(__('Permission denied', 'almetal-analytics'));
+            }
         }
         
         $seo_improver = Almetal_Analytics_SEO_Improver::get_instance();
-        $result = $seo_improver->improve_page($post_id, $improvements, $create_draft);
+        $result = $seo_improver->improve_page($post_id, $improvements, $create_draft, $custom_values, $is_taxonomy);
         
         if (isset($result['error'])) {
             wp_send_json_error($result['error']);

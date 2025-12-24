@@ -396,6 +396,24 @@ function almetal_enqueue_scripts() {
             true
         );
         
+        // Patch pour corriger les API obsolètes Chrome
+        wp_enqueue_script(
+            'almetal-obsolete-api-patch',
+            get_template_directory_uri() . '/assets/js/obsolete-api-patch.js',
+            array(),
+            '1.0.0',
+            true
+        );
+        
+        // Solution finale pour les faux positifs Chrome
+        wp_enqueue_script(
+            'almetal-chrome-api-fix-final',
+            get_template_directory_uri() . '/assets/js/chrome-api-fix-final.js',
+            array(),
+            '2.0.0',
+            true
+        );
+        
         // Animations au scroll
         wp_enqueue_style(
             'almetal-mobile-animations-css',

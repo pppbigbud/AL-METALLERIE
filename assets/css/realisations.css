@@ -469,8 +469,8 @@
     line-height: 1.8;
     font-size: 1.15rem;
     background: transparent !important;
-    border-left: none !important;
-    padding: var(--spacing-md);
+    /* Assurer que le contenu peut s'étendre pour afficher le CTA */
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -609,6 +609,16 @@
 
 .btn-view-project:hover .button-text {
     color: white;
+}
+
+/* Forcer l'affichage du bouton CTA sur toutes les cards */
+.realisation-card .btn-view-project {
+    display: inline-flex !important;
+    margin-top: var(--spacing-sm) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
 }
 
 /* Pagination */

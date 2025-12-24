@@ -215,6 +215,10 @@
 /* Bouton améliorer dans le tableau */
 .seo-improve-btn {
     transition: all 0.2s ease;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .seo-improve-btn:hover {
@@ -224,8 +228,23 @@
 
 .seo-improve-btn .dashicons {
     transition: transform 0.3s ease;
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
 }
 
 .seo-improve-btn:hover .dashicons {
     transform: rotate(15deg);
+}
+
+/* Conteneur pour les boutons d'action */
+.action-buttons {
+    display: inline-flex !important;
+    gap: 5px !important;
+    align-items: center !important;
+    vertical-align: middle !important;
+}
+
+.action-buttons .button {
+    margin: 0 !important;
 }

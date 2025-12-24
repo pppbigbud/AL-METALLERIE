@@ -91,7 +91,7 @@ $consent_stats = Almetal_Analytics_Consent::get_consent_stats($period);
                 <span class="dashicons dashicons-clock"></span>
             </div>
             <div class="almetal-stat-content">
-                <span class="almetal-stat-value"><?php echo gmdate('i:s', $stats['avg_duration']); ?></span>
+                <span class="almetal-stat-value"><?php echo gmdate('i:s', (int)$stats['avg_duration']); ?></span>
                 <span class="almetal-stat-label"><?php _e('Durée moyenne', 'almetal-analytics'); ?></span>
             </div>
         </div>
