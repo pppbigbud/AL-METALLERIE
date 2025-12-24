@@ -428,7 +428,30 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
                                 'Coudes' => array(45.7333, 3.2167),
                                 'Courpière' => array(45.8167, 3.5167),
                                 'Lezoux' => array(45.8167, 3.3833),
-                                'Thuret' => array(45.8833, 3.4167)
+                                'Thuret' => array(45.8833, 3.4167),
+                                'Aigueperse' => array(45.8968, 3.3314),
+                                'Besse-et-Saint-Anastaise' => array(45.5178, 2.9878),
+                                'Brioude' => array(45.2969, 3.3838),
+                                'Cébazat' => array(45.8130, 3.1522),
+                                'Chamalières' => array(45.7751, 3.0583),
+                                'Châtel-Guyon' => array(45.8779, 3.0768),
+                                'Combronde' => array(45.8895, 3.2779),
+                                'Cournon-d\'Auvergne' => array(45.7392, 3.1675),
+                                'Gerzat' => array(45.8228, 3.1328),
+                                'Mirefleurs' => array(45.7336, 3.3194),
+                                'Orcines' => array(45.7589, 2.9976),
+                                'Pont-du-Château' => array(45.8422, 3.3119),
+                                'Royat' => array(45.7744, 3.0436),
+                                'Saint-Éloy-les-Mines' => array(46.0339, 3.0874),
+                                'Saint-Genès-Champanelle' => array(45.7149, 2.9906),
+                                'Volvic' => array(45.8643, 3.0415),
+                                'Aubière' => array(45.7671, 3.1131),
+                                'Beaumont' => array(45.7673, 3.0956),
+                                'Le Cendre' => array(45.7336, 3.2194),
+                                'Orcet' => array(45.7158, 3.1633),
+                                'Pérignat-lès-Sarliève' => array(45.7356, 3.1433),
+                                'Tallard' => array(44.4352, 6.0183),
+                                'Veyre-Monton' => array(45.7239, 3.1298)
                             );
                             
                             if (!empty($city_name) && isset($coordinates[$city_name])) {
