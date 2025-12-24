@@ -2981,15 +2981,15 @@ input[type="button"]:hover {
     transform: translateY(-3px);
 }
 
-.actualites-grid .realisation-image-wrapper,
-.taxonomy-grid .realisation-image-wrapper {
+.realisation-image-wrapper {
     position: relative;
     overflow: hidden;
     aspect-ratio: 4/3;
 }
 
 .actualites-grid .realisation-image,
-.taxonomy-grid .realisation-image {
+.taxonomy-grid .realisation-image,
+.archive-grid .realisation-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
