@@ -23,12 +23,11 @@
     position: relative;
     min-height: 100vh;
     margin-top: 0;
-    padding-bottom: 400px; /* Espace pour le footer */
 }
 
 /* Carte Leaflet PLEINE PAGE */
 .contact-map-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -44,7 +43,7 @@
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    z-index: 999999 !important;
+    z-index: 0 !important;  /* Z-index bas pour être sous la carte */
     background: #222222 !important;
     backdrop-filter: none !important;
     margin: 0 !important;
@@ -55,6 +54,15 @@
     transform: translateZ(0) !important;
     will-change: transform !important;
 } */
+
+/* Footer complet sous la carte */
+.page-template-page-contact .site-footer-new {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 0 !important;  /* Sous la carte (z-index: 1) */
+}
 
 /* .page-template-page-contact .footer-new-bottom .container {
     max-width: 1200px !important;
