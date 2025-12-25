@@ -38,7 +38,7 @@
 }
 
 /* Footer light avec fond #222222 - Fixed en bas */
-.page-template-page-contact .footer-bottom.footer-light {
+.page-template-page-contact .footer-new-bottom {
     position: fixed !important;
     bottom: 0 !important;
     left: 0 !important;
@@ -55,24 +55,24 @@
     will-change: transform !important;  /* Optimisation GPU */
 }
 
-.page-template-page-contact .footer-bottom.footer-light .container {
+.page-template-page-contact .footer-new-bottom .container {
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 2rem !important;
 }
 
-.page-template-page-contact .footer-bottom.footer-light .footer-bottom-content {
+.page-template-page-contact .footer-new-bottom .footer-bottom-content {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
 }
 
-.page-template-page-contact .footer-bottom.footer-light .footer-copyright,
-.page-template-page-contact .footer-bottom.footer-light .footer-bottom-links a {
+.page-template-page-contact .footer-new-bottom .footer-copyright,
+.page-template-page-contact .footer-new-bottom .footer-bottom-links a {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.page-template-page-contact .footer-bottom.footer-light .footer-bottom-links {
+.page-template-page-contact .footer-new-bottom .footer-bottom-links {
     display: flex !important;
     align-items: center !important;
     gap: 1.5rem !important;

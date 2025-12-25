@@ -193,7 +193,7 @@
         });
 
         // Validation de l'email
-        form.find('input[type="email"]').on('blur', function() {
+        $(form).find('input[type="email"]').on('blur', function() {
             const email = $(this).val();
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (email && !emailRegex.test(email)) {
@@ -204,7 +204,7 @@
         });
 
         // Validation du téléphone
-        form.find('input[type="tel"]').on('blur', function() {
+        $(form).find('input[type="tel"]').on('blur', function() {
             const phone = $(this).val();
             const phoneRegex = /^[0-9\s\-\+\(\)]{10,}$/;
             if (phone && !phoneRegex.test(phone)) {

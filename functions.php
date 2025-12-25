@@ -272,7 +272,7 @@ function almetal_enqueue_scripts() {
     if (is_page_template('page-contact.php') || is_page('contact')) {
         wp_enqueue_style(
             'leaflet-css',
-            'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css',
             array(),
             '1.9.4'
         );
@@ -286,7 +286,7 @@ function almetal_enqueue_scripts() {
         
         wp_enqueue_script(
             'leaflet-js',
-            'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js',
             array(),
             '1.9.4',
             true
