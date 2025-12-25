@@ -574,40 +574,6 @@ if (!$hero_background_image) {
         </div>
     </div>
     
-    <!-- Section FAQ Spécifique -->
-    <div class="taxonomy-faq-section">
-        <div class="container">
-            <h2 class="section-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                Questions Fréquemment Posées - <?php echo esc_html($current_term->name); ?>
-            </h2>
-            
-            <div class="faq-container">
-                <?php if (isset($current_seo['faq']) && !empty($current_seo['faq'])): ?>
-                    <?php $faq_index = 0; ?>
-                    <?php foreach ($current_seo['faq'] as $question => $answer): ?>
-                        <div class="faq-item <?php echo $faq_index === 0 ? 'active' : ''; ?>">
-                            <div class="faq-question">
-                                <h3><?php echo esc_html($question); ?></h3>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"/>
-                                </svg>
-                            </div>
-                            <div class="faq-answer">
-                                <p><?php echo esc_html($answer); ?></p>
-                            </div>
-                        </div>
-                        <?php $faq_index++; ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-    
     <?php 
     // Afficher la FAQ stylisée
     if (function_exists('almetal_display_taxonomy_faq')) {
