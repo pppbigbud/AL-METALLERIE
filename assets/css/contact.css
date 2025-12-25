@@ -23,11 +23,12 @@
     position: relative;
     min-height: 100vh;
     margin-top: 0;
+    padding-bottom: 400px; /* Espace pour le footer */
 }
 
-/* Carte Google Maps PLEINE PAGE */
+/* Carte Leaflet PLEINE PAGE */
 .contact-map-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
