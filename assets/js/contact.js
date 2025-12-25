@@ -13,23 +13,43 @@
      * Initialiser la carte Leaflet
      */
     function initContactMap() {
+        console.log('initContactMap() appelée');
+        
         // Vérifier si l'élément de la carte existe
         const mapElement = document.getElementById('contact-map');
+        console.log('Élément #contact-map trouvé:', mapElement);
+        
         if (!mapElement) {
+            console.error('L\'élément #contact-map n\'existe pas');
             return;
         }
 
+        // Vérifier les dimensions du conteneur
+        const rect = mapElement.getBoundingClientRect();
+        console.log('Dimensions du conteneur:', rect.width, 'x', rect.height);
+
+        // Vérifier si Leaflet est chargé
+        if (typeof L === 'undefined') {
+            console.error('Leaflet (L) n\'est pas défini');
+            return;
+        }
+        console.log('Leaflet est bien chargé');
+
         // Coordonnées de l'entreprise (Peschadoires)
         const location = [45.8167, 3.4833];
+        console.log('Coordonnées:', location);
 
-        // Initialiser la carte Leaflet
-        const map = L.map('contact-map').setView(location, 13);
+        try {
+            // Initialiser la carte Leaflet
+            const map = L.map('contact-map').setView(location, 13);
+            console.log('Carte Leaflet initialisée');
 
-        // Ajouter la couche de tuiles OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors',
-            maxZoom: 19
-        }).addTo(map);
+            // Ajouter la couche de tuiles OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+            console.log('Couche de tuiles ajoutée');
 
         // Icône personnalisée pour le marqueur
         const customIcon = L.divIcon({
@@ -64,22 +84,33 @@
         });
 
         // Ajouter le marqueur
-        const marker = L.marker(location, { icon: customIcon }).addTo(map);
+            const marker = L.marker(location, { icon: customIcon }).addTo(map);
+            console.log('Marqueur ajouté');
 
-        // Popup avec informations
-        marker.bindPopup(`
-            <div style="text-align: center; padding: 10px;">
-                <strong style="color: #F08B18; font-size: 16px;">AL Métallerie</strong><br>
-                14 route de Maringues<br>
-                63920 Peschadoires<br>
-                <a href="tel:+33673333532" style="color: #F08B18; text-decoration: none; font-weight: bold;">06 73 33 35 32</a>
-            </div>
-        `).openPopup();
+            // Popup avec informations
+            marker.bindPopup(`
+                <div style="text-align: center; padding: 10px;">
+                    <strong style="color: #F08B18; font-size: 16px;">AL Métallerie</strong><br>
+                    14 route de Maringues<br>
+                    63920 Peschadoires<br>
+                    <a href="tel:+33673333532" style="color: #F08B18; text-decoration: none; font-weight: bold;">06 73 33 35 32</a>
+                </div>
+            `).openPopup();
+            console.log('Popup configuré');
 
-        // Forcer le rafraîchissement de la carte après un délai
-        setTimeout(function() {
-            map.invalidateSize();
-        }, 100);
+            // Forcer le rafraîchissement de la carte après un délai
+            setTimeout(function() {
+                console.log('Rafraîchissement de la carte...');
+                map.invalidateSize();
+                
+                // Forcer un zoom pour vérifier que la carte est active
+                map.setZoom(13);
+                console.log('Carte rafraîchie et zoom forcé');
+            }, 100);
+
+        } catch (error) {
+            console.error('Erreur lors de l\'initialisation de la carte:', error);
+        }
     }
 
     /**
@@ -177,40 +208,6 @@
     }
 
     /**
-     * Charger l'API Google Maps dynamiquement
-     */
-    function loadGoogleMapsAPI() {
-        // Vérifier si l'API est déjà chargée
-        if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
-            initContactMap();
-            return;
-        }
-
-        // Clé API Google Maps (À REMPLACER par votre propre clé)
-        const apiKey = 'AIzaSyAWrQ0heLj3xzkTUy_-elelg0I9HtsvzH8';
-
-        // Créer le script
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-
-        // Callback global
-        window.initMap = function() {
-            initContactMap();
-            // Forcer le footer visible après l'initialisation de la carte
-            setTimeout(function() {
-                if (typeof window.ensureFooterVisible === 'function') {
-                    window.ensureFooterVisible();
-                }
-            }, 500);
-        };
-
-        // Ajouter le script au document
-        document.head.appendChild(script);
-    }
-
-    /**
      * Initialisation au chargement du DOM
      */
     $(document).ready(function() {
@@ -234,7 +231,8 @@
 
         // Charger la carte seulement si on est sur la page contact
         if ($('#contact-map').length) {
-            loadGoogleMapsAPI();
+            // Initialiser la carte Leaflet directement
+            initContactMap();
             
             // Forcer le footer visible immédiatement
             ensureFooterVisible();
