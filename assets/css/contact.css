@@ -23,6 +23,7 @@
     position: relative;
     min-height: 100vh;
     margin-top: 0;
+    padding-bottom: 600px; /* Espace pour voir le footer après scroll */
 }
 
 /* Carte Leaflet PLEINE PAGE */
