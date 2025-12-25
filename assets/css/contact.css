@@ -38,11 +38,18 @@
     background: #e0e0e0; /* Fond gris temporaire pour voir le conteneur */
 }
 
-/* Footer complet au-dessus de la carte */
+/* Footer spécifique pour la page contact avec fond des cards */
 .page-template-page-contact .site-footer-new {
     position: relative !important;
     z-index: 2 !important;  /* Au-dessus de la carte (z-index: 0) */
-    background: transparent !important;  /* Transparent pour voir la carte */
+    background: rgba(34, 34, 34, 0.95) !important;  /* Même fond que les cards */
+    backdrop-filter: blur(10px) !important;
+    border-top: 1px solid rgba(240, 139, 24, 0.2) !important;
+}
+
+/* Fond opaque pour les montagnes pour ne pas voir la carte */
+.page-template-page-contact .footer-mountains {
+    background: rgba(34, 34, 34, 0.95) !important;
 }
 
 
