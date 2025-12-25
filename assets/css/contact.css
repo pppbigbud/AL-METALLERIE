@@ -37,24 +37,6 @@
     background: #e0e0e0; /* Fond gris temporaire pour voir le conteneur */
 }
 
-/* Footer light avec fond #222222 - Fixed en bas */
-/* .page-template-page-contact .footer-new-bottom {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 0 !important;  /* Z-index bas pour être sous la carte */
-    background: #222222 !important;
-    backdrop-filter: none !important;
-    margin: 0 !important;
-    padding: 1.5rem 0 !important;
-    border-top: 1px solid rgba(240, 139, 24, 0.2) !important;
-    width: 100% !important;
-    display: block !important;
-    transform: translateZ(0) !important;
-    will-change: transform !important;
-} */
-
 /* Footer complet au-dessus de la carte */
 .page-template-page-contact .site-footer-new {
     position: fixed !important;
@@ -63,6 +45,14 @@
     right: 0 !important;
     z-index: 2 !important;  /* Au-dessus de la carte (z-index: 0) */
     background: #1a1a1a !important;  /* Fond opaque pour masquer la carte */
+}
+
+/* Fond opaque pour tous les éléments du footer */
+.page-template-page-contact .footer-mountains,
+.page-template-page-contact .footer-new-content,
+.page-template-page-contact .site-footer-new .container,
+.page-template-page-contact .footer-new-bottom {
+    background: #1a1a1a !important;
 }
 
 /* .page-template-page-contact .footer-new-bottom .container {
