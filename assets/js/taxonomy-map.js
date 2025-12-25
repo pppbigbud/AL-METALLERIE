@@ -9,6 +9,12 @@
 // Fonction d'initialisation de la carte
 function initializeMap() {
     jQuery(document).ready(function($) {
+        // Éviter la double initialisation
+        if (window.taxonomyMapInitialized) {
+            console.log('DEBUG: Carte déjà initialisée, annulation...');
+            return;
+        }
+        
         // DEBUG - Message visible pour confirmer que le script se charge
         console.log('Taxonomy Map Script: Initialisation de la carte...');
         
@@ -189,6 +195,9 @@ function initializeMap() {
         });
         
         console.log('DEBUG: Carte entièrement initialisée');
+        
+        // Marquer la carte comme initialisée
+        window.taxonomyMapInitialized = true;
     });
 }
 
