@@ -45,6 +45,7 @@
     right: 0 !important;
     z-index: 2 !important;  /* Au-dessus de la carte (z-index: 0) */
     background: #1a1a1a !important;  /* Fond opaque pour masquer la carte */
+    box-shadow: inset 0 0 0 1000px #1a1a1a !important;  /* Remplit tout l'espace */
 }
 
 /* Pseudo-élément pour fond opaque complet */
