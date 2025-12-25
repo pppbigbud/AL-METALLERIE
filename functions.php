@@ -271,16 +271,31 @@ function almetal_enqueue_scripts() {
     // Style et script de la page contact DESKTOP
     if (!almetal_is_mobile() && (is_page_template('page-contact.php') || is_page('contact'))) {
         wp_enqueue_style(
+            'leaflet-css',
+            'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+            array(),
+            '1.9.4'
+        );
+        
+        wp_enqueue_style(
             'almetal-contact',
             get_template_directory_uri() . '/assets/css/contact.css',
-            array('almetal-style', 'almetal-components'),
+            array('almetal-style', 'almetal-components', 'leaflet-css'),
             wp_get_theme()->get('Version')
+        );
+        
+        wp_enqueue_script(
+            'leaflet-js',
+            'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+            array(),
+            '1.9.4',
+            true
         );
         
         wp_enqueue_script(
             'almetal-contact',
             get_template_directory_uri() . '/assets/js/contact.js',
-            array('jquery'),
+            array('jquery', 'leaflet-js'),
             wp_get_theme()->get('Version'),
             true
         );

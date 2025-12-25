@@ -18,7 +18,7 @@ if (function_exists('wp_body_open')) {
 ?>
 
 <div class="contact-page">
-    <!-- Carte Google Maps en plein écran -->
+    <!-- Carte Leaflet en plein écran -->
     <div class="contact-map-container">
         <div id="contact-map" class="contact-map"></div>
     </div>

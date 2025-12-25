@@ -1,6 +1,6 @@
 /**
  * JavaScript pour la page Contact
- * Gestion de la carte Google Maps et du formulaire
+ * Gestion de la carte Leaflet et du formulaire
  * 
  * @package ALMetallerie
  * @since 1.0.0
@@ -10,28 +10,7 @@
     'use strict';
 
     /**
-     * Forcer le footer à être visible (fonction globale)
-     */
-    window.ensureFooterVisible = function() {
-        const footer = document.querySelector('.page-template-page-contact .footer-bottom.footer-light');
-        if (footer) {
-            // Forcer le footer à être visible avec un z-index très élevé
-            footer.style.zIndex = '999999';
-            footer.style.position = 'fixed';
-            footer.style.bottom = '0';
-            footer.style.left = '0';
-            footer.style.right = '0';
-            footer.style.background = '#222222';
-            footer.style.display = 'block';
-            footer.style.visibility = 'visible';
-            footer.style.opacity = '1';
-            
-            console.log('Footer forcé visible');
-        }
-    };
-
-    /**
-     * Initialiser la carte Google Maps
+     * Initialiser la carte Leaflet
      */
     function initContactMap() {
         // Vérifier si l'élément de la carte existe
@@ -41,234 +20,137 @@
         }
 
         // Coordonnées de l'entreprise (Peschadoires)
-        const location = {
-            lat: 45.8167,
-            lng: 3.4833
-        };
+        const location = [45.8167, 3.4833];
 
-        // Options de la carte
-        const mapOptions = {
-            center: location,
-            zoom: 10,
-            mapTypeControl: false,
-            streetViewControl: false,
-            fullscreenControl: true,
-            zoomControl: true,
-            styles: [
-                {
-                    "featureType": "all",
-                    "elementType": "geometry",
-                    "stylers": [{"color": "#242f3e"}]
-                },
-                {
-                    "featureType": "all",
-                    "elementType": "labels.text.stroke",
-                    "stylers": [{"lightness": -80}]
-                },
-                {
-                    "featureType": "administrative",
-                    "elementType": "labels.text.fill",
-                    "stylers": [{"color": "#746855"}]
-                },
-                {
-                    "featureType": "poi",
-                    "elementType": "labels.text.fill",
-                    "stylers": [{"color": "#d59563"}]
-                },
-                {
-                    "featureType": "poi.park",
-                    "elementType": "geometry",
-                    "stylers": [{"color": "#263c3f"}]
-                },
-                {
-                    "featureType": "poi.park",
-                    "elementType": "labels.text.fill",
-                    "stylers": [{"color": "#6b9a76"}]
-                },
-                {
-                    "featureType": "road",
-                    "elementType": "geometry.fill",
-                    "stylers": [{"color": "#2b3544"}]
-                },
-                {
-                    "featureType": "road",
-                    "elementType": "labels.text.fill",
-                    "stylers": [{"color": "#9ca5b3"}]
-                },
-                {
-                    "featureType": "road.arterial",
-                    "elementType": "geometry.fill",
-                    "stylers": [{"color": "#38414e"}]
-                },
-                {
-                    "featureType": "road.highway",
-                    "elementType": "geometry.fill",
-                    "stylers": [{"color": "#746855"}]
-                },
-                {
-                    "featureType": "road.highway",
-                    "elementType": "geometry.stroke",
-                    "stylers": [{"color": "#1f2835"}]
-                },
-                {
-                    "featureType": "transit",
-                    "elementType": "geometry",
-                    "stylers": [{"color": "#2f3948"}]
-                },
-                {
-                    "featureType": "water",
-                    "elementType": "geometry",
-                    "stylers": [{"color": "#17263c"}]
-                }
-            ]
-        };
+        // Initialiser la carte Leaflet
+        const map = L.map('contact-map').setView(location, 13);
 
-        // Créer la carte
-        const map = new google.maps.Map(mapElement, mapOptions);
-        
-        // Forcer le footer visible dès que la carte est créée
-        google.maps.event.addListenerOnce(map, 'idle', function() {
-            // La carte est complètement chargée
-            if (typeof ensureFooterVisible === 'function') {
-                ensureFooterVisible();
-            }
-            console.log('Carte chargée, footer forcé visible');
+        // Ajouter la couche de tuiles OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Icône personnalisée pour le marqueur
+        const customIcon = L.divIcon({
+            html: `
+                <div style="
+                    background: linear-gradient(135deg, #F08B18, #FF6B35);
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50% 50% 50% 0;
+                    transform: rotate(-45deg);
+                    border: 3px solid white;
+                    box-shadow: 0 4px 12px rgba(240, 139, 24, 0.4);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">
+                    <svg style="
+                        width: 20px;
+                        height: 20px;
+                        transform: rotate(45deg);
+                        fill: white;
+                    " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                </div>
+            `,
+            className: 'custom-marker',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
         });
-
-        // Icône personnalisée pour le marqueur (logo PNG 50px)
-        const markerIcon = {
-            url: almetal_theme.template_url + '/assets/images/logo.png',
-            scaledSize: new google.maps.Size(50, 50),
-            anchor: new google.maps.Point(25, 25),
-            origin: new google.maps.Point(0, 0)
-        };
 
         // Ajouter le marqueur
-        const marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            icon: markerIcon,
-            title: 'AL Métallerie',
-            animation: google.maps.Animation.DROP,
-            optimized: false
-        });
+        const marker = L.marker(location, { icon: customIcon }).addTo(map);
 
-        // InfoWindow avec informations
-        const infoWindow = new google.maps.InfoWindow({
-            content: `
-                <div style="padding: 10px; font-family: 'Roboto', sans-serif;">
-                    <h3 style="margin: 0 0 10px 0; color: #F08B18; font-size: 18px;">AL Métallerie</h3>
-                    <p style="margin: 5px 0; color: #333;">
-                        <strong>Adresse:</strong><br>
-                        14 route de Maringues<br>
-                        63920 Peschadoires
-                    </p>
-                    <p style="margin: 5px 0; color: #333;">
-                        <strong>Téléphone:</strong><br>
-                        <a href="tel:+33673333532" style="color: #F08B18; text-decoration: none;">06 73 33 35 32</a>
-                    </p>
-                    <p style="margin: 10px 0 0 0;">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=14+route+de+Maringues,+Peschadoires,+63920" 
-                           target="_blank" 
-                           style="display: inline-block; padding: 8px 16px; background: #F08B18; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">
-                            Obtenir l'itinéraire
-                        </a>
-                    </p>
-                </div>
-            `
-        });
+        // Popup avec informations
+        marker.bindPopup(`
+            <div style="text-align: center; padding: 10px;">
+                <strong style="color: #F08B18; font-size: 16px;">AL Métallerie</strong><br>
+                14 route de Maringues<br>
+                63920 Peschadoires<br>
+                <a href="tel:+33673333532" style="color: #F08B18; text-decoration: none; font-weight: bold;">06 73 33 35 32</a>
+            </div>
+        `).openPopup();
 
-        // Ouvrir l'InfoWindow au clic sur le marqueur
-        marker.addListener('click', function() {
-            infoWindow.open(map, marker);
-        });
-
-        // Animation du marqueur
-        marker.addListener('click', function() {
-            if (marker.getAnimation() !== null) {
-                marker.setAnimation(null);
-            } else {
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-                setTimeout(function() {
-                    marker.setAnimation(null);
-                }, 2000);
-            }
-        });
+        // Forcer le rafraîchissement de la carte après un délai
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 100);
     }
 
     /**
-     * Gestion du formulaire de contact
+     * Initialiser la page contact
+     */
+    function initContactPage() {
+        // Initialiser la carte Leaflet
+        initContactMap();
+        
+        // Initialiser le formulaire de contact
+        initContactForm();
+    }
+
+    /**
+     * Initialiser le formulaire de contact
      */
     function initContactForm() {
-        const form = $('#contact-form');
-        const messageDiv = $('.form-message');
-
-        if (!form.length) {
+        const form = document.querySelector('.contact-form');
+        if (!form) {
             return;
         }
 
-        form.on('submit', function(e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            // Désactiver le bouton de soumission
-            const submitBtn = form.find('button[type="submit"]');
-            const originalText = submitBtn.html();
-            submitBtn.prop('disabled', true).html('<span>Envoi en cours...</span>');
-
-            // Récupérer les données du formulaire
-            const formData = new FormData(this);
-
-            // Envoyer via AJAX vers admin-ajax.php
-            $.ajax({
-                url: almetal_ajax.ajax_url,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // Afficher le message de succès
-                    messageDiv
-                        .removeClass('error')
-                        .addClass('success')
-                        .html('✓ Votre message a été envoyé avec succès ! Nous vous recontacterons rapidement.')
-                        .fadeIn();
-
-                    // Réinitialiser le formulaire
-                    form[0].reset();
-
-                    // Faire défiler vers le message
-                    $('html, body').animate({
-                        scrollTop: messageDiv.offset().top - 100
-                    }, 500);
-                },
-                error: function(xhr, status, error) {
-                    // Afficher le message d'erreur
-                    messageDiv
-                        .removeClass('success')
-                        .addClass('error')
-                        .html('✗ Une erreur est survenue. Veuillez réessayer ou nous contacter directement par téléphone.')
-                        .fadeIn();
-                },
-                complete: function() {
-                    // Réactiver le bouton
-                    submitBtn.prop('disabled', false).html(originalText);
-
-                    // Masquer le message après 5 secondes
-                    setTimeout(function() {
-                        messageDiv.fadeOut();
-                    }, 5000);
+            
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.contact-submit-btn');
+            const messageDiv = form.querySelector('.form-message');
+            
+            // Désactiver le bouton
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                Envoi en cours...
+            `;
+            
+            // Envoyer le formulaire via AJAX
+            fetch(almetal_ajax.ajax_url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.className = 'form-message success';
+                    messageDiv.textContent = data.message;
+                    form.reset();
+                } else {
+                    messageDiv.className = 'form-message error';
+                    messageDiv.textContent = data.message;
                 }
+                messageDiv.style.display = 'block';
+            })
+            .catch(error => {
+                messageDiv.className = 'form-message error';
+                messageDiv.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+                messageDiv.style.display = 'block';
+            })
+            .finally(() => {
+                // Réactiver le bouton
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    ${almetal_theme.translations?.send_button || 'Envoyer ma demande'}
+                `;
             });
-        });
-
-        // Validation en temps réel
-        form.find('input[required], textarea[required], select[required]').on('blur', function() {
-            const field = $(this);
-            if (!field.val()) {
-                field.css('border-color', '#f44336');
-            } else {
-                field.css('border-color', 'rgba(255, 255, 255, 0.1)');
-            }
         });
 
         // Validation de l'email
