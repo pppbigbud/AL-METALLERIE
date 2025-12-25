@@ -56,6 +56,17 @@
     background: transparent !important;
 }
 
+/* Rend le remplissage du SVG transparent */
+.page-template-page-contact .footer-mountains svg path,
+.page-template-page-contact .footer-mountains svg .mountain-silhouette {
+    fill: transparent !important;
+}
+
+/* Cache le dégradé pour forcer la transparence */
+.page-template-page-contact .footer-mountains svg defs {
+    display: none !important;
+}
+
 
 /* .page-template-page-contact .footer-new-bottom .container {
     max-width: 1200px !important;
