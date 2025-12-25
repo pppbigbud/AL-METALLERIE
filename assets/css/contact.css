@@ -47,6 +47,18 @@
     background: #1a1a1a !important;  /* Fond opaque pour masquer la carte */
 }
 
+/* Pseudo-élément pour fond opaque complet */
+.page-template-page-contact .site-footer-new::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #1a1a1a;
+    z-index: -1;
+}
+
 /* Fond opaque pour tous les éléments du footer */
 .page-template-page-contact .footer-mountains,
 .page-template-page-contact .footer-new-content,
