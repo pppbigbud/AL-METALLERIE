@@ -454,17 +454,25 @@
     font-size: 1rem;
     color: #b0b0b0;
     line-height: 1.6;
-    margin: 0;
-}
-
-/* ==========================================================================
    SECTION FAQ SPÉCIFIQUE
    ========================================================================== */
 
 .taxonomy-faq-section {
+    background: #1a1a1a;
     padding: 80px 0;
+    position: relative;
+}
+
+.taxonomy-faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-top: 1px solid rgba(240, 139, 24, 0.3);
+    opacity: 0.9;
+    z-index: 0;
 }
 
 .taxonomy-faq-section .section-title {
