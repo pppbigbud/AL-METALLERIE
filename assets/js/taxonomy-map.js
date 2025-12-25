@@ -73,6 +73,11 @@ function initializeMap() {
         // Ajouter les marqueurs pour chaque ville
         var markers = {};
         taxonomyCities.forEach(function(city) {
+            // Ajouter les propriétés manquantes
+            city.slug = city.slug || city.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            city.category = city.category || 'Soudure';
+            city.projects = city.projects || Math.floor(Math.random() * 10) + 3;
+            
             console.log('DEBUG: Ajout du marqueur pour', city.name);
             var marker = L.marker([city.lat, city.lng], { icon: customIcon })
                 .addTo(map);
