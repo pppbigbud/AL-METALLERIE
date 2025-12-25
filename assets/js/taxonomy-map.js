@@ -102,13 +102,10 @@ function initializeMap() {
                                 <span class="stat-label">Projets</span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-number">★★★★★</span>
+                                <span class="stat-number">${city.rating || '4.8'}/5</span>
                                 <span class="stat-label">Satisfaction</span>
                             </div>
                         </div>
-                        <a href="${city.url}" class="city-card-link">
-                            Voir nos réalisations à ${city.name} →
-                        </a>
                     </div>
                 </div>
             `;
