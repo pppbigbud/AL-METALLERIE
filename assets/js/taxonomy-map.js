@@ -79,7 +79,7 @@ function initializeMap() {
                 <div class="city-card-popup">
                     <div class="city-card-header">
                         <h3>${city.name}</h3>
-                        <span class="city-card-category">${currentCategory || 'Réalisations'}</span>
+                        <span class="city-card-category">${city.category || 'Réalisations'}</span>
                     </div>
                     <div class="city-card-content">
                         <p class="city-card-description">
