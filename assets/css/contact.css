@@ -67,6 +67,11 @@
     background: #1a1a1a !important;
 }
 
+/* Fond opaque pour le SVG des montagnes */
+.page-template-page-contact .footer-mountains svg {
+    background: #1a1a1a !important;
+}
+
 /* .page-template-page-contact .footer-new-bottom .container {
     max-width: 1200px !important;
     margin: 0 auto !important;
