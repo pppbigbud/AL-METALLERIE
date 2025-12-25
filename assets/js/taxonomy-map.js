@@ -74,13 +74,38 @@ function initializeMap() {
             // Ajouter le slug du ville au marqueur pour la synchronisation
             marker.citySlug = city.slug;
             
-            // Popup avec nom de la ville et lien
-            marker.bindPopup(
-                '<div style="text-align: center; padding: 5px;">' +
-                '<h4 style="margin: 0 0 5px 0; color: #222;">' + city.name + '</h4>' +
-                '<a href="' + city.url + '" style="color: #F08B18; text-decoration: none; font-weight: bold;">Voir nos réalisations →</a>' +
-                '</div>'
-            );
+            // Popup avec fiche ville détaillée
+            var cityCardContent = `
+                <div class="city-card-popup">
+                    <div class="city-card-header">
+                        <h3>${city.name}</h3>
+                        <span class="city-card-category">${currentCategory || 'Réalisations'}</span>
+                    </div>
+                    <div class="city-card-content">
+                        <p class="city-card-description">
+                            Découvrez nos ${city.projects || 'nombreuses'} réalisations à ${city.name}.
+                        </p>
+                        <div class="city-card-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">${city.projects || '5+'}</span>
+                                <span class="stat-label">Projets</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">★★★★★</span>
+                                <span class="stat-label">Satisfaction</span>
+                            </div>
+                        </div>
+                        <a href="${city.url}" class="city-card-link">
+                            Voir nos réalisations à ${city.name} →
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(cityCardContent, {
+                maxWidth: 300,
+                className: 'city-popup'
+            });
             
             // Rendre le marqueur cliquable pour aller directement à la page
             marker.on('click', function() {
