@@ -445,20 +445,23 @@ if (!$hero_background_image) {
                                             'key' => 'ville_realisation',
                                             'value' => $city_name,
                                             'compare' => 'LIKE'
-                                        )
                                     )
-                                ));
-                                $projects_count = $realisations_query->found_posts;
-                                
-                                $cities_data[] = array(
-                                    'name' => $city_name,
-                                    'lat' => floatval($lat),
-                                    'lng' => floatval($lng),
-                                    'url' => get_permalink($city->ID),
-                                    'projects' => $projects_count,
-                                    'rating' => '4.8' // Note Google Business
-                                );
-                            }
+                                )
+                            ));
+                            $projects_count = $realisations_query->found_posts;
+                            
+                            // Récupérer la note Google Business
+                            $google_reviews = almetal_get_google_reviews();
+                            $google_rating = isset($google_reviews['rating']) ? $google_reviews['rating'] : 5.0;
+                            
+                            $cities_data[] = array(
+                                'name' => $city_name,
+                                'lat' => floatval($lat),
+                                'lng' => floatval($lng),
+                                'url' => get_permalink($city->ID),
+                                'projects' => $projects_count,
+                                'rating' => number_format($google_rating, 1, '.', '') // Note Google Business réelle
+                            );
                         }
                     }
                 }
