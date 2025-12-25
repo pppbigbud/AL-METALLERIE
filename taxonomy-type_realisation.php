@@ -445,6 +445,7 @@ if (!$hero_background_image) {
                                             'key' => 'ville_realisation',
                                             'value' => $city_name,
                                             'compare' => 'LIKE'
+                                        )
                                     )
                                 )
                             ));
