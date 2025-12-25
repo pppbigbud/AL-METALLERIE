@@ -47,9 +47,13 @@
     border-top: 1px solid rgba(240, 139, 24, 0.2) !important;
 }
 
-/* Fond opaque pour les montagnes pour ne pas voir la carte */
+/* SVG des montagnes transparent pour voir la carte */
 .page-template-page-contact .footer-mountains {
-    background: rgba(34, 34, 34, 0.95) !important;
+    background: transparent !important;
+}
+
+.page-template-page-contact .footer-mountains svg {
+    background: transparent !important;
 }
 
 
