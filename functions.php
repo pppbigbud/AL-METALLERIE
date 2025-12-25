@@ -269,7 +269,7 @@ function almetal_enqueue_scripts() {
     }
     
     // Style et script de la page contact DESKTOP
-    if (!almetal_is_mobile() && (is_page_template('page-contact.php') || is_page('contact'))) {
+    if (is_page_template('page-contact.php') || is_page('contact')) {
         wp_enqueue_style(
             'leaflet-css',
             'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',

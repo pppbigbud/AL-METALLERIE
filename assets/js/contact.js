@@ -13,7 +13,7 @@
      * Initialiser la carte Leaflet
      */
     function initContactMap() {
-        console.log('initContactMap() appelée');
+        console.log('=== DÉBUT INITIALISATION CARTE ===');
         
         // Vérifier si l'élément de la carte existe
         const mapElement = document.getElementById('contact-map');
@@ -27,13 +27,16 @@
         // Vérifier les dimensions du conteneur
         const rect = mapElement.getBoundingClientRect();
         console.log('Dimensions du conteneur:', rect.width, 'x', rect.height);
+        console.log('CSS height:', window.getComputedStyle(mapElement).height);
+        console.log('CSS width:', window.getComputedStyle(mapElement).width);
 
         // Vérifier si Leaflet est chargé
         if (typeof L === 'undefined') {
             console.error('Leaflet (L) n\'est pas défini');
+            console.log('Scripts chargés:', document.querySelectorAll('script[src*="leaflet"]'));
             return;
         }
-        console.log('Leaflet est bien chargé');
+        console.log('Leaflet est bien chargé, version:', L.version);
 
         // Coordonnées de l'entreprise (Peschadoires)
         const location = [45.8167, 3.4833];
@@ -41,15 +44,17 @@
 
         try {
             // Initialiser la carte Leaflet
+            console.log('Tentative d\'initialisation de la carte...');
             const map = L.map('contact-map').setView(location, 13);
-            console.log('Carte Leaflet initialisée');
+            console.log('Carte Leaflet initialisée avec succès');
 
             // Ajouter la couche de tuiles OpenStreetMap
+            console.log('Ajout de la couche de tuiles...');
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 19
             }).addTo(map);
-            console.log('Couche de tuiles ajoutée');
+            console.log('Couche de tuiles ajoutée avec succès');
 
         // Icône personnalisée pour le marqueur
         const customIcon = L.divIcon({
@@ -85,7 +90,7 @@
 
         // Ajouter le marqueur
             const marker = L.marker(location, { icon: customIcon }).addTo(map);
-            console.log('Marqueur ajouté');
+            console.log('Marqueur ajouté avec succès');
 
             // Popup avec informations
             marker.bindPopup(`
@@ -108,8 +113,11 @@
                 console.log('Carte rafraîchie et zoom forcé');
             }, 100);
 
+            console.log('=== INITIALISATION CARTE TERMINÉE AVEC SUCCÈS ===');
+
         } catch (error) {
             console.error('Erreur lors de l\'initialisation de la carte:', error);
+            console.error('Stack trace:', error.stack);
         }
     }
 
@@ -233,15 +241,6 @@
         if ($('#contact-map').length) {
             // Initialiser la carte Leaflet directement
             initContactMap();
-            
-            // Forcer le footer visible immédiatement
-            ensureFooterVisible();
-            
-            // Et le forcer à nouveau après 1 seconde (après chargement de la carte)
-            setTimeout(ensureFooterVisible, 1000);
-            
-            // Et encore après 2 secondes pour être sûr
-            setTimeout(ensureFooterVisible, 2000);
         }
     });
 

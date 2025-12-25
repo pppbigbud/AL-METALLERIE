@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Carte Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100vh;
+            width: 100%;
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        console.log('=== Test simple carte Leaflet ===');
+        
+        // Vérifier que L est défini
+        if (typeof L !== 'undefined') {
+            console.log('Leaflet chargé, version:', L.version);
+            
+            // Initialiser la carte
+            var map = L.map('map').setView([45.8167, 3.4833], 13);
+            
+            // Ajouter les tuiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Ajouter un marqueur
+            L.marker([45.8167, 3.4833]).addTo(map)
+                .bindPopup('AL Métallerie<br>Peschadoires')
+                .openPopup();
+                
+            console.log('Carte initialisée avec succès');
+        } else {
+            console.error('Leaflet non chargé');
+        }
+    </script>
+</body>
+</html>
