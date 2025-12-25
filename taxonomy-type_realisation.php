@@ -447,13 +447,16 @@ if (!$hero_background_image) {
                                             'compare' => 'LIKE'
                                         )
                                     )
-                                )
-                            ));
+                                ));
                             $projects_count = $realisations_query->found_posts;
                             
                             // Récupérer la note Google Business
-                            $google_reviews = almetal_get_google_reviews();
-                            $google_rating = isset($google_reviews['rating']) ? $google_reviews['rating'] : 5.0;
+                            if (function_exists('almetal_get_google_reviews')) {
+                                $google_reviews = almetal_get_google_reviews();
+                                $google_rating = isset($google_reviews['rating']) ? $google_reviews['rating'] : 5.0;
+                            } else {
+                                $google_rating = 5.0; // Valeur par défaut si la fonction n'existe pas
+                            }
                             
                             $cities_data[] = array(
                                 'name' => $city_name,
