@@ -259,10 +259,6 @@
 
 .cities-grid-compact .city-item {
     margin: 0;
-}
-
-.cities-grid-compact .city-link,
-.cities-grid-compact .city-name {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -278,11 +274,27 @@
     cursor: pointer;
 }
 
-.cities-grid-compact .city-link:hover,
-.cities-grid-compact .city-name:hover {
+.cities-grid-compact .city-item:hover {
     background: rgba(240, 139, 24, 0.2);
     border-color: rgba(240, 139, 24, 0.4);
     transform: translateY(-2px);
+}
+
+.cities-grid-compact .city-link,
+.cities-grid-compact .city-name {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.cities-grid-compact .city-link:hover,
+.cities-grid-compact .city-name:hover {
+    color: #ffffff;
+    text-decoration: none;
 }
 
 .cities-grid-compact .city-link svg,
