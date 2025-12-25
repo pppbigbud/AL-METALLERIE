@@ -198,23 +198,4 @@ if (function_exists('wp_body_open')) {
     </div>
 </div>
 
-<!-- Footer light avec fond #222222 -->
-<div class="footer-bottom footer-light">
-    <div class="container">
-        <div class="footer-bottom-content">
-            <p class="footer-copyright">
-                &copy; <?php echo date('Y'); ?> <strong><?php bloginfo('name'); ?></strong>. 
-                <?php _e('Tous droits réservés.', 'almetal'); ?>
-            </p>
-            <div class="footer-bottom-links">
-                <a href="<?php echo esc_url(home_url('/mentions-legales')); ?>"><?php _e('Mentions légales', 'almetal'); ?></a>
-                <span class="separator">|</span>
-                <a href="<?php echo esc_url(home_url('/politique-confidentialite')); ?>"><?php _e('Politique de confidentialité', 'almetal'); ?></a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<?php wp_footer(); ?>
-</body>
-</html>
+<?php get_footer(); ?>
