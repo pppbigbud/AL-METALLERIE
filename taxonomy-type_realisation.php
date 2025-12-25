@@ -466,6 +466,7 @@ if (!$hero_background_image) {
                                 'projects' => $projects_count,
                                 'rating' => number_format($google_rating, 1, '.', '') // Note Google Business réelle
                             );
+                            } // Ferme le if (!empty($lat) && !empty($lng))
                         }
                     }
                 }
