@@ -39,10 +39,7 @@
 
 /* Footer complet au-dessus de la carte */
 .page-template-page-contact .site-footer-new {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+    position: relative !important;
     z-index: 2 !important;  /* Au-dessus de la carte (z-index: 0) */
     background: transparent !important;  /* Transparent pour voir la carte */
 }
