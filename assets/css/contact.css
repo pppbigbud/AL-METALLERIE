@@ -38,24 +38,24 @@
 }
 
 /* Footer light avec fond #222222 - Fixed en bas */
-.page-template-page-contact .footer-new-bottom {
+/* .page-template-page-contact .footer-new-bottom {
     position: fixed !important;
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    z-index: 999999 !important;  /* Z-index extrêmement élevé */
-    background: #222222 !important;  /* Couleur exacte demandée */
+    z-index: 999999 !important;
+    background: #222222 !important;
     backdrop-filter: none !important;
     margin: 0 !important;
     padding: 1.5rem 0 !important;
     border-top: 1px solid rgba(240, 139, 24, 0.2) !important;
     width: 100% !important;
     display: block !important;
-    transform: translateZ(0) !important;  /* Force un nouveau contexte d'empilement */
-    will-change: transform !important;  /* Optimisation GPU */
-}
+    transform: translateZ(0) !important;
+    will-change: transform !important;
+} */
 
-.page-template-page-contact .footer-new-bottom .container {
+/* .page-template-page-contact .footer-new-bottom .container {
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 0 2rem !important;
@@ -76,7 +76,7 @@
     display: flex !important;
     align-items: center !important;
     gap: 1.5rem !important;
-}
+} */
 
 #contact-map {
     width: 100%;
