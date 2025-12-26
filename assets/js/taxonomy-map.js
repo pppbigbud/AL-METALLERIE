@@ -75,7 +75,21 @@ function initializeMap() {
         var activeMarker = null;
         var markers = {};
         
-        taxonomyCities.forEach(function(city) {
+        taxonomyCities.forEach(function(city, index) {
+            console.log(`DEBUG: Traitement ville ${index + 1}/${taxonomyCities.length}:`, city.name, city.slug, city.lat, city.lng);
+            
+            // Vérifier les coordonnées
+            if (!city.lat || !city.lng || isNaN(city.lat) || isNaN(city.lng)) {
+                console.error('DEBUG: Coordonnées invalides pour', city.name, city.lat, city.lng);
+                return; // Passer à la ville suivante
+            }
+            
+            // Vérifier le slug
+            if (!city.slug) {
+                console.error('DEBUG: Slug manquant pour', city.name);
+                return;
+            }
+            
             // Créer un marqueur personnalisé
             var marker = L.marker([city.lat, city.lng], {
                 icon: L.divIcon({
@@ -86,6 +100,8 @@ function initializeMap() {
                     popupAnchor: [0, -30]
                 })
             });
+            
+            console.log('DEBUG: Marqueur créé pour', city.name);
             
             // Ajouter le slug du ville au marqueur pour la synchronisation
             marker.citySlug = city.slug;
