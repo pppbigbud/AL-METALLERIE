@@ -146,17 +146,24 @@ function initializeMap() {
                 // Fermer le marqueur actif précédent
                 if (activeMarker && activeMarker !== marker) {
                     activeMarker.closePopup();
-                    activeMarker._icon.classList.remove('marker-active');
+                    if (activeMarker._icon) {
+                        activeMarker._icon.classList.remove('marker-active');
+                    }
                 }
                 
                 // Activer ce marqueur
                 marker.openPopup();
-                marker._icon.classList.add('marker-active');
+                if (marker._icon) {
+                    marker._icon.classList.add('marker-active');
+                }
                 activeMarker = marker;
                 
                 // Empêcher la propagation pour ne pas fermer la pop-up
                 L.DomEvent.stopPropagation(e);
             });
+            
+            // Ajouter le marqueur à la carte
+            marker.addTo(map);
             
             // Stocker le marqueur avec le slug comme clé
             markers[city.slug] = marker;
@@ -280,7 +287,7 @@ function initializeMap() {
             }
         `).appendTo('head');
         
-        console.log('DEBUG: Nombre de marqueurs ajoutés:', markers.length);
+        console.log('DEBUG: Nombre de marqueurs ajoutés:', Object.keys(markers).length);
         
         // Ajuster la vue pour inclure tous les marqueurs
         var markerArray = Object.values(markers);
