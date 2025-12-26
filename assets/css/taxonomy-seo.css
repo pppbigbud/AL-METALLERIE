@@ -48,7 +48,7 @@
 }
 
 .archive-hero .archive-icon {
-    display: block;
+    display: flex;
     margin: 0 auto 1rem;
     color: #F08B18;
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
