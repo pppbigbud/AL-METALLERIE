@@ -21,7 +21,7 @@
             <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <?php if (is_page_template('page-contact.php')) : ?>
                     <!-- SVG transparent pour la page contact -->
-                    <path class="mountain-silhouette" fill="transparent" d="
+                    <path class="mountain-silhouette" fill="none" stroke="rgba(240, 139, 24, 0.5)" stroke-width="2" d="
                         M0,120 L0,85
                         
                         C20,84 40,82 60,80
