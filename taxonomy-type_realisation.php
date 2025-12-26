@@ -451,26 +451,10 @@ if (!$hero_background_image) {
                                         )
                                     ),
                                     'meta_query' => array(
-                                        'relation' => 'OR',
                                         array(
                                             'key' => '_almetal_lieu',
                                             'value' => $city_name,
-                                            'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => '_almetal_lieu',
-                                            'value' => 'Ferronnier à ' . $city_name,
-                                            'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => '_almetal_lieu',
-                                            'value' => 'Serrurier à ' . $city_name,
-                                            'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => '_almetal_lieu',
-                                            'value' => 'Métallier ' . $city_name,
-                                            'compare' => '='
+                                            'compare' => 'LIKE'
                                         )
                                     )
                                 ));
@@ -490,26 +474,10 @@ if (!$hero_background_image) {
                                         )
                                     ),
                                     'meta_query' => array(
-                                        'relation' => 'OR',
                                         array(
                                             'key' => '_almetal_lieu',
                                             'value' => $city_name,
-                                            'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => '_almetal_lieu',
-                                            'value' => 'Ferronnier à ' . $city_name,
-                                            'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => '_almetal_lieu',
-                                            'value' => 'Serrurier à ' . $city_name,
-                                            'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => '_almetal_lieu',
-                                            'value' => 'Métallier ' . $city_name,
-                                            'compare' => '='
+                                            'compare' => 'LIKE'
                                         )
                                     ),
                                     'orderby' => 'date',
