@@ -436,6 +436,26 @@ if (!$hero_background_image) {
                             
                             // Si les coordonnées existent, ajouter la ville à la carte
                             if (!empty($lat) && !empty($lng)) {
+                                // DEBUG: Afficher les valeurs du meta field pour déboguer
+                                error_log("DEBUG: Recherche des réalisations pour ville: $city_name");
+                                $all_realisations = get_posts(array(
+                                    'post_type' => 'realisation',
+                                    'posts_per_page' => -1,
+                                    'tax_query' => array(
+                                        array(
+                                            'taxonomy' => 'type_realisation',
+                                            'field' => 'slug',
+                                            'terms' => $current_term->slug
+                                        )
+                                    )
+                                ));
+                                foreach ($all_realisations as $real) {
+                                    $ville_value = get_post_meta($real->ID, '_almetal_lieu', true);
+                                    if (stripos($ville_value, $city_name) !== false || stripos($city_name, $ville_value) !== false) {
+                                        error_log("DEBUG: Réalisation trouvée - " . $real->post_title . " -> ville: '$ville_value'");
+                                    }
+                                }
+                                
                                 // Compter le nombre de réalisations pour cette ville
                                 // Le meta field est '_almetal_lieu' et non 'ville_realisation'
                                 // Filtrer aussi par la catégorie actuelle (type_realisation)
