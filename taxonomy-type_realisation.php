@@ -417,9 +417,6 @@ if (!$hero_background_image) {
                         'order' => 'ASC'
                     ));
                     
-                    // DEBUG: Afficher combien de villes sont trouvées
-                    echo "<!-- DEBUG: Nombre de villes trouvées pour $post_type: " . count($cities) . " -->";
-                    
                     if ($cities && !is_wp_error($cities)) {
                         foreach ($cities as $city) {
                             $city_name = get_the_title($city->ID);
@@ -440,8 +437,7 @@ if (!$hero_background_image) {
                             // Si les coordonnées existent, ajouter la ville à la carte
                             if (!empty($lat) && !empty($lng)) {
                                 // Compter le nombre de réalisations pour cette ville
-                                // Le meta field est '_almetal_lieu' et non 'ville_realisation'
-                                // Compte TOUTES les réalisations peu importe la catégorie
+                                // Utilise LIKE avec wildcards pour trouver toutes les variations
                                 $realisations_query = new WP_Query(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
@@ -503,13 +499,8 @@ if (!$hero_background_image) {
                 }
             }
             
-            // DEBUG: Afficher les données en commentaire HTML pour déboguer
-            echo "<!-- DEBUG: " . json_encode($cities_data) . " -->";
             echo json_encode($cities_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
         ?>;
-        
-        console.log('taxonomyCities défini:', typeof taxonomyCities !== 'undefined');
-        console.log('taxonomyCities:', taxonomyCities);
         
         // Charger Leaflet.js si ce n'est pas déjà fait
         if (typeof L === 'undefined') {
