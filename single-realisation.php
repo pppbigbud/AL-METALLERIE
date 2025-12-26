@@ -230,8 +230,11 @@ $icons = array(
                 <div class="container">
                     <div class="realisation-content-v2">
                         <?php 
-                        // Afficher la description SEO générée si elle existe
+                        // Vérifier le contenu pour éviter le thin content
                         $seo_description = get_post_meta(get_the_ID(), '_almetal_seo_description', true);
+                        $main_content = get_the_content();
+                        $has_content = false;
+                        
                         if (!empty($seo_description)) {
                             // Autoriser les balises HTML SEO
                             $allowed_html = array(
@@ -250,9 +253,18 @@ $icons = array(
                                 ),
                             );
                             echo wp_kses($seo_description, $allowed_html);
-                        } else {
-                            // Fallback : afficher le contenu WordPress classique
+                            $has_content = true;
+                        } elseif (!empty($main_content)) {
                             the_content();
+                            $has_content = true;
+                        }
+                        
+                        // Message si pas de contenu (visible admin seulement)
+                        if (!$has_content && current_user_can('edit_posts')) {
+                            echo '<div style="background: #ff6b35; color: white; padding: 20px; margin: 20px 0; border-radius: 8px;">';
+                            echo '<strong>⚠️ Attention SEO :</strong> Cette réalisation n\'a pas de contenu texte. ';
+                            echo 'Ajoutez une description SEO ou du contenu dans l\'éditeur pour améliorer l\'indexation Google.';
+                            echo '</div>';
                         }
                         ?>
                     </div>
