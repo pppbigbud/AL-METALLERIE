@@ -110,13 +110,14 @@ function initializeMap() {
                     </div>
                     <div class="city-card-content">
                         <p class="city-card-description">
-                            Découvrez nos ${city.projects || 'nombreuses'} réalisations à ${city.name}.
+                            ${city.projects > 0 ? `Découvrez nos ${city.projects} réalisations à ${city.name}.` : `Découvrez nos réalisations à ${city.name}.`}
                         </p>
                         <div class="city-card-stats">
+                            ${city.projects > 0 ? `
                             <div class="stat-item">
-                                <span class="stat-number">${city.projects || '0'}</span>
+                                <span class="stat-number">${city.projects}</span>
                                 <span class="stat-label">Projets</span>
-                            </div>
+                            </div>` : ''}
                             <div class="stat-item">
                                 <span class="stat-number">${city.rating || '4.8'}/5</span>
                                 <span class="stat-label">Satisfaction</span>
