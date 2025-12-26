@@ -436,8 +436,11 @@ if (!$hero_background_image) {
                             
                             // Si les coordonnées existent, ajouter la ville à la carte
                             if (!empty($lat) && !empty($lng)) {
-                                // DEBUG: Afficher les valeurs du meta field pour déboguer
-                                error_log("DEBUG: Recherche des réalisations pour ville: $city_name");
+                                // DEBUG: Collecter les valeurs du meta field pour les afficher dans la console
+                                $debug_data = array();
+                                $debug_data['city'] = $city_name;
+                                $debug_data['realisations'] = array();
+                                
                                 $all_realisations = get_posts(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
@@ -452,9 +455,15 @@ if (!$hero_background_image) {
                                 foreach ($all_realisations as $real) {
                                     $ville_value = get_post_meta($real->ID, '_almetal_lieu', true);
                                     if (stripos($ville_value, $city_name) !== false || stripos($city_name, $ville_value) !== false) {
-                                        error_log("DEBUG: Réalisation trouvée - " . $real->post_title . " -> ville: '$ville_value'");
+                                        $debug_data['realisations'][] = array(
+                                            'title' => $real->post_title,
+                                            'ville' => $ville_value
+                                        );
                                     }
                                 }
+                                
+                                // Ajouter le debug au JavaScript
+                                echo "<script>console.log('DEBUG VILLE: " . json_encode($debug_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) . "');</script>";
                                 
                                 // Compter le nombre de réalisations pour cette ville
                                 // Le meta field est '_almetal_lieu' et non 'ville_realisation'
