@@ -172,8 +172,16 @@ function initializeMap() {
         console.log('DEBUG: Nombre de marqueurs ajoutés:', Object.keys(markers).length);
         
         // Synchronisation hover entre les boutons et la carte
-        $('.city-link, .city-name').on('mouseenter', function() {
+        $('.city-link, .city-name, .btn-city, a[href*="metallier-"]').on('mouseenter', function() {
             var citySlug = $(this).data('city');
+            // Si pas de data-city, essayer d'extraire du href
+            if (!citySlug && $(this).attr('href')) {
+                var href = $(this).attr('href');
+                var match = href.match(/metallier-([^\/\?#]+)/);
+                if (match) {
+                    citySlug = match[1];
+                }
+            }
             if (citySlug && markers[citySlug]) {
                 markers[citySlug].openPopup();
                 // Mettre en évidence le marqueur
@@ -181,6 +189,13 @@ function initializeMap() {
             }
         }).on('mouseleave', function() {
             var citySlug = $(this).data('city');
+            if (!citySlug && $(this).attr('href')) {
+                var href = $(this).attr('href');
+                var match = href.match(/metallier-([^\/\?#]+)/);
+                if (match) {
+                    citySlug = match[1];
+                }
+            }
             if (citySlug && markers[citySlug] && markers[citySlug] !== activeMarker) {
                 markers[citySlug].closePopup();
                 // Remettre le zIndex normal
@@ -189,19 +204,31 @@ function initializeMap() {
         });
         
         // Gérer le clic sur les boutons des villes
-        $('.city-link, .city-name').on('click', function(e) {
+        $('.city-link, .city-name, .btn-city, a[href*="metallier-"]').on('click', function(e) {
             e.preventDefault();
             var citySlug = $(this).data('city');
+            // Si pas de data-city, essayer d'extraire du href
+            if (!citySlug && $(this).attr('href')) {
+                var href = $(this).attr('href');
+                var match = href.match(/metallier-([^\/\?#]+)/);
+                if (match) {
+                    citySlug = match[1];
+                }
+            }
             if (citySlug && markers[citySlug]) {
                 // Fermer le marqueur actif précédent
                 if (activeMarker && activeMarker !== markers[citySlug]) {
                     activeMarker.closePopup();
-                    activeMarker._icon.classList.remove('marker-active');
+                    if (activeMarker._icon) {
+                        activeMarker._icon.classList.remove('marker-active');
+                    }
                 }
                 
                 // Activer le marqueur de cette ville
                 markers[citySlug].openPopup();
-                markers[citySlug]._icon.classList.add('marker-active');
+                if (markers[citySlug]._icon) {
+                    markers[citySlug]._icon.classList.add('marker-active');
+                }
                 activeMarker = markers[citySlug];
                 
                 // Centrer la carte sur le marqueur
@@ -273,7 +300,7 @@ function initializeMap() {
             
             .city-card-cta .btn-discover {
                 background: #F08B18;
-                color: white;
+                color: white !important;
                 padding: 0.5rem 1.5rem;
                 border-radius: 25px;
                 text-decoration: none;
@@ -293,7 +320,7 @@ function initializeMap() {
         var markerArray = Object.values(markers);
         if (markerArray.length > 0) {
             var group = new L.featureGroup(markerArray);
-            map.fitBounds(group.getBounds().pad(0.1));
+            map.fitBounds(group.getBounds().pad(0.2));
         }
         
         // Animation au survol des marqueurs
