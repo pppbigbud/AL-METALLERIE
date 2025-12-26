@@ -494,6 +494,7 @@ if (!$hero_background_image) {
                             
                             $cities_data[] = array(
                                 'name' => $city_name,
+                                'slug' => sanitize_title($city_name), // Ajout du slug
                                 'lat' => floatval($lat),
                                 'lng' => floatval($lng),
                                 'url' => get_permalink($city->ID),
