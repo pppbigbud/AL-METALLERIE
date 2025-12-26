@@ -112,7 +112,8 @@ function initializeMap() {
             
             marker.bindPopup(cityCardContent, {
                 maxWidth: 300,
-                className: 'city-popup'
+                className: 'city-popup',
+                closeButton: false
             });
             
             // Rendre le marqueur cliquable pour aller directement à la page

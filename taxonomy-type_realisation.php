@@ -437,14 +437,36 @@ if (!$hero_background_image) {
                             // Si les coordonnées existent, ajouter la ville à la carte
                             if (!empty($lat) && !empty($lng)) {
                                 // Compter le nombre de réalisations pour cette ville
+                                // Chercher dans le meta field 'ville_realisation' avec différentes variations
                                 $realisations_query = new WP_Query(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
                                     'meta_query' => array(
+                                        'relation' => 'OR',
+                                        array(
+                                            'key' => 'ville_realisation',
+                                            'value' => $city_name,
+                                            'compare' => '='
+                                        ),
                                         array(
                                             'key' => 'ville_realisation',
                                             'value' => $city_name,
                                             'compare' => 'LIKE'
+                                        ),
+                                        array(
+                                            'key' => 'ville_realisation',
+                                            'value' => 'Ferronnier à ' . $city_name,
+                                            'compare' => '='
+                                        ),
+                                        array(
+                                            'key' => 'ville_realisation',
+                                            'value' => 'Serrurier à ' . $city_name,
+                                            'compare' => '='
+                                        ),
+                                        array(
+                                            'key' => 'ville_realisation',
+                                            'value' => 'Métallier ' . $city_name,
+                                            'compare' => '='
                                         )
                                     )
                                 ));
@@ -472,7 +494,7 @@ if (!$hero_background_image) {
                 }
             }
             
-            echo json_encode($cities_data);
+            echo json_encode($cities_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
         ?>;
         
         // Charger Leaflet.js si ce n'est pas déjà fait

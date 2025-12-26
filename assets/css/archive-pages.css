@@ -23,7 +23,6 @@
 .archive-hero {
   background: #1e1e1e;
   padding: 12rem 0 3rem;
-  border-bottom: 2px solid rgba(240, 139, 24, 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -916,7 +915,6 @@
 .taxonomy-back-link {
   text-align: center;
   padding: 2rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 2rem;
 }
 
