@@ -125,7 +125,7 @@ function initializeMap() {
             var cityCardContent = `
                 <div class="city-card-popup">
                     <div class="city-card-header">
-                        <h3><a href="${city.url}" style="color: inherit; text-decoration: none;">${city.name}</a></h3>
+                        <h3><a href="${city.url}" style="color: white !important; text-decoration: none;">${city.name}</a></h3>
                         <span class="city-card-category">${city.category || 'Réalisations'}</span>
                     </div>
                     <div class="city-card-content">
