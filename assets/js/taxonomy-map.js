@@ -71,16 +71,21 @@ function initializeMap() {
         });
         
         // Ajouter les marqueurs pour chaque ville
+        // Variable globale pour suivre le marqueur actif
+        var activeMarker = null;
         var markers = {};
+        
         taxonomyCities.forEach(function(city) {
-            // Ajouter les propriétés manquantes
-            city.slug = city.slug || city.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-            city.category = city.category || 'Soudure';
-            city.projects = city.projects || Math.floor(Math.random() * 10) + 3;
-            
-            console.log('DEBUG: Ajout du marqueur pour', city.name);
-            var marker = L.marker([city.lat, city.lng], { icon: customIcon })
-                .addTo(map);
+            // Créer un marqueur personnalisé
+            var marker = L.marker([city.lat, city.lng], {
+                icon: L.divIcon({
+                    className: 'custom-marker',
+                    html: '<div class="marker-icon"></div>',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 30],
+                    popupAnchor: [0, -30]
+                })
+            });
             
             // Ajouter le slug du ville au marqueur pour la synchronisation
             marker.citySlug = city.slug;
@@ -109,9 +114,6 @@ function initializeMap() {
                         <span class="city-card-category">${city.category || 'Réalisations'}</span>
                     </div>
                     <div class="city-card-content">
-                        <p class="city-card-description">
-                            ${city.projects > 0 ? `Découvrez nos ${city.projects} réalisations à ${city.name}.` : `Découvrez nos réalisations à ${city.name}.`}
-                        </p>
                         <div class="city-card-stats">
                             ${city.projects > 0 ? `
                             <div class="stat-item">
@@ -124,6 +126,9 @@ function initializeMap() {
                             </div>
                         </div>
                         ${lastRealisationHtml}
+                        <div class="city-card-cta">
+                            <a href="${city.url}" class="btn-discover">Voir les réalisations</a>
+                        </div>
                     </div>
                 </div>
             `;
@@ -131,12 +136,26 @@ function initializeMap() {
             marker.bindPopup(cityCardContent, {
                 maxWidth: 300,
                 className: 'city-popup',
-                closeButton: false
+                closeButton: false,
+                closeOnClick: false,
+                autoPan: true
             });
             
-            // Rendre le marqueur cliquable pour aller directement à la page
-            marker.on('click', function() {
-                window.location.href = city.url;
+            // Gérer le clic sur le marqueur pour garder la pop-up active
+            marker.on('click', function(e) {
+                // Fermer le marqueur actif précédent
+                if (activeMarker && activeMarker !== marker) {
+                    activeMarker.closePopup();
+                    activeMarker._icon.classList.remove('marker-active');
+                }
+                
+                // Activer ce marqueur
+                marker.openPopup();
+                marker._icon.classList.add('marker-active');
+                activeMarker = marker;
+                
+                // Empêcher la propagation pour ne pas fermer la pop-up
+                L.DomEvent.stopPropagation(e);
             });
             
             // Stocker le marqueur avec le slug comme clé
@@ -155,10 +174,31 @@ function initializeMap() {
             }
         }).on('mouseleave', function() {
             var citySlug = $(this).data('city');
-            if (citySlug && markers[citySlug]) {
+            if (citySlug && markers[citySlug] && markers[citySlug] !== activeMarker) {
                 markers[citySlug].closePopup();
                 // Remettre le zIndex normal
                 markers[citySlug].setZIndexOffset(0);
+            }
+        });
+        
+        // Gérer le clic sur les boutons des villes
+        $('.city-link, .city-name').on('click', function(e) {
+            e.preventDefault();
+            var citySlug = $(this).data('city');
+            if (citySlug && markers[citySlug]) {
+                // Fermer le marqueur actif précédent
+                if (activeMarker && activeMarker !== markers[citySlug]) {
+                    activeMarker.closePopup();
+                    activeMarker._icon.classList.remove('marker-active');
+                }
+                
+                // Activer le marqueur de cette ville
+                markers[citySlug].openPopup();
+                markers[citySlug]._icon.classList.add('marker-active');
+                activeMarker = markers[citySlug];
+                
+                // Centrer la carte sur le marqueur
+                map.setView([markers[citySlug].getLatLng().lat, markers[citySlug].getLatLng().lng], 11);
             }
         });
         
@@ -181,12 +221,62 @@ function initializeMap() {
             });
         });
         
-        // Style pour le highlight des boutons
+        // Style pour le highlight et l'état actif des boutons et marqueurs
         $('<style>').text(`
             .city-highlight {
                 background: rgba(240, 139, 24, 0.3) !important;
                 border-color: rgba(240, 139, 24, 0.6) !important;
                 transform: translateY(-2px) scale(1.05) !important;
+            }
+            
+            .marker-active .marker-icon {
+                background: #FF6B35 !important;
+                box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.3), 0 2px 5px rgba(0,0,0,0.3) !important;
+                transform: scale(1.2) !important;
+            }
+            
+            .custom-marker .marker-icon {
+                background: #F08B18;
+                width: 30px;
+                height: 30px;
+                border-radius: 50% 50% 50% 0;
+                transform: rotate(-45deg);
+                border: 2px solid #fff;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .custom-marker .marker-icon:before {
+                content: 'AL';
+                transform: rotate(45deg);
+                color: white;
+                font-weight: bold;
+                font-size: 10px;
+            }
+            
+            .city-card-cta {
+                margin-top: 1rem;
+                text-align: center;
+                border-top: 1px solid rgba(0,0,0,0.1);
+                padding-top: 1rem;
+            }
+            
+            .city-card-cta .btn-discover {
+                background: #F08B18;
+                color: white;
+                padding: 0.5rem 1.5rem;
+                border-radius: 25px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: background 0.3s ease;
+                display: inline-block;
+            }
+            
+            .city-card-cta .btn-discover:hover {
+                background: #FF6B35;
             }
         `).appendTo('head');
         
