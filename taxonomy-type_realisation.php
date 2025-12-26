@@ -410,19 +410,12 @@ if (!$hero_background_image) {
             foreach ($post_types as $post_type) {
                 if (post_type_exists($post_type)) {
                     $cities = get_posts(array(
-                        'post_type' => $post_type,
-                        'posts_per_page' => -1,
-                        'post_status' => 'publish',
-                        'orderby' => 'title',
-                        'order' => 'ASC'
-                    ));
-                    
-                    if ($cities && !is_wp_error($cities)) {
-                        foreach ($cities as $city) {
-                            $city_name = get_the_title($city->ID);
-                            $city_name = str_replace(array(
-                                'Ferronier à ',
-                                'Ferronnier à ',
+                    'post_type' => $post_type,
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish',
+                    'orderby' => 'title',
+                    'order' => 'ASC'
+                ));
                                 'Serrurier à ',
                                 'Métallier ',
                                 'AL Métallerie ',
