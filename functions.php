@@ -704,6 +704,31 @@ function almetal_widgets_init() {
 add_action('widgets_init', 'almetal_widgets_init');
 
 /**
+ * Redirections 301 pour les réalisations avec slugs modifiés
+ */
+function almetal_realisation_redirects() {
+    $redirects = array(
+        // Ancienne URL => Nouvelle URL
+        '/realisations/grilles-serrurerie-cunlhat-11-03-2025/' => '/realisations/grilles-serrurerie-cunlhat/',
+        '/realisations/portails-escoutoux-01-07-2025/' => '/realisations/portails-escoutoux/',
+        '/realisations/garde-corps-chamalieres-20-11-2023/' => '/realisations/garde-corps-chamalieres/',
+        
+        // Ajouter d'autres redirections ici si nécessaire
+        // '/ancienne-url/' => '/nouvelle-url/',
+    );
+    
+    $request_uri = $_SERVER['REQUEST_URI'];
+    
+    foreach ($redirects as $old => $new) {
+        if ($request_uri === $old) {
+            wp_redirect(home_url($new), 301);
+            exit();
+        }
+    }
+}
+add_action('template_redirect', 'almetal_realisation_redirects');
+
+/**
  * Détection mobile/desktop
  * Ajouter ?force_mobile=1 dans l'URL pour forcer le mode mobile
  */
