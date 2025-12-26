@@ -320,7 +320,7 @@ function initializeMap() {
         var markerArray = Object.values(markers);
         if (markerArray.length > 0) {
             var group = new L.featureGroup(markerArray);
-            map.fitBounds(group.getBounds().pad(0.2));
+            map.fitBounds(group.getBounds().pad(0.4));
         }
         
         // Animation au survol des marqueurs
@@ -334,7 +334,7 @@ function initializeMap() {
                 map.invalidateSize();
                 if (markerArray.length > 0) {
                     var group = new L.featureGroup(markerArray);
-                    map.fitBounds(group.getBounds().pad(0.1));
+                    map.fitBounds(group.getBounds().pad(0.4));
                 }
             }, 250);
         });
