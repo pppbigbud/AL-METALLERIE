@@ -436,8 +436,23 @@ if (!$hero_background_image) {
                             
                             // Si les coordonnées existent, ajouter la ville à la carte
                             if (!empty($lat) && !empty($lng)) {
+                                // DEBUG: Afficher les valeurs réelles du meta field pour cette ville
+                                if ($city_name === 'Vichy') {
+                                    echo "<script>console.log('DEBUG Vichy: Recherche des réalisations pour ville:', '" . esc_js($city_name) . "');</script>";
+                                    $all_realisations = get_posts(array(
+                                        'post_type' => 'realisation',
+                                        'posts_per_page' => -1,
+                                        'meta_key' => 'ville_realisation'
+                                    ));
+                                    echo "<script>console.log('DEBUG Vichy: Nombre total de réalisations avec meta ville_realisation:', " . count($all_realisations) . ");</script>";
+                                    foreach ($all_realisations as $real) {
+                                        $ville_value = get_post_meta($real->ID, 'ville_realisation', true);
+                                        echo "<script>console.log('DEBUG Vichy: Réalisation " . esc_js($real->post_title) . " -> ville:', '" . esc_js($ville_value) . "');</script>";
+                                    }
+                                }
+                                
                                 // Compter le nombre de réalisations pour cette ville
-                                // Chercher dans le meta field 'ville_realisation' avec différentes variations
+                                // Chercher dans le meta field 'ville_realisation' avec correspondances exactes seulement
                                 $realisations_query = new WP_Query(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
@@ -447,11 +462,6 @@ if (!$hero_background_image) {
                                             'key' => 'ville_realisation',
                                             'value' => $city_name,
                                             'compare' => '='
-                                        ),
-                                        array(
-                                            'key' => 'ville_realisation',
-                                            'value' => $city_name,
-                                            'compare' => 'LIKE'
                                         ),
                                         array(
                                             'key' => 'ville_realisation',
