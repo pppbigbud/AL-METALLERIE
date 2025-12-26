@@ -438,9 +438,18 @@ if (!$hero_background_image) {
                             if (!empty($lat) && !empty($lng)) {
                                 // Compter le nombre de réalisations pour cette ville
                                 // Le meta field est '_almetal_lieu' et non 'ville_realisation'
+                                // Filtrer aussi par la catégorie actuelle (type_realisation)
+                                $current_term = get_queried_object();
                                 $realisations_query = new WP_Query(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
+                                    'tax_query' => array(
+                                        array(
+                                            'taxonomy' => 'type_realisation',
+                                            'field' => 'slug',
+                                            'terms' => $current_term->slug
+                                        )
+                                    ),
                                     'meta_query' => array(
                                         'relation' => 'OR',
                                         array(
@@ -467,6 +476,50 @@ if (!$hero_background_image) {
                                 ));
                             $projects_count = $realisations_query->found_posts;
                             
+                            // Récupérer la dernière réalisation pour cette ville et cette catégorie
+                            $last_realisation = null;
+                            if ($projects_count > 0) {
+                                $last_query = new WP_Query(array(
+                                    'post_type' => 'realisation',
+                                    'posts_per_page' => 1,
+                                    'tax_query' => array(
+                                        array(
+                                            'taxonomy' => 'type_realisation',
+                                            'field' => 'slug',
+                                            'terms' => $current_term->slug
+                                        )
+                                    ),
+                                    'meta_query' => array(
+                                        'relation' => 'OR',
+                                        array(
+                                            'key' => '_almetal_lieu',
+                                            'value' => $city_name,
+                                            'compare' => '='
+                                        ),
+                                        array(
+                                            'key' => '_almetal_lieu',
+                                            'value' => 'Ferronnier à ' . $city_name,
+                                            'compare' => '='
+                                        ),
+                                        array(
+                                            'key' => '_almetal_lieu',
+                                            'value' => 'Serrurier à ' . $city_name,
+                                            'compare' => '='
+                                        ),
+                                        array(
+                                            'key' => '_almetal_lieu',
+                                            'value' => 'Métallier ' . $city_name,
+                                            'compare' => '='
+                                        )
+                                    ),
+                                    'orderby' => 'date',
+                                    'order' => 'DESC'
+                                ));
+                                if ($last_query->have_posts()) {
+                                    $last_realisation = $last_query->posts[0];
+                                }
+                            }
+                            
                             // Récupérer la note Google Business
                             if (function_exists('almetal_get_google_reviews')) {
                                 $google_reviews = almetal_get_google_reviews();
@@ -481,7 +534,12 @@ if (!$hero_background_image) {
                                 'lng' => floatval($lng),
                                 'url' => get_permalink($city->ID),
                                 'projects' => $projects_count,
-                                'rating' => number_format($google_rating, 1, '.', '') // Note Google Business réelle
+                                'rating' => number_format($google_rating, 1, '.', ''), // Note Google Business réelle
+                                'last_realisation' => $last_realisation ? array(
+                                    'title' => get_the_title($last_realisation->ID),
+                                    'url' => get_permalink($last_realisation->ID),
+                                    'thumbnail' => get_the_post_thumbnail_url($last_realisation->ID, 'thumbnail')
+                                ) : null
                             );
                             } // Ferme le if (!empty($lat) && !empty($lng))
                         }

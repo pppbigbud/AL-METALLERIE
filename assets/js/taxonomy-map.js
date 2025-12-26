@@ -86,6 +86,22 @@ function initializeMap() {
             marker.citySlug = city.slug;
             
             // Popup avec fiche ville détaillée
+            var lastRealisationHtml = '';
+            if (city.last_realisation) {
+                lastRealisationHtml = `
+                    <div class="city-last-realisation">
+                        <h4>Notre dernière réalisation à ${city.name}</h4>
+                        <div class="last-realisation-card">
+                            ${city.last_realisation.thumbnail ? `<img src="${city.last_realisation.thumbnail}" alt="${city.last_realisation.title}" class="last-realisation-thumb">` : ''}
+                            <div class="last-realisation-info">
+                                <h5><a href="${city.last_realisation.url}">${city.last_realisation.title}</a></h5>
+                                <a href="${city.last_realisation.url}" class="btn-discover">Découvrir</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
             var cityCardContent = `
                 <div class="city-card-popup">
                     <div class="city-card-header">
@@ -98,7 +114,7 @@ function initializeMap() {
                         </p>
                         <div class="city-card-stats">
                             <div class="stat-item">
-                                <span class="stat-number">${city.projects || '5+'}</span>
+                                <span class="stat-number">${city.projects || '0'}</span>
                                 <span class="stat-label">Projets</span>
                             </div>
                             <div class="stat-item">
@@ -106,6 +122,7 @@ function initializeMap() {
                                 <span class="stat-label">Satisfaction</span>
                             </div>
                         </div>
+                        ${lastRealisationHtml}
                     </div>
                 </div>
             `;
