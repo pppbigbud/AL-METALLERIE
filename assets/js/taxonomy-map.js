@@ -116,7 +116,6 @@ function initializeMap() {
                             ${city.last_realisation.thumbnail ? `<img src="${city.last_realisation.thumbnail}" alt="${city.last_realisation.title}" class="last-realisation-thumb">` : ''}
                             <div class="last-realisation-info">
                                 <h5><a href="${city.last_realisation.url}">${city.last_realisation.title}</a></h5>
-                                <a href="${city.last_realisation.url}" class="btn-discover">Découvrir</a>
                             </div>
                         </div>
                     </div>
@@ -126,7 +125,7 @@ function initializeMap() {
             var cityCardContent = `
                 <div class="city-card-popup">
                     <div class="city-card-header">
-                        <h3>${city.name}</h3>
+                        <h3><a href="${city.url}" style="color: inherit; text-decoration: none;">${city.name}</a></h3>
                         <span class="city-card-category">${city.category || 'Réalisations'}</span>
                     </div>
                     <div class="city-card-content">
