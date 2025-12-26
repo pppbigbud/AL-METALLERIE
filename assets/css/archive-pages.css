@@ -11,7 +11,7 @@
    ============================================ */
 
 .archive-page {
-  background: #191919;
+  background: transparent;
   min-height: 100vh;
   color: var(--color-text-light);
 }
