@@ -442,6 +442,12 @@ if (!$hero_background_image) {
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
                                     'meta_query' => array(
+                                        'relation' => 'OR',
+                                        array(
+                                            'key' => '_almetal_lieu',
+                                            'value' => $city_name,
+                                            'compare' => 'LIKE'
+                                        ),
                                         array(
                                             'key' => '_almetal_lieu',
                                             'value' => '%' . $city_name . '%',
@@ -458,6 +464,12 @@ if (!$hero_background_image) {
                                     'post_type' => 'realisation',
                                     'posts_per_page' => 1,
                                     'meta_query' => array(
+                                        'relation' => 'OR',
+                                        array(
+                                            'key' => '_almetal_lieu',
+                                            'value' => $city_name,
+                                            'compare' => 'LIKE'
+                                        ),
                                         array(
                                             'key' => '_almetal_lieu',
                                             'value' => '%' . $city_name . '%',
