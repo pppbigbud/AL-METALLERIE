@@ -49,8 +49,8 @@ function initializeMap() {
         
         console.log('DEBUG: Initialisation de la carte...');
         
-        // Initialiser la carte centrée sur le Puy-de-Dôme
-        var map = L.map('taxonomy-map').setView([45.7772, 3.3870], 9);
+        // Initialiser la carte sans positionnement initial
+        var map = L.map('taxonomy-map');
         
         // Tile layer avec style plus clair
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -171,8 +171,14 @@ function initializeMap() {
         
         console.log('DEBUG: Nombre de marqueurs ajoutés:', Object.keys(markers).length);
         
+        // Débogage - vérifier les éléments trouvés
+        console.log('DEBUG: Recherche des CTA villes...');
+        var cityLinks = $('.city-link, .city-name, .btn-city, a[href*="metallier-"]');
+        console.log('DEBUG: Éléments trouvés:', cityLinks.length);
+        console.log('DEBUG: Éléments:', cityLinks);
+        
         // Synchronisation hover entre les boutons et la carte
-        $('.city-link, .city-name, .btn-city, a[href*="metallier-"]').on('mouseenter', function() {
+        cityLinks.on('mouseenter', function() {
             var citySlug = $(this).data('city');
             // Si pas de data-city, essayer d'extraire du href
             if (!citySlug && $(this).attr('href')) {
@@ -182,6 +188,7 @@ function initializeMap() {
                     citySlug = match[1];
                 }
             }
+            console.log('DEBUG: Hover sur ville:', citySlug);
             if (citySlug && markers[citySlug]) {
                 markers[citySlug].openPopup();
                 // Mettre en évidence le marqueur
@@ -203,9 +210,10 @@ function initializeMap() {
             }
         });
         
-        // Gérer le clic sur les boutons des villes
-        $('.city-link, .city-name, .btn-city, a[href*="metallier-"]').on('click', function(e) {
+        // Gérer le clic sur les boutons des villes avec délégation
+        $(document).on('click', '.city-link, .city-name, .btn-city, a[href*="metallier-"]', function(e) {
             e.preventDefault();
+            console.log('DEBUG: Clic sur ville détecté');
             var citySlug = $(this).data('city');
             // Si pas de data-city, essayer d'extraire du href
             if (!citySlug && $(this).attr('href')) {
@@ -215,7 +223,9 @@ function initializeMap() {
                     citySlug = match[1];
                 }
             }
+            console.log('DEBUG: Slug extrait:', citySlug);
             if (citySlug && markers[citySlug]) {
+                console.log('DEBUG: Ouverture de la pop-up pour:', citySlug);
                 // Fermer le marqueur actif précédent
                 if (activeMarker && activeMarker !== markers[citySlug]) {
                     activeMarker.closePopup();
@@ -316,11 +326,14 @@ function initializeMap() {
         
         console.log('DEBUG: Nombre de marqueurs ajoutés:', Object.keys(markers).length);
         
-        // Ajuster la vue pour inclure tous les marqueurs
+        // Ajuster la vue pour inclure tous les marqueurs avec un délai
         var markerArray = Object.values(markers);
         if (markerArray.length > 0) {
-            var group = new L.featureGroup(markerArray);
-            map.fitBounds(group.getBounds().pad(0.4));
+            setTimeout(function() {
+                var group = new L.featureGroup(markerArray);
+                map.fitBounds(group.getBounds().pad(0.4));
+                console.log('DEBUG: Vue ajustée pour tous les marqueurs');
+            }, 500);
         }
         
         // Animation au survol des marqueurs
