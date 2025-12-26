@@ -438,18 +438,10 @@ if (!$hero_background_image) {
                             if (!empty($lat) && !empty($lng)) {
                                 // Compter le nombre de réalisations pour cette ville
                                 // Le meta field est '_almetal_lieu' et non 'ville_realisation'
-                                // Filtrer aussi par la catégorie actuelle (type_realisation)
-                                $current_term = get_queried_object();
+                                // Compte TOUTES les réalisations peu importe la catégorie
                                 $realisations_query = new WP_Query(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => -1,
-                                    'tax_query' => array(
-                                        array(
-                                            'taxonomy' => 'type_realisation',
-                                            'field' => 'slug',
-                                            'terms' => $current_term->slug
-                                        )
-                                    ),
                                     'meta_query' => array(
                                         array(
                                             'key' => '_almetal_lieu',
@@ -466,13 +458,6 @@ if (!$hero_background_image) {
                                 $last_query = new WP_Query(array(
                                     'post_type' => 'realisation',
                                     'posts_per_page' => 1,
-                                    'tax_query' => array(
-                                        array(
-                                            'taxonomy' => 'type_realisation',
-                                            'field' => 'slug',
-                                            'terms' => $current_term->slug
-                                        )
-                                    ),
                                     'meta_query' => array(
                                         array(
                                             'key' => '_almetal_lieu',
