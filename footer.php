@@ -20,8 +20,15 @@
         <div class="footer-mountains">
             <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <?php if (is_page_template('page-contact.php')) : ?>
-                    <!-- SVG transparent pour la page contact -->
-                    <path class="mountain-silhouette" fill="none" stroke="rgba(240, 139, 24, 0.5)" stroke-width="2" d="
+                    <!-- SVG avec dégradé vertical pour la page contact -->
+                    <defs>
+                        <linearGradient id="mountainGradientContact" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#222222;stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:#222222;stop-opacity:0.3" />
+                            <stop offset="100%" style="stop-color:#222222;stop-opacity:0.95" />
+                        </linearGradient>
+                    </defs>
+                    <path class="mountain-silhouette" fill="url(#mountainGradientContact)" d="
                         M0,120 L0,85
                         
                         C20,84 40,82 60,80
