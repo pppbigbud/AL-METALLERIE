@@ -17,142 +17,75 @@
         <footer id="colophon" class="site-footer-new">
         
         <!-- Montagnes d'Auvergne avec animation d'eruption -->
+        <?php if (!is_page_template('page-contact.php')) : ?>
         <div class="footer-mountains">
             <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <?php if (is_page_template('page-contact.php')) : ?>
-                    <!-- SVG avec dégradé vertical pour la page contact -->
-                    <defs>
-                        <linearGradient id="mountainGradientContact" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:#222222;stop-opacity:0" />
-                            <stop offset="50%" style="stop-color:#222222;stop-opacity:0.3" />
-                            <stop offset="100%" style="stop-color:#222222;stop-opacity:0.95" />
-                        </linearGradient>
-                    </defs>
-                    <path class="mountain-silhouette" fill="url(#mountainGradientContact)" d="
-                        M0,120 L0,85
-                        
-                        C20,84 40,82 60,80
-                        C80,78 100,76 120,73
-                        L140,70
-                        C155,68 170,65 185,63
-                        L200,60
-                        C215,58 230,56 245,55
-                        L260,54
-                        
-                        C275,52 290,49 305,46
-                        L320,42
-                        C335,38 350,33 365,28
-                        L380,22
-                        C390,18 400,14 410,11
-                        L425,8
-                        L440,6
-                        L455,5
-                        L465,3
-                        L475,2
-                        L485,3
-                        L495,5
-                        L505,7
-                        L515,9
-                        L525,11
-                        L535,14
-                        L545,17
-                        C555,20 565,24 575,28
-                        L590,33
-                        C600,37 610,41 620,44
-                        L635,48
-                        C650,51 665,54 680,56
-                        L695,58
-                        C710,59 725,60 740,60
-                        L755,60
-                        C770,59 785,58 800,56
-                        L815,54
-                        C825,52 835,50 845,48
-                        L860,45
-                        C875,42 890,39 905,36
-                        L920,33
-                        C935,30 950,27 965,25
-                        L980,23
-                        C990,21 1000,20 1010,19
-                        L1025,18
-                        L1040,17
-                        L1055,16
-                        L1070,16
-                        L1085,17
-                        L1100,18
-                        C1115,20 1130,22 1145,25
-                        L1160,28
-                        C1170,31 1180,34 1190,38
-                        L1200,42
-                        L1200,120 Z
-                    "/>
-                <?php else : ?>
-                    <!-- SVG normal pour les autres pages -->
-                    <defs>
-                        <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#2a2a2a;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
+                <!-- SVG normal pour les autres pages -->
+                <defs>
+                    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#2a2a2a;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <path class="mountain-silhouette" fill="url(#mountainGradient)" d="
+                    M0,120 L0,85
                     
-                    <path class="mountain-silhouette" fill="url(#mountainGradient)" d="
-                        M0,120 L0,85
-                        
-                        C20,84 40,82 60,80
-                        C80,78 100,76 120,73
-                        L140,70
-                        C155,68 170,65 185,63
-                        L200,60
-                        C215,58 230,56 245,55
-                        L260,54
-                        
-                        C275,52 290,49 305,46
-                        L320,42
-                        C335,38 350,33 365,28
-                        L380,22
-                        C390,18 400,14 410,11
-                        L425,8
-                        L440,6
-                        L455,5
-                        L465,3
-                        L475,2
-                        L485,3
-                        L495,5
-                        L505,7
-                        L515,9
-                        L525,11
-                        L535,14
-                        L545,17
-                        C555,20 565,24 575,28
-                        L590,33
-                        C600,37 610,41 620,44
-                        L635,48
-                        C650,51 665,54 680,56
-                        L695,58
-                        C710,59 725,60 740,60
-                        L755,60
-                        C770,59 785,58 800,56
-                        L815,54
-                        C825,52 835,50 845,48
-                        L860,45
-                        C875,42 890,39 905,36
-                        L920,33
-                        C935,30 950,27 965,25
-                        L980,23
-                        C990,21 1000,20 1010,19
-                        L1025,18
-                        L1040,17
-                        L1055,16
-                        L1070,16
-                        L1085,17
-                        L1100,18
-                        C1115,20 1130,22 1145,25
-                        L1160,28
-                        C1170,31 1180,34 1190,38
-                        L1200,42
-                        L1200,120 Z
-                    "/>
-                <?php endif; ?>
+                    C20,84 40,82 60,80
+                    C80,78 100,76 120,73
+                    L140,70
+                    C155,68 170,65 185,63
+                    L200,60
+                    C215,58 230,56 245,55
+                    L260,54
+                    
+                    C275,52 290,49 305,46
+                    L320,42
+                    C335,38 350,33 365,28
+                    L380,22
+                    C390,18 400,14 410,11
+                    L425,8
+                    L440,6
+                    L455,5
+                    L465,3
+                    L475,2
+                    L485,3
+                    L495,5
+                    L505,7
+                    L515,9
+                    L525,11
+                    L535,14
+                    L545,17
+                    C555,20 565,24 575,28
+                    L590,33
+                    C600,37 610,41 620,44
+                    L635,48
+                    C650,51 665,54 680,56
+                    L695,58
+                    C710,59 725,60 740,60
+                    L755,60
+                    C770,59 785,58 800,56
+                    L815,54
+                    C825,52 835,50 845,48
+                    L860,45
+                    C875,42 890,39 905,36
+                    L920,33
+                    C935,30 950,27 965,25
+                    L980,23
+                    C990,21 1000,20 1010,19
+                    L1025,18
+                    L1040,17
+                    L1055,16
+                    L1070,16
+                    L1085,17
+                    L1100,18
+                    C1115,20 1130,22 1145,25
+                    L1160,28
+                    C1170,31 1180,34 1190,38
+                    L1200,42
+                    L1200,120 Z
+                "/>
             </svg>
             
             <!-- Point d'éruption au sommet (Puy de Dôme) -->
@@ -172,6 +105,7 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
         
         <div class="container">
             <!-- FOOTER DESKTOP -->
