@@ -503,6 +503,9 @@ if (!$hero_background_image) {
             echo json_encode($cities_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
         ?>;
         
+        console.log('taxonomyCities défini:', typeof taxonomyCities !== 'undefined');
+        console.log('taxonomyCities:', taxonomyCities);
+        
         // Charger Leaflet.js si ce n'est pas déjà fait
         if (typeof L === 'undefined') {
             console.log('Chargement de Leaflet.js depuis le CDN de secours...');
