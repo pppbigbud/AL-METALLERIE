@@ -500,6 +500,8 @@ if (!$hero_background_image) {
                 }
             }
             
+            // DEBUG: Afficher ce que PHP génère
+            var_dump($cities_data);
             echo json_encode($cities_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
         ?>;
         
