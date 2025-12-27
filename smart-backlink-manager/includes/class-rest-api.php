@@ -14,31 +14,38 @@ class SBM_REST_API {
     }
     
     public function register_routes(): void {
-        // Route pour les suggestions de liens (déjà dans class-link-suggester.php)
+        // Route pour les suggestions de liens
+        register_rest_route('sbm/v1', '/suggest-links', [
+            'methods' => 'POST',
+            'callback' => [$this, 'get_link_suggestions'],
+            'permission_callback' => function() {
+                return current_user_can('edit_posts');
+            }
+        ]);
         
         // Route pour les statistiques
-        register_rest_route('smart-backlink-manager/v1', '/stats', [
+        register_rest_route('sbm/v1', '/stats', [
             'methods' => 'GET',
             'callback' => [$this, 'get_stats'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
         
         // Route pour ajouter un lien interne
-        register_rest_route('smart-backlink-manager/v1', '/internal-links', [
+        register_rest_route('sbm/v1', '/internal-links', [
             'methods' => 'POST',
             'callback' => [$this, 'add_internal_link'],
             'permission_callback' => [$this, 'check_edit_permissions']
         ]);
         
         // Route pour récupérer les liens internes
-        register_rest_route('smart-backlink-manager/v1', '/internal-links/(?P<post_id>\d+)', [
+        register_rest_route('sbm/v1', '/internal-links/(?P<post_id>\d+)', [
             'methods' => 'GET',
             'callback' => [$this, 'get_internal_links'],
             'permission_callback' => [$this, 'check_edit_permissions']
         ]);
         
         // Route pour les backlinks
-        register_rest_route('smart-backlink-manager/v1', '/backlinks', [
+        register_rest_route('sbm/v1', '/backlinks', [
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_backlinks'],
@@ -52,14 +59,14 @@ class SBM_REST_API {
         ]);
         
         // Route pour vérifier un backlink
-        register_rest_route('smart-backlink-manager/v1', '/backlinks/(?P<id>\d+)/check', [
+        register_rest_route('sbm/v1', '/backlinks/(?P<id>\d+)/check', [
             'methods' => 'POST',
             'callback' => [$this, 'check_backlink'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
         
         // Route pour les opportunités
-        register_rest_route('smart-backlink-manager/v1', '/opportunities', [
+        register_rest_route('sbm/v1', '/opportunities', [
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_opportunities'],
@@ -73,21 +80,21 @@ class SBM_REST_API {
         ]);
         
         // Route pour mettre à jour une opportunité
-        register_rest_route('smart-backlink-manager/v1', '/opportunities/(?P<id>\d+)', [
+        register_rest_route('sbm/v1', '/opportunities/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'update_opportunity'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
         
         // Route pour supprimer une opportunité
-        register_rest_route('smart-backlink-manager/v1', '/opportunities/(?P<id>\d+)', [
+        register_rest_route('sbm/v1', '/opportunities/(?P<id>\d+)', [
             'methods' => 'DELETE',
             'callback' => [$this, 'delete_opportunity'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
         
         // Route pour les réglages
-        register_rest_route('smart-backlink-manager/v1', '/settings', [
+        register_rest_route('sbm/v1', '/settings', [
             [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_settings'],

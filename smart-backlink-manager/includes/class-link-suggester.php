@@ -9,6 +9,39 @@ if (!defined('ABSPATH')) {
 
 class SBM_Link_Suggester {
     
+    private array $metallerie_keywords = [
+        // Produits
+        'portail', 'portails', 'garde-corps', 'garde corps', 'pergola', 'pergolas',
+        'portillon', 'portillons', 'clôture', 'clôtures', 'grille', 'grilles',
+        'balcon', 'balcons', 'escalier', 'escaliers', 'rampe', 'rampes',
+        'marquise', 'marquises', 'verrière', 'verrières', 'auvent', 'auvents',
+        
+        // Matériaux
+        'acier', 'inox', 'aluminium', 'fer', 'métal', 'ferronnerie',
+        'galvanisé', 'thermolaqué', 'corten',
+        
+        // Métiers
+        'soudure', 'serrurerie', 'métallerie', 'ferronnerie',
+        'serrurier', 'métallier', 'soudeur', 'ferronnier',
+        
+        // Techniques
+        'fabrication', 'pose', 'installation', 'sur-mesure', 'sur mesure',
+        'personnalisé', 'motorisé', 'automatique', 'manuel',
+        
+        // Localisation
+        'clermont-ferrand', 'clermont ferrand', 'puy-de-dôme', 'puy de dôme',
+        'auvergne', 'auvergne-rhône-alpes', '63'
+    ];
+    
+    private array $stopwords = [
+        'le', 'la', 'les', 'un', 'une', 'des', 'de', 'du',
+        'et', 'ou', 'mais', 'donc', 'or', 'ni', 'car',
+        'à', 'au', 'aux', 'en', 'dans', 'sur', 'sous',
+        'pour', 'par', 'avec', 'sans', 'vers', 'chez',
+        'ce', 'cet', 'cette', 'ces', 'qui', 'que', 'quoi',
+        'dont', 'où', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles'
+    ];
+    
     private $custom_keywords;
     private $suggestions_limit;
     

@@ -2755,3 +2755,5 @@ function almetal_bulk_geocode_cities() {
         }
     }
 }
+
+?>

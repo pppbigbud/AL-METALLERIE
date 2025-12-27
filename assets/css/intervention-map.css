@@ -1,0 +1,393 @@
+/**
+ * Styles pour la page des zones d'intervention
+ * Basés sur les styles de la page contact
+ */
+
+/* Page container */
+.intervention-page {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Carte en plein écran */
+.intervention-map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.intervention-map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Overlay par-dessus la carte */
+.intervention-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    gap: 2rem;
+    background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3), transparent);
+}
+
+/* Cartes d'information */
+.intervention-info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 500px;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+}
+
+.intervention-info-left {
+    flex: 1;
+}
+
+.intervention-form-right {
+    flex: 0 0 450px;
+}
+
+/* En-tête */
+.intervention-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.intervention-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.intervention-icon-main {
+    color: #F08B18;
+}
+
+.intervention-subtitle {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Liste des zones */
+.intervention-zones-list h3 {
+    font-size: 1.3rem;
+    color: #222;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.intervention-departments {
+    margin-bottom: 2rem;
+}
+
+.department-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.department-item:hover {
+    background: #f0f0f0;
+    transform: translateX(5px);
+}
+
+.department-icon {
+    color: #F08B18;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.department-content {
+    flex: 1;
+}
+
+.department-name {
+    display: block;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 0.25rem;
+}
+
+.department-cities {
+    display: block;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Rayon d'intervention */
+.intervention-radius {
+    background: linear-gradient(135deg, #F08B18, #f5a623);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.intervention-radius h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.intervention-radius p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    opacity: 0.95;
+}
+
+.radius-visual {
+    display: flex;
+    gap: 1rem;
+}
+
+.radius-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* Boutons d'action */
+.intervention-quick-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.quick-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.quick-action-call {
+    background: #F08B18;
+    color: white;
+}
+
+.quick-action-call:hover {
+    background: #e57d00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(240, 139, 24, 0.3);
+}
+
+.quick-action-quote {
+    background: #222;
+    color: white;
+}
+
+.quick-action-quote:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenu droite */
+.intervention-content-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.intervention-content-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.intervention-content-icon {
+    color: #F08B18;
+}
+
+.intervention-content-subtitle {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+/* Services */
+.intervention-services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.service-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #222;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.service-item:hover {
+    background: #F08B18;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.service-item svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.service-item:hover svg {
+    color: white;
+}
+
+/* Formulaire */
+.intervention-contact-form {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: auto;
+}
+
+.intervention-contact-form h3 {
+    font-size: 1.1rem;
+    color: #222;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.intervention-contact-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.intervention-contact-form label {
+    display: block;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.intervention-contact-form input,
+.intervention-contact-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.intervention-contact-form input:focus,
+.intervention-contact-form textarea:focus {
+    outline: none;
+    border-color: #F08B18;
+    box-shadow: 0 0 0 3px rgba(240, 139, 24, 0.1);
+}
+
+.intervention-submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #F08B18;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.intervention-submit-btn:hover {
+    background: #e57d00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(240, 139, 24, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .intervention-overlay {
+        flex-direction: column;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.3), transparent);
+    }
+    
+    .intervention-info-card {
+        max-width: 100%;
+        max-height: none;
+    }
+    
+    .intervention-form-right {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .intervention-overlay {
+        padding: 1rem;
+    }
+    
+    .intervention-info-card {
+        padding: 1.5rem;
+    }
+    
+    .intervention-title {
+        font-size: 1.5rem;
+    }
+    
+    .intervention-services {
+        grid-template-columns: 1fr;
+    }
+    
+    .intervention-quick-actions {
+        flex-direction: column;
+    }
+}
+
+/* Scrollbar personnalisée */
+.intervention-info-card::-webkit-scrollbar {
+    width: 8px;
+}
+
+.intervention-info-card::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.intervention-info-card::-webkit-scrollbar-thumb {
+    background: #F08B18;
+    border-radius: 10px;
+}
+
+.intervention-info-card::-webkit-scrollbar-thumb:hover {
+    background: #e57d00;
+}
