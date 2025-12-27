@@ -14,6 +14,27 @@ class SBM_Main {
         $this->set_locale();
         $this->define_admin_hooks();
         $this->define_public_hooks();
+        
+        // Initialiser toutes les classes
+        $this->init_classes();
+    }
+    
+    private function init_classes(): void {
+        // Initialiser les classes avec leurs hooks AJAX
+        $dashboard = new SBM_Dashboard();
+        $dashboard->init();
+        
+        $internal_links = new SBM_Internal_Links();
+        $internal_links->init();
+        
+        $backlinks = new SBM_Backlinks();
+        $backlinks->init();
+        
+        $opportunities = new SBM_Opportunities();
+        $opportunities->init();
+        
+        $settings = new SBM_Settings();
+        $settings->init();
     }
     
     private function load_dependencies(): void {
@@ -122,7 +143,8 @@ class SBM_Main {
     }
     
     public function enqueue_admin_assets(string $hook): void {
-        if (strpos($hook, 'sbm-') === false) {
+        // Vérifier si nous sommes sur une page du plugin
+        if (strpos($hook, 'sbm-') === false && strpos($hook, 'smart-backlink-manager') === false) {
             return;
         }
         

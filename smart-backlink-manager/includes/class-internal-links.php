@@ -30,7 +30,7 @@ class SBM_Internal_Links {
             <!-- Formulaire d'ajout rapide -->
             <div id="sbm-add-link-form" class="sbm-form-card" style="display: none;">
                 <h2><?php _e('Ajouter un lien interne', 'smart-backlink-manager'); ?></h2>
-                <form id="sbm-internal-link-form">
+                <form id="sbm-internal-link-form" class="sbm-ajax-form" data-action="sbm_add_internal_link">
                     <table class="form-table">
                         <tr>
                             <th scope="row">

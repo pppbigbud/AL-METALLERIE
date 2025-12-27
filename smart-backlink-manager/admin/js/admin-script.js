@@ -7,6 +7,63 @@ jQuery(document).ready(function($) {
     // Initialisation des tooltips
     $('.sbm-tooltip').tooltip();
     
+    // Gestion des boutons d'ajout rapide
+    $('#sbm-add-link-btn').on('click', function(e) {
+        e.preventDefault();
+        $('#sbm-add-link-form').toggle();
+    });
+    
+    $('#sbm-add-backlink-btn').on('click', function(e) {
+        e.preventDefault();
+        $('#sbm-add-backlink-form').toggle();
+    });
+    
+    $('#sbm-add-opportunity-btn').on('click', function(e) {
+        e.preventDefault();
+        $('#sbm-add-opportunity-form').toggle();
+    });
+    
+    // Gestion du bouton "Tout vérifier"
+    $('#sbm-check-all-btn').on('click', function(e) {
+        e.preventDefault();
+        
+        var $btn = $(this);
+        var originalText = $btn.html();
+        
+        $btn.prop('disabled', true).html('<span class="spinner is-active"></span> Vérification...');
+        
+        $.ajax({
+            url: sbmData.ajaxUrl,
+            type: 'POST',
+            data: {
+                action: 'sbm_check_all_backlinks',
+                nonce: sbmData.nonce
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    sbmShowNotice(response.data.message || 'Vérification terminée', 'success');
+                    location.reload();
+                } else {
+                    sbmShowNotice(response.data.message || 'Erreur lors de la vérification', 'error');
+                }
+            },
+            error: function() {
+                sbmShowNotice('Erreur de communication avec le serveur', 'error');
+            },
+            complete: function() {
+                $btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
+    
+    // Debug: Vérifier que sbmData est bien défini
+    if (typeof sbmData === 'undefined') {
+        console.error('sbmData n\'est pas défini. Vérifiez que wp_localize_script fonctionne correctement.');
+    } else {
+        console.log('sbmData chargé:', sbmData);
+    }
+    
     // Gestion des formulaires AJAX
     $('.sbm-ajax-form').on('submit', function(e) {
         e.preventDefault();

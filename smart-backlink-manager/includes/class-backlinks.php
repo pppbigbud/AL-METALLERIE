@@ -38,7 +38,7 @@ class SBM_Backlinks {
             <!-- Formulaire d'ajout -->
             <div id="sbm-add-backlink-form" class="sbm-form-card" style="display: none;">
                 <h2><?php _e('Ajouter un backlink', 'smart-backlink-manager'); ?></h2>
-                <form id="sbm-backlink-form">
+                <form id="sbm-backlink-form" class="sbm-ajax-form" data-action="sbm_add_backlink">
                     <table class="form-table">
                         <tr>
                             <th scope="row">

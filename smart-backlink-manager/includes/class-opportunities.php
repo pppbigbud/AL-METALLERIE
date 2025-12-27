@@ -37,7 +37,7 @@ class SBM_Opportunities {
             <!-- Formulaire d'ajout -->
             <div id="sbm-add-opportunity-form" class="sbm-form-card" style="display: none;">
                 <h2><?php _e('Ajouter une opportunité', 'smart-backlink-manager'); ?></h2>
-                <form id="sbm-opportunity-form">
+                <form id="sbm-opportunity-form" class="sbm-ajax-form" data-action="sbm_add_opportunity">
                     <table class="form-table">
                         <tr>
                             <th scope="row">
