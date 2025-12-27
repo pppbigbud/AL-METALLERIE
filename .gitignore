@@ -47,3 +47,11 @@ yarn.lock
 # Fichiers de build
 dist/
 build/
+
+# Protection des dossiers critiques
+wp-content/themes/*
+!wp-content/themes/almetal/
+wp-content/uploads/
+wp-content/cache/
+wp-content/plugins/*-dev/
+*.log
