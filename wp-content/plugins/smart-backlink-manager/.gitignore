@@ -1,0 +1,25 @@
+# WordPress
+*.log
+error_log
+debug.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node modules (si on utilise npm)
+node_modules/
+
+# Build
+dist/
+build/
+
+# Env
+.env
+.env.local
