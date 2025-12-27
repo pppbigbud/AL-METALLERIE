@@ -1,0 +1,457 @@
+/* Auto Content SEO Publisher - Admin Styles */
+
+/* Variables */
+:root {
+    --primary-color: #F08B18;
+    --secondary-color: #222222;
+    --success-color: #46b450;
+    --warning-color: #ffb900;
+    --error-color: #dc3232;
+    --border-color: #ddd;
+    --light-bg: #f9f9f9;
+    --text-muted: #666;
+}
+
+/* Layout */
+.acsp-wrapper {
+    max-width: 1200px;
+    margin: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.acsp-header {
+    background: var(--secondary-color);
+    color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.acsp-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.acsp-header .version {
+    background: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Dashboard */
+.acsp-dashboard {
+    padding: 30px;
+}
+
+.acsp-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.acsp-stat-card {
+    background: var(--light-bg);
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.acsp-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.acsp-stat-card .number {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.acsp-stat-card .label {
+    color: var(--text-muted);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.acsp-stat-card .change {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.acsp-stat-card .change.positive {
+    color: var(--success-color);
+}
+
+.acsp-stat-card .change.negative {
+    color: var(--error-color);
+}
+
+/* Quick Actions */
+.acsp-quick-actions {
+    background: var(--light-bg);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.acsp-quick-actions h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--secondary-color);
+}
+
+.acsp-action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.acsp-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.acsp-btn-primary {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.acsp-btn-primary:hover {
+    background: #e07a00;
+    transform: translateY(-1px);
+}
+
+.acsp-btn-secondary {
+    background: #fff;
+    color: var(--secondary-color);
+    border: 2px solid var(--border-color);
+}
+
+.acsp-btn-secondary:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.acsp-btn-success {
+    background: var(--success-color);
+    color: #fff;
+}
+
+.acsp-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Settings Tabs */
+.acsp-settings-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.acsp-tab {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.acsp-tab:hover {
+    color: var(--secondary-color);
+}
+
+.acsp-tab.active {
+    color: var(--primary-color);
+}
+
+.acsp-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.acsp-tab-content {
+    display: none;
+}
+
+.acsp-tab-content.active {
+    display: block;
+}
+
+/* Form Elements */
+.acsp-form-section {
+    margin-bottom: 40px;
+}
+
+.acsp-form-section h3 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--secondary-color);
+}
+
+.acsp-form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.acsp-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.acsp-form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.acsp-form-group input,
+.acsp-form-group select,
+.acsp-form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.acsp-form-group input:focus,
+.acsp-form-group select:focus,
+.acsp-form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(240, 139, 24, 0.1);
+}
+
+.acsp-form-group .description {
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Checkbox Group */
+.acsp-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.acsp-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.acsp-checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* History Table */
+.acsp-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.acsp-history-table th,
+.acsp-history-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.acsp-history-table th {
+    background: var(--light-bg);
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.acsp-history-table tr:hover {
+    background: #f5f5f5;
+}
+
+/* Status Badges */
+.acsp-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.acsp-badge.published {
+    background: #e7f3e7;
+    color: var(--success-color);
+}
+
+.acsp-badge.failed {
+    background: #fef2f2;
+    color: var(--error-color);
+}
+
+.acsp-badge.scheduled {
+    background: #fff4e5;
+    color: var(--warning-color);
+}
+
+/* SEO Score */
+.acsp-seo-score {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.acsp-seo-score.high {
+    background: #e7f3e7;
+    color: var(--success-color);
+}
+
+.acsp-seo-score.medium {
+    background: #fff4e5;
+    color: var(--warning-color);
+}
+
+.acsp-seo-score.low {
+    background: #fef2f2;
+    color: var(--error-color);
+}
+
+/* Progress Bar */
+.acsp-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.acsp-progress-bar {
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+/* Loading Spinner */
+.acsp-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: acsp-spin 1s linear infinite;
+}
+
+@keyframes acsp-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Notifications */
+.acsp-notification {
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.acsp-notification.success {
+    background: #e7f3e7;
+    border: 1px solid #c3e6c3;
+    color: #2e7d32;
+}
+
+.acsp-notification.error {
+    background: #fef2f2;
+    border: 1px solid #f5c6cb;
+    color: #c62828;
+}
+
+.acsp-notification.warning {
+    background: #fff4e5;
+    border: 1px solid #ffe0b2;
+    color: #ef6c00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .acsp-wrapper {
+        margin: 10px;
+    }
+    
+    .acsp-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .acsp-dashboard {
+        padding: 20px;
+    }
+    
+    .acsp-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .acsp-action-buttons {
+        flex-direction: column;
+    }
+    
+    .acsp-settings-tabs {
+        overflow-x: auto;
+    }
+    
+    .acsp-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .acsp-history-table {
+        font-size: 14px;
+    }
+    
+    .acsp-history-table th,
+    .acsp-history-table td {
+        padding: 8px;
+    }
+}

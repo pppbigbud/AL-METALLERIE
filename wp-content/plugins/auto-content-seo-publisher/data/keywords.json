@@ -1,0 +1,246 @@
+{
+    "keywords": [
+        {
+            "keyword": "portail acier thiers",
+            "category": "portails",
+            "search_volume": 140,
+            "difficulty": "easy",
+            "variations": ["portail acier thiers 63", "portail metallique thiers", "fabricant portail thiers"]
+        },
+        {
+            "keyword": "garde corps metallique",
+            "category": "garde_corps",
+            "search_volume": 210,
+            "difficulty": "medium",
+            "variations": ["garde corps acier", "rampe metallique", "balustrade metal"]
+        },
+        {
+            "keyword": "escalier sur mesure",
+            "category": "escaliers",
+            "search_volume": 480,
+            "difficulty": "medium",
+            "variations": ["escalier metallique sur mesure", "escalier sur mesure prix", "fabricant escalier"]
+        },
+        {
+            "keyword": "pergola acier",
+            "category": "pergolas",
+            "search_volume": 320,
+            "difficulty": "medium",
+            "variations": ["pergola metallique", "pergola sur mesure", "abris jardin acier"]
+        },
+        {
+            "keyword": "formation soudure",
+            "category": "formations",
+            "search_volume": 590,
+            "difficulty": "hard",
+            "variations": ["stage soudure", "cours soudure", "initiation soudure"]
+        },
+        {
+            "keyword": "soudure tig",
+            "category": "soudure",
+            "search_volume": 440,
+            "difficulty": "medium",
+            "variations": ["soudure tig acier", "apprentissage soudure tig", "technique soudure tig"]
+        },
+        {
+            "keyword": "portail coulissant",
+            "category": "portails",
+            "search_volume": 880,
+            "difficulty": "medium",
+            "variations": ["portail automatique coulissant", "portail coulissant motorisé", "portail coulissant prix"]
+        },
+        {
+            "keyword": "garde corps escalier",
+            "category": "garde_corps",
+            "search_volume": 390,
+            "difficulty": "medium",
+            "variations": ["rampe escalier", "garde corps interieur", "main courante escalier"]
+        },
+        {
+            "keyword": "acier thermolaqué",
+            "category": "materiaux",
+            "search_volume": 260,
+            "difficulty": "easy",
+            "variations": ["acier laqué", "thermolaqué couleur", "acier peint"]
+        },
+        {
+            "keyword": "métallerie puy de dome",
+            "category": "general",
+            "search_volume": 70,
+            "difficulty": "easy",
+            "variations": ["metallier puy de dome", "artisan metallier 63", "entreprise metalliere"]
+        },
+        {
+            "keyword": "portail motorisation",
+            "category": "motorisation",
+            "search_volume": 480,
+            "difficulty": "hard",
+            "variations": ["motorisation portail", "automatisme portail", "portail automatique"]
+        },
+        {
+            "keyword": "verriere atelier",
+            "category": "verrieres",
+            "search_volume": 390,
+            "difficulty": "medium",
+            "variations": ["verriere industrielle", "toiture verriere", "verriere atelier charpente"]
+        },
+        {
+            "keyword": "mobilier metallique design",
+            "category": "mobilier",
+            "search_volume": 140,
+            "difficulty": "medium",
+            "variations": ["mobilier industriel", "table acier design", "meuble metallique"]
+        },
+        {
+            "keyword": "serrurerie thiers",
+            "category": "serrurerie",
+            "search_volume": 90,
+            "difficulty": "easy",
+            "variations": ["serrurier thiers", "travaux serrurerie", "artisan serrurier"]
+        },
+        {
+            "keyword": "portail design",
+            "category": "portails",
+            "search_volume": 590,
+            "difficulty": "medium",
+            "variations": ["portail moderne", "portail original", "portail contemporain"]
+        },
+        {
+            "keyword": "escalier exterieur",
+            "category": "escaliers",
+            "search_volume": 720,
+            "difficulty": "medium",
+            "variations": ["escalier jardin", "escalier exterieur metallique", "escalier terrasse"]
+        },
+        {
+            "keyword": "barriere de securite",
+            "category": "securite",
+            "search_volume": 480,
+            "difficulty": "easy",
+            "variations": ["barriere protection", "cloture securite", "portail securite"]
+        },
+        {
+            "keyword": "menuiserie metallique",
+            "category": "general",
+            "search_volume": 320,
+            "difficulty": "medium",
+            "variations": ["menuisier metallier", "fenetres metal", "portes metalliques"]
+        },
+        {
+            "keyword": "portail aluminium",
+            "category": "portails",
+            "search_volume": 1000,
+            "difficulty": "medium",
+            "variations": ["portail alu", "portail aluminium coulissant", "portail aluminium prix"]
+        },
+        {
+            "keyword": "garde corps terrasse",
+            "category": "garde_corps",
+            "search_volume": 540,
+            "difficulty": "medium",
+            "variations": ["balcon garde corps", "protection terrasse", "rampes terrasse"]
+        },
+        {
+            "keyword": "escalier colimacon",
+            "category": "escaliers",
+            "search_volume": 660,
+            "difficulty": "hard",
+            "variations": ["escalier helicoidal", "escalier spirale", "escalier colimacon prix"]
+        },
+        {
+            "keyword": "pergola bioclimatique",
+            "category": "pergolas",
+            "search_volume": 880,
+            "difficulty": "hard",
+            "variations": ["pergola lames orientables", "pergola adaptee", "pergola climatisation"]
+        },
+        {
+            "keyword": "soudure aluminium",
+            "category": "soudure",
+            "search_volume": 590,
+            "difficulty": "hard",
+            "variations": ["soudure alu", "tig aluminium", "souder aluminium"]
+        },
+        {
+            "keyword": "portail battant",
+            "category": "portails",
+            "search_volume": 590,
+            "difficulty": "easy",
+            "variations": ["portail 2 vantaux", "portail ouvrant", "portail classique"]
+        },
+        {
+            "keyword": "inox 304",
+            "category": "materiaux",
+            "search_volume": 480,
+            "difficulty": "medium",
+            "variations": ["acier inoxydable", "inox 316", "acier inox"]
+        }
+    ],
+    "categories": {
+        "portails": {
+            "name": "Portails",
+            "priority": 10,
+            "related_services": ["motorisation", "automatisme", "interphonie"]
+        },
+        "garde_corps": {
+            "name": "Garde-corps",
+            "priority": 9,
+            "related_services": ["escaliers", "terrasses", "balcons"]
+        },
+        "escaliers": {
+            "name": "Escaliers",
+            "priority": 9,
+            "related_services": ["rampe", "main courante", "palier"]
+        },
+        "pergolas": {
+            "name": "Pergolas",
+            "priority": 8,
+            "related_services": ["abris", "ombrage", "terrasse"]
+        },
+        "verrieres": {
+            "name": "Vérandes",
+            "priority": 7,
+            "related_services": ["atelier", "lumiere", "charpente"]
+        },
+        "mobilier": {
+            "name": "Mobilier",
+            "priority": 6,
+            "related_services": ["table", "chaise", "etagere"]
+        },
+        "soudure": {
+            "name": "Soudure",
+            "priority": 10,
+            "related_services": ["formation", "tig", "mig", "arc"]
+        },
+        "formations": {
+            "name": "Formations",
+            "priority": 10,
+            "related_services": ["cours", "stage", "initiation"]
+        },
+        "materiaux": {
+            "name": "Matériaux",
+            "priority": 5,
+            "related_services": ["acier", "aluminium", "inox", "thermolaque"]
+        },
+        "general": {
+            "name": "Général",
+            "priority": 3,
+            "related_services": ["metallerie", "artisan", "fabrication"]
+        },
+        "motorisation": {
+            "name": "Motorisation",
+            "priority": 8,
+            "related_services": ["automatisme", "telecommande", "interphone"]
+        },
+        "serrurerie": {
+            "name": "Serrurerie",
+            "priority": 7,
+            "related_services": ["serrure", "cle", "securite"]
+        },
+        "securite": {
+            "name": "Sécurité",
+            "priority": 9,
+            "related_services": ["normes", "certification", "protection"]
+        }
+    }
+}
