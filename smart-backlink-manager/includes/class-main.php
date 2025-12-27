@@ -97,6 +97,9 @@ class SBM_Main {
             );
             
             wp_localize_script('sbm-admin-script', 'sbm_ajax', [
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('sbm_nonce')
+            ]);
         }
     }
     
