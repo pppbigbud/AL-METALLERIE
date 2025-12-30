@@ -336,5 +336,24 @@ $matiere_label = isset($matiere_labels[$matiere]) ? $matiere_labels[$matiere] : 
             </a>
         </div>
 
+        <!-- Section Carte d'intervention - Mobile -->
+        <?php if ($lieu) : ?>
+        <section class="mobile-realisation-map">
+            <h2 class="mobile-section-title"><?php _e('Localisation du projet', 'almetal'); ?></h2>
+            <div class="mobile-map-container">
+                <div id="intervention-map-<?php echo $post_id; ?>" class="mobile-intervention-map"></div>
+            </div>
+            <div class="mobile-map-info">
+                <p class="mobile-map-address">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <?php echo esc_html($lieu); ?>
+                </p>
+            </div>
+        </section>
+        <?php endif; ?>
+
     </div>
 </article>

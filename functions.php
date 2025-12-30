@@ -56,6 +56,22 @@ function almetal_security_headers() {
 add_action('send_headers', 'almetal_security_headers');
 
 /**
+ * Script pour la carte mobile dans les réalisations
+ */
+function almetal_mobile_map_scripts() {
+    if (is_singular('realisation') && wp_is_mobile()) {
+        wp_enqueue_script(
+            'mobile-realisation-map',
+            get_template_directory_uri() . '/assets/js/mobile-realisation-map.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'almetal_mobile_map_scripts');
+
+/**
  * Configuration du thème
  */
 function almetal_theme_setup() {
