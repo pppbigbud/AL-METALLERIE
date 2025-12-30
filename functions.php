@@ -754,7 +754,27 @@ function almetal_is_mobile() {
         return true;
     }
     
-    return wp_is_mobile();
+    // Détection améliorée pour plus de fiabilité
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    
+    // Vérifier wp_is_mobile() d'abord
+    if (wp_is_mobile()) {
+        return true;
+    }
+    
+    // Détection supplémentaire pour les mobiles non détectés
+    $mobile_agents = array(
+        'Mobile', 'Android', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 
+        'Opera Mini', 'IEMobile', 'Mobile Safari', 'Chrome Mobile'
+    );
+    
+    foreach ($mobile_agents as $agent) {
+        if (stripos($user_agent, $agent) !== false) {
+            return true;
+        }
+    }
+    
+    return false;
 }
 
 add_filter('template_include', 'almetal_force_city_page_template', 99);
