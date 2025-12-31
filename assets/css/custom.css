@@ -612,13 +612,14 @@ html {
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
-    background: #fff;
+    background: transparent;
 }
 
 .realisation-intervention-map {
     height: 450px;
     width: 100%;
     border-radius: 20px;
+    background: #f5f5f5 !important;
 }
 
 .realisation-map-info {
@@ -626,9 +627,11 @@ html {
     justify-content: space-between;
     align-items: center;
     padding: 30px;
-    background: #fff;
+    background: rgba(245, 245, 245, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     position: relative;
     z-index: 1;
 }
@@ -639,7 +642,7 @@ html {
     gap: 15px;
     font-size: 1.2rem;
     font-weight: 600;
-    color: #222;
+    color: #fff;
 }
 
 .map-address svg {
