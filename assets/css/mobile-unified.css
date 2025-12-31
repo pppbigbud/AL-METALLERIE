@@ -2354,9 +2354,6 @@ background: #262626;
 .mobile-taxonomy-map-section {
     margin: 3rem 0;
     padding: 2rem 1rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 20px;
-    position: relative;
 }
 
 .mobile-taxonomy-map-section::before {
