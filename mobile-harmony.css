@@ -1,0 +1,132 @@
+/* CSS pour harmoniser mobile et desktop responsive */
+/* À ajouter via Personnaliser > CSS additionnel */
+
+/* Forcer le style mobile sur tous les écrans ≤768px */
+@media (max-width: 768px) {
+    /* S'assurer que le body a les bonnes classes */
+    body {
+        background: #0a0a0a !important;
+        color: #ffffff !important;
+    }
+    
+    /* Header mobile forcé */
+    header {
+        background: #0a0a0a !important;
+        height: 70px !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 1rem !important;
+    }
+    
+    /* Cacher les éléments desktop */
+    .main-navigation,
+    .desktop-nav,
+    .desktop-only,
+    .desktop-hero,
+    .desktop-section {
+        display: none !important;
+    }
+    
+    /* Logo */
+    .logo img {
+        max-height: 40px !important;
+        width: auto !important;
+    }
+    
+    /* Créer le burger menu */
+    header::after {
+        content: "☰";
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        font-size: 30px;
+        color: #F08B18;
+        cursor: pointer;
+        z-index: 999999;
+        background: transparent;
+        padding: 5px;
+    }
+    
+    /* Menu overlay */
+    .mobile-menu-overlay {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.95) !important;
+        z-index: 999998 !important;
+        display: none !important;
+    }
+    
+    /* Sections mobiles */
+    .mobile-section {
+        padding: 2rem 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .mobile-section-title {
+        color: #F08B18 !important;
+        font-size: 1.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Cartes */
+    .realisation-card {
+        background: #1a1a1a !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        margin-bottom: 1.5rem !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* Boutons */
+    .btn {
+        background: #F08B18 !important;
+        color: #000 !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+    }
+    
+    .btn:hover {
+        background: #ff9933 !important;
+    }
+    
+    /* Footer */
+    footer {
+        background: #111 !important;
+        padding: 2rem 1rem !important;
+        text-align: center !important;
+    }
+}
+
+/* Forcer le style mobile même sur desktop avec paramètre force_mobile */
+body.force-mobile,
+body.mobile-version {
+    background: #0a0a0a !important;
+    color: #ffffff !important;
+}
+
+body.force-mobile header,
+body.mobile-version header {
+    background: #0a0a0a !important;
+    height: 70px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 1rem !important;
+}

@@ -16,7 +16,7 @@
         <div class="presentation-images">
             <div class="presentation-image-wrapper presentation-image-top">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-optimized.webp'); ?>"
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>"
                             sizes="(max-width: 768px) 300px, 400px"
                             type="image/webp">
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-kelly-2950108 1.webp'); ?>" 

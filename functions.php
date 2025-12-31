@@ -1,10 +1,13 @@
 <?php
 /**
- * AL Metallerie Soudure Theme Functions
+ * Functions du thème AL Métallerie
  * 
  * @package ALMetallerie
  * @since 1.0.0
  */
+
+// Charger la configuration LiteSpeed Cache pour mobile
+require_once get_template_directory() . '/litespeed-config.php';
 
 // Sécurité : empêcher l'accès direct au fichier
 if (!defined('ABSPATH')) {
@@ -153,6 +156,16 @@ function almetal_enqueue_scripts() {
         wp_get_theme()->get('Version')
     );
     
+    // Styles harmonisés pour les réalisations (Desktop + Mobile)
+    if (is_post_type_archive('realisation') || is_singular('realisation')) {
+        wp_enqueue_style(
+            'almetal-realisations-harmony',
+            get_template_directory_uri() . '/assets/css/realisations-harmony.css',
+            array('almetal-style', 'almetal-components'),
+            wp_get_theme()->get('Version')
+        );
+    }
+    
     // ============================================
     // CSS DESKTOP UNIQUEMENT
     // ============================================
@@ -228,6 +241,17 @@ function almetal_enqueue_scripts() {
             array('almetal-style', 'almetal-components'),
             file_exists($mobile_unified_css) ? filemtime($mobile_unified_css) : wp_get_theme()->get('Version')
         );
+        
+        // Script pour les animations scroll sur mobile
+        if (is_post_type_archive('realisation')) {
+            wp_enqueue_script(
+                'almetal-mobile-scroll-animations',
+                get_template_directory_uri() . '/assets/js/mobile-scroll-animations.js',
+                array(),
+                wp_get_theme()->get('Version'),
+                true
+            );
+        }
     }
 
     if (!function_exists('almetal_matiere_mobile_footer_styles')) {
@@ -470,6 +494,22 @@ function almetal_enqueue_scripts() {
             true
         );
         
+        // Script carte d'intervention pour les réalisations (desktop)
+        if (is_singular('realisation') && !almetal_is_mobile()) {
+            // Charger Leaflet si nécessaire
+            wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4');
+            wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), '1.9.4', true);
+            
+            // Charger le script de la carte
+            wp_enqueue_script(
+                'realisation-map',
+                get_template_directory_uri() . '/assets/js/realisation-map.js',
+                array('jquery', 'leaflet-js'),
+                '1.0.0',
+                true
+            );
+        }
+
         // Filtrage AJAX réalisations (front-page uniquement)
         if (is_front_page()) {
             wp_enqueue_script(
@@ -751,6 +791,11 @@ add_action('template_redirect', 'almetal_realisation_redirects');
 function almetal_is_mobile() {
     // Forcer le mode mobile avec paramètre URL (pour tests)
     if (isset($_GET['force_mobile']) && $_GET['force_mobile'] == '1') {
+        return true;
+    }
+    
+    // Forcer le mode mobile si en sessionStorage
+    if (isset($_SESSION['force_mobile']) && $_SESSION['force_mobile'] == '1') {
         return true;
     }
     

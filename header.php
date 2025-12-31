@@ -18,6 +18,16 @@
     <meta name="msapplication-TileColor" content="#F08B18">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
+    <!-- Script de détection mobile pour contourner le cache serveur -->
+    <script>
+    <?php include(get_template_directory() . '/mobile-detection-fallback.js'); ?>
+    </script>
+    
+    <!-- Script de forçage du template mobile pour responsive -->
+    <script>
+    <?php include(get_template_directory() . '/mobile-template-forcer.js'); ?>
+    </script>
+    
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicons/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicons/favicon-16x16.png">
@@ -213,8 +223,8 @@
                                 if (has_custom_logo()) {
                                     the_custom_logo();
                                 } else {
-                                    $logo_webp = get_template_directory_uri() . '/assets/images/logo-optimized.webp';
-                                    $logo_png = get_template_directory_uri() . '/assets/images/logo.webp'; // Fallback sur l'original
+                                    $logo_webp = get_template_directory_uri() . '/assets/images/logo.webp';
+                                    $logo_png = get_template_directory_uri() . '/assets/images/logo.png'; // Fallback PNG
                                     ?>
                                     <picture>
                                         <source srcset="<?php echo esc_url($logo_webp); ?>" type="image/webp">

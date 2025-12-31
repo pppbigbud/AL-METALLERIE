@@ -265,6 +265,83 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
             <?php endif; ?>
         </div>
 
+        <!-- Section Zone d'Intervention et Carte Interactive -->
+        <div class="mobile-taxonomy-map-section">
+        <h2 class="mobile-section-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+            </svg>
+            Zone d'Intervention - <?php echo esc_html($current_term->name); ?>
+        </h2>
+        
+        <?php
+        // Récupérer les villes depuis le CPT city_page
+        $cities_from_cpt = array();
+        $post_types = array('city_page', 'city-page', 'villes', 'ville', 'city');
+        
+        foreach ($post_types as $post_type) {
+            if (post_type_exists($post_type)) {
+                $cities = get_posts(array(
+                    'post_type' => $post_type,
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish',
+                    'orderby' => 'title',
+                    'order' => 'ASC'
+                ));
+                
+                if ($cities && !is_wp_error($cities)) {
+                    foreach ($cities as $city) {
+                        $city_name = get_the_title($city->ID);
+                        $city_name = str_replace(array(
+                            'Ferronier à ',
+                            'Ferronnier à ',
+                            'Serrurier à ',
+                            'Métallier ',
+                            'AL Métallerie ',
+                            'AL Métallerie'
+                        ), '', $city_name);
+                        $city_name = trim($city_name);
+                        
+                        // Coordonnées des villes depuis les meta fields
+                        $lat = get_post_meta($city->ID, '_city_lat', true);
+                        $lng = get_post_meta($city->ID, '_city_lng', true);
+                        
+                        if (!empty($lat) && !empty($lng)) {
+                            $cities_from_cpt[$city_name] = array(floatval($lat), floatval($lng));
+                        }
+                    }
+                    break; // Utiliser le premier CPT trouvé
+                }
+            }
+        }
+        
+        // Utiliser les villes du CPT si trouvées, sinon fallback sur le tableau par défaut
+        $main_cities = !empty($cities_from_cpt) ? array_keys($cities_from_cpt) : array(
+            'Thiers', 'Clermont-Ferrand', 'Riom', 'Issoire', 
+            'Ambert', 'Coudes', 'Peschadoires', 'Courpière',
+            'Olliergues', 'Saint-Éloy-les-Mines', 'Aigueperse',
+            'Besse-et-Saint-Anastaise', 'Chamalières', 'Châtel-Guyon'
+        );
+        ?>
+        
+        <!-- Carte interactive adaptée pour mobile -->
+        <div id="taxonomy-map-mobile" style="height: 350px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); margin: 1rem 0;">
+            <!-- La carte sera initialisée ici par JavaScript -->
+        </div>
+        
+        <!-- Menu déroulant pour sélectionner une ville -->
+        <div class="mobile-city-selector" style="margin: 1.5rem 0;">
+            <select id="mobile-city-select" class="mobile-select" style="width: 100%; padding: 1rem; background: #2a2a2a; color: #fff; border: 2px solid #444; border-radius: 8px; font-size: 1rem;">
+                <option value="">Sélectionner une ville...</option>
+                <?php
+                foreach ($main_cities as $city) {
+                    echo '<option value="' . esc_attr($city) . '">' . esc_html($city) . '</option>';
+                }
+                ?>
+            </select>
+        </div>
+
         <!-- Lien retour vers toutes les réalisations -->
         <div class="mobile-taxonomy-back scroll-fade">
             <a href="<?php echo esc_url(get_post_type_archive_link('realisation')); ?>" class="mobile-back-all-link">
@@ -277,5 +354,253 @@ $current_seo = isset($seo_contents[$current_term->slug]) ? $seo_contents[$curren
 
     </div>
 </main>
+
+<script>
+    // Préparer les données des villes pour la carte mobile
+    var taxonomyCities = <?php
+        $cities_data = array();
+        
+        // Utiliser les coordonnées du CPT si disponibles
+        $main_cities_coords = !empty($cities_from_cpt) ? $cities_from_cpt : array(
+            'Thiers' => array(45.8556, 3.5747),
+            'Clermont-Ferrand' => array(45.7772, 3.0870),
+            'Riom' => array(45.8931, 3.1137),
+            'Issoire' => array(45.5439, 3.2525),
+            'Ambert' => array(45.5489, 3.7511),
+            'Coudes' => array(45.7344, 3.1972),
+            'Peschadoires' => array(45.8567, 3.5634),
+            'Courpière' => array(45.8683, 3.6189),
+            'Olliergues' => array(45.7333, 3.7167),
+            'Saint-Éloy-les-Mines' => array(46.2667, 3.4667),
+            'Aigueperse' => array(45.9667, 3.3167),
+            'Besse-et-Saint-Anastaise' => array(45.5167, 2.9833),
+            'Chamalières' => array(45.7833, 3.1167),
+            'Châtel-Guyon' => array(45.9667, 3.1167)
+        );
+        
+        foreach ($main_cities_coords as $city => $coords) {
+            // Compter le nombre de réalisations pour cette ville (toutes catégories, comme la version desktop)
+            $realisations_query = new WP_Query(array(
+                'post_type' => 'realisation',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    'relation' => 'OR',
+                    array(
+                        'key' => '_almetal_lieu',
+                        'value' => $city,
+                        'compare' => 'LIKE'
+                    ),
+                    array(
+                        'key' => '_almetal_lieu',
+                        'value' => '%' . $city . '%',
+                        'compare' => 'LIKE'
+                    )
+                )
+            ));
+            
+            $projects_count = $realisations_query->found_posts;
+            
+            // Debug : afficher le nombre trouvé
+            error_log('Ville: ' . $city . ' - Projets trouvés: ' . $projects_count);
+            
+            // N'ajouter la ville que s'il y a des projets
+            if ($projects_count > 0) {
+                $cities_data[] = array(
+                    'name' => $city,
+                    'lat' => $coords[0],
+                    'lng' => $coords[1],
+                    'count' => $projects_count,
+                    'url' => home_url("/villes/metalier-" . sanitize_title($city) . "/")
+                );
+            }
+        }
+        
+        echo json_encode($cities_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+    ?>;
+    
+    // Charger Leaflet.js si ce n'est pas déjà fait
+    if (typeof L === 'undefined') {
+        console.log('Chargement de Leaflet.js depuis le CDN de secours...');
+        // Charger aussi le CSS de Leaflet
+        var leafletCSS = document.createElement('link');
+        leafletCSS.rel = 'stylesheet';
+        leafletCSS.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(leafletCSS);
+        
+        var leafletScript = document.createElement('script');
+        leafletScript.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+        leafletScript.onload = function() {
+            console.log('Leaflet.js chargé avec succès');
+            // Initialiser la carte après le chargement
+            initializeMobileMap();
+        };
+        leafletScript.onerror = function() {
+            console.error('Impossible de charger Leaflet.js');
+            // Afficher un message d'erreur à l'utilisateur
+            document.getElementById('taxonomy-map-mobile').innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #2a2a2a; color: #fff; text-align: center; padding: 2rem;"><div><h3 style="color: #F08B18; margin-bottom: 1rem;">Carte temporairement indisponible</h3><p>Veuillez réessayer plus tard ou contactez-nous directement.</p></div></div>';
+        };
+        document.head.appendChild(leafletScript);
+    } else {
+        // Leaflet est déjà chargé, initialiser la carte
+        initializeMobileMap();
+    }
+    
+    function initializeMobileMap() {
+        // Initialiser la carte mobile
+        var map = L.map('taxonomy-map-mobile').setView([45.8556, 3.5747], 9);
+        
+        // Ajouter la couche de tuiles OpenStreetMap
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Ajouter les marqueurs pour chaque ville
+        taxonomyCities.forEach(function(city) {
+            // Afficher TOUS les marqueurs, même si count = 0
+            console.log('Ajout marqueur pour:', city.name, 'count:', city.count, 'lat:', city.lat, 'lng:', city.lng);
+            
+            // Vérifier que les coordonnées existent
+            if (!city.lat || !city.lng) {
+                console.warn('Coordonnées manquantes pour:', city.name);
+                return;
+            }
+            
+            // Créer un marqueur personnalisé
+            var customIcon = L.divIcon({
+                html: '<div style="background: #F08B18; width: 24px; height: 24px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><span style="transform: rotate(45deg); color: white; font-size: 12px; font-weight: bold;">' + (city.count || 0) + '</span></div>',
+                iconSize: [24, 24],
+                iconAnchor: [12, 24],
+                popupAnchor: [0, -24],
+                className: 'custom-mobile-map-marker'
+            });
+            
+            var marker = L.marker([city.lat, city.lng], { icon: customIcon }).addTo(map);
+            
+            // Ajouter un popup
+            var popupContent = '<strong>' + city.name + '</strong><br>' + 
+                (city.count || 0) + ' projet' + ((city.count || 0) > 1 ? 's' : '') + '<br>' +
+                '<a href="' + city.url + '" style="color: #F08B18;">Voir les réalisations</a>';
+            
+            marker.bindPopup(popupContent);
+            
+            // Centrer sur la ville si sélectionnée dans le menu déroulant
+            var select = document.getElementById('mobile-city-select');
+            if (select) {
+                select.addEventListener('change', function() {
+                    if (this.value === city.name) {
+                        map.setView([city.lat, city.lng], 13);
+                        marker.openPopup();
+                    }
+                });
+            }
+        });
+        
+        // Adapter la vue pour afficher tous les marqueurs
+        if (taxonomyCities.length > 0) {
+            var group = new L.featureGroup();
+            taxonomyCities.forEach(function(city) {
+                // Ajouter TOUS les marqueurs au groupe
+                group.addLayer(L.marker([city.lat, city.lng]));
+            });
+            if (group.getLayers().length > 0) {
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+        }
+    }
+</script>
+
+        <!-- Section Pourquoi Nous Choisir -->
+        <div class="mobile-why-choose-section">
+            <h2 class="mobile-section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Pourquoi Choisir AL Métallerie
+            </h2>
+            
+            <div class="mobile-features-grid">
+                <div class="mobile-feature-item">
+                    <div class="mobile-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"/>
+                            <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18zM3 19c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-6c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6z"/>
+                        </svg>
+                    </div>
+                    <h3>Garantie Décennale</h3>
+                    <p>Toutes nos réalisations sont couvertes par une assurance décennale pour votre tranquillité.</p>
+                </div>
+                
+                <div class="mobile-feature-item">
+                    <div class="mobile-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Artisans Qualifiés</h3>
+                    <p>Notre équipe de métalliers expérimentés maîtrise les techniques traditionnelles et modernes.</p>
+                </div>
+                
+                <div class="mobile-feature-item">
+                    <div class="mobile-feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Matériaux Premium</h3>
+                    <p>Nous sélectionnons les meilleurs matériaux (acier, inox, aluminium) pour une durabilité exceptionnelle.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section Questions Fréquentes -->
+        <div class="mobile-faq-section">
+            <h2 class="mobile-section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F08B18" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Questions Fréquentes
+            </h2>
+            
+            <div class="mobile-faq-list">
+                <div class="mobile-faq-item">
+                    <div class="mobile-faq-question">
+                        Quels sont les délais de fabrication ?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </div>
+                    <div class="mobile-faq-answer">
+                        Les délais varient de 4 à 8 semaines selon la complexité du projet et les matériaux choisis.
+                    </div>
+                </div>
+                
+                <div class="mobile-faq-item">
+                    <div class="mobile-faq-question">
+                        Intervention dans quelles villes ?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </div>
+                    <div class="mobile-faq-answer">
+                        Nous intervenons dans tout le Puy-de-Dôme : Thiers, Clermont-Ferrand, Riom, Issoire et environs.
+                    </div>
+                </div>
+                
+                <div class="mobile-faq-item">
+                    <div class="mobile-faq-question">
+                        Quelle est la durée de garantie ?
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </div>
+                    <div class="mobile-faq-answer">
+                        Nous offrons une garantie décennale sur la structure et 2 ans sur les finitions de nos réalisations.
+                    </div>
+                </div>
+            </div>
+        </div>
 
 <?php get_footer(); ?>

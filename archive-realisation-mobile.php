@@ -99,9 +99,9 @@ get_header();
                     }
                     ?>
                     
-                    <article class="mobile-realisation-card scroll-slide-up">
+                    <article class="realisation-card mobile-realisation-card scroll-slide-up">
                         <div class="mobile-realisation-card-inner">
-                            <div class="mobile-realisation-image">
+                            <div class="realisation-card-image mobile-realisation-image">
                                 <?php the_post_thumbnail('medium_large', array('loading' => 'lazy')); ?>
                                 
                                 <!-- Badges positionnés en absolu par rapport à l'image -->
@@ -169,8 +169,8 @@ get_header();
                                 </div>
                             </div>
                             
-                            <div class="mobile-realisation-content">
-                                <h3 class="mobile-realisation-title">
+                            <div class="realisation-card-content mobile-realisation-content">
+                                <h3 class="realisation-card-title mobile-realisation-title">
                                     <a href="<?php the_permalink(); ?>">
                                         <?php the_title(); ?>
                                     </a>

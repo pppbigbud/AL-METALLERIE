@@ -2347,6 +2347,284 @@ background: #262626;
     z-index: 0;
 }
 
+/* ==========================================================================
+   MOBILE TAXONOMY MAP SECTION
+   ========================================================================== */
+
+.mobile-taxonomy-map-section {
+    margin: 3rem 0;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    position: relative;
+}
+
+.mobile-taxonomy-map-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23dee2e6" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    border-radius: 20px;
+}
+
+.mobile-taxonomy-map-section .mobile-section-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    color: #222;
+    font-size: 1.5rem;
+}
+
+.mobile-cities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.mobile-city-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    background: #fff;
+    color: #222;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+
+.mobile-city-btn:hover {
+    background: #F08B18;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(240, 139, 24, 0.3);
+}
+
+.mobile-city-btn:active {
+    transform: translateY(0);
+}
+
+/* Animation pour les boutons des villes */
+.mobile-city-btn {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.mobile-city-btn:nth-child(1) { animation-delay: 0.1s; }
+.mobile-city-btn:nth-child(2) { animation-delay: 0.15s; }
+.mobile-city-btn:nth-child(3) { animation-delay: 0.2s; }
+.mobile-city-btn:nth-child(4) { animation-delay: 0.25s; }
+.mobile-city-btn:nth-child(5) { animation-delay: 0.3s; }
+.mobile-city-btn:nth-child(6) { animation-delay: 0.35s; }
+.mobile-city-btn:nth-child(7) { animation-delay: 0.4s; }
+.mobile-city-btn:nth-child(8) { animation-delay: 0.45s; }
+.mobile-city-btn:nth-child(9) { animation-delay: 0.5s; }
+.mobile-city-btn:nth-child(10) { animation-delay: 0.55s; }
+.mobile-city-btn:nth-child(11) { animation-delay: 0.6s; }
+.mobile-city-btn:nth-child(12) { animation-delay: 0.65s; }
+.mobile-city-btn:nth-child(13) { animation-delay: 0.7s; }
+.mobile-city-btn:nth-child(14) { animation-delay: 0.75s; }
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .mobile-cities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mobile-taxonomy-map-section {
+        margin: 2rem 0;
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* ==========================================================================
+   MOBILE WHY CHOOSE SECTION
+   ========================================================================== */
+
+.mobile-why-choose-section {
+    margin: 3rem 0;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border-radius: 20px;
+    position: relative;
+}
+
+.mobile-why-choose-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23333333" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    border-radius: 20px;
+}
+
+.mobile-features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.mobile-feature-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(240, 139, 24, 0.2);
+    transition: all 0.3s ease;
+}
+
+.mobile-feature-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(240, 139, 24, 0.4);
+    transform: translateY(-2px);
+}
+
+.mobile-feature-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(240, 139, 24, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.mobile-feature-item h3 {
+    color: #F08B18;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.mobile-feature-item p {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+   MOBILE FAQ SECTION
+   ========================================================================== */
+
+.mobile-faq-section {
+    margin: 3rem 0;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    border-radius: 20px;
+    position: relative;
+}
+
+.mobile-faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23222222" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+    border-radius: 20px;
+}
+
+.mobile-faq-list {
+    position: relative;
+    z-index: 1;
+}
+
+.mobile-faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mobile-faq-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(240, 139, 24, 0.3);
+}
+
+.mobile-faq-question {
+    padding: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-faq-question:hover {
+    color: #F08B18;
+}
+
+.mobile-faq-question svg {
+    transition: transform 0.3s ease;
+    color: #F08B18;
+}
+
+.mobile-faq-item.active .mobile-faq-question svg {
+    transform: rotate(180deg);
+}
+
+.mobile-faq-answer {
+    padding: 0 1.2rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    color: #aaa;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.mobile-faq-item.active .mobile-faq-answer {
+    padding: 0 1.2rem 1.2rem;
+    max-height: 200px;
+}
+
+/* ==========================================================================
+   MOBILE CITY SELECTOR
+   ========================================================================== */
+
+.mobile-city-selector {
+    position: relative;
+    z-index: 1;
+}
+
+.mobile-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23F08B18" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 24px;
+    padding-right: 3rem !important;
+}
+
+.mobile-select:focus {
+    outline: none;
+    border-color: #F08B18;
+    box-shadow: 0 0 0 3px rgba(240, 139, 24, 0.2);
+}
+
 /* ============================================
    FOOTER MOBILE
    ============================================ */

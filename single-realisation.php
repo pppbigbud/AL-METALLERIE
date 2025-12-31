@@ -421,6 +421,38 @@ $icons = array(
                 </div>
             </div>
 
+            <!-- SECTION CARTE D'INTERVENTION -->
+            <?php if ($lieu) : ?>
+            <section class="realisation-map-section">
+                <div class="container">
+                    <div class="realisation-map-header">
+                        <h2><?php _e('Localisation du projet', 'almetal'); ?></h2>
+                        <p class="realisation-map-subtitle"><?php _e('Retrouvez l\'emplacement de cette réalisation', 'almetal'); ?></p>
+                    </div>
+                    <div class="realisation-map-container">
+                        <div id="intervention-map-<?php echo get_the_ID(); ?>" class="realisation-intervention-map"></div>
+                    </div>
+                    <div class="realisation-map-info">
+                        <div class="map-address">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span><?php echo esc_html($lieu); ?></span>
+                        </div>
+                        <div class="map-actions">
+                            <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($lieu); ?>" target="_blank" class="btn-map-google" rel="noopener">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>
+                                <?php _e('Voir sur Google Maps', 'almetal'); ?>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <?php endif; ?>
+
             <!-- SECTION POURQUOI NOUS CHOISIR + CTA -->
             <div class="realisation-bottom-section">
                 <div class="container">
