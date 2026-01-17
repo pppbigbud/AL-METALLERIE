@@ -202,19 +202,11 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version')
         );
         
-        // Montagnes footer
+        // SVG Puy Footer
         wp_enqueue_style(
-            'almetal-footer-mountains',
-            get_template_directory_uri() . '/assets/css/footer-mountains.css',
+            'almetal-puy-footer',
+            get_template_directory_uri() . '/assets/css/puy-footer.css',
             array('almetal-style'),
-            wp_get_theme()->get('Version')
-        );
-        
-        // Réalisations desktop
-        wp_enqueue_style(
-            'almetal-realisations',
-            get_template_directory_uri() . '/assets/css/realisations.css',
-            array('almetal-style', 'almetal-components'),
             wp_get_theme()->get('Version')
         );
         

@@ -18,92 +18,10 @@
         
         <!-- Montagnes d'Auvergne avec animation d'eruption -->
         <?php if (!is_page_template('page-contact.php')) : ?>
-        <div class="footer-mountains">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-                <!-- SVG normal pour les autres pages -->
-                <defs>
-                    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#2a2a2a;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                
-                <path class="mountain-silhouette" fill="url(#mountainGradient)" d="
-                    M0,120 L0,85
-                    
-                    C20,84 40,82 60,80
-                    C80,78 100,76 120,73
-                    L140,70
-                    C155,68 170,65 185,63
-                    L200,60
-                    C215,58 230,56 245,55
-                    L260,54
-                    
-                    C275,52 290,49 305,46
-                    L320,42
-                    C335,38 350,33 365,28
-                    L380,22
-                    C390,18 400,14 410,11
-                    L425,8
-                    L440,6
-                    L455,5
-                    L465,3
-                    L475,2
-                    L485,3
-                    L495,5
-                    L505,7
-                    L515,9
-                    L525,11
-                    L535,14
-                    L545,17
-                    C555,20 565,24 575,28
-                    L590,33
-                    C600,37 610,41 620,44
-                    L635,48
-                    C650,51 665,54 680,56
-                    L695,58
-                    C710,59 725,60 740,60
-                    L755,60
-                    C770,59 785,58 800,56
-                    L815,54
-                    C825,52 835,50 845,48
-                    L860,45
-                    C875,42 890,39 905,36
-                    L920,33
-                    C935,30 950,27 965,25
-                    L980,23
-                    C990,21 1000,20 1010,19
-                    L1025,18
-                    L1040,17
-                    L1055,16
-                    L1070,16
-                    L1085,17
-                    L1100,18
-                    C1115,20 1130,22 1145,25
-                    L1160,28
-                    C1170,31 1180,34 1190,38
-                    L1200,42
-                    L1200,120 Z
-                "/>
+        <div class="containerSperatorPuyFooter">
+            <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 847.3 91.7" style="enable-background:new 0 0 847.3 91.7;" xml:space="preserve">
+                <path class="st0" d="M843.6,54.9c-10.4-2.4-30.7-10.5-40.8-13.4c-9.4-2.6-18.7-3.3-28.4-1.4c-3.2,0.6-7.5,1.1-9.9-0.5  c-7.6-5.1-13.6-1.7-19.9,2.1c-8.6,5.3-17.7,8.2-27.9,7c-6.7-0.8-13.6-1.1-20.2-2.5c-12.2-2.6-24.3-6.2-36.5-8.8  c-3.6-0.8-8.6-1.3-11.3,0.5c-12.4,8.4-25.6,9.3-39.4,5.7c-14.5-3.8-28.8-8.1-43.2-12c-2.1-0.6-5-0.9-6.7,0.1  c-7.4,4.5-13.8,2.8-20.6-1.6c-13.7-8.9-27.8-17.1-41.8-25.7c-2.2-1.3-4.1-3-5.8-4.3c-0.4,0.5-1.5,3.5-3.2,3.8  c-7.6,1.8-15.4,3.8-23.1,3.9c-12.4,0.1-24,2.8-33.7,9.9c-16.3,11.9-31.4,25.4-52.7,27.4c-1.6,0.1-3.1,0.5-4.6,1.1  c-12,4.8-23.6,2.9-35-1.9c-4.3-1.8-8.3-2.6-13.2-1.2c-5.8,1.6-12.4,3.3-18,2c-13.5-3.1-26.7-3.9-40.2-0.4c-1.8,0.5-4.2,0.9-5.8,0.2  c-13.4-5.8-27.2-5.5-41.1-2.5c-6.3,1.3-12,3.3-19.3,0.7c-12.8-4.5-26.7-6.2-39.9-9.7c-15-3.9-66.5,2.4-79.7,11.1  c-1.2,0.8-36.9,4-41.7,9L0,53.5v38.4h847.3v-37H843.6z"></path>
             </svg>
-            
-            <!-- Point d'éruption au sommet (Puy de Dôme) -->
-            <div class="eruption-point">
-                <div class="eruption-glow"></div>
-                <div class="eruption-particles">
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                </div>
-                <div class="eruption-smoke">
-                    <div class="smoke-puff"></div>
-                    <div class="smoke-puff"></div>
-                    <div class="smoke-puff"></div>
-                </div>
-            </div>
         </div>
         <?php endif; ?>
         
