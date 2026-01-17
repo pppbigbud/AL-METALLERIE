@@ -202,12 +202,12 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version')
         );
         
-        // SVG Puy Footer
+        // Wave Footer
         wp_enqueue_style(
-            'almetal-puy-footer',
-            get_template_directory_uri() . '/assets/css/puy-footer.css',
+            'almetal-footer-wave',
+            get_template_directory_uri() . '/assets/css/footer-wave.css',
             array('almetal-style'),
-            wp_get_theme()->get('Version')
+            time() // Force le rechargement du cache
         );
         
         // Pages Matières
