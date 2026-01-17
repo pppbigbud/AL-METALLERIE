@@ -1,0 +1,19 @@
+# Commandes pour mettre à jour le fichier sur le serveur
+
+# Option 1: Si SSH fonctionne avec un autre port/utilisateur
+ssh -p [PORT] [UTILISATEUR]@78.245.161.125 "cd /var/www/al-metallerie.fr && git pull origin master"
+
+# Option 2: Transfert SFTP du fichier modifié
+sftp [UTILISATEUR]@78.245.161.125
+> cd /var/www/al-metallerie.fr/template-parts
+> put section-presentation.php
+> quit
+
+# Option 3: Si vous avez un accès panel web (cPanel, Plesk, etc.)
+# 1. Connectez-vous à votre panneau de contrôle
+# 2. Ouvrez le gestionnaire de fichiers
+# 3. Naviguez vers : template-parts/section-presentation.php
+# 4. Remplacez le contenu par le fichier corrigé
+
+# Le fichier modifié est dans :
+# c:\Users\BIGBUD\Desktop\PROJETS\AL Metallerie\ALMETAL\template-parts\section-presentation.php
