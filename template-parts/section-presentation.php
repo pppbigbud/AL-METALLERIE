@@ -31,10 +31,10 @@
             </div>
             <div class="presentation-image-wrapper presentation-image-bottom">
                 <picture>
-                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?>"
+                    <source srcset="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248-2.webp'); ?>"
                             sizes="(max-width: 768px) 250px, 400px"
                             type="image/webp">
-                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248 2.webp'); ?>" 
+                    <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/gallery/pexels-rik-schots-11624248-2.webp'); ?>" 
                          alt="Travaux de métallerie de précision à Thiers, Puy-de-Dôme"
                          class="presentation-img"
                          loading="lazy"
