@@ -28,6 +28,7 @@ class Almetal_Analytics_Admin {
         // Handlers AJAX pour les améliorations SEO
         add_action('wp_ajax_almetal_get_seo_improvements', array($this, 'ajax_get_seo_improvements'));
         add_action('wp_ajax_almetal_apply_seo_improvements', array($this, 'ajax_apply_seo_improvements'));
+        add_action('wp_ajax_almetal_generate_ai_content', array($this, 'ajax_generate_ai_content'));
     }
     
     /**
@@ -105,6 +106,16 @@ class Almetal_Analytics_Admin {
             array($this, 'render_seo_page')
         );
         
+        // Sous-menu Groq AI
+        add_submenu_page(
+            'almetal-analytics',
+            __('Groq AI', 'almetal-analytics'),
+            __('Groq AI', 'almetal-analytics'),
+            $settings_cap,
+            'almetal-analytics-groq',
+            array($this, 'render_groq_settings_page')
+        );
+        
         // Réglages - réservé aux administrateurs
         add_submenu_page(
             'almetal-analytics',
@@ -155,9 +166,9 @@ class Almetal_Analytics_Admin {
         if ($hook === 'analytics_page_almetal-analytics-seo') {
             wp_enqueue_script(
                 'almetal-seo-improver',
-                ALMETAL_ANALYTICS_URL . 'admin/js/seo-improver.js',
+                ALMETAL_ANALYTICS_URL . 'admin/js/seo-improver-v2.js',
                 array('jquery'),
-                ALMETAL_ANALYTICS_VERSION,
+                time(), // Version dynamique pour forcer le rechargement
                 true
             );
             
@@ -165,13 +176,14 @@ class Almetal_Analytics_Admin {
                 'almetal-seo-improver',
                 ALMETAL_ANALYTICS_URL . 'admin/css/seo-improver.css',
                 array(),
-                ALMETAL_ANALYTICS_VERSION
+                time() // Version dynamique pour forcer le rechargement
             );
             
             // Localiser le script pour AJAX
             wp_localize_script('almetal-seo-improver', 'almetalAnalytics', array(
                 'nonce' => wp_create_nonce('almetal_seo_improvements'),
-                'ajaxUrl' => admin_url('admin-ajax.php')
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'version' => time()
             ));
         }
         
@@ -245,6 +257,13 @@ class Almetal_Analytics_Admin {
     }
     
     /**
+     * Page des réglages Groq AI
+     */
+    public function render_groq_settings_page() {
+        include ALMETAL_ANALYTICS_PATH . 'admin/views/groq-settings.php';
+    }
+    
+    /**
      * Handler AJAX - Obtenir les améliorations SEO
      */
     public function ajax_get_seo_improvements() {
@@ -279,7 +298,7 @@ class Almetal_Analytics_Admin {
         $is_taxonomy = isset($_POST['is_taxonomy']) && $_POST['is_taxonomy'] === 'true';
         $improvements = isset($_POST['improvements']) ? array_map('sanitize_text_field', $_POST['improvements']) : array();
         $custom_values = isset($_POST['custom_values']) ? array_map('sanitize_textarea_field', $_POST['custom_values']) : array();
-        $create_draft = isset($_POST['create_draft']) ? boolval($_POST['create_draft']) : true;
+        $create_draft = isset($_POST['create_draft']) ? boolval($_POST['create_draft']) : false;
         
         if ($is_taxonomy) {
             if (!current_user_can('edit_term', $post_id)) {
@@ -314,5 +333,58 @@ class Almetal_Analytics_Admin {
      */
     public function render_settings_page() {
         include ALMETAL_ANALYTICS_PATH . 'admin/views/settings.php';
+    }
+    
+    /**
+     * Handler AJAX - Générer du contenu avec l'IA
+     */
+    public function ajax_generate_ai_content() {
+        check_ajax_referer('almetal_seo_improvements', 'nonce');
+        
+        $post_id = intval($_POST['post_id']);
+        $is_taxonomy = isset($_POST['is_taxonomy']) && $_POST['is_taxonomy'] === 'true';
+        $options = isset($_POST['options']) ? $_POST['options'] : array();
+        
+        if ($is_taxonomy) {
+            if (!current_user_can('edit_term', $post_id)) {
+                wp_die(__('Permission denied', 'almetal-analytics'));
+            }
+        } else {
+            if (!current_user_can('edit_post', $post_id)) {
+                wp_die(__('Permission denied', 'almetal-analytics'));
+            }
+        }
+        
+        // Inclure le générateur Groq
+        require_once ALMETAL_ANALYTICS_PATH . 'includes/class-groq-generator.php';
+        $generator = Almetal_Groq_Generator::get_instance();
+        
+        $post = get_post($post_id);
+        $result = array();
+        
+        // Ajouter la température aux données
+        $data = array(
+            'temperature' => isset($options['temperature']) ? $options['temperature'] : 0.7,
+            'tone' => isset($options['tone']) ? $options['tone'] : 'professional',
+            'length' => isset($options['length']) ? $options['length'] : 'medium',
+            'subject' => $post->post_title,
+            'type' => get_post_type($post_id),
+            'location' => 'Thiers'
+        );
+        
+        // Générer la meta description
+        if (isset($options['generate_meta']) && $options['generate_meta']) {
+            $result['meta_description'] = $generator->generate_content('meta_description', $data);
+        }
+        
+        // Générer l'amélioration de contenu
+        if (isset($options['generate_content']) && $options['generate_content']) {
+            $result['content'] = $generator->generate_content('content', $data);
+        }
+        
+        // Ajouter une info sur le générateur utilisé
+        $result['generator'] = $generator->is_configured() ? 'Groq AI' : 'Générateur simple (backup)';
+        
+        wp_send_json_success($result);
     }
 }

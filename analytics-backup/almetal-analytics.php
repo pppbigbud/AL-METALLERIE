@@ -66,6 +66,18 @@ class Almetal_Analytics {
         require_once ALMETAL_ANALYTICS_PATH . 'includes/class-export.php';
         require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo.php';
         require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver.php';
+        // SEO Improver V2 (temporairement désactivé)
+        // require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver-v2.php';
+        // SEO Improver V2 Simple (version de test)
+        // require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver-v2-simple.php';
+        // SEO Improver V2 Ultra-Simple (version de debug)
+        // require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver-v2-ultra-simple.php';
+        // SEO Improver V2 Optimisé (vraies données + suggestions optimisées)
+        // require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver-v2-optimized.php';
+        // SEO Improver V2 Final (vraies données + suggestions intelligentes)
+        require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver-v2-final.php';
+        // SEO Improver V2 avec Groq Compatible
+        // require_once ALMETAL_ANALYTICS_PATH . 'includes/class-seo-improver-v2-groq-compatible.php';
         
         // Admin
         if (is_admin()) {

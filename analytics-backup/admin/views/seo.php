@@ -9,6 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Charger le CSS de la modal SEO
+wp_enqueue_style('almetal-seo-modal', plugins_url('../assets/css/seo-modal.css', __FILE__), array(), ALMETAL_ANALYTICS_VERSION);
+
 // Récupérer les données SEO si demandé
 $seo_summary = null;
 $single_analysis = null;
@@ -150,7 +153,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_technical') {
                             <th style="width: 100px;"><?php _e('Meta Desc.', 'almetal-analytics'); ?></th>
                             <th style="width: 80px;"><?php _e('H1', 'almetal-analytics'); ?></th>
                             <th style="width: 80px;"><?php _e('Images', 'almetal-analytics'); ?></th>
-                            <th style="width: 100px;"><?php _e('Actions', 'almetal-analytics'); ?></th>
+                            <th style="width: 150px;"><?php _e('Actions', 'almetal-analytics'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -198,30 +201,32 @@ if (isset($_GET['action']) && $_GET['action'] === 'check_technical') {
                                 <small><?php echo $page['checks']['images']['with_alt']; ?>/<?php echo $page['checks']['images']['total']; ?></small>
                             </td>
                             <td>
-                                <div class="action-buttons" style="display: inline-flex; gap: 5px; align-items: center;">
+                                <div class="action-buttons" style="display: flex; flex-direction: column; gap: 5px; align-items: stretch;">
                                     <?php if ($is_taxonomy) : ?>
                                     <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_term&term_id=' . $page['term_id']); ?>" 
-                                       class="button button-small">
+                                       class="button button-small" style="width: 100%; justify-content: center;">
                                         <?php _e('Details', 'almetal-analytics'); ?>
                                     </a>
-                                    <?php if ($page['score'] < 90) : ?>
+                                    <?php if ($page['score'] < 95) : ?>
                                     <button class="button button-small button-primary seo-improve-btn" 
                                             data-post-id="<?php echo $page['term_id']; ?>"
-                                            data-is-taxonomy="true">
-                                        <span class="dashicons dashicons-update-alt"></span>
+                                            data-is-taxonomy="true"
+                                            style="width: 100%; justify-content: center;">
+                                        <span class="dashicons dashicons-update-alt" style="margin-right: 5px;"></span>
                                         <?php _e('Améliorer', 'almetal-analytics'); ?>
                                     </button>
                                     <?php endif; ?>
                                     <?php else : ?>
                                     <a href="<?php echo admin_url('admin.php?page=almetal-analytics-seo&action=analyze_page&post_id=' . $page['post_id']); ?>" 
-                                       class="button button-small">
+                                       class="button button-small" style="width: 100%; justify-content: center;">
                                         <?php _e('Details', 'almetal-analytics'); ?>
                                     </a>
-                                    <?php if ($page['score'] < 90) : ?>
+                                    <?php if ($page['score'] < 95) : ?>
                                     <button class="button button-small button-primary seo-improve-btn" 
                                             data-post-id="<?php echo $page['post_id']; ?>"
-                                            data-is-taxonomy="false">
-                                        <span class="dashicons dashicons-update-alt"></span>
+                                            data-is-taxonomy="false"
+                                            style="width: 100%; justify-content: center;">
+                                        <span class="dashicons dashicons-update-alt" style="margin-right: 5px;"></span>
                                         <?php _e('Améliorer', 'almetal-analytics'); ?>
                                     </button>
                                     <?php endif; ?>
@@ -509,3 +514,14 @@ function render_status_icon($status) {
     }
 }
 ?>
+
+<!-- Test pour vérifier que le JavaScript se charge -->
+<script>
+console.log('SEO page loaded - test');
+if (typeof jQuery !== 'undefined') {
+    console.log('jQuery is available');
+    jQuery('.seo-improve-btn').css('background', 'red');
+} else {
+    console.error('jQuery not loaded');
+}
+</script>

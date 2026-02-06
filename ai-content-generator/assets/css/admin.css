@@ -1,0 +1,205 @@
+/* AI Content Generator Admin Styles */
+
+.aicg-wrap {
+    max-width: 1200px;
+}
+
+.aicg-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .aicg-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.aicg-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.aicg-card h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.aicg-metabox {
+    padding: 10px 0;
+}
+
+.aicg-metabox p {
+    margin: 10px 0;
+}
+
+.aicg-result {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#dynamic-fields input,
+#dynamic-fields select,
+#dynamic-fields textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#generated-content {
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.spinner {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+/* Boutons */
+.button-primary {
+    background: #0073aa;
+    border-color: #0073aa;
+    color: #fff;
+}
+
+.button-primary:hover {
+    background: #005a87;
+    border-color: #005a87;
+}
+
+/* Messages */
+.notice {
+    margin: 20px 0;
+    padding: 12px;
+    border-left: 4px solid;
+}
+
+.notice-error {
+    border-left-color: #dc3232;
+    background: #fef7f7;
+}
+
+.notice-success {
+    border-left-color: #46b450;
+    background: #f7fff7;
+}
+
+/* Code blocks */
+code {
+    background: #e5e5e5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+/* Tables */
+.widefat {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.widefat td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.widefat tr:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+/* Form styles */
+.form-table th {
+    width: 200px;
+    vertical-align: top;
+    text-align: left;
+    padding: 20px 10px 20px 0;
+    font-weight: 600;
+}
+
+.form-table td {
+    padding: 15px 10px;
+    vertical-align: top;
+}
+
+.form-table input,
+.form-table select,
+.form-table textarea {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-table .description {
+    color: #666;
+    font-size: 13px;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Result container */
+#result-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+}
+
+#result-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* Copy button animation */
+#copy-content.copied {
+    background: #46b450;
+    border-color: #46b450;
+    color: #fff;
+}
+
+/* Stats card */
+.aicg-stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.aicg-stat {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.aicg-stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0073aa;
+}
+
+.aicg-stat-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+}

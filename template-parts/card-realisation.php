@@ -217,12 +217,7 @@ $matiere = get_post_meta(get_the_ID(), '_almetal_matiere', true);
 
         <!-- Bouton CTA -->
         <?php if ($args['show_cta']) : ?>
-            <a href="<?php the_permalink(); ?>" class="btn-view-project">
-                <span class="circle" aria-hidden="true">
-                    <svg class="icon arrow" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 6H17M17 6L12 1M17 6L12 11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
+            <a href="<?php the_permalink(); ?>" class="btn-view-project style-modern">
                 <span class="button-text"><?php _e('Voir le projet', 'almetal'); ?></span>
             </a>
         <?php endif; ?>

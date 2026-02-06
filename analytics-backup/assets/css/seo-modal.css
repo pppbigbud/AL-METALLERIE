@@ -1,0 +1,269 @@
+/* Modal SEO Improver */
+.seo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+.seo-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.seo-modal-content {
+    position: relative;
+    background: #fff;
+    margin: 50px auto;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.seo-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seo-modal-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.seo-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seo-modal-body {
+    padding: 20px;
+}
+
+.seo-modal-footer {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Onglets */
+.modal-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.tab-button.active {
+    border-bottom-color: #0073aa;
+    color: #0073aa;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Issues */
+.issues-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.issue-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+.issue-item.fixed {
+    border-color: #46b450;
+    background: #f0f8f0;
+}
+
+.issue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.issue-header h4 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.issue-header .dashicons {
+    color: #ffb900;
+}
+
+.issue-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.issue-description p {
+    margin: 5px 0;
+}
+
+/* AI Suggestion */
+.ai-suggestion {
+    margin-top: 15px;
+    padding: 15px;
+    background: #e7f3ff;
+    border-radius: 5px;
+    border-left: 4px solid #0073aa;
+}
+
+.ai-suggestion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ai-suggestion-header h5 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Manual Fix */
+.manual-fix {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 5px;
+}
+
+.manual-fix-header h5 {
+    margin: 0 0 10px 0;
+}
+
+.manual-fix-input {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+/* AI Options */
+.ai-options {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.ai-option {
+    margin: 10px 0;
+}
+
+.ai-option label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-parameters {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.param-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.param-row label {
+    min-width: 150px;
+}
+
+.param-row input[type="range"] {
+    flex: 1;
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+.spinner.is-active {
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .seo-modal-content {
+        margin: 20px;
+        width: calc(100% - 40px);
+    }
+    
+    .issue-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .issue-actions {
+        width: 100%;
+    }
+    
+    .tab-button {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

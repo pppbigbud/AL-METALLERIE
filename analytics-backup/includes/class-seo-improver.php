@@ -73,6 +73,14 @@ class Almetal_Analytics_SEO_Improver {
             }
         }
         
+        // 2. Améliorer le contenu (nouveau)
+        if (in_array('content_improvement', $improvements)) {
+            if (isset($custom_values['content_improvement'])) {
+                $modified_content = sanitize_textarea_field($custom_values['content_improvement']);
+                $improvements_applied[] = 'Contenu amélioré par IA';
+            }
+        }
+        
         // 2. Optimiser la longueur du titre
         if (in_array('title_length', $improvements) || empty($improvements)) {
             if (isset($custom_values['title_length'])) {
@@ -201,18 +209,18 @@ class Almetal_Analytics_SEO_Improver {
             }
         }
         
-        // Sinon, créer une description à partir des premières phrases
-        $description = '';
-        foreach ($sentences as $sentence) {
-            $sentence = trim($sentence);
-            if (strlen($description . $sentence) <= 160) {
-                $description .= $sentence . '. ';
-            } else {
-                break;
-            }
-        }
+        // SINON : Générer une description personnalisée pour AL Métallerie
+        $title = $post->post_title;
+        $location = 'Thiers';
         
-        return substr(trim($description), 0, 160);
+        // Générer une description basée sur le type de contenu
+        if (strpos($title, 'Réalisation') !== false || strpos($title, 'Projet') !== false) {
+            return "Découvrez cette réalisation en métallerie à Thiers par AL-Metallerie Soudure. Travail de qualité, fabrication sur mesure et savoir-faire artisanal pour vos projets métalliques.";
+        } elseif (strpos($title, 'Service') !== false || strpos($title, 'Prestation') !== false) {
+            return "AL-Metallerie Soudure à Thiers propose ses services de métallerie professionnelle. De la conception à la réalisation, nous assurons des travaux de qualité pour particuliers et professionnels.";
+        } else {
+            return "AL-Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme). Découvrez nos réalisations et services en soudure, ferronnerie et fabrication métallique sur mesure.";
+        }
     }
     
     /**
@@ -473,31 +481,21 @@ class Almetal_Analytics_SEO_Improver {
      * Générer une suggestion de meta description
      */
     private function generate_meta_description_suggestion($post) {
-        // Extraire le contenu pertinent
-        $content = strip_tags($post->post_content);
-        $content = preg_replace('/\s+/', ' ', $content);
-
-        // Prendre la première phrase significative
-        $sentences = preg_split('/[.!?]+/', $content, -1, PREG_SPLIT_NO_EMPTY);
-
-        foreach ($sentences as $sentence) {
-            $sentence = trim($sentence);
-            if (strlen($sentence) >= 140 && strlen($sentence) <= 160) {
-                return ucfirst($sentence);
-            }
+        // SI la page a déjà un extrait valide, le retourner
+        if ($post->post_excerpt && strlen($post->post_excerpt) >= 150 && strlen($post->post_excerpt) <= 160) {
+            return $post->post_excerpt;
         }
-
-        // Sinon, créer une description à partir des premières phrases
-        $description = '';
-        foreach ($sentences as $sentence) {
-            $sentence = trim($sentence);
-            if (strlen($description . $sentence) <= 160) {
-                $description .= $sentence . '. ';
-            } else {
-                break;
-            }
+        
+        // SINON : Générer une description personnalisée pour AL Métallerie
+        $title = $post->post_title;
+        
+        // Générer une description basée sur le type de contenu
+        if (strpos($title, 'Réalisation') !== false || strpos($title, 'Projet') !== false) {
+            return "Découvrez cette réalisation en métallerie à Thiers par AL-Metallerie Soudure. Travail de qualité, fabrication sur mesure et savoir-faire artisanal pour vos projets métalliques.";
+        } elseif (strpos($title, 'Service') !== false || strpos($title, 'Prestation') !== false) {
+            return "AL-Metallerie Soudure à Thiers propose ses services de métallerie professionnelle. De la conception à la réalisation, nous assurons des travaux de qualité pour particuliers et professionnels.";
+        } else {
+            return "AL-Metallerie Soudure, votre expert en métallerie à Thiers (Puy-de-Dôme). Découvrez nos réalisations et services en soudure, ferronnerie et fabrication métallique sur mesure.";
         }
-
-        return substr(trim($description), 0, 160);
     }
 }
