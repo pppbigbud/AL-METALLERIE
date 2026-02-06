@@ -380,6 +380,15 @@ function almetal_enqueue_scripts() {
     
     // Script de filtrage des actualités (front-page uniquement)
     if (is_front_page() && !almetal_is_mobile()) {
+        // Menu déroulant stylisé pour les réalisations
+        wp_enqueue_script(
+            'almetal-realisations-dropdown',
+            get_template_directory_uri() . '/assets/js/realisations-dropdown.js',
+            array(),
+            wp_get_theme()->get('Version'),
+            true
+        );
+        
         wp_enqueue_script(
             'almetal-actualites-filter',
             get_template_directory_uri() . '/assets/js/actualites-filter.js',

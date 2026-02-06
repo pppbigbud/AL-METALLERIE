@@ -47,53 +47,73 @@ $realisations_query = new WP_Query(array(
         <!-- Filtres dynamiques (catégories de réalisations) -->
         <?php if (!empty($categories) && !is_wp_error($categories)) : ?>
         
-        <!-- Filtres boutons (Desktop) -->
-        <div class="actualites-filters actualites-filters-desktop">
-            <?php
-            // Compter le total de réalisations
-            $total_count = wp_count_posts('realisation')->publish;
-            ?>
-            <button class="filter-btn active" data-filter="*">
-                <span class="filter-btn__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                    </svg>
-                </span>
-                <span class="filter-btn__text"><?php esc_html_e('Toutes', 'almetal'); ?></span>
-                <span class="filter-btn__count"><?php echo esc_html($total_count); ?></span>
-            </button>
-            <?php 
-            // Icônes par catégorie (identiques au mega menu)
-            $category_icons = array(
-                'portails' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>',
-                'garde-corps' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg>',
-                'escaliers' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h4v-4h4v-4h4V8h4"/></svg>',
-                'pergolas' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18h16M5 15h14M6 12h12M7 9h10M8 6h8M9 3h6"/></svg>',
-                'grilles' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
-                'ferronnerie-art' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c4-4 4-12 8-12s4 8 8 12"/><path d="M4 16c3-3 3-8 6-8s3 5 6 8"/><circle cx="12" cy="8" r="2"/></svg>',
-                'ferronnerie-dart' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c4-4 4-12 8-12s4 8 8 12"/><path d="M4 16c3-3 3-8 6-8s3 5 6 8"/><circle cx="12" cy="8" r="2"/></svg>',
-                'vehicules' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-4H7l-2 4v5z"/><path d="M3 17h18v2H3z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 12h14"/></svg>',
-                'serrurerie' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 16v2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>',
-                'mobilier-metallique' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="4" rx="1"/><path d="M6 10v10M18 10v10"/><path d="M4 14h16"/></svg>',
-            );
-            
-            foreach ($categories as $category) : 
-                $icon = isset($category_icons[$category->slug]) ? $category_icons[$category->slug] : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>';
-            ?>
-            <button class="filter-btn" data-filter=".<?php echo esc_attr($category->slug); ?>">
-                <span class="filter-btn__icon">
-                    <?php echo $icon; ?>
-                </span>
-                <span class="filter-btn__text"><?php echo esc_html($category->name); ?></span>
-                <span class="filter-btn__count"><?php echo esc_html($category->count); ?></span>
-            </button>
-            <?php endforeach; ?>
+        <!-- Menu déroulant stylisé (Desktop) -->
+        <div class="realisations-dropdown-wrapper">
+            <div class="realisations-dropdown" id="realisations-dropdown">
+                <button class="dropdown-trigger" aria-expanded="false" aria-haspopup="listbox">
+                    <span class="dropdown-trigger__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        </svg>
+                    </span>
+                    <span class="dropdown-trigger__text"><?php esc_html_e('Toutes les réalisations', 'almetal'); ?></span>
+                    <span class="dropdown-trigger__count"><?php echo esc_html($total_count); ?></span>
+                    <span class="dropdown-trigger__arrow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </span>
+                </button>
+                
+                <ul class="dropdown-menu" role="listbox" aria-label="<?php esc_attr_e('Filtrer par catégorie', 'almetal'); ?>">
+                    <?php
+                    // Icônes par catégorie (identiques au mega menu)
+                    $category_icons = array(
+                        'portails' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="18" rx="1"/></svg>',
+                        'garde-corps' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18" cy="12" r="1"/></svg>',
+                        'escaliers' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 20h4v-4h4v-4h4V8h4"/></svg>',
+                        'pergolas' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M4 18h16M5 15h14M6 12h12M7 9h10M8 6h8M9 3h6"/></svg>',
+                        'grilles' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+                        'ferronnerie-art' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c4-4 4-12 8-12s4 8 8 12"/><path d="M4 16c3-3 3-8 6-8s3 5 6 8"/><circle cx="12" cy="8" r="2"/></svg>',
+                        'ferronnerie-dart' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c4-4 4-12 8-12s4 8 8 12"/><path d="M4 16c3-3 3-8 6-8s3 5 6 8"/><circle cx="12" cy="8" r="2"/></svg>',
+                        'vehicules' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-4H7l-2 4v5z"/><path d="M3 17h18v2H3z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 12h14"/></svg>',
+                        'serrurerie' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 16v2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>',
+                        'mobilier-metallique' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="4" rx="1"/><path d="M6 10v10M18 10v10"/><path d="M4 14h16"/></svg>',
+                    );
+                    ?>
+                    
+                    <li class="dropdown-item active" role="option" data-filter="*" aria-selected="true">
+                        <span class="dropdown-item__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                                <rect x="3" y="14" width="7" height="7" rx="1"/>
+                                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                            </svg>
+                        </span>
+                        <span class="dropdown-item__text"><?php esc_html_e('Toutes les réalisations', 'almetal'); ?></span>
+                        <span class="dropdown-item__count"><?php echo esc_html($total_count); ?></span>
+                    </li>
+                    
+                    <?php foreach ($categories as $category) : 
+                        $icon = isset($category_icons[$category->slug]) ? $category_icons[$category->slug] : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>';
+                    ?>
+                    <li class="dropdown-item" role="option" data-filter=".<?php echo esc_attr($category->slug); ?>" aria-selected="false">
+                        <span class="dropdown-item__icon">
+                            <?php echo $icon; ?>
+                        </span>
+                        <span class="dropdown-item__text"><?php echo esc_html($category->name); ?></span>
+                        <span class="dropdown-item__count"><?php echo esc_html($category->count); ?></span>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
         
-        <!-- Filtre dropdown (Mobile) -->
+        <!-- Filtre dropdown natif (Mobile) -->
         <div class="actualites-filters actualites-filters-mobile">
             <label for="mobile-realisations-select" class="screen-reader-text">
                 <?php esc_html_e('Filtrer les actualités par catégorie', 'almetal'); ?>
@@ -102,7 +122,7 @@ $realisations_query = new WP_Query(array(
                 <option value="*"><?php esc_html_e('Toutes les catégories', 'almetal'); ?></option>
                 <?php foreach ($categories as $category) : ?>
                 <option value=".<?php echo esc_attr($category->slug); ?>">
-                    <?php echo esc_html($category->name); ?>
+                    <?php echo esc_html($category->name); ?> (<?php echo esc_html($category->count); ?>)
                 </option>
                 <?php endforeach; ?>
             </select>
@@ -309,15 +329,275 @@ $realisations_query = new WP_Query(array(
     to { transform: rotate(360deg); }
 }
 
-/* Animation des nouvelles cards */
-.realisation-card.loading-new {
-    opacity: 0;
-    transform: translateY(20px);
+/* ============================================
+   MENU DÉROULANT STYLISÉ - RÉALISATIONS
+   ============================================ */
+
+.realisations-dropdown-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto 3rem;
+    position: relative;
+    z-index: 100;
 }
 
-.realisation-card.loaded {
+.realisations-dropdown {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Bouton déclencheur */
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid #F08B18;
+    border-radius: 12px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.15);
+}
+
+.dropdown-trigger:hover {
+    background: linear-gradient(135deg, #222 0%, #333 100%);
+    box-shadow: 0 6px 25px rgba(240, 139, 24, 0.25);
+    transform: translateY(-2px);
+}
+
+.dropdown-trigger.active {
+    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+    border-color: #ff9f40;
+    box-shadow: 0 4px 20px rgba(240, 139, 24, 0.3);
+}
+
+.dropdown-trigger__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.dropdown-trigger__icon svg {
+    stroke: #F08B18;
+}
+
+.dropdown-trigger__text {
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-trigger__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    padding: 4px 10px;
+    background: rgba(240, 139, 24, 0.15);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.dropdown-trigger__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F08B18;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.dropdown-trigger.active .dropdown-trigger__arrow {
+    transform: rotate(180deg);
+}
+
+/* Menu déroulant */
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+    border: 2px solid #F08B18;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(240, 139, 24, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+}
+
+.realisations-dropdown.open .dropdown-menu {
+    max-height: 400px;
     opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    visibility: visible;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+/* Items du menu */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background: rgba(240, 139, 24, 0.1);
+}
+
+.dropdown-item.active {
+    background: rgba(240, 139, 24, 0.2);
+    color: #F08B18;
+}
+
+.dropdown-item.active .dropdown-item__icon {
+    color: #F08B18;
+}
+
+.dropdown-item__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.dropdown-item:hover .dropdown-item__icon {
+    color: #F08B18;
+}
+
+.dropdown-item__text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-item__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+}
+
+.dropdown-item.active .dropdown-item__count {
+    background: rgba(240, 139, 24, 0.2);
+    color: #F08B18;
+}
+
+/* Scrollbar personnalisée */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(240, 139, 24, 0.4);
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(240, 139, 24, 0.6);
+}
+
+/* Animation d'entrée des items */
+.realisations-dropdown.open .dropdown-item {
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: slideIn 0.3s ease forwards;
+}
+
+.realisations-dropdown.open .dropdown-item:nth-child(1) { animation-delay: 0.05s; }
+.realisations-dropdown.open .dropdown-item:nth-child(2) { animation-delay: 0.1s; }
+.realisations-dropdown.open .dropdown-item:nth-child(3) { animation-delay: 0.15s; }
+.realisations-dropdown.open .dropdown-item:nth-child(4) { animation-delay: 0.2s; }
+.realisations-dropdown.open .dropdown-item:nth-child(5) { animation-delay: 0.25s; }
+.realisations-dropdown.open .dropdown-item:nth-child(6) { animation-delay: 0.3s; }
+.realisations-dropdown.open .dropdown-item:nth-child(7) { animation-delay: 0.35s; }
+.realisations-dropdown.open .dropdown-item:nth-child(8) { animation-delay: 0.4s; }
+.realisations-dropdown.open .dropdown-item:nth-child(9) { animation-delay: 0.45s; }
+.realisations-dropdown.open .dropdown-item:nth-child(10) { animation-delay: 0.5s; }
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Masquer le dropdown sur mobile */
+@media (max-width: 768px) {
+    .realisations-dropdown-wrapper {
+        display: none;
+    }
+}
+
+/* Masquer le select mobile sur desktop */
+@media (min-width: 769px) {
+    .actualites-filters-mobile {
+        display: none;
+    }
+}
+
+/* Overlay pour fermer le dropdown */
+.dropdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.dropdown-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 </style>
