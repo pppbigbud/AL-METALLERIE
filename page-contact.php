@@ -73,7 +73,7 @@ if (function_exists('wp_body_open')) {
                 </a>
 
                 <!-- Email -->
-                <a href="mailto:aurelien@al-metallerie.fr" class="contact-info-item contact-email">
+                <a href="mailto:contact@al-metallerie.fr" class="contact-info-item contact-email">
                     <div class="contact-info-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -82,7 +82,7 @@ if (function_exists('wp_body_open')) {
                     </div>
                     <div class="contact-info-content">
                         <span class="contact-info-label"><?php _e('Email', 'almetal'); ?></span>
-                        <span class="contact-info-value">aurelien@al-metallerie.fr</span>
+                        <span class="contact-info-value">contact@al-metallerie.fr</span>
                     </div>
                 </a>
 

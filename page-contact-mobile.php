@@ -58,7 +58,7 @@ get_header();
                 </div>
                 <div class="mobile-contact-page-content">
                     <h3><?php esc_html_e('Email', 'almetal'); ?></h3>
-                    <p>aurelien@al-metallerie.fr</p>
+                    <p>contact@al-metallerie.fr</p>
                 </div>
             </a>
 

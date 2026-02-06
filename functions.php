@@ -219,6 +219,24 @@ function almetal_enqueue_scripts() {
                 wp_get_theme()->get('Version')
             );
         }
+        
+        // Animations section Présentation (page d'accueil uniquement)
+        if (is_front_page()) {
+            wp_enqueue_style(
+                'almetal-presentation-animations',
+                get_template_directory_uri() . '/assets/css/presentation-animations.css',
+                array('almetal-style'),
+                wp_get_theme()->get('Version')
+            );
+            
+            wp_enqueue_script(
+                'almetal-presentation-animations',
+                get_template_directory_uri() . '/assets/js/presentation-animations.js',
+                array(),
+                wp_get_theme()->get('Version'),
+                true
+            );
+        }
     }
     
     // ============================================

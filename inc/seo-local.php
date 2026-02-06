@@ -99,7 +99,7 @@ function almetal_seo_meta_head() {
         'name' => 'AL Métallerie & Soudure',
         'address' => '14 route de Maringues, 63920 Peschadoires',
         'phone' => '06 73 33 35 32',
-        'email' => 'aurelien@al-metallerie.fr',
+        'email' => 'contact@al-metallerie.fr',
         'region' => 'Puy-de-Dôme, Auvergne-Rhône-Alpes',
         'lat' => '45.8344',
         'lon' => '3.1636',
@@ -751,7 +751,7 @@ function almetal_seo_footer_text() {
                 <p style="margin-bottom: 0; text-align: center;">
                     <strong>Devis gratuit et personnalisé</strong> sous 48h. Contactez-nous au 
                     <a href="tel:+33673333532" style="color: #F08B18; font-weight: 700;">06 73 33 35 32</a> 
-                    ou par email à <a href="mailto:aurelien@al-metallerie.fr" style="color: #F08B18;">aurelien@al-metallerie.fr</a>.
+                    ou par email à <a href="mailto:contact@al-metallerie.fr" style="color: #F08B18;">contact@al-metallerie.fr</a>.
                 </p>
             </div>
         </div>
