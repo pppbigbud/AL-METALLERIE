@@ -202,10 +202,10 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version')
         );
         
-        // Wave Footer
+        // Chaîne des Puys - Footer Mountains
         wp_enqueue_style(
-            'almetal-footer-wave',
-            get_template_directory_uri() . '/assets/css/footer-wave.css',
+            'almetal-footer-mountains',
+            get_template_directory_uri() . '/assets/css/footer-mountains.css',
             array('almetal-style'),
             time() // Force le rechargement du cache
         );
@@ -405,6 +405,11 @@ function almetal_enqueue_scripts() {
             wp_get_theme()->get('Version'),
             true
         );
+        
+        // Variables AJAX pour le dropdown réalisations
+        wp_localize_script('almetal-realisations-dropdown', 'ajax_object', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+        ));
     }
     
     // Script compte à rebours pour les promos (front-page uniquement)
@@ -607,13 +612,29 @@ function almetal_enqueue_scripts() {
             true
         );
         
+        // CSS galerie (carrousel, lightbox, miniatures)
+        wp_enqueue_style(
+            'almetal-realisations',
+            get_template_directory_uri() . '/assets/css/realisations.css',
+            array('almetal-style'),
+            wp_get_theme()->get('Version')
+        );
+        
         // CSS nouvelle mise en page single réalisation V2
         wp_enqueue_style(
             'almetal-single-realisation-v2',
             get_template_directory_uri() . '/assets/css/single-realisation-v2.css',
-            array('almetal-style'),
+            array('almetal-style', 'almetal-realisations'),
             wp_get_theme()->get('Version')
         );
+        
+        // Leaflet CSS & JS pour la carte zone d'intervention
+        wp_enqueue_style('leaflet-css', 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css', array(), '1.9.4');
+        wp_enqueue_script('leaflet-js', 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js', array('jquery'), '1.9.4', true);
+        wp_enqueue_script('taxonomy-map', get_template_directory_uri() . '/assets/js/taxonomy-map.js', array('jquery', 'leaflet-js'), '1.0.0', true);
+        
+        // CSS taxonomy-seo pour les styles zone d'intervention et cities-grid
+        wp_enqueue_style('taxonomy-seo', get_template_directory_uri() . '/assets/css/taxonomy-seo.css', array(), '1.0.0');
     }
     
     // CSS des pages légales (mentions légales et politique de confidentialité)
@@ -645,6 +666,16 @@ function almetal_enqueue_scripts() {
             get_template_directory_uri() . '/assets/css/archive-pages.css',
             array('almetal-style'),
             wp_get_theme()->get('Version')
+        );
+    }
+    
+    // CSS pour la page Zones d'intervention (/soudure-auvergne/ = archive CPT city_page)
+    if (is_post_type_archive('city_page')) {
+        wp_enqueue_style(
+            'almetal-zones-intervention',
+            get_template_directory_uri() . '/assets/css/zones-intervention.css',
+            array('almetal-style'),
+            time()
         );
     }
     
@@ -2853,5 +2884,90 @@ function almetal_bulk_geocode_cities() {
                 }
             }
         }
+    }
+}
+
+/**
+ * Handler du formulaire de contact - Envoie à deux adresses
+ */
+add_action('admin_post_almetal_contact_form', 'almetal_handle_contact_form');
+add_action('admin_post_nopriv_almetal_contact_form', 'almetal_handle_contact_form');
+add_action('wp_ajax_almetal_contact_form', 'almetal_handle_contact_form_ajax');
+add_action('wp_ajax_nopriv_almetal_contact_form', 'almetal_handle_contact_form_ajax');
+
+function almetal_handle_contact_form() {
+    if (isset($_POST['contact_nonce']) && wp_verify_nonce($_POST['contact_nonce'], 'almetal_contact_form')) {
+        $name = sanitize_text_field($_POST['contact_name']);
+        $email = sanitize_email($_POST['contact_email']);
+        $phone = sanitize_text_field($_POST['contact_phone']);
+        $project = sanitize_text_field($_POST['contact_project']);
+        $message = sanitize_textarea_field($_POST['contact_message']);
+        
+        $subject = 'Nouvelle demande de contact de ' . $name;
+        $body = "Nom: $name\nEmail: $email\nTéléphone: $phone\nProjet: $project\n\nMessage:\n$message";
+        $headers = array('From: ' . $email);
+        
+        // Envoyer aux deux adresses
+        $emails = array('aurelien@al-metallerie.fr', 'contact@al-metallerie.fr');
+        foreach ($emails as $to) {
+            wp_mail($to, $subject, $body, $headers);
+        }
+        
+        // Sauvegarder en base de données
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'almetal_contacts';
+        $wpdb->insert($table_name, array(
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'project_type' => $project,
+            'message' => $message,
+            'submitted_at' => current_time('mysql')
+        ));
+    }
+    wp_redirect(home_url('/contact?success=1'));
+    exit;
+}
+
+function almetal_handle_contact_form_ajax() {
+    if (isset($_POST['contact_nonce']) && wp_verify_nonce($_POST['contact_nonce'], 'almetal_contact_form')) {
+        $name = sanitize_text_field($_POST['contact_name']);
+        $email = sanitize_email($_POST['contact_email']);
+        $phone = sanitize_text_field($_POST['contact_phone']);
+        $project = sanitize_text_field($_POST['contact_project']);
+        $message = sanitize_textarea_field($_POST['contact_message']);
+        
+        $subject = 'Nouvelle demande de contact de ' . $name;
+        $body = "Nom: $name\nEmail: $email\nTéléphone: $phone\nProjet: $project\n\nMessage:\n$message";
+        $headers = array('From: ' . $email);
+        
+        // Envoyer aux deux adresses
+        $emails = array('aurelien@al-metallerie.fr', 'contact@al-metallerie.fr');
+        $success = true;
+        foreach ($emails as $to) {
+            if (!wp_mail($to, $subject, $body, $headers)) {
+                $success = false;
+            }
+        }
+        
+        // Sauvegarder en base de données
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'almetal_contacts';
+        $wpdb->insert($table_name, array(
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'project_type' => $project,
+            'message' => $message,
+            'submitted_at' => current_time('mysql')
+        ));
+        
+        if ($success) {
+            wp_send_json_success(array('message' => '✅ C\'est ok on reviendra vers vous rapidement !'));
+        } else {
+            wp_send_json_error(array('message' => '❌ Une erreur est survenue lors de l\'envoi. Veuillez réessayer.'));
+        }
+    } else {
+        wp_send_json_error(array('message' => '⚠️ Erreur de sécurité. Veuillez rafraîchir la page et réessayer.'));
     }
 }

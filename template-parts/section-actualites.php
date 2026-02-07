@@ -16,6 +16,7 @@ $categories = get_terms(array(
 // Configuration de la pagination AJAX
 $per_page = 6;
 $total_realisations = wp_count_posts('realisation')->publish;
+$total_count = $total_realisations;
 
 // Récupérer les premières réalisations
 $realisations_query = new WP_Query(array(
@@ -82,6 +83,13 @@ $realisations_query = new WP_Query(array(
                         'vehicules' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-4H7l-2 4v5z"/><path d="M3 17h18v2H3z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 12h14"/></svg>',
                         'serrurerie' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M12 16v2"/><circle cx="12" cy="16" r="1"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>',
                         'mobilier-metallique' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="4" rx="1"/><path d="M6 10v10M18 10v10"/><path d="M4 14h16"/></svg>',
+                        'porte' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8h16"/><circle cx="16" cy="12" r="1"/></svg>',
+                        'porte-a-galandage' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 8h16"/><circle cx="16" cy="12" r="1"/><path d="M3 6v12"/></svg>',
+                        'portillon' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="15" rx="1"/><path d="M6 12h12"/><circle cx="15" cy="14" r="1"/><path d="M2 21h20"/></svg>',
+                        'industrie' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21v-8l4-2v10"/><path d="M13 21v-6l4-2v8"/><rect x="18" y="7" width="3" height="14" rx="1"/><path d="M19 7v-3"/></svg>',
+                        'enseigne' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M8 16l-3 4"/><path d="M16 16l3 4"/><path d="M8 10h8"/></svg>',
+                        'brasero' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="16" rx="8" ry="4"/><path d="M4 16v-3c0-4 4-7 8-7s8 3 8 7v3"/><path d="M12 9v-3"/><path d="M9 7l3-3 3 3"/></svg>',
+                        'bac-a-fleurs' => '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10v-3c0-2 2-4 4-4s4 2 4 4v3"/><path d="M12 3v2"/></svg>',
                     );
                     ?>
                     

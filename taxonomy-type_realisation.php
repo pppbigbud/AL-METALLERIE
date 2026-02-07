@@ -370,24 +370,21 @@ if (!$hero_background_image) {
                 if (!empty($city_pages)) {
                     foreach ($city_pages as $city_name => $city_url) {
                         $city_slug = sanitize_title($city_name);
-                        echo '<div class="city-item">';
-                        echo '<a href="' . esc_url($city_url) . '" class="city-link" data-city="' . esc_attr($city_slug) . '">';
-                        echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-                        echo esc_html($city_name);
+                        echo '<a href="' . esc_url($city_url) . '" class="city-link zones-city-card" data-city="' . esc_attr($city_slug) . '">';
+                        echo '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+                        echo '<span class="zones-city-card__name">' . esc_html($city_name) . '</span>';
+                        echo '<svg class="zones-city-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
                         echo '</a>';
-                        echo '</div>';
                     }
                 } else {
                     // Fallback : afficher les villes principales sans liens
                     $main_cities = array('Thiers', 'Clermont-Ferrand', 'Peschadoires', 'Riom', 'Issoire');
                     foreach ($main_cities as $city) {
                         $city_slug = sanitize_title($city);
-                        echo '<div class="city-item">';
-                        echo '<span class="city-name" data-city="' . esc_attr($city_slug) . '" style="opacity: 0.7; cursor: pointer;">';
-                        echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-                        echo esc_html($city);
+                        echo '<span class="city-link zones-city-card" data-city="' . esc_attr($city_slug) . '" style="cursor: pointer;">';
+                        echo '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+                        echo '<span class="zones-city-card__name">' . esc_html($city) . '</span>';
                         echo '</span>';
-                        echo '</div>';
                     }
                 }
                 ?>
@@ -555,65 +552,75 @@ if (!$hero_background_image) {
             </h2>
             
             <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <div class="zones-service-card">
+                    <div class="zones-service-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                             <path d="M9 12l2 2 4-4"/>
-                            <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18zM3 19c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-6c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6z"/>
                         </svg>
                     </div>
-                    <h3>Garantie Décennale</h3>
-                    <p>Toutes nos <?php echo esc_html(strtolower($current_term->name)); ?> sont couvertes par une assurance décennale pour votre tranquillité d'esprit.</p>
+                    <h3 class="zones-service-card__title">Garantie Décennale</h3>
+                    <p class="zones-service-card__desc">Toutes nos <?php echo esc_html(strtolower($current_term->name)); ?> sont couvertes par une assurance décennale pour votre tranquillité d'esprit.</p>
                 </div>
                 
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <div class="zones-service-card">
+                    <div class="zones-service-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
                         </svg>
                     </div>
-                    <h3>Artisans Qualifiés</h3>
-                    <p>Notre équipe de métalliers expérimentés maîtrise parfaitement les techniques traditionnelles et modernes.</p>
+                    <h3 class="zones-service-card__title">Artisans Qualifiés</h3>
+                    <p class="zones-service-card__desc">Notre équipe de métalliers expérimentés maîtrise parfaitement les techniques traditionnelles et modernes.</p>
                 </div>
                 
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <div class="zones-service-card">
+                    <div class="zones-service-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
                         </svg>
                     </div>
-                    <h3>Matériaux Premium</h3>
-                    <p>Nous sélectionnons les meilleurs matériaux (acier, inox, aluminium) pour une durabilité exceptionnelle.</p>
+                    <h3 class="zones-service-card__title">Matériaux Premium</h3>
+                    <p class="zones-service-card__desc">Nous sélectionnons les meilleurs matériaux (acier, inox, aluminium) pour une durabilité exceptionnelle.</p>
                 </div>
                 
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <div class="zones-service-card">
+                    <div class="zones-service-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 21h18"/>
+                            <path d="M5 21V7l8-4v18"/>
+                            <path d="M19 21V11l-6-4"/>
+                            <path d="M9 9h1M9 13h1M9 17h1"/>
                         </svg>
                     </div>
-                    <h3>Fabrication Française</h3>
-                    <p>Toutes nos créations sont 100% fabriquées dans notre atelier à Peschadoires, Auvergne.</p>
+                    <h3 class="zones-service-card__title">Fabrication Française</h3>
+                    <p class="zones-service-card__desc">Toutes nos créations sont 100% fabriquées dans notre atelier à Peschadoires, Auvergne.</p>
                 </div>
                 
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <div class="zones-service-card">
+                    <div class="zones-service-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
                         </svg>
                     </div>
-                    <h3>Devis Personnalisé</h3>
-                    <p>Étude gratuite de votre projet avec des plans détaillés et un devis adapté à votre budget.</p>
+                    <h3 class="zones-service-card__title">Devis Personnalisé</h3>
+                    <p class="zones-service-card__desc">Étude gratuite de votre projet avec des plans détaillés et un devis adapté à votre budget.</p>
                 </div>
                 
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <div class="zones-service-card">
+                    <div class="zones-service-card__icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                            <line x1="4" y1="22" x2="4" y2="15"/>
                         </svg>
                     </div>
-                    <h3>Installation Professionnelle</h3>
-                    <p>Notre équipe assure la pose complète avec respect des normes et du chantier.</p>
+                    <h3 class="zones-service-card__title">Installation Professionnelle</h3>
+                    <p class="zones-service-card__desc">Notre équipe assure la pose complète avec respect des normes et du chantier.</p>
                 </div>
             </div>
         </div>

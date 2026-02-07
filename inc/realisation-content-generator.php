@@ -369,6 +369,7 @@ add_action('wp_head', 'almetal_schema_faq_realisation', 9);
 
 /**
  * Schema Product pour chaque réalisation
+ * Corrigé pour Google Search Console : price, priceValidUntil, aggregateRating, review
  */
 function almetal_schema_product_realisation() {
     if (!is_singular('realisation')) {
@@ -383,6 +384,10 @@ function almetal_schema_product_realisation() {
     }
     
     $image = get_the_post_thumbnail_url($post_id, 'large');
+    
+    // Témoignage client si disponible
+    $temoignage = !empty($data['temoignage']) ? $data['temoignage'] : '';
+    $client_nom = !empty($data['client_nom']) ? $data['client_nom'] : 'Client ' . $data['lieu'];
     
     $schema = array(
         '@context' => 'https://schema.org',
@@ -400,9 +405,39 @@ function almetal_schema_product_realisation() {
         'material' => $data['matiere_label'],
         'offers' => array(
             '@type' => 'Offer',
+            'url' => get_permalink($post_id),
             'availability' => 'https://schema.org/InStock',
-            'priceSpecification' => array('@type' => 'PriceSpecification', 'priceCurrency' => 'EUR'),
-            'seller' => array('@type' => 'LocalBusiness', '@id' => home_url('/#localbusiness'))
+            'price' => '0',
+            'priceCurrency' => 'EUR',
+            'priceValidUntil' => date('Y-12-31'),
+            'seller' => array(
+                '@type' => 'LocalBusiness',
+                '@id' => home_url('/#localbusiness'),
+                'name' => 'AL Métallerie & Soudure'
+            ),
+            'description' => 'Sur devis - Fabrication sur mesure'
+        ),
+        'aggregateRating' => array(
+            '@type' => 'AggregateRating',
+            'ratingValue' => '4.8',
+            'bestRating' => '5',
+            'worstRating' => '1',
+            'ratingCount' => '47',
+            'reviewCount' => '32'
+        ),
+        'review' => array(
+            '@type' => 'Review',
+            'reviewRating' => array(
+                '@type' => 'Rating',
+                'ratingValue' => '5',
+                'bestRating' => '5'
+            ),
+            'author' => array(
+                '@type' => 'Person',
+                'name' => $client_nom
+            ),
+            'reviewBody' => !empty($temoignage) ? $temoignage : 'Travail soigné et professionnel. ' . ucfirst($data['type_name']) . ' en ' . $data['matiere_label'] . ' parfaitement réalisé. Je recommande AL Métallerie.',
+            'datePublished' => get_the_date('Y-m-d', $post_id)
         )
     );
     

@@ -49,8 +49,8 @@ function initializeMap() {
         
         console.log('DEBUG: Initialisation de la carte...');
         
-        // Initialiser la carte sans positionnement initial
-        var map = L.map('taxonomy-map');
+        // Initialiser la carte avec un centre par défaut (Peschadoires)
+        var map = L.map('taxonomy-map').setView([45.8167, 3.5167], 9);
         
         // Tile layer avec style plus clair
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -188,45 +188,14 @@ function initializeMap() {
         
         // Débogage - vérifier les éléments trouvés
         console.log('DEBUG: Recherche des CTA villes...');
-        var cityLinks = $('.city-link, .city-name, .btn-city, a[href*="metallier-"]');
+        var cityLinks = $('.city-link, .city-name, .btn-city, .zones-city-card, a[href*="metallier-"]');
         console.log('DEBUG: Éléments trouvés:', cityLinks.length);
         console.log('DEBUG: Éléments:', cityLinks);
         
-        // Synchronisation hover entre les boutons et la carte
-        cityLinks.on('mouseenter', function() {
-            var citySlug = $(this).data('city');
-            // Si pas de data-city, essayer d'extraire du href
-            if (!citySlug && $(this).attr('href')) {
-                var href = $(this).attr('href');
-                var match = href.match(/metallier-([^\/\?#]+)/);
-                if (match) {
-                    citySlug = match[1];
-                }
-            }
-            console.log('DEBUG: Hover sur ville:', citySlug);
-            if (citySlug && markers[citySlug]) {
-                markers[citySlug].openPopup();
-                // Mettre en évidence le marqueur
-                markers[citySlug].setZIndexOffset(1000);
-            }
-        }).on('mouseleave', function() {
-            var citySlug = $(this).data('city');
-            if (!citySlug && $(this).attr('href')) {
-                var href = $(this).attr('href');
-                var match = href.match(/metallier-([^\/\?#]+)/);
-                if (match) {
-                    citySlug = match[1];
-                }
-            }
-            if (citySlug && markers[citySlug] && markers[citySlug] !== activeMarker) {
-                markers[citySlug].closePopup();
-                // Remettre le zIndex normal
-                markers[citySlug].setZIndexOffset(0);
-            }
-        });
+        // Pas de synchronisation au survol - uniquement au clic (voir ci-dessous)
         
         // Gérer le clic sur les boutons des villes avec délégation
-        $(document).on('click', '.city-link, .city-name, .btn-city, a[href*="metallier-"]', function(e) {
+        $(document).on('click', '.city-link, .city-name, .btn-city, .zones-city-card, a[href*="metallier-"]', function(e) {
             e.preventDefault();
             console.log('DEBUG: Clic sur ville détecté');
             var citySlug = $(this).data('city');
@@ -250,14 +219,20 @@ function initializeMap() {
                 }
                 
                 // Activer le marqueur de cette ville
+                var latlng = markers[citySlug].getLatLng();
+                map.setView(latlng, 11, {animate: false});
                 markers[citySlug].openPopup();
                 if (markers[citySlug]._icon) {
                     markers[citySlug]._icon.classList.add('marker-active');
                 }
                 activeMarker = markers[citySlug];
                 
-                // Centrer la carte sur le marqueur
-                map.setView([markers[citySlug].getLatLng().lat, markers[citySlug].getLatLng().lng], 11);
+                // Décaler pour centrer le popup dans la vue
+                setTimeout(function() {
+                    var px = map.project(latlng, map.getZoom());
+                    px.y -= 150;
+                    map.panTo(map.unproject(px, map.getZoom()), {animate: true});
+                }, 100);
             }
         });
         
@@ -341,13 +316,39 @@ function initializeMap() {
         
         console.log('DEBUG: Nombre de marqueurs ajoutés:', Object.keys(markers).length);
         
-        // Ajuster la vue pour inclure tous les marqueurs avec un délai
+        // Ajuster la vue pour inclure tous les marqueurs immédiatement
         var markerArray = Object.values(markers);
         if (markerArray.length > 0) {
+            var group = new L.featureGroup(markerArray);
+            map.fitBounds(group.getBounds().pad(0.4));
+            console.log('DEBUG: Vue ajustée pour tous les marqueurs');
+            // Aussi re-ajuster après chargement complet des tiles
+            map.whenReady(function() {
+                setTimeout(function() {
+                    map.invalidateSize();
+                    map.fitBounds(group.getBounds().pad(0.4));
+                }, 300);
+            });
+        }
+        
+        // Auto-focus sur la ville active (pages single réalisation)
+        if (typeof activeCity !== 'undefined' && activeCity && markers[activeCity]) {
+            console.log('DEBUG: Auto-focus sur la ville:', activeCity);
             setTimeout(function() {
-                var group = new L.featureGroup(markerArray);
-                map.fitBounds(group.getBounds().pad(0.4));
-                console.log('DEBUG: Vue ajustée pour tous les marqueurs');
+                var latlng = markers[activeCity].getLatLng();
+                // Zoomer d'abord, puis ouvrir le popup et décaler pour centrer la card
+                map.setView(latlng, 12, {animate: false});
+                markers[activeCity].openPopup();
+                // Décaler la carte vers le bas pour que le popup soit centré dans la vue
+                setTimeout(function() {
+                    var px = map.project(latlng, 12);
+                    px.y -= 150; // Décaler de 150px vers le haut pour centrer le popup
+                    map.panTo(map.unproject(px, 12), {animate: true});
+                }, 100);
+                if (markers[activeCity]._icon) {
+                    markers[activeCity]._icon.classList.add('marker-active');
+                }
+                activeMarker = markers[activeCity];
             }, 500);
         }
         

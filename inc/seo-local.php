@@ -1135,7 +1135,7 @@ function almetal_display_taxonomy_faq() {
             <div class="faq-list">
                 <?php foreach ($faqs as $index => $faq) : ?>
                     <div class="faq-item<?php echo $index === 0 ? ' active' : ''; ?>">
-                        <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+                        <button class="faq-question">
                             <span><?php echo esc_html($faq['question']); ?></span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="6 9 12 15 18 9"/>

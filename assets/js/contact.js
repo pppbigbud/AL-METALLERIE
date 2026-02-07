@@ -166,11 +166,11 @@
             .then(data => {
                 if (data.success) {
                     messageDiv.className = 'form-message success';
-                    messageDiv.textContent = data.message;
+                    messageDiv.textContent = data.data.message;
                     form.reset();
                 } else {
                     messageDiv.className = 'form-message error';
-                    messageDiv.textContent = data.message;
+                    messageDiv.textContent = data.data ? data.data.message : 'Une erreur est survenue.';
                 }
                 messageDiv.style.display = 'block';
             })

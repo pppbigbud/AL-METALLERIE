@@ -12,11 +12,10 @@
 
 .footer-mountains {
     position: relative;
-    width: 100vw;
-    height: 120px;
+    width: 100%;
+    height: 160px;
     overflow: visible;
-    margin: 0 0 50px 0;
-    margin-left: calc(-50vw + 50%);
+    margin: 150px 0 0 0;
     padding: 0;
 }
 
@@ -42,11 +41,11 @@
    ANIMATION ÉRUPTION - SOMMET
    ============================================ */
 
-/* Point d'éruption (sommet du Puy de Dôme - avec antenne) */
+/* Point d'éruption (sommet du Puy de Dôme) */
 .eruption-point {
     position: absolute;
-    top: 1.5%;
-    left: 81%;
+    top: 5%;
+    left: 51.5%;
     transform: translate(-50%, -50%);
     width: 30px;
     height: 30px;
@@ -226,7 +225,7 @@
 
 @media (max-width: 768px) {
     .footer-mountains {
-        height: 80px;
+        height: 100px;
     }
     
     .eruption-point {
@@ -262,20 +261,83 @@
 }
 
 /* ============================================
-   MODE SOMBRE/CLAIR (si besoin)
+   COULÉES DE LAVE
    ============================================ */
 
-/* Dégradé de la montagne */
-#mountainGradient stop:nth-child(1) {
-    stop-color: #2a2a2a;
+.lava-flows {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 60px;
+    height: 80px;
+    pointer-events: none;
 }
 
-#mountainGradient stop:nth-child(2) {
-    stop-color: #1a1a1a;
+.lava-flow {
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 0;
+    background: linear-gradient(to bottom, 
+        rgba(240, 139, 24, 0.9) 0%, 
+        rgba(255, 80, 20, 0.6) 40%, 
+        rgba(240, 139, 24, 0.2) 80%, 
+        transparent 100%);
+    border-radius: 2px;
+    animation: lavaFlow 4s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(240, 139, 24, 0.4);
 }
 
-#mountainGradient stop:nth-child(3) {
-    stop-color: #0d0d0d;
+.lava-flow-1 {
+    left: 45%;
+    animation-delay: 0s;
+    --lava-height: 50px;
+    --lava-drift: -8px;
+}
+
+.lava-flow-2 {
+    left: 55%;
+    animation-delay: 1.5s;
+    --lava-height: 40px;
+    --lava-drift: 6px;
+}
+
+.lava-flow-3 {
+    left: 50%;
+    animation-delay: 3s;
+    --lava-height: 60px;
+    --lava-drift: -3px;
+}
+
+@keyframes lavaFlow {
+    0% {
+        height: 0;
+        opacity: 0;
+        transform: translateX(0);
+    }
+    15% {
+        opacity: 0.9;
+    }
+    50% {
+        height: var(--lava-height, 50px);
+        opacity: 0.7;
+        transform: translateX(var(--lava-drift, 0px));
+    }
+    100% {
+        height: var(--lava-height, 50px);
+        opacity: 0;
+        transform: translateX(var(--lava-drift, 0px));
+    }
+}
+
+/* Couche arrière des montagnes */
+.mountain-back {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.mountain-front {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 /* ============================================
@@ -283,9 +345,13 @@
    ============================================ */
 
 .footer-mountains:hover .particle {
-    animation-duration: 3.5s; /* Légèrement plus rapide au survol */
+    animation-duration: 3.5s;
 }
 
 .footer-mountains:hover .eruption-glow {
     animation-duration: 2.5s;
+}
+
+.footer-mountains:hover .lava-flow {
+    animation-duration: 3s;
 }

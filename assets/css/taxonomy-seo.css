@@ -316,56 +316,61 @@
 /* Grille compacte pour les villes sous la carte */
 .cities-grid-compact {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
-.cities-grid-compact .city-item {
-    margin: 0;
-    display: inline-flex;
+/* Style unifié des cartes ville (identique à soudure-auvergne) */
+.cities-grid-compact .zones-city-card {
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(240, 139, 24, 0.2);
-    border-radius: 8px;
-    color: #ffffff;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
     cursor: pointer;
 }
 
-.cities-grid-compact .city-item:hover {
-    background: rgba(240, 139, 24, 0.2);
+.cities-grid-compact .zones-city-card:hover {
+    background: rgba(240, 139, 24, 0.1);
     border-color: rgba(240, 139, 24, 0.4);
+    color: white;
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.15);
 }
 
-.cities-grid-compact .city-link,
-.cities-grid-compact .city-name {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-}
-
-.cities-grid-compact .city-link:hover,
-.cities-grid-compact .city-name:hover {
-    color: #ffffff;
-    text-decoration: none;
-}
-
-.cities-grid-compact .city-link svg,
-.cities-grid-compact .city-name svg {
-    width: 14px;
-    height: 14px;
+.cities-grid-compact .zones-city-card svg:first-child {
     color: #F08B18;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+.cities-grid-compact .zones-city-card:hover svg:first-child {
+    opacity: 1;
+}
+
+.cities-grid-compact .zones-city-card__name {
+    flex: 1;
+    font-weight: 500;
+}
+
+.cities-grid-compact .zones-city-card__arrow {
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.cities-grid-compact .zones-city-card:hover .zones-city-card__arrow {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .city-item {
@@ -466,57 +471,65 @@
     flex-shrink: 0;
 }
 
+/* Grille "Pourquoi choisir" - style unifié avec zones-service-card */
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
 }
 
-.feature-item {
+/* Style zones-service-card pour la section Pourquoi Choisir */
+.taxonomy-why-choose .zones-service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 2rem;
-    background: #2d2d2d;
+    padding: 2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
+    text-decoration: none;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.feature-item:hover {
-    transform: translateY(-5px);
-    background: #333333;
-    border-color: rgba(240, 139, 24, 0.5);
-    box-shadow: 0 8px 24px rgba(240, 139, 24, 0.2);
+.taxonomy-why-choose .zones-service-card:hover {
+    background: rgba(240, 139, 24, 0.08);
+    border-color: rgba(240, 139, 24, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(240, 139, 24, 0.15);
 }
 
-.feature-icon {
+.taxonomy-why-choose .zones-service-card__icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1.5rem;
-    background: linear-gradient(135deg, #F08B18 0%, #f6a93a 100%);
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(240, 139, 24, 0.4);
-}
-
-.feature-icon svg {
-    color: white;
-    width: 40px;
-    height: 40px;
-}
-
-.feature-item h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #ffffff;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(240, 139, 24, 0.1);
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
 }
 
-.feature-item p {
-    font-size: 1rem;
-    color: #b0b0b0;
+.taxonomy-why-choose .zones-service-card__icon svg {
+    color: #F08B18;
+}
+
+.taxonomy-why-choose .zones-service-card:hover .zones-service-card__icon {
+    background: rgba(240, 139, 24, 0.2);
+    transform: scale(1.1);
+}
+
+.taxonomy-why-choose .zones-service-card__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.taxonomy-why-choose .zones-service-card__desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
     line-height: 1.6;
 }
 
@@ -525,21 +538,14 @@
    ========================================================================== */
 
 .taxonomy-faq-section {
-    background: #1a1a1a;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     padding: 80px 0;
     position: relative;
 }
 
-.taxonomy-faq-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    opacity: 0.9;
-    z-index: 0;
+.taxonomy-faq-section > .container {
+    position: relative;
+    z-index: 1;
 }
 
 .taxonomy-faq-section .section-title {
@@ -584,6 +590,12 @@
     padding: 1.5rem 2rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    background: none;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    text-align: left;
+    color: inherit;
 }
 
 .faq-question:hover {
@@ -594,7 +606,8 @@
     background-color: rgba(240, 139, 24, 0.1);
 }
 
-.faq-question h3 {
+.faq-question h3,
+.faq-question span {
     font-size: 1.1rem;
     font-weight: 600;
     color: #ffffff;
@@ -775,27 +788,27 @@
         gap: 1rem;
     }
     
+    .cities-grid-compact {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
     .city-item {
         padding: 1rem;
     }
     
     .features-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     
-    .feature-item {
-        padding: 1.5rem;
+    .taxonomy-why-choose .zones-service-card {
+        padding: 1.5rem 1rem;
     }
     
-    .feature-icon {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .feature-icon svg {
-        width: 30px;
-        height: 30px;
+    .taxonomy-why-choose .zones-service-card__icon {
+        width: 50px;
+        height: 50px;
     }
     
     .faq-question {

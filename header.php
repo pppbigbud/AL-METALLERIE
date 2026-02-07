@@ -24,9 +24,8 @@
     </script>
     
     <!-- Script de forçage du template mobile pour responsive -->
-    <script>
-    <?php include(get_template_directory() . '/mobile-template-forcer.js'); ?>
-    </script>
+    <!-- Désactivé : le serveur gère déjà la détection mobile via almetal_is_mobile() -->
+    <!-- mobile-template-forcer.js créait des doublons de handlers sur le burger -->
     
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="<?php echo get_template_directory_uri(); ?>/assets/images/favicons/favicon.ico">

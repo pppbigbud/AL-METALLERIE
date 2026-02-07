@@ -421,37 +421,159 @@ $icons = array(
                 </div>
             </div>
 
-            <!-- SECTION CARTE D'INTERVENTION -->
-            <?php if ($lieu) : ?>
-            <section class="realisation-map-section">
+            <!-- SECTION ZONE D'INTERVENTION - Carte Leaflet interactive -->
+            <div class="taxonomy-zone-intervention">
                 <div class="container">
-                    <div class="realisation-map-header">
-                        <h2><?php _e('Localisation du projet', 'almetal'); ?></h2>
-                        <p class="realisation-map-subtitle"><?php _e('Retrouvez l\'emplacement de cette réalisation', 'almetal'); ?></p>
+                    <h2 class="section-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        Zone d'Intervention
+                    </h2>
+                    <p class="section-subtitle">
+                        Intervention rapide dans tout le Puy-de-Dôme (63) et les régions limitrophes
+                    </p>
+                    
+                    <!-- Carte interactive -->
+                    <div id="taxonomy-map" style="height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); margin-bottom: 2rem;">
                     </div>
-                    <div class="realisation-map-container">
-                        <div id="intervention-map-<?php echo get_the_ID(); ?>" class="realisation-intervention-map"></div>
+                    
+                    <!-- Boutons des villes -->
+                    <div class="cities-grid cities-grid-compact">
+                        <?php
+                        $city_pages_map = array();
+                        $post_types_map = array('city_page', 'city-page', 'villes', 'ville', 'city');
+                        foreach ($post_types_map as $pt) {
+                            if (post_type_exists($pt)) {
+                                $cities_list = get_posts(array('post_type' => $pt, 'posts_per_page' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC'));
+                                if ($cities_list && !is_wp_error($cities_list)) {
+                                    foreach ($cities_list as $c) {
+                                        $cn = get_the_title($c->ID);
+                                        $cn = str_replace(array('Ferronier à ', 'Ferronnier à ', 'Serrurier à ', 'Métallier ', 'AL Métallerie ', 'AL Métallerie'), '', $cn);
+                                        $cn = trim($cn);
+                                        if (!empty($cn)) { $city_pages_map[$cn] = get_permalink($c->ID); }
+                                    }
+                                }
+                            }
+                        }
+                        if (!empty($city_pages_map)) {
+                            foreach ($city_pages_map as $cn => $cu) {
+                                $cs = sanitize_title($cn);
+                                echo '<a href="' . esc_url($cu) . '" class="city-link zones-city-card" data-city="' . esc_attr($cs) . '">';
+                                echo '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+                                echo '<span class="zones-city-card__name">' . esc_html($cn) . '</span>';
+                                echo '<svg class="zones-city-card__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+                                echo '</a>';
+                            }
+                        }
+                        ?>
                     </div>
-                    <div class="realisation-map-info">
-                        <div class="map-address">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                            <span><?php echo esc_html($lieu); ?></span>
-                        </div>
-                        <div class="map-actions">
-                            <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($lieu); ?>" target="_blank" class="btn-map-google" rel="noopener">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                                </svg>
-                                <?php _e('Voir sur Google Maps', 'almetal'); ?>
-                            </a>
-                        </div>
+                    
+                    <div class="zone-info">
+                        <p><strong>Intervention sous 48h</strong> pour toute demande urgente. Devis gratuit sur place dans un rayon de 50km autour de notre atelier à Peschadoires.</p>
                     </div>
                 </div>
-            </section>
-            <?php endif; ?>
+            </div>
+            
+            <script>
+                // Données des villes pour la carte
+                var taxonomyCities = <?php
+                    $cities_data_r = array();
+                    foreach ($post_types_map as $pt) {
+                        if (post_type_exists($pt)) {
+                            $cities_r = get_posts(array('post_type' => $pt, 'posts_per_page' => -1, 'post_status' => 'publish', 'orderby' => 'title', 'order' => 'ASC'));
+                            if ($cities_r && !is_wp_error($cities_r)) {
+                                foreach ($cities_r as $c) {
+                                    $cn = get_the_title($c->ID);
+                                    $cn = str_replace(array('Ferronier à ', 'Ferronnier à ', 'Serrurier à ', 'Métallier ', 'AL Métallerie ', 'AL Métallerie'), '', $cn);
+                                    $cn = trim($cn);
+                                    $lat = get_post_meta($c->ID, '_city_lat', true);
+                                    $lng = get_post_meta($c->ID, '_city_lng', true);
+                                    if (!empty($lat) && !empty($lng)) {
+                                        // Compter les réalisations pour cette ville
+                                        $real_query = new WP_Query(array(
+                                            'post_type' => 'realisation',
+                                            'posts_per_page' => -1,
+                                            'meta_query' => array(
+                                                array(
+                                                    'key' => '_almetal_lieu',
+                                                    'value' => $cn,
+                                                    'compare' => 'LIKE'
+                                                )
+                                            )
+                                        ));
+                                        $projects_count = $real_query->found_posts;
+                                        
+                                        // Dernière réalisation pour cette ville
+                                        $last_real = null;
+                                        if ($projects_count > 0) {
+                                            $last_q = new WP_Query(array(
+                                                'post_type' => 'realisation',
+                                                'posts_per_page' => 1,
+                                                'meta_query' => array(
+                                                    array(
+                                                        'key' => '_almetal_lieu',
+                                                        'value' => $cn,
+                                                        'compare' => 'LIKE'
+                                                    )
+                                                ),
+                                                'orderby' => 'date',
+                                                'order' => 'DESC'
+                                            ));
+                                            if ($last_q->have_posts()) {
+                                                $last_real = $last_q->posts[0];
+                                            }
+                                        }
+                                        
+                                        // Note Google Business
+                                        $g_rating = 5.0;
+                                        if (function_exists('almetal_get_google_reviews')) {
+                                            $g_reviews = almetal_get_google_reviews();
+                                            $g_rating = isset($g_reviews['rating']) ? $g_reviews['rating'] : 5.0;
+                                        }
+                                        
+                                        $cities_data_r[] = array(
+                                            'name' => $cn,
+                                            'slug' => sanitize_title($cn),
+                                            'lat' => floatval($lat),
+                                            'lng' => floatval($lng),
+                                            'url' => get_permalink($c->ID),
+                                            'projects' => $projects_count,
+                                            'rating' => number_format($g_rating, 1, '.', ''),
+                                            'last_realisation' => $last_real ? array(
+                                                'title' => get_the_title($last_real->ID),
+                                                'url' => get_permalink($last_real->ID),
+                                                'thumbnail' => get_the_post_thumbnail_url($last_real->ID, 'thumbnail')
+                                            ) : null
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    echo json_encode($cities_data_r, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+                ?>;
+                
+                // Ville active de cette réalisation
+                var activeCity = '<?php echo esc_js(sanitize_title($lieu ?: '')); ?>';
+                
+                // Charger Leaflet.js si pas déjà chargé
+                if (typeof L === 'undefined') {
+                    var leafletScript = document.createElement('script');
+                    leafletScript.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+                    leafletScript.onload = function() { initializeTaxonomyMap(); };
+                    document.head.appendChild(leafletScript);
+                } else {
+                    initializeTaxonomyMap();
+                }
+                
+                function initializeTaxonomyMap() {
+                    if (typeof initializeMap === 'function') {
+                        initializeMap();
+                    }
+                }
+            </script>
 
             <!-- SECTION POURQUOI NOUS CHOISIR + CTA -->
             <div class="realisation-bottom-section">

@@ -16,27 +16,105 @@
         <!-- Footer Desktop -->
         <footer id="colophon" class="site-footer-new">
         
-        <!-- Wave SVG Footer -->
-        <?php if (!is_page_template('page-contact.php')) : ?>
-        <div class="footer-wave">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0,60 C150,90 350,30 600,60 C850,90 1050,30 1200,60 L1200,120 L0,120 Z" 
-                      fill="#2a2a2a" opacity="0.8"/>
-                <path d="M0,80 C200,100 400,60 600,80 C800,100 1000,60 1200,80 L1200,120 L0,120 Z" 
-                      fill="#1a1a1a"/>
+        <!-- Chaîne des Puys - Séparateur animé -->
+        <div class="footer-mountains">
+            <svg viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3a3a3a;stop-opacity:1" />
+                        <stop offset="40%" style="stop-color:#2a2a2a;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="lavaGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#F08B18;stop-opacity:0.8" />
+                        <stop offset="100%" style="stop-color:#F08B18;stop-opacity:0" />
+                    </linearGradient>
+                </defs>
+                <!-- Chaîne des Puys - silhouette réaliste -->
+                <path class="mountain-silhouette mountain-back" d="
+                    M0,200 L0,160 
+                    C40,158 60,155 90,148 
+                    C110,143 130,138 160,130 
+                    C180,125 200,128 230,122 
+                    C250,118 270,110 300,105 
+                    C320,101 340,108 370,100 
+                    C390,95 410,88 440,82 
+                    C460,78 480,85 510,78 
+                    C530,73 550,68 580,60 
+                    C600,55 610,58 630,52 
+                    C650,48 660,42 680,38 
+                    C695,33 705,30 720,25 
+                    C735,20 745,18 760,22 
+                    C775,26 790,32 810,38 
+                    C830,44 850,50 880,55 
+                    C910,60 930,52 960,48 
+                    C980,45 1000,50 1020,46 
+                    C1040,42 1055,38 1070,35 
+                    C1085,32 1095,30 1110,33 
+                    C1125,36 1140,42 1160,48 
+                    C1180,54 1200,60 1230,68 
+                    C1260,76 1290,82 1320,90 
+                    C1350,98 1380,108 1410,118 
+                    C1430,125 1440,130 1440,135 
+                    L1440,200 Z" 
+                    fill="url(#mountainGradient)" opacity="0.6"/>
+                <!-- Chaîne principale avec Puy de Dôme -->
+                <path class="mountain-silhouette mountain-front" d="
+                    M0,200 L0,170 
+                    C30,168 50,165 80,158 
+                    C100,153 120,150 150,145 
+                    C170,141 190,144 220,138 
+                    C240,134 260,128 290,122 
+                    C310,118 330,124 360,118 
+                    C380,114 400,108 430,102 
+                    C450,98 470,104 500,96 
+                    C520,90 540,84 570,76 
+                    C590,70 600,74 620,68 
+                    C640,62 655,55 675,48 
+                    C690,42 700,38 715,32 
+                    C725,28 732,25 740,22 
+                    C748,19 755,18 762,20 
+                    C770,22 778,26 790,32 
+                    C802,38 815,45 835,52 
+                    C855,59 875,65 900,70 
+                    C920,74 940,68 965,62 
+                    C985,57 1005,62 1025,58 
+                    C1045,54 1060,48 1080,44 
+                    C1095,40 1105,38 1120,42 
+                    C1135,46 1150,52 1175,60 
+                    C1200,68 1225,76 1255,85 
+                    C1285,94 1310,102 1340,112 
+                    C1370,122 1400,132 1420,140 
+                    C1435,146 1440,150 1440,155 
+                    L1440,200 Z" 
+                    fill="url(#mountainGradient)"/>
             </svg>
+
+            <!-- Point d'éruption Puy de Dôme -->
+            <div class="eruption-point">
+                <div class="eruption-glow"></div>
+                <!-- Coulées de lave -->
+                <div class="lava-flows">
+                    <div class="lava-flow lava-flow-1"></div>
+                    <div class="lava-flow lava-flow-2"></div>
+                    <div class="lava-flow lava-flow-3"></div>
+                </div>
+                <!-- Particules -->
+                <div class="eruption-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                <!-- Fumée -->
+                <div class="eruption-smoke">
+                    <div class="smoke-puff"></div>
+                    <div class="smoke-puff"></div>
+                    <div class="smoke-puff"></div>
+                </div>
+            </div>
         </div>
-        <?php else : ?>
-        <!-- Version pour page contact -->
-        <div class="footer-wave contact">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0,60 C150,90 350,30 600,60 C850,90 1050,30 1200,60 L1200,120 L0,120 Z" 
-                      fill="#4a4a4a" opacity="0.8"/>
-                <path d="M0,80 C200,100 400,60 600,80 C800,100 1000,60 1200,80 L1200,120 L0,120 Z" 
-                      fill="#2a2a2a"/>
-            </svg>
-        </div>
-        <?php endif; ?>
         
         <div class="container">
             <!-- FOOTER DESKTOP -->

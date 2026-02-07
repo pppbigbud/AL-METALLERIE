@@ -1,0 +1,594 @@
+/**
+ * CSS pour la page Zones d'intervention (/soudure-auvergne/)
+ * Carte interactive Leaflet + liste des villes
+ * 
+ * @package ALMetallerie
+ * @since 2.0.0
+ */
+
+/* ============================================
+   HERO
+   ============================================ */
+.zones-hero {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.zones-hero__background {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+}
+
+.zones-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(240, 139, 24, 0.08) 0%, transparent 70%);
+}
+
+.zones-hero__content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 80px 0 60px;
+}
+
+.zones-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(240, 139, 24, 0.1);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 50px;
+    color: #F08B18;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.zones-tag span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.zones-hero__title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.zones-hero__title .highlight {
+    color: #F08B18;
+}
+
+.zones-hero__subtitle {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.zones-hero__cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   SECTIONS COMMUNES
+   ============================================ */
+.zones-map-section,
+.zones-cities-section,
+.zones-services-section,
+.zones-cta-section {
+    padding: 80px 0;
+}
+
+.zones-map-section {
+    background: #111;
+}
+
+.zones-cities-section {
+    background: #0a0a0a;
+}
+
+.zones-services-section {
+    background: #111;
+}
+
+.zones-cta-section {
+    background: #0a0a0a;
+    padding-bottom: 100px;
+}
+
+.zones-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.zones-section-title svg {
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.zones-section-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 700px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+}
+
+/* ============================================
+   CARTE LEAFLET
+   ============================================ */
+.zones-map-wrapper {
+    position: relative;
+}
+
+.zones-map {
+    width: 100%;
+    height: 550px;
+    border-radius: 16px;
+    border: 1px solid rgba(240, 139, 24, 0.2);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Marqueurs personnalisés */
+.zones-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.zones-marker .marker-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.zones-marker--atelier .marker-inner {
+    width: 40px;
+    height: 40px;
+    background: rgba(240, 139, 24, 0.2);
+    border: 2px solid #F08B18;
+    box-shadow: 0 0 20px rgba(240, 139, 24, 0.4);
+    animation: atelierPulse 2s ease-in-out infinite;
+}
+
+.zones-marker--city .marker-inner {
+    width: 28px;
+    height: 28px;
+    background: rgba(240, 139, 24, 0.15);
+    border: 1.5px solid rgba(240, 139, 24, 0.6);
+}
+
+.zones-marker--city:hover .marker-inner {
+    transform: scale(1.3);
+    background: rgba(240, 139, 24, 0.3);
+}
+
+@keyframes atelierPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(240, 139, 24, 0.4); }
+    50% { box-shadow: 0 0 35px rgba(240, 139, 24, 0.7); }
+}
+
+/* Popups */
+.zones-popup {
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.zones-popup strong {
+    color: #222;
+    font-size: 1rem;
+}
+
+.zones-popup a {
+    color: #F08B18;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.zones-popup a:hover {
+    text-decoration: underline;
+}
+
+.zones-popup--atelier {
+    min-width: 200px;
+}
+
+/* Légende */
+.zones-map-legend {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.legend-marker {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-marker--atelier {
+    background: #F08B18;
+    box-shadow: 0 0 8px rgba(240, 139, 24, 0.5);
+}
+
+.legend-marker--city {
+    background: rgba(240, 139, 24, 0.4);
+    border: 1.5px solid #F08B18;
+}
+
+.legend-marker--zone {
+    background: transparent;
+    border: 1.5px dashed rgba(240, 139, 24, 0.5);
+}
+
+/* ============================================
+   LISTE DES VILLES
+   ============================================ */
+.zones-departments {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.zones-department__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(240, 139, 24, 0.2);
+}
+
+.zones-department__title svg {
+    color: #F08B18;
+}
+
+.zones-department__count {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+    margin-left: auto;
+}
+
+.zones-cities-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.zones-city-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.zones-city-card:hover {
+    background: rgba(240, 139, 24, 0.1);
+    border-color: rgba(240, 139, 24, 0.4);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.15);
+}
+
+.zones-city-card svg:first-child {
+    color: #F08B18;
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+
+.zones-city-card:hover svg:first-child {
+    opacity: 1;
+}
+
+.zones-city-card__name {
+    flex: 1;
+    font-weight: 500;
+}
+
+.zones-city-card__code {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 400;
+}
+
+.zones-city-card__arrow {
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+    color: #F08B18;
+    flex-shrink: 0;
+}
+
+.zones-city-card:hover .zones-city-card__arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ============================================
+   SERVICES
+   ============================================ */
+.zones-services-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+}
+
+.zones-service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.zones-service-card:hover {
+    background: rgba(240, 139, 24, 0.08);
+    border-color: rgba(240, 139, 24, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(240, 139, 24, 0.15);
+}
+
+.zones-service-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(240, 139, 24, 0.1);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.zones-service-card__icon svg {
+    color: #F08B18;
+}
+
+.zones-service-card:hover .zones-service-card__icon {
+    background: rgba(240, 139, 24, 0.2);
+    transform: scale(1.1);
+}
+
+.zones-service-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.zones-service-card__count {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================
+   CTA FINAL
+   ============================================ */
+.zones-cta-card {
+    background: linear-gradient(135deg, rgba(240, 139, 24, 0.1) 0%, rgba(240, 139, 24, 0.05) 100%);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+}
+
+.zones-cta-card h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.zones-cta-card p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+}
+
+.zones-cta-card__buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   BOUTONS (réutilisation du style city-pages)
+   ============================================ */
+.zones-page-main .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.zones-page-main .btn-primary {
+    background: linear-gradient(135deg, #F08B18, #e07a10);
+    color: white;
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.3);
+}
+
+.zones-page-main .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(240, 139, 24, 0.5);
+}
+
+.zones-page-main .btn-secondary {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.zones-page-main .btn-secondary:hover {
+    border-color: #F08B18;
+    color: #F08B18;
+    transform: translateY(-2px);
+}
+
+/* Breadcrumb */
+.zones-page-main .city-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+}
+
+.zones-page-main .city-breadcrumb a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.zones-page-main .city-breadcrumb a:hover {
+    color: #F08B18;
+}
+
+.zones-page-main .city-breadcrumb .separator {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.zones-page-main .city-breadcrumb .current {
+    color: #F08B18;
+    font-weight: 600;
+}
+
+/* Container */
+.zones-page-main .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1200px) {
+    .zones-services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .zones-cities-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 968px) {
+    .zones-hero__title {
+        font-size: 2.2rem;
+    }
+    
+    .zones-map {
+        height: 400px;
+    }
+    
+    .zones-map-legend {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .zones-cities-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .zones-services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .zones-map-section,
+    .zones-cities-section,
+    .zones-services-section,
+    .zones-cta-section {
+        padding: 50px 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .zones-hero__title {
+        font-size: 1.8rem;
+    }
+    
+    .zones-map {
+        height: 300px;
+        border-radius: 12px;
+    }
+    
+    .zones-cities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .zones-services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .zones-cta-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .zones-cta-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .zones-hero__cta {
+        flex-direction: column;
+    }
+}

@@ -3094,8 +3094,19 @@ input[type="button"]:hover {
     gap: var(--spacing-xl);
 }
 
+/* Harmonisation : même style pour la page archive des réalisations */
+.archive-grid.realisations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+}
+
 /* Les cards utilisent le style .realisation-card déjà défini */
-.actualites-grid .realisation-card {
+.actualites-grid .realisation-card,
+.archive-grid.realisations-grid .realisation-card {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.3s ease, transform 0.3s ease, background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
@@ -3113,7 +3124,8 @@ input[type="button"]:hover {
 }
 
 /* Appliquer le style complet des cartes de réalisations */
-.actualites-grid .realisation-card {
+.actualites-grid .realisation-card,
+.archive-grid.realisations-grid .realisation-card {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(240, 139, 24, 0.2);
     border-radius: 12px;
@@ -3121,7 +3133,8 @@ input[type="button"]:hover {
     backdrop-filter: blur(10px);
 }
 
-.actualites-grid .realisation-card:hover {
+.actualites-grid .realisation-card:hover,
+.archive-grid.realisations-grid .realisation-card:hover {
     background: rgba(255, 255, 255, 0.04);
     border-color: rgba(240, 139, 24, 0.5);
     box-shadow: 0 10px 30px rgba(240, 139, 24, 0.3);
@@ -3134,6 +3147,85 @@ input[type="button"]:hover {
     aspect-ratio: 4/3;
 }
 
+/* Badges de catégories en haut à droite de l'image */
+.realisation-category-badges {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    z-index: 3;
+}
+
+.realisation-card .category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 4px 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.realisation-card .category-badge:hover {
+    background: rgba(240, 139, 24, 0.9);
+    transform: translateY(-2px);
+    color: white;
+    border-color: rgba(240, 139, 24, 0.9);
+}
+
+.realisation-card .category-badge svg {
+    flex-shrink: 0;
+    color: var(--color-primary);
+}
+
+/* Badge de localisation en bas à gauche de l'image */
+.realisation-location-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(240, 139, 24, 0.3);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+.realisation-location-badge:hover {
+    background: rgba(240, 139, 24, 0.9);
+    transform: translateY(-2px);
+}
+
+.realisation-location-badge svg {
+    flex-shrink: 0;
+    color: var(--color-primary);
+}
+
+.realisation-location-badge a {
+    color: white;
+    text-decoration: none;
+}
+
+.realisation-location-badge:hover a {
+    color: white;
+}
+
 .actualites-grid .realisation-image,
 .taxonomy-grid .realisation-image,
 .archive-grid .realisation-image {
@@ -3143,11 +3235,13 @@ input[type="button"]:hover {
     transition: transform 0.4s ease;
 }
 
-.actualites-grid .realisation-card:hover .realisation-image {
+.actualites-grid .realisation-card:hover .realisation-image,
+.archive-grid.realisations-grid .realisation-card:hover .realisation-image {
     transform: scale(1.1);
 }
 
-.actualites-grid .realisation-content {
+.actualites-grid .realisation-content,
+.archive-grid.realisations-grid .realisation-content {
     padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
@@ -3155,7 +3249,8 @@ input[type="button"]:hover {
     text-align: center;
 }
 
-.actualites-grid .realisation-title {
+.actualites-grid .realisation-title,
+.archive-grid.realisations-grid .realisation-title {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
     padding-bottom: var(--spacing-sm);
@@ -3164,7 +3259,8 @@ input[type="button"]:hover {
 }
 
 /* Séparateur horizontal après le titre */
-.actualites-grid .realisation-title::after {
+.actualites-grid .realisation-title::after,
+.archive-grid.realisations-grid .realisation-title::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -3175,17 +3271,20 @@ input[type="button"]:hover {
     background: linear-gradient(to right, transparent, rgba(240, 139, 24, 0.3), transparent);
 }
 
-.actualites-grid .realisation-title a {
+.actualites-grid .realisation-title a,
+.archive-grid.realisations-grid .realisation-title a {
     color: var(--color-text-light);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 
-.actualites-grid .realisation-title a:hover {
+.actualites-grid .realisation-title a:hover,
+.archive-grid.realisations-grid .realisation-title a:hover {
     color: var(--color-primary);
 }
 
-.actualites-grid .realisation-meta {
+.actualites-grid .realisation-meta,
+.archive-grid.realisations-grid .realisation-meta {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -3194,7 +3293,8 @@ input[type="button"]:hover {
     width: 100%;
 }
 
-.actualites-grid .meta-item {
+.actualites-grid .meta-item,
+.archive-grid.realisations-grid .meta-item {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -3205,7 +3305,8 @@ input[type="button"]:hover {
 }
 
 /* Séparateur discret entre les meta-items */
-.actualites-grid .meta-item:not(:last-child)::after {
+.actualites-grid .meta-item:not(:last-child)::after,
+.archive-grid.realisations-grid .meta-item:not(:last-child)::after {
     content: '';
     position: absolute;
     right: -0.5rem;
@@ -3216,20 +3317,86 @@ input[type="button"]:hover {
     background: linear-gradient(to bottom, transparent, rgba(240, 139, 24, 0.3), transparent);
 }
 
-.actualites-grid .meta-item svg {
+.actualites-grid .meta-item svg,
+.archive-grid.realisations-grid .meta-item svg {
     flex-shrink: 0;
     color: var(--color-primary);
     opacity: 0.8;
     transition: all var(--transition-normal);
 }
 
-.actualites-grid .meta-item:hover {
+.actualites-grid .meta-item:hover,
+.archive-grid.realisations-grid .meta-item:hover {
     color: var(--color-primary);
 }
 
-.actualites-grid .meta-item:hover svg {
+.actualites-grid .meta-item:hover svg,
+.archive-grid.realisations-grid .meta-item:hover svg {
     opacity: 1;
     transform: scale(1.15);
+}
+
+/* ============================================
+   CTA STYLISÉ - Cards réalisations
+   Inspiré du bouton "Voir plus de réalisations"
+   ============================================ */
+
+.card-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1.5px solid #F08B18;
+    border-radius: 50px;
+    color: #F08B18;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card-cta-link:hover {
+    background: #F08B18;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(240, 139, 24, 0.3);
+}
+
+.card-cta-text {
+    transition: transform 0.3s ease;
+}
+
+.card-cta-arrow {
+    transition: transform 0.3s ease;
+}
+
+.card-cta-link:hover .card-cta-arrow {
+    transform: translateX(4px);
+}
+
+/* Excerpt link */
+.actualites-grid .realisation-excerpt-link,
+.archive-grid.realisations-grid .realisation-excerpt-link {
+    text-decoration: none;
+    display: block;
+}
+
+.actualites-grid .realisation-excerpt,
+.archive-grid.realisations-grid .realisation-excerpt {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.actualites-grid .realisation-excerpt-link:hover .realisation-excerpt,
+.archive-grid.realisations-grid .realisation-excerpt-link:hover .realisation-excerpt {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* ============================================
@@ -3237,7 +3404,8 @@ input[type="button"]:hover {
    ============================================ */
 
 @media (max-width: 1200px) {
-    .actualites-grid {
+    .actualites-grid,
+    .archive-grid.realisations-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-lg);
     }
@@ -3257,7 +3425,8 @@ input[type="button"]:hover {
         justify-content: center;
     }
 
-    .actualites-grid {
+    .actualites-grid,
+    .archive-grid.realisations-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-lg);
     }
@@ -3287,7 +3456,8 @@ input[type="button"]:hover {
         font-size: 1.8rem;
     }
 
-    .actualites-grid {
+    .actualites-grid,
+    .archive-grid.realisations-grid {
         grid-template-columns: 1fr;
     }
 

@@ -1,244 +1,261 @@
-/**
- * Menu déroulant stylisé - Section Réalisations
- * Gestion du dropdown et du filtrage AJAX
- * 
- * @package ALMetallerie
- * @since 1.0.0
- */
-
+// Menu déroulant stylisé pour les réalisations avec intégration AJAX
 (function() {
     'use strict';
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropdown = document.getElementById('realisations-dropdown');
+    
+    console.log('🎯 Initialisation dropdown réalisations avec AJAX...');
+    
+    // Variables globales
+    let currentFilter = '*';
+    let isLoading = false;
+    
+    // Initialisation
+    function initDropdown() {
+        const dropdown = document.querySelector('.realisations-dropdown');
+        const trigger = document.querySelector('.dropdown-trigger');
+        const overlay = document.querySelector('.dropdown-overlay') || createOverlay();
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
         
-        if (!dropdown) {
+        if (!dropdown || !trigger || !dropdownItems.length) {
+            console.warn('⚠️ Éléments dropdown non trouvés');
             return;
         }
-
-        const trigger = dropdown.querySelector('.dropdown-trigger');
-        const menu = dropdown.querySelector('.dropdown-menu');
-        const items = dropdown.querySelectorAll('.dropdown-item');
-        const triggerText = trigger.querySelector('.dropdown-trigger__text');
-        const triggerCount = trigger.querySelector('.dropdown-trigger__count');
-        const triggerIcon = trigger.querySelector('.dropdown-trigger__icon');
-
-        // Créer l'overlay pour fermer le dropdown
+        
+        // Toggle ouverture/fermeture
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleDropdown();
+        });
+        
+        // Écouteurs sur les items du dropdown
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const filter = this.dataset.filter;
+                if (filter === currentFilter && filter !== '*') {
+                    closeDropdown();
+                    return;
+                }
+                
+                selectDropdownItem(this);
+                loadRealisations(filter);
+                closeDropdown();
+            });
+        });
+        
+        // Fermeture extérieure
+        overlay.addEventListener('click', closeDropdown);
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+        
+        // Navigation clavier
+        dropdown.addEventListener('keydown', handleKeyboardNavigation);
+        
+        console.log('✅ Dropdown avec AJAX initialisé');
+    }
+    
+    // Toggle dropdown
+    function toggleDropdown() {
+        const dropdown = document.querySelector('.realisations-dropdown');
+        const isOpen = dropdown.classList.contains('open');
+        
+        if (isOpen) {
+            closeDropdown();
+        } else {
+            openDropdown();
+        }
+    }
+    
+    // Ouvrir dropdown
+    function openDropdown() {
+        const dropdown = document.querySelector('.realisations-dropdown');
+        const trigger = document.querySelector('.dropdown-trigger');
+        const overlay = document.querySelector('.dropdown-overlay');
+        
+        dropdown.classList.add('open');
+        trigger.classList.add('active');
+        trigger.setAttribute('aria-expanded', 'true');
+        overlay.classList.add('active');
+        
+        console.log('📂 Dropdown ouvert');
+    }
+    
+    // Fermer dropdown
+    function closeDropdown() {
+        const dropdown = document.querySelector('.realisations-dropdown');
+        const trigger = document.querySelector('.dropdown-trigger');
+        const overlay = document.querySelector('.dropdown-overlay');
+        
+        dropdown.classList.remove('open');
+        trigger.classList.remove('active');
+        trigger.setAttribute('aria-expanded', 'false');
+        overlay.classList.remove('active');
+        
+        console.log('📂 Dropdown fermé');
+    }
+    
+    // Sélectionner un item
+    function selectDropdownItem(item) {
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        
+        // Mettre à jour l'état actif
+        dropdownItems.forEach(el => {
+            el.classList.remove('active');
+            el.setAttribute('aria-selected', 'false');
+        });
+        item.classList.add('active');
+        item.setAttribute('aria-selected', 'true');
+        
+        // Mettre à jour le bouton principal
+        const triggerText = document.querySelector('.dropdown-trigger__text');
+        const triggerCount = document.querySelector('.dropdown-trigger__count');
+        const itemText = item.querySelector('.dropdown-item__text');
+        const itemCount = item.querySelector('.dropdown-item__count');
+        
+        if (triggerText && itemText) {
+            triggerText.textContent = itemText.textContent.trim();
+        }
+        if (triggerCount && itemCount) {
+            triggerCount.textContent = itemCount.textContent.trim();
+        }
+    }
+    
+    // Charger les réalisations via AJAX
+    function loadRealisations(filter) {
+        if (isLoading) return;
+        
+        currentFilter = filter;
+        isLoading = true;
+        
+        const grid = document.querySelector('#desktop-realisations-grid');
+        const loader = document.querySelector('#desktop-realisations-loader');
+        const loadMoreWrapper = document.querySelector('#desktop-loadmore-wrapper');
+        
+        // Afficher le loader
+        if (loader) loader.style.display = 'flex';
+        
+        // Cacher le bouton "voir plus"
+        if (loadMoreWrapper) loadMoreWrapper.style.display = 'none';
+        
+        // Préparer les données AJAX
+        const formData = new FormData();
+        formData.append('action', 'load_desktop_realisations');
+        formData.append('category', filter);
+        formData.append('page', 1);
+        formData.append('per_page', 12); // Charger plus de résultats
+        
+        console.log('� Chargement AJAX pour:', filter);
+        
+        // Requête AJAX
+        fetch(ajax_object.ajax_url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Mettre à jour la grille
+                if (grid && data.data.html) {
+                    grid.innerHTML = data.data.html;
+                    
+                    // Mettre à jour les données de pagination
+                    grid.dataset.page = 1;
+                    grid.dataset.total = data.data.total || 0;
+                    
+                    // Réinitialiser les animations
+                    initCardAnimations();
+                }
+                
+                // Afficher/masquer le bouton "voir plus"
+                if (loadMoreWrapper) {
+                    if (data.data.has_more) {
+                        loadMoreWrapper.style.display = 'flex';
+                        // Mettre à jour le compteur
+                        const countElement = loadMoreWrapper.querySelector('.btn-load-more__count');
+                        if (countElement && data.data.remaining) {
+                            countElement.textContent = `${data.data.remaining} restantes`;
+                        }
+                    } else {
+                        loadMoreWrapper.style.display = 'none';
+                    }
+                }
+                
+                console.log('✅ Réalisations chargées:', data.data.total, 'total');
+            } else {
+                console.error('❌ Erreur AJAX:', data);
+            }
+        })
+        .catch(error => {
+            console.error('❌ Erreur réseau:', error);
+        })
+        .finally(() => {
+            isLoading = false;
+            if (loader) loader.style.display = 'none';
+        });
+    }
+    
+    // Initialiser les animations des cartes
+    function initCardAnimations() {
+        const cards = document.querySelectorAll('.realisation-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
+    
+    // Navigation au clavier
+    function handleKeyboardNavigation(e) {
+        const items = Array.from(document.querySelectorAll('.dropdown-item:not([style*="display: none"])'));
+        const currentIndex = items.indexOf(document.activeElement);
+        
+        switch(e.key) {
+            case 'Escape':
+                closeDropdown();
+                document.querySelector('.dropdown-trigger').focus();
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                const nextItem = items[(currentIndex + 1) % items.length];
+                if (nextItem) nextItem.focus();
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                const prevItem = items[(currentIndex - 1 + items.length) % items.length];
+                if (prevItem) prevItem.focus();
+                break;
+            case 'Enter':
+            case ' ':
+                e.preventDefault();
+                if (document.activeElement.classList.contains('dropdown-item')) {
+                    document.activeElement.click();
+                }
+                break;
+        }
+    }
+    
+    // Créer l'overlay
+    function createOverlay() {
         const overlay = document.createElement('div');
         overlay.className = 'dropdown-overlay';
         document.body.appendChild(overlay);
-
-        let currentFilter = '*';
-
-        /**
-         * Ouvrir/Fermer le dropdown
-         */
-        function toggleDropdown() {
-            const isOpen = dropdown.classList.contains('open');
-            
-            if (isOpen) {
-                closeDropdown();
-            } else {
-                openDropdown();
-            }
-        }
-
-        function openDropdown() {
-            dropdown.classList.add('open');
-            trigger.classList.add('active');
-            trigger.setAttribute('aria-expanded', 'true');
-            overlay.classList.add('active');
-            
-            // Focus sur le premier item pour l'accessibilité
-            const activeItem = menu.querySelector('.dropdown-item.active');
-            if (activeItem) {
-                activeItem.focus();
-            }
-        }
-
-        function closeDropdown() {
-            dropdown.classList.remove('open');
-            trigger.classList.remove('active');
-            trigger.setAttribute('aria-expanded', 'false');
-            overlay.classList.remove('active');
-        }
-
-        /**
-         * Sélectionner un item
-         */
-        function selectItem(item) {
-            const filter = item.dataset.filter;
-            const text = item.querySelector('.dropdown-item__text').textContent;
-            const count = item.querySelector('.dropdown-item__count').textContent;
-            const icon = item.querySelector('.dropdown-item__icon').innerHTML;
-
-            // Mettre à jour l'état actif
-            items.forEach(i => {
-                i.classList.remove('active');
-                i.setAttribute('aria-selected', 'false');
-            });
-            item.classList.add('active');
-            item.setAttribute('aria-selected', 'true');
-
-            // Mettre à jour le trigger
-            triggerText.textContent = text;
-            triggerCount.textContent = count;
-            triggerIcon.innerHTML = icon;
-
-            // Stocker le filtre actuel
-            currentFilter = filter;
-
-            // Déclencher le filtrage
-            applyFilter(filter);
-
-            // Fermer le dropdown
-            closeDropdown();
-        }
-
-        /**
-         * Appliquer le filtre
-         */
-        function applyFilter(filter) {
-            // Mettre à jour le filtre dans le système AJAX existant
-            if (typeof window.updateRealisationsFilter === 'function') {
-                window.updateRealisationsFilter(filter);
-            }
-
-            // Déclencher l'événement pour le script AJAX existant
-            const grid = document.getElementById('desktop-realisations-grid');
-            if (grid) {
-                // Réinitialiser la pagination
-                grid.dataset.page = '1';
-                grid.dataset.category = filter === '*' ? '' : filter.replace('.', '');
-
-                // Déclencher le chargement AJAX
-                const event = new CustomEvent('filterChanged', {
-                    detail: { filter: filter }
-                });
-                document.dispatchEvent(event);
-            }
-
-            // Log pour debug
-            console.log('🔽 Dropdown filtre appliqué:', filter);
-        }
-
-        /**
-         * Gestion des événements clavier (accessibilité)
-         */
-        function handleKeydown(e) {
-            const activeItem = menu.querySelector('.dropdown-item.active');
-            let nextItem = null;
-
-            switch(e.key) {
-                case 'Enter':
-                case ' ':
-                    e.preventDefault();
-                    if (dropdown.classList.contains('open')) {
-                        if (document.activeElement.classList.contains('dropdown-item')) {
-                            selectItem(document.activeElement);
-                        }
-                    } else {
-                        openDropdown();
-                    }
-                    break;
-
-                case 'Escape':
-                    e.preventDefault();
-                    closeDropdown();
-                    trigger.focus();
-                    break;
-
-                case 'ArrowDown':
-                    e.preventDefault();
-                    if (!dropdown.classList.contains('open')) {
-                        openDropdown();
-                    } else {
-                        const current = document.activeElement;
-                        if (current.classList.contains('dropdown-item')) {
-                            nextItem = current.nextElementSibling;
-                            if (nextItem && nextItem.classList.contains('dropdown-item')) {
-                                nextItem.focus();
-                            }
-                        } else if (activeItem) {
-                            activeItem.focus();
-                        }
-                    }
-                    break;
-
-                case 'ArrowUp':
-                    e.preventDefault();
-                    if (dropdown.classList.contains('open')) {
-                        const current = document.activeElement;
-                        if (current.classList.contains('dropdown-item')) {
-                            nextItem = current.previousElementSibling;
-                            if (nextItem && nextItem.classList.contains('dropdown-item')) {
-                                nextItem.focus();
-                            }
-                        }
-                    }
-                    break;
-
-                case 'Home':
-                    e.preventDefault();
-                    if (dropdown.classList.contains('open')) {
-                        const firstItem = menu.querySelector('.dropdown-item');
-                        if (firstItem) firstItem.focus();
-                    }
-                    break;
-
-                case 'End':
-                    e.preventDefault();
-                    if (dropdown.classList.contains('open')) {
-                        const allItems = menu.querySelectorAll('.dropdown-item');
-                        if (allItems.length > 0) {
-                            allItems[allItems.length - 1].focus();
-                        }
-                    }
-                    break;
-            }
-        }
-
-        // Événements
-        trigger.addEventListener('click', toggleDropdown);
-        trigger.addEventListener('keydown', handleKeydown);
-        overlay.addEventListener('click', closeDropdown);
-
-        items.forEach(item => {
-            item.addEventListener('click', function() {
-                selectItem(this);
-            });
-            item.addEventListener('keydown', handleKeydown);
-            item.setAttribute('tabindex', '0');
-        });
-
-        // Fermer au clic en dehors
-        document.addEventListener('click', function(e) {
-            if (!dropdown.contains(e.target) && !overlay.contains(e.target)) {
-                closeDropdown();
-            }
-        });
-
-        // Fermer à la touche Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && dropdown.classList.contains('open')) {
-                closeDropdown();
-                trigger.focus();
-            }
-        });
-
-        // Exposer la fonction de mise à jour globalement
-        window.realisationsDropdown = {
-            setFilter: function(filter) {
-                const item = dropdown.querySelector('.dropdown-item[data-filter="' + filter + '"]');
-                if (item) {
-                    selectItem(item);
-                }
-            },
-            getCurrentFilter: function() {
-                return currentFilter;
-            }
-        };
-
-        console.log('🔽 Dropdown réalisations initialisé');
-    });
+        return overlay;
+    }
+    
+    // Initialiser au chargement du DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDropdown);
+    } else {
+        initDropdown();
+    }
 })();
