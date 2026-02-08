@@ -23,14 +23,29 @@ get_header();
         // Afficher la section de présentation
         get_template_part('template-parts/section', 'presentation');
         
+        // Afficher la section réalisations
+        get_template_part('template-parts/section', 'actualites');
+        
+        // Section "Pourquoi faire confiance à AL Métallerie ?"
+        get_template_part('template-parts/section', 'confiance');
+        
+        // Section "Matériaux et finitions"
+        get_template_part('template-parts/section', 'materiaux');
+        
         // Afficher la section CTA
         get_template_part('template-parts/section', 'cta');
 
-        // Afficher la section actualités
-        get_template_part('template-parts/section', 'actualites');
+        // Section "De l'idée à l'installation"
+        get_template_part('template-parts/section', 'processus');
         
         // Afficher la section formations
         get_template_part('template-parts/section', 'formations');
+        
+        // Section "Zone d'intervention"
+        get_template_part('template-parts/section', 'zone-intervention');
+        
+        // Section "Garanties et certifications"
+        get_template_part('template-parts/section', 'garanties');
         ?>
         
         <div class="container">
